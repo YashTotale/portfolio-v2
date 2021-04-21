@@ -9,3 +9,5 @@
 .imgbotconfig linguist-language=JSON
 
 .snyk linguist-language=YAML
+
+.firebaserc linguist-language=JSON

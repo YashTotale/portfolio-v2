@@ -12,6 +12,8 @@
     ".lintstagedrc": "json",
 
     ".snyk": "yaml",
-    ".imgbotconfig": "json"
+    ".imgbotconfig": "json",
+
+    ".firebaserc": "json"
   }
 }
