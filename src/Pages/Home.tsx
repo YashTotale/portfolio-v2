@@ -14,7 +14,7 @@ const Home: FC = () => {
   return (
     <div className={classes.home}>
       <Typography variant="h1" align="center">
-        Boilerplate React with Redux and Firebase
+        Yash Totale
       </Typography>
       <Typography variant="h6" align="center">
         Edit <code>src/Pages/Home.tsx</code> to view live changes!
