@@ -38,6 +38,11 @@ const Theme: FC = ({ children }) => {
           backgroundColor: "rgb(0, 0, 0, 0.76)",
         },
       },
+      MuiList: {
+        root: {
+          fontFamily: "Roboto, sans-serif",
+        },
+      },
     },
     palette: {
       type: isDarkMode ? "dark" : "light",

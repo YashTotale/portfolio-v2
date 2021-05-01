@@ -24,6 +24,7 @@
     "linebreak-style": ["error", "unix"],
     "quotes": ["error", "double"],
     "semi": ["error", "always"],
-    "react/prop-types": "off"
+    "react/prop-types": "off",
+    "@typescript-eslint/no-non-null-assertion": "off"
   }
 }

@@ -17,8 +17,10 @@ export {
   default as displaySlice,
   // -> Selectors
   getIsDarkMode,
+  getIsSidebarOpen,
   // -> Actions
   toggleDarkMode,
+  toggleSidebar,
   // -> Reducer
   displayReducer,
   // -> State

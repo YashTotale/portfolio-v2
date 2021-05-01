@@ -2,6 +2,7 @@
 import { hot } from "react-hot-loader";
 import React, { FC, useEffect, useState } from "react";
 import { Switch, Route } from "react-router-dom";
+import { ProjectsProvider } from "./Context/ProjectsContext";
 import { Projects } from "./Utils/types";
 
 // Pages
@@ -11,13 +12,13 @@ import ProjectsPage from "./Pages/Projects";
 // Components
 import Popup from "./Components/Popup";
 import Navbar from "./Components/Navbar";
+import Sidebar from "./Components/Sidebar";
 
 // API Imports
 import { getProjects } from "./API/projects";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
-import { ProjectsProvider } from "./Context/ProjectsContext";
 
 const useStyles = makeStyles((theme) => ({
   app: {},
@@ -46,6 +47,7 @@ const App: FC = () => {
     <ProjectsProvider value={projects}>
       <Popup />
       <Navbar />
+      <Sidebar />
       <Routes />
     </ProjectsProvider>
   );
