@@ -9,12 +9,16 @@ const ProjectsCache = new Cache();
 
 const CACHE_KEYS = {
   fields: "project-fields",
+  projects: "projects",
 } as const;
 
-type ProjectFields = Record<string, FieldType>;
+type ProjectTypes = Record<string, FieldType>;
 
-const getProjectFields = async (): Promise<ProjectFields> => {
-  const cached = ProjectsCache.get<ProjectFields>(CACHE_KEYS.fields);
+type ProjectFields = Record<string, unknown>;
+type Projects = Record<string, ProjectFields>;
+
+export const getProjectTypes = async (): Promise<ProjectTypes> => {
+  const cached = ProjectsCache.get<ProjectTypes>(CACHE_KEYS.fields);
 
   if (cached) return cached;
 
@@ -22,7 +26,7 @@ const getProjectFields = async (): Promise<ProjectFields> => {
 
   const fields = contentType.fields.reduce(
     (obj, field) => ({ ...obj, [field.id]: field.type }),
-    {} as ProjectFields
+    {} as ProjectTypes
   );
 
   ProjectsCache.set(CACHE_KEYS.fields, fields);
@@ -30,8 +34,31 @@ const getProjectFields = async (): Promise<ProjectFields> => {
   return fields;
 };
 
-const getProjects = async () => {
-  const fields = await getProjectFields();
+export const getProjects = async (): Promise<Projects> => {
+  const cached = ProjectsCache.get<Projects>(CACHE_KEYS.projects);
+
+  if (cached) return cached;
+
+  const queriedProjects = await client.getEntries({
+    content_type: "project",
+  });
+
+  const projects = queriedProjects.items.reduce(
+    (obj, project) => ({
+      ...obj,
+      [project.sys.id]: project.fields as ProjectFields,
+    }),
+    {} as Projects
+  );
+
+  ProjectsCache.set(CACHE_KEYS.projects, projects);
+
+  return projects;
 };
 
-export default getProjects;
+export const getProject = async (
+  id: string
+): Promise<ProjectFields | undefined> => {
+  const projects = await getProjects();
+  return projects[id];
+};
