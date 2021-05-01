@@ -1,9 +1,10 @@
 //React Imports
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
+import { useProjects } from "../Context/ProjectsContext";
+import { ProjectFields } from "../Utils/types";
 
 //Material UI Imports
 import { CircularProgress, makeStyles } from "@material-ui/core";
-import { getProjects, Projects } from "../API/projects";
 
 const useStyles = makeStyles((theme) => ({
   projects: {
@@ -16,24 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 const ProjectsPage: FC = () => {
   const classes = useStyles();
-
-  const [projects, setProjects] = useState<Projects | null>(null);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    (async () => {
-      const projects = await getProjects();
-
-      if (isMounted) {
-        setProjects(projects);
-      }
-    })();
-
-    return () => {
-      isMounted = false;
-    };
-  }, []);
+  const projects = useProjects();
 
   console.log(projects);
 
@@ -43,11 +27,15 @@ const ProjectsPage: FC = () => {
         <CircularProgress />
       ) : (
         Object.entries(projects).map(([id, fields]) => (
-          <h1 key={id}>{fields.title}</h1>
+          <Project key={id} {...fields} />
         ))
       )}
     </div>
   );
+};
+
+const Project: FC<ProjectFields> = (props) => {
+  return <h1>{props.title}</h1>;
 };
 
 export default ProjectsPage;

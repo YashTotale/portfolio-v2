@@ -1,9 +1,10 @@
 // Externals
-import { Asset, EntryFields, FieldType } from "contentful";
+import { FieldType } from "contentful";
 
 // Internals
 import client from "./client";
 import Cache from "./cache";
+import { Projects, ProjectFields } from "../Utils/types";
 
 const ProjectsCache = new Cache();
 
@@ -14,42 +15,22 @@ const CACHE_KEYS = {
 
 export type ProjectTypes = Record<string, FieldType>;
 
-interface Tag {
-  title: EntryFields.Symbol;
-  link: EntryFields.Symbol;
-  darkIcon: EntryFields.Link<Asset>;
-  lightIcon: EntryFields.Link<Asset>;
-}
+// export const getProjectTypes = async (): Promise<ProjectTypes> => {
+//   const cached = ProjectsCache.get<ProjectTypes>(CACHE_KEYS.fields);
 
-export interface ProjectFields {
-  title: EntryFields.Symbol;
-  description: EntryFields.RichText;
-  link: EntryFields.Symbol;
-  image: EntryFields.Link<Asset>;
-  start: EntryFields.Symbol;
-  end: EntryFields.Symbol;
-  sourceCode: EntryFields.Symbol;
-  tags: EntryFields.Array<Tag>;
-}
+//   if (cached) return cached;
 
-export type Projects = Record<string, ProjectFields>;
+//   const contentType = await client.getContentType("project");
 
-export const getProjectTypes = async (): Promise<ProjectTypes> => {
-  const cached = ProjectsCache.get<ProjectTypes>(CACHE_KEYS.fields);
+//   const fields = contentType.fields.reduce(
+//     (obj, field) => ({ ...obj, [field.id]: field.type }),
+//     {} as ProjectTypes
+//   );
 
-  if (cached) return cached;
+//   ProjectsCache.set(CACHE_KEYS.fields, fields);
 
-  const contentType = await client.getContentType("project");
-
-  const fields = contentType.fields.reduce(
-    (obj, field) => ({ ...obj, [field.id]: field.type }),
-    {} as ProjectTypes
-  );
-
-  ProjectsCache.set(CACHE_KEYS.fields, fields);
-
-  return fields;
-};
+//   return fields;
+// };
 
 export const getProjects = async (): Promise<Projects> => {
   const cached = ProjectsCache.get<Projects>(CACHE_KEYS.projects);
