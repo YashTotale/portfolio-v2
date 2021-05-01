@@ -9,6 +9,7 @@ import {
   ListItem,
   ListItemText,
   Collapse,
+  CircularProgress,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +22,9 @@ const useStyles = makeStyles((theme) => ({
   },
   listItemTextRoot: {
     fontWeight: theme.typography.fontWeightBold,
+  },
+  spinner: {
+    marginRight: theme.spacing(1),
   },
 }));
 
@@ -38,9 +42,10 @@ const Category: FC<CategoryProps> = ({ label, to, children }) => {
     <li className={classes.listItemContainer}>
       <ListItem
         button
+        disabled={children === null}
         className={classes.listItemRoot}
         onClick={() => {
-          history.push(to);
+          if (!open) history.push(to);
           setOpen(!open);
         }}
       >
@@ -50,6 +55,9 @@ const Category: FC<CategoryProps> = ({ label, to, children }) => {
             primary: classes.listItemTextRoot,
           }}
         />
+        {children === null && (
+          <CircularProgress size={24} className={classes.spinner} />
+        )}
       </ListItem>
       {children !== null && (
         <Collapse in={open} timeout="auto">

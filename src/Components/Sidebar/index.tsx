@@ -30,7 +30,6 @@ const Sidebar: FC = () => {
   const theme = useTheme();
 
   const isSidebarOpen = useSelector(getIsSidebarOpen);
-
   const isSmall = useMediaQuery(theme.breakpoints.down("md"));
 
   return (

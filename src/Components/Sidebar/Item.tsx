@@ -15,6 +15,12 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.75, 1),
     paddingLeft: theme.spacing(5),
   },
+  listItemText: {
+    fontSize: theme.typography.body2.fontSize,
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+  },
 }));
 
 const Item: FC<ItemProps> = ({ label, to }) => {
@@ -27,7 +33,12 @@ const Item: FC<ItemProps> = ({ label, to }) => {
       className={classes.listItem}
       onClick={() => history.push(to)}
     >
-      <ListItemText primary={label} />
+      <ListItemText
+        primary={label}
+        classes={{
+          primary: classes.listItemText,
+        }}
+      />
     </ListItem>
   );
 };
