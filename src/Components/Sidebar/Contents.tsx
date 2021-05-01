@@ -23,6 +23,7 @@ const Contents: FC = () => {
       <Toolbar />
       <Divider />
       <List disablePadding className={classes.list}>
+        <Category label="Home" to="/" withChildren={false} />
         <Category label="Projects" to="/projects">
           {projects === null
             ? null

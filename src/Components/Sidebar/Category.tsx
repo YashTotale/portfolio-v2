@@ -31,22 +31,31 @@ const useStyles = makeStyles((theme) => ({
 interface CategoryProps {
   to: string;
   label: string;
+  withChildren?: boolean;
 }
 
-const Category: FC<CategoryProps> = ({ label, to, children }) => {
+const Category: FC<CategoryProps> = ({
+  label,
+  to,
+  withChildren = true,
+  children,
+}) => {
   const classes = useStyles();
   const history = useHistory();
   const [open, setOpen] = useState(false);
+
+  const childrenLoading = withChildren && children === null;
+  const childrenReady = withChildren && children !== null;
 
   return (
     <li className={classes.listItemContainer}>
       <ListItem
         button
-        disabled={children === null}
+        disabled={childrenLoading}
         className={classes.listItemRoot}
         onClick={() => {
           if (!open) history.push(to);
-          setOpen(!open);
+          if (withChildren) setOpen(!open);
         }}
       >
         <ListItemText
@@ -55,11 +64,11 @@ const Category: FC<CategoryProps> = ({ label, to, children }) => {
             primary: classes.listItemTextRoot,
           }}
         />
-        {children === null && (
+        {childrenLoading && (
           <CircularProgress size={24} className={classes.spinner} />
         )}
       </ListItem>
-      {children !== null && (
+      {childrenReady && (
         <Collapse in={open} timeout="auto">
           <List component="div" disablePadding>
             {children}
