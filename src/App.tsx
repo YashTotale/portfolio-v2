@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 
 // Pages
 import Home from "./Pages/Home";
+import Projects from "./Pages/Projects";
 
 // Components
 import Popup from "./Components/Popup";
@@ -33,6 +34,9 @@ const Routes: FC = () => {
   return (
     <div className={classes.app}>
       <Switch>
+        <Route path="/projects">
+          <Projects />
+        </Route>
         <Route path="/">
           <Home />
         </Route>

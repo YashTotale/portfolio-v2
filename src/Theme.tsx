@@ -12,6 +12,7 @@ import {
   useMediaQuery,
   CssBaseline,
 } from "@material-ui/core";
+import { amber, lightBlue } from "@material-ui/core/colors";
 
 export const alternativeFont = "Arial, sans-serif";
 
@@ -40,6 +41,8 @@ const Theme: FC = ({ children }) => {
     },
     palette: {
       type: isDarkMode ? "dark" : "light",
+      primary: lightBlue,
+      secondary: amber,
     },
   });
 

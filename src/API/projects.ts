@@ -1,5 +1,5 @@
 // Externals
-import { FieldType } from "contentful";
+import { Asset, EntryFields, FieldType } from "contentful";
 
 // Internals
 import client from "./client";
@@ -12,10 +12,27 @@ const CACHE_KEYS = {
   projects: "projects",
 } as const;
 
-type ProjectTypes = Record<string, FieldType>;
+export type ProjectTypes = Record<string, FieldType>;
 
-type ProjectFields = Record<string, unknown>;
-type Projects = Record<string, ProjectFields>;
+interface Tag {
+  title: EntryFields.Symbol;
+  link: EntryFields.Symbol;
+  darkIcon: EntryFields.Link<Asset>;
+  lightIcon: EntryFields.Link<Asset>;
+}
+
+export interface ProjectFields {
+  title: EntryFields.Symbol;
+  description: EntryFields.RichText;
+  link: EntryFields.Symbol;
+  image: EntryFields.Link<Asset>;
+  start: EntryFields.Symbol;
+  end: EntryFields.Symbol;
+  sourceCode: EntryFields.Symbol;
+  tags: EntryFields.Array<Tag>;
+}
+
+export type Projects = Record<string, ProjectFields>;
 
 export const getProjectTypes = async (): Promise<ProjectTypes> => {
   const cached = ProjectsCache.get<ProjectTypes>(CACHE_KEYS.fields);
