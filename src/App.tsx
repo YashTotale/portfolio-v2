@@ -3,6 +3,7 @@ import { hot } from "react-hot-loader";
 import React, { FC } from "react";
 import { Switch, Route } from "react-router-dom";
 import { ProjectsProvider } from "./Context/ProjectsContext";
+import { SIDEBAR_WIDTH } from "./Utils/constants";
 
 // Pages
 import Home from "./Pages/Home";
@@ -17,7 +18,11 @@ import Sidebar from "./Components/Sidebar";
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  app: {},
+  app: {
+    [theme.breakpoints.up("lg")]: {
+      marginLeft: SIDEBAR_WIDTH,
+    },
+  },
 }));
 
 const App: FC = () => {

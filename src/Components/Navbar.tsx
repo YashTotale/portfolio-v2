@@ -1,10 +1,11 @@
 // React Imports
 import React, { FC, useState } from "react";
+import { SIDEBAR_WIDTH } from "../Utils/constants";
 
 // Redux Imports
-import { useDispatch, useSelector } from "react-redux";
-import { getUser, toggleDarkMode, togglePopup } from "../Redux";
-import { AppDispatch } from "../Store";
+import { useSelector } from "react-redux";
+import { getUser, toggleDarkMode, togglePopup, toggleSidebar } from "../Redux";
+import { AppDispatch, useAppDispatch } from "../Store";
 
 // Firebase Imports
 import { FirebaseReducer } from "react-redux-firebase";
@@ -21,12 +22,23 @@ import {
   Menu,
   MenuItem,
   CircularProgress,
+  useMediaQuery,
 } from "@material-ui/core";
-import { Brightness7, Brightness4, Person } from "@material-ui/icons";
+import {
+  Brightness7,
+  Brightness4,
+  Person,
+  Menu as MenuButton,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
-    justifyContent: "flex-end",
+    [theme.breakpoints.up("lg")]: {
+      marginLeft: SIDEBAR_WIDTH,
+    },
+  },
+  rightIcons: {
+    marginLeft: "auto",
   },
   avatar: {
     cursor: "pointer",
@@ -35,31 +47,43 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar: FC = () => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const theme = useTheme();
   const user = useSelector(getUser);
 
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
   const isDarkMode = theme.palette.type === "dark";
 
   return (
     <AppBar elevation={2} color="transparent" position="static">
       <Toolbar className={classes.toolbar}>
-        <Tooltip title={`Toggle ${isDarkMode ? "Light" : "Dark"} Theme`}>
-          <IconButton
-            onClick={() => {
-              dispatch(toggleDarkMode());
-            }}
-          >
-            {isDarkMode ? <Brightness7 /> : <Brightness4 />}
-          </IconButton>
-        </Tooltip>
-        {!user.isLoaded ? (
-          <CircularProgress />
-        ) : user.isEmpty ? (
-          <LoginButton dispatch={dispatch} classes={classes} />
-        ) : (
-          <ProfileMenu dispatch={dispatch} user={user} classes={classes} />
-        )}
+        <div>
+          {isSizeSmall && (
+            <Tooltip title="Toggle Sidebar">
+              <IconButton onClick={() => dispatch(toggleSidebar())}>
+                <MenuButton />
+              </IconButton>
+            </Tooltip>
+          )}
+        </div>
+        <div className={classes.rightIcons}>
+          <Tooltip title={`Toggle ${isDarkMode ? "Light" : "Dark"} Mode`}>
+            <IconButton
+              onClick={() => {
+                dispatch(toggleDarkMode());
+              }}
+            >
+              {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+            </IconButton>
+          </Tooltip>
+          {!user.isLoaded ? (
+            <CircularProgress />
+          ) : user.isEmpty ? (
+            <LoginButton dispatch={dispatch} classes={classes} />
+          ) : (
+            <ProfileMenu dispatch={dispatch} user={user} classes={classes} />
+          )}
+        </div>
       </Toolbar>
     </AppBar>
   );
