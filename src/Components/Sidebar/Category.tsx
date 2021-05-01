@@ -10,9 +10,15 @@ import {
   ListItemText,
   Collapse,
   CircularProgress,
+  Theme,
 } from "@material-ui/core";
+import { ExpandLess } from "@material-ui/icons";
 
-const useStyles = makeStyles((theme) => ({
+interface StyleProps {
+  open: boolean;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   listItemContainer: {
     padding: theme.spacing(0),
   },
@@ -26,6 +32,10 @@ const useStyles = makeStyles((theme) => ({
   spinner: {
     marginRight: theme.spacing(1),
   },
+  arrow: ({ open }) => ({
+    transform: open ? "rotate(0deg)" : "rotate(180deg)",
+    transition: "0.5s",
+  }),
 }));
 
 interface CategoryProps {
@@ -40,9 +50,9 @@ const Category: FC<CategoryProps> = ({
   withChildren = true,
   children,
 }) => {
-  const classes = useStyles();
-  const history = useHistory();
   const [open, setOpen] = useState(false);
+  const classes = useStyles({ open });
+  const history = useHistory();
 
   const childrenLoading = withChildren && children === null;
   const childrenReady = withChildren && children !== null;
@@ -67,6 +77,7 @@ const Category: FC<CategoryProps> = ({
         {childrenLoading && (
           <CircularProgress size={24} className={classes.spinner} />
         )}
+        {childrenReady && <ExpandLess className={classes.arrow} />}
       </ListItem>
       {childrenReady && (
         <Collapse in={open} timeout="auto">
