@@ -12,12 +12,15 @@ import Navbar from "./Components/Navbar";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
+import getProjects from "./API/projects";
 
 const useStyles = makeStyles((theme) => ({
   app: {},
 }));
 
 const App: FC = () => {
+  getProjects();
+
   return (
     <>
       <Popup />

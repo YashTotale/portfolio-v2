@@ -14,6 +14,7 @@
     "@material-ui/core": "^4.11.3",
     "@material-ui/icons": "^4.11.2",
     "@reduxjs/toolkit": "^1.5.0",
+    "contentful": "^8.3.2",
     "firebase": "^8.3.3",
     "notistack": "^1.0.5",
     "react": "^17.0.1",
