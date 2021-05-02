@@ -2,34 +2,17 @@
 import React, { FC } from "react";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { Document } from "@contentful/rich-text-types";
-import { useProjects } from "../Context/ProjectsContext";
-import { ProjectFields } from "../Utils/types";
+import { getImageTitle, getImageUrl } from "../../API/helpers";
+import { ProjectFields } from "../../Utils/types";
 
 //Material UI Imports
-import {
-  CircularProgress,
-  makeStyles,
-  Paper,
-  Typography,
-} from "@material-ui/core";
-import { chunk } from "../Utils/funcs";
-import { getImageTitle, getImageUrl } from "../API/helpers";
+import { makeStyles, Paper, Theme, Typography } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
-  projects: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-  },
-  projectChunk: {
-    display: "flex",
-    alignItems: "stretch",
-    justifyContent: "center",
-    margin: theme.spacing(2),
-    width: "100%",
-  },
+interface StyleProps {
+  isSingle: boolean;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   project: {
     display: "flex",
     flexDirection: "column",
@@ -37,6 +20,8 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: 550,
     margin: theme.spacing(0, 2),
+    marginRight: ({ isSingle }) =>
+      isSingle ? 550 + 3 * theme.spacing(2) : undefined,
   },
   projectTop: {
     display: "flex",
@@ -60,33 +45,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProjectsPage: FC = () => {
-  const classes = useStyles();
-  const projects = useProjects();
-
-  const chunked = projects === null ? null : chunk(Object.keys(projects), 2);
-
-  console.log(projects);
-
-  return (
-    <div className={classes.projects}>
-      {chunked === null ? (
-        <CircularProgress />
-      ) : (
-        chunked.map((chunk, i) => (
-          <div key={i} className={classes.projectChunk}>
-            {chunk.map((id) => (
-              <Project key={id} {...projects![id]} />
-            ))}
-          </div>
-        ))
-      )}
-    </div>
-  );
+type ProjectProps = ProjectFields & {
+  isSingle?: boolean;
 };
 
-const Project: FC<ProjectFields> = ({ title, description, image }) => {
-  const classes = useStyles();
+const Project: FC<ProjectProps> = ({
+  title,
+  description,
+  image,
+  isSingle = false,
+}) => {
+  const classes = useStyles({ isSingle });
 
   return (
     <Paper className={classes.project} elevation={10}>
@@ -112,4 +81,4 @@ const Project: FC<ProjectFields> = ({ title, description, image }) => {
   );
 };
 
-export default ProjectsPage;
+export default Project;

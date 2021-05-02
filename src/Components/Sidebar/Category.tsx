@@ -1,6 +1,6 @@
 // React Imports
-import React, { FC, useState } from "react";
-import { useHistory } from "react-router";
+import React, { FC } from "react";
+import { useHistory, useLocation } from "react-router";
 
 // Material UI Imports
 import {
@@ -50,7 +50,8 @@ const Category: FC<CategoryProps> = ({
   withChildren = true,
   children,
 }) => {
-  const [open, setOpen] = useState(false);
+  const pathname = useLocation().pathname;
+  const open = pathname.includes(to);
   const classes = useStyles({ open });
   const history = useHistory();
 
@@ -65,7 +66,7 @@ const Category: FC<CategoryProps> = ({
         className={classes.listItemRoot}
         onClick={() => {
           if (!open) history.push(to);
-          if (withChildren) setOpen(!open);
+          else history.push("/");
         }}
       >
         <ListItemText
