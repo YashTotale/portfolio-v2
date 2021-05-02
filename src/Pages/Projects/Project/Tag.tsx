@@ -1,0 +1,49 @@
+//React Imports
+import React, { FC } from "react";
+import { Link } from "react-router-dom";
+import { getImageTitle, getImageUrl } from "../../../API/helpers";
+import { TagFields } from "../../../Utils/types";
+
+//Material UI Imports
+import { Avatar, Chip, makeStyles, useTheme } from "@material-ui/core";
+
+const useTagsStyles = makeStyles((theme) => ({
+  projectTag: {
+    margin: theme.spacing(0.3),
+    "& .MuiChip-avatarColorSecondary": {
+      backgroundColor: "inherit",
+    },
+  },
+}));
+
+type TagProps = TagFields & {
+  id: string;
+};
+
+const Tag: FC<TagProps> = ({ title, id, lightIcon, darkIcon }) => {
+  const theme = useTheme();
+  const classes = useTagsStyles();
+
+  const isDark = theme.palette.type === "dark";
+
+  return (
+    <Chip
+      clickable
+      size="medium"
+      label={title}
+      className={classes.projectTag}
+      avatar={
+        <Avatar
+          src={isDark ? getImageUrl(darkIcon) : getImageUrl(lightIcon)}
+          alt={isDark ? getImageTitle(darkIcon) : getImageTitle(lightIcon)}
+        />
+      }
+      component={Link}
+      to={`/tags/${id}`}
+      color="secondary"
+      variant="outlined"
+    />
+  );
+};
+
+export default Tag;

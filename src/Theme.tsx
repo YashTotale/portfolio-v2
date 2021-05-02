@@ -49,7 +49,6 @@ const Theme: FC = ({ children }) => {
       primary: lightBlue,
       secondary: {
         main: amber[700],
-        dark: amber[500],
       },
     },
   });

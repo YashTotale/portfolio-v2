@@ -2,21 +2,18 @@
 import React, { FC } from "react";
 import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
 import { Document } from "@contentful/rich-text-types";
-import { getImageTitle, getImageUrl } from "../../API/helpers";
-import { ProjectFields, TagFields } from "../../Utils/types";
+import Tag from "./Tag";
+import { getImageTitle, getImageUrl } from "../../../API/helpers";
+import { ProjectFields } from "../../../Utils/types";
 
 //Material UI Imports
 import {
-  Avatar,
-  Chip,
   Divider,
   makeStyles,
   Paper,
   Theme,
   Typography,
-  useTheme,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
 
 interface StyleProps {
   isSingle: boolean;
@@ -102,49 +99,10 @@ const Project: FC<ProjectProps> = ({
       <Divider flexItem className={classes.projectDivider} />
       <div className={classes.projectTags}>
         {tags.map((tag) => (
-          <TagChip key={tag.sys.id} id={tag.sys.id} {...tag.fields} />
+          <Tag key={tag.sys.id} id={tag.sys.id} {...tag.fields} />
         ))}
       </div>
     </Paper>
-  );
-};
-
-const useTagsStyles = makeStyles((theme) => ({
-  projectTag: {
-    margin: theme.spacing(0.3),
-    "& .MuiChip-avatarColorSecondary": {
-      backgroundColor: "inherit",
-    },
-  },
-}));
-
-type TagProps = TagFields & {
-  id: string;
-};
-
-const TagChip: FC<TagProps> = ({ title, id, lightIcon, darkIcon }) => {
-  const theme = useTheme();
-  const classes = useTagsStyles();
-
-  const isDark = theme.palette.type === "dark";
-
-  return (
-    <Chip
-      clickable
-      size="medium"
-      label={title}
-      className={classes.projectTag}
-      avatar={
-        <Avatar
-          src={isDark ? getImageUrl(darkIcon) : getImageUrl(lightIcon)}
-          alt={isDark ? getImageTitle(darkIcon) : getImageTitle(lightIcon)}
-        />
-      }
-      component={Link}
-      to={`/tags/${id}`}
-      color="secondary"
-      variant="outlined"
-    />
   );
 };
 
