@@ -12,7 +12,7 @@ export interface ProjectFields {
   title: EntryFields.Symbol;
   description: EntryFields.RichText;
   link: EntryFields.Symbol;
-  image: EntryFields.Link<Asset>;
+  image: Asset;
   start: EntryFields.Symbol;
   end: EntryFields.Symbol;
   sourceCode: EntryFields.Symbol;
