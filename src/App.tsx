@@ -2,7 +2,7 @@
 import { hot } from "react-hot-loader";
 import React, { FC } from "react";
 import { Switch, Route } from "react-router-dom";
-import { ProjectsProvider } from "./Context/ProjectsContext";
+import { DataProvider } from "./Context/DataContext";
 import { SIDEBAR_WIDTH } from "./Utils/constants";
 
 // Pages
@@ -27,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
 
 const App: FC = () => {
   return (
-    <ProjectsProvider>
+    <DataProvider>
       <Popup />
       <Navbar />
       <Sidebar />
       <Routes />
-    </ProjectsProvider>
+    </DataProvider>
   );
 };
 

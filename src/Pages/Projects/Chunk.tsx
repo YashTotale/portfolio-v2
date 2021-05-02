@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import Project from "./Project";
-import { useProjects } from "../../Context/ProjectsContext";
+import { useProjects } from "../../Context/DataContext";
 
 //Material UI Imports
 import { makeStyles } from "@material-ui/core";

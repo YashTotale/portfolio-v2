@@ -1,6 +1,6 @@
 //React Imports
 import React, { FC } from "react";
-import { useProjects } from "../../Context/ProjectsContext";
+import { useProjects } from "../../Context/DataContext";
 import { chunk } from "../../Utils/funcs";
 
 //Material UI Imports
