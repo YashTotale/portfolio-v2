@@ -6,17 +6,20 @@ import React, {
   useState,
   useEffect,
 } from "react";
-import { Projects } from "../Utils/types";
+import { Projects, Tags } from "../Utils/types";
 
 // API Imports
 import { getProjects } from "../API/projects";
+import { getTags } from "../API/tags";
 
 interface Data {
   projects: Projects | null;
+  tags: Tags | null;
 }
 
 const defaultValue: Data = {
   projects: null,
+  tags: null,
 };
 
 const DataContext = createContext<Data>(defaultValue);
@@ -35,6 +38,14 @@ export const DataProvider: FC = ({ children }) => {
       }
     })();
 
+    (async () => {
+      const tags = await getTags();
+
+      if (isMounted) {
+        setData((d) => ({ ...d, tags }));
+      }
+    })();
+
     return () => {
       isMounted = false;
     };
@@ -45,3 +56,5 @@ export const DataProvider: FC = ({ children }) => {
 
 export const useProjects = (): Data["projects"] =>
   useContext(DataContext).projects;
+
+export const useTags = (): Data["tags"] => useContext(DataContext).tags;

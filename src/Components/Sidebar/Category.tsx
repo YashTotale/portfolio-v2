@@ -16,6 +16,7 @@ import { ExpandLess } from "@material-ui/icons";
 
 interface StyleProps {
   open: boolean;
+  isActive: boolean;
 }
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
@@ -28,6 +29,8 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
   listItemTextRoot: {
     fontWeight: theme.typography.fontWeightBold,
+    color: ({ isActive }) =>
+      isActive ? theme.palette.primary.main : theme.palette.text.primary,
   },
   spinner: {
     marginRight: theme.spacing(1),
@@ -52,7 +55,7 @@ const Category: FC<CategoryProps> = ({
 }) => {
   const pathname = useLocation().pathname;
   const open = pathname.includes(to);
-  const classes = useStyles({ open });
+  const classes = useStyles({ open, isActive: pathname === to });
   const history = useHistory();
 
   const childrenLoading = withChildren && children === null;

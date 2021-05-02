@@ -4,9 +4,11 @@ import { Asset, EntryFields } from "contentful";
 export interface TagFields {
   title: EntryFields.Symbol;
   link: EntryFields.Symbol;
-  darkIcon: EntryFields.Link<Asset>;
-  lightIcon: EntryFields.Link<Asset>;
+  darkIcon: Asset;
+  lightIcon: Asset;
 }
+
+export type Tags = Record<string, TagFields>;
 
 export interface ProjectFields {
   title: EntryFields.Symbol;

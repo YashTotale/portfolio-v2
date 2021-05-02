@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import Category from "./Category";
 import Item from "./Item";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
-import { useProjects } from "../../Context/DataContext";
+import { useProjects, useTags } from "../../Context/DataContext";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => ({
 const Contents: FC = () => {
   const classes = useStyles();
   const projects = useProjects();
+  const tags = useTags();
 
   return (
     <>
@@ -29,6 +30,13 @@ const Contents: FC = () => {
             ? null
             : Object.entries(projects).map(([id, fields]) => (
                 <Item key={id} label={fields.title} to={`/projects/${id}`} />
+              ))}
+        </Category>
+        <Category label="Tags" to="/tags">
+          {tags === null
+            ? null
+            : Object.entries(tags).map(([id, fields]) => (
+                <Item key={id} label={fields.title} to={`/tags/${id}`} />
               ))}
         </Category>
       </List>
