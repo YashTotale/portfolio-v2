@@ -27,7 +27,12 @@ const Chunk: FC<ChunkProps> = ({ ids }) => {
   return (
     <div className={classes.projectChunk}>
       {ids.map((id) => (
-        <Project isSingle={ids.length === 1} key={id} {...projects![id]} />
+        <Project
+          key={id}
+          id={id}
+          isSingle={ids.length === 1}
+          {...projects![id]}
+        />
       ))}
     </div>
   );

@@ -13,11 +13,11 @@ export type Tags = Record<string, TagFields>;
 export interface ProjectFields {
   title: EntryFields.Symbol;
   description: EntryFields.RichText;
-  link: EntryFields.Symbol;
   image: Asset;
   start: EntryFields.Symbol;
   end: EntryFields.Symbol;
-  sourceCode: EntryFields.Symbol;
+  link?: EntryFields.Symbol;
+  sourceCode?: EntryFields.Symbol;
   tags: Entry<TagFields>[];
 }
 
