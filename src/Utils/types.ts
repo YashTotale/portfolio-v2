@@ -1,5 +1,5 @@
 // Externals
-import { Asset, EntryFields } from "contentful";
+import { Asset, Entry, EntryFields } from "contentful";
 
 export interface TagFields {
   title: EntryFields.Symbol;
@@ -18,7 +18,7 @@ export interface ProjectFields {
   start: EntryFields.Symbol;
   end: EntryFields.Symbol;
   sourceCode: EntryFields.Symbol;
-  tags: EntryFields.Array<TagFields>;
+  tags: Entry<TagFields>[];
 }
 
 export type Projects = Record<string, ProjectFields>;
