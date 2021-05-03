@@ -32,9 +32,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     color: ({ isActive }) =>
       isActive ? theme.palette.primary.main : theme.palette.text.primary,
   },
-  spinner: {
-    marginRight: theme.spacing(1),
-  },
   arrow: ({ open }) => ({
     transform: open ? "rotate(0deg)" : "rotate(180deg)",
     transition: "0.5s",
@@ -78,9 +75,7 @@ const Category: FC<CategoryProps> = ({
             primary: classes.listItemTextRoot,
           }}
         />
-        {childrenLoading && (
-          <CircularProgress size={24} className={classes.spinner} />
-        )}
+        {childrenLoading && <CircularProgress size={24} />}
         {childrenReady && <ExpandLess className={classes.arrow} />}
       </ListItem>
       {childrenReady && (

@@ -1,9 +1,8 @@
 //React Imports
 import React, { FC } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { documentToReactComponents } from "@contentful/rich-text-react-renderer";
-import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "./FloatingIcons";
+import Info from "./Info";
 import Tag from "./Tag";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ProjectFields } from "../../../Utils/types";
@@ -52,11 +51,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     width: 550 - theme.spacing(4),
     marginBottom: theme.spacing(1),
   },
-  projectInfo: {
-    flexGrow: 1,
-    width: "100%",
-    margin: theme.spacing(1, 0),
-  },
   projectDivider: {
     height: "1px",
   },
@@ -78,16 +72,7 @@ type ProjectProps = ProjectFields & {
 };
 
 const Project: FC<ProjectProps> = (props) => {
-  const {
-    id,
-    title,
-    description,
-    image,
-    tags,
-    start,
-    end,
-    isSingle = false,
-  } = props;
+  const { id, title, image, tags, start, end, isSingle = false } = props;
   const classes = useStyles({ isSingle });
 
   return (
@@ -110,9 +95,7 @@ const Project: FC<ProjectProps> = (props) => {
           </Typography>
         </Link>
       </Paper>
-      <div className={classes.projectInfo}>
-        {documentToReactComponents(description as Document)}
-      </div>
+      <Info {...props} />
       <Divider flexItem className={classes.projectDivider} />
       <div className={classes.projectTags}>
         {tags.map((tag) => (

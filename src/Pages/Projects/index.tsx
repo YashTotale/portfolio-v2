@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+    marginTop: theme.spacing(2),
   },
 }));
 
