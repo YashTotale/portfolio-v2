@@ -67,6 +67,9 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     flexWrap: "wrap",
     padding: theme.spacing(1),
   },
+  projectTimeline: {
+    margin: theme.spacing(1, 0),
+  },
 }));
 
 type ProjectProps = ProjectFields & {
@@ -75,7 +78,16 @@ type ProjectProps = ProjectFields & {
 };
 
 const Project: FC<ProjectProps> = (props) => {
-  const { id, title, description, image, tags, isSingle = false } = props;
+  const {
+    id,
+    title,
+    description,
+    image,
+    tags,
+    start,
+    end,
+    isSingle = false,
+  } = props;
   const classes = useStyles({ isSingle });
 
   return (
@@ -107,6 +119,10 @@ const Project: FC<ProjectProps> = (props) => {
           <Tag key={tag.sys.id} id={tag.sys.id} {...tag.fields} />
         ))}
       </div>
+      <Divider flexItem className={classes.projectDivider} />
+      <Typography className={classes.projectTimeline}>
+        {start} - {end}
+      </Typography>
     </Paper>
   );
 };
