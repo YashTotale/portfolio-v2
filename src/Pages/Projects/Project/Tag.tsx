@@ -5,7 +5,13 @@ import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { TagFields } from "../../../Utils/types";
 
 //Material UI Imports
-import { Avatar, Chip, makeStyles, useTheme } from "@material-ui/core";
+import {
+  Avatar,
+  Chip,
+  makeStyles,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 
 const useTagsStyles = makeStyles((theme) => ({
   projectTag: {
@@ -23,13 +29,14 @@ type TagProps = TagFields & {
 const Tag: FC<TagProps> = ({ title, id, lightIcon, darkIcon }) => {
   const theme = useTheme();
   const classes = useTagsStyles();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const isDark = theme.palette.type === "dark";
 
   return (
     <Chip
       clickable
-      size="medium"
+      size={isSizeXS ? "small" : "medium"}
       label={title}
       className={classes.projectTag}
       avatar={

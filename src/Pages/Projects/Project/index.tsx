@@ -16,10 +16,20 @@ import {
   Paper,
   Theme,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
 
+const projectWidths = {
+  xl: 550,
+  lg: 472,
+  md: 432,
+  sm: 450,
+  xs: 300,
+};
+
 interface StyleProps {
-  isSingle: boolean;
+  pushLeft: boolean;
 }
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
@@ -28,10 +38,33 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    width: 550,
-    margin: theme.spacing(0, 2),
-    marginRight: ({ isSingle }) =>
-      isSingle ? 550 + 3 * theme.spacing(2) : theme.spacing(2),
+    margin: theme.spacing(2),
+
+    [theme.breakpoints.only("xl")]: {
+      width: projectWidths.xl,
+      marginRight: ({ pushLeft }) =>
+        pushLeft ? projectWidths.xl + 3 * theme.spacing(2) : theme.spacing(2),
+    },
+
+    [theme.breakpoints.only("lg")]: {
+      width: projectWidths.lg,
+      marginRight: ({ pushLeft }) =>
+        pushLeft ? projectWidths.lg + 3 * theme.spacing(2) : theme.spacing(2),
+    },
+
+    [theme.breakpoints.only("md")]: {
+      width: projectWidths.md,
+      marginRight: ({ pushLeft }) =>
+        pushLeft ? projectWidths.md + 3 * theme.spacing(2) : theme.spacing(2),
+    },
+
+    [theme.breakpoints.only("sm")]: {
+      width: projectWidths.sm,
+    },
+
+    [theme.breakpoints.only("xs")]: {
+      width: projectWidths.xs,
+    },
   },
   projectTop: {
     display: "flex",
@@ -43,14 +76,53 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
   projectImage: {
     margin: theme.spacing(2, 0),
+
+    [theme.breakpoints.only("xl")]: {
+      width: 200,
+    },
+
+    [theme.breakpoints.only("lg")]: {
+      width: 175,
+    },
+
+    [theme.breakpoints.only("md")]: {
+      width: 175,
+    },
+
+    [theme.breakpoints.only("sm")]: {
+      width: 150,
+    },
+
+    [theme.breakpoints.only("xs")]: {
+      width: 125,
+    },
   },
   projectTitle: {
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
     textAlign: "center",
-    width: 550 - theme.spacing(4),
     marginBottom: theme.spacing(1),
+
+    [theme.breakpoints.only("xl")]: {
+      width: projectWidths.xl - theme.spacing(4),
+    },
+
+    [theme.breakpoints.only("lg")]: {
+      width: projectWidths.lg - theme.spacing(4),
+    },
+
+    [theme.breakpoints.only("md")]: {
+      width: projectWidths.md - theme.spacing(4),
+    },
+
+    [theme.breakpoints.only("sm")]: {
+      width: projectWidths.sm - theme.spacing(4),
+    },
+
+    [theme.breakpoints.only("xs")]: {
+      width: projectWidths.xs - theme.spacing(4),
+    },
   },
   projectDivider: {
     height: "1px",
@@ -69,7 +141,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 
 type ProjectProps = ProjectFields & {
   id: string;
-  isSingle?: boolean;
+  pushLeft?: boolean;
   matches: Matches[keyof Matches] | undefined;
 };
 
@@ -82,9 +154,11 @@ const Project: FC<ProjectProps> = (props) => {
     start,
     end,
     matches,
-    isSingle = false,
+    pushLeft = false,
   } = props;
-  const classes = useStyles({ isSingle });
+  const classes = useStyles({ pushLeft });
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
     <Paper className={classes.project} elevation={12}>
@@ -93,12 +167,11 @@ const Project: FC<ProjectProps> = (props) => {
         <img
           src={getImageUrl(image)}
           alt={getImageTitle(image)}
-          width={175}
           className={classes.projectImage}
         />
         <Link component={RouterLink} to={`/projects/${id}`}>
           <Typography
-            variant="h4"
+            variant={isSizeXS ? "h5" : "h4"}
             color="primary"
             className={classes.projectTitle}
           >
@@ -114,7 +187,10 @@ const Project: FC<ProjectProps> = (props) => {
         ))}
       </div>
       <Divider flexItem className={classes.projectDivider} />
-      <Typography className={classes.projectTimeline}>
+      <Typography
+        className={classes.projectTimeline}
+        variant={isSizeXS ? "body2" : "body1"}
+      >
         {start} - {end}
       </Typography>
     </Paper>

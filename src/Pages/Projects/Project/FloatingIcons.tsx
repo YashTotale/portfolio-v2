@@ -3,7 +3,13 @@ import React, { FC } from "react";
 import { ProjectFields } from "../../../Utils/types";
 
 // Material UI Imports
-import { IconButton, makeStyles, Tooltip } from "@material-ui/core";
+import {
+  IconButton,
+  makeStyles,
+  Tooltip,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import { GitHub, Launch } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -16,12 +22,19 @@ const useStyles = makeStyles((theme) => ({
     top: theme.spacing(1),
     right: theme.spacing(1),
   },
+  iconButton: {
+    [theme.breakpoints.only("xs")]: {
+      margin: theme.spacing(1, 0),
+    },
+  },
 }));
 
 type FloatingIconsProps = Pick<ProjectFields, "link" | "sourceCode">;
 
 const FloatingIcons: FC<FloatingIconsProps> = ({ link, sourceCode }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
     <div className={classes.floatingIcons}>
@@ -32,8 +45,10 @@ const FloatingIcons: FC<FloatingIconsProps> = ({ link, sourceCode }) => {
             href={link}
             target="_blank"
             rel="noopener noreferrer"
+            size={isSizeXS ? "small" : "medium"}
+            className={classes.iconButton}
           >
-            <Launch />
+            <Launch fontSize={isSizeXS ? "small" : "default"} />
           </IconButton>
         </Tooltip>
       )}
@@ -44,8 +59,10 @@ const FloatingIcons: FC<FloatingIconsProps> = ({ link, sourceCode }) => {
             href={sourceCode}
             target="_blank"
             rel="noopener noreferrer"
+            size={isSizeXS ? "small" : "medium"}
+            className={classes.iconButton}
           >
-            <GitHub />
+            <GitHub fontSize={isSizeXS ? "small" : "default"} />
           </IconButton>
         </Tooltip>
       )}
