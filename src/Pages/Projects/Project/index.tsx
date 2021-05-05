@@ -1,8 +1,9 @@
 //React Imports
-import React, { FC } from "react";
+import React, { FC, Fragment } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import FloatingIcons from "./FloatingIcons";
 import Tag from "./Tag";
+import { Matches } from "../Filters";
 import Info from "../../../Components/Project/Info";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ProjectFields } from "../../../Utils/types";
@@ -69,10 +70,20 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 type ProjectProps = ProjectFields & {
   id: string;
   isSingle?: boolean;
+  matches: Matches[keyof Matches] | undefined;
 };
 
 const Project: FC<ProjectProps> = (props) => {
-  const { id, title, image, tags, start, end, isSingle = false } = props;
+  const {
+    id,
+    title,
+    image,
+    tags,
+    start,
+    end,
+    matches,
+    isSingle = false,
+  } = props;
   const classes = useStyles({ isSingle });
 
   return (
@@ -91,7 +102,7 @@ const Project: FC<ProjectProps> = (props) => {
             color="primary"
             className={classes.projectTitle}
           >
-            {title}
+            <MarkedTitle title={title} matches={matches} />
           </Typography>
         </Link>
       </Paper>
@@ -107,6 +118,49 @@ const Project: FC<ProjectProps> = (props) => {
         {start} - {end}
       </Typography>
     </Paper>
+  );
+};
+
+interface MarkedTitleProps {
+  title: string;
+  matches: ProjectProps["matches"];
+}
+
+const MarkedTitle: FC<MarkedTitleProps> = ({ title, matches }) => {
+  if (!matches) return <>{title}</>;
+
+  const titleMatch = matches.find((match) => match.key === "title");
+
+  if (!titleMatch) return <>{title}</>;
+
+  const parsed: (JSX.Element | string)[] = [];
+
+  for (let i = 0; i < title.length; i++) {
+    const isMarked = titleMatch.indices?.find((index) => index[0] === i);
+
+    if (!isMarked) {
+      const char = title.substring(i, i + 1);
+      const lastElement = parsed[parsed.length - 1];
+
+      if (typeof lastElement === "string") {
+        parsed[parsed.length - 1] = parsed[parsed.length - 1] + char;
+      } else {
+        parsed.push(char);
+      }
+
+      continue;
+    }
+
+    parsed.push(<mark>{title.substring(isMarked[0], isMarked[1] + 1)}</mark>);
+    i += isMarked[1] - isMarked[0];
+  }
+
+  return (
+    <>
+      {parsed.map((el, i) => (
+        <Fragment key={i}>{el}</Fragment>
+      ))}
+    </>
   );
 };
 

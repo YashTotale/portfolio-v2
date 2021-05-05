@@ -1,6 +1,6 @@
 //React Imports
 import React, { FC, useState } from "react";
-import Filters from "./Filters";
+import Filters, { Matches } from "./Filters";
 import Project from "./Project";
 import { useProjects } from "../../Context/DataContext";
 import { chunk } from "../../Utils/funcs";
@@ -29,6 +29,7 @@ const ProjectsPage: FC = () => {
   const classes = useStyles();
   const projects = useProjects();
   const [filteredProjects, setFilteredProjects] = useState(projects || {});
+  const [matches, setMatches] = useState<Matches>({});
 
   if (projects === null)
     return (
@@ -52,6 +53,7 @@ const ProjectsPage: FC = () => {
         setProjects={(filtered) =>
           setFilteredProjects(filtered === null ? projects : filtered)
         }
+        setMatches={setMatches}
       />
       {chunks.map((ids, i) => (
         <div key={i} className={classes.projectChunk}>
@@ -59,6 +61,7 @@ const ProjectsPage: FC = () => {
             <Project
               key={id}
               id={id}
+              matches={matches[id]}
               isSingle={ids.length === 1}
               {...projects![id]}
             />

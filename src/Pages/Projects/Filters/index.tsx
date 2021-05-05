@@ -24,12 +24,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export type Matches = Record<string, readonly Fuse.FuseResultMatch[]>;
+
 interface FiltersProps {
   projects: Projects;
   setProjects: (p: Projects | null) => void;
+  setMatches: (m: Matches) => void;
 }
 
-const Filters: FC<FiltersProps> = ({ projects, setProjects }) => {
+const Filters: FC<FiltersProps> = ({ projects, setProjects, setMatches }) => {
   const classes = useStyles();
   const list = useMemo(
     () =>
@@ -47,21 +50,33 @@ const Filters: FC<FiltersProps> = ({ projects, setProjects }) => {
     keys: ["title", "description", "link", "sourceCode"],
     threshold: 0.3,
     ignoreLocation: true,
+    findAllMatches: true,
+    includeMatches: true,
   });
 
-  const onSearchChange = debounce((search: string) => {
-    if (!search) setProjects(null);
-    else {
-      const filtered = fuse.search(search);
+  const onSearchChange = debounce(
+    (search: string) => {
+      if (!search) {
+        setProjects(null);
+        setMatches({});
+      } else {
+        const filtered = fuse.search(search);
 
-      const projectsArr = filtered.reduce((obj, p) => {
-        const id = p.item.id;
-        return { ...obj, [id]: projects[id] };
-      }, {} as Projects);
+        const matches: Matches = {};
 
-      setProjects(projectsArr);
-    }
-  }, 500);
+        const projectsArr = filtered.reduce((obj, p) => {
+          const id = p.item.id;
+          if (p.matches) matches[id] = p.matches;
+          return { ...obj, [id]: projects[id] };
+        }, {} as Projects);
+
+        setProjects(projectsArr);
+        setMatches(matches);
+      }
+    },
+    500,
+    { maxWait: 500 }
+  );
 
   return (
     <>
