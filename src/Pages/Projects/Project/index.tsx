@@ -2,8 +2,8 @@
 import React, { FC } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import FloatingIcons from "./FloatingIcons";
-import Info from "./Info";
 import Tag from "./Tag";
+import Info from "../../../Components/Project/Info";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ProjectFields } from "../../../Utils/types";
 

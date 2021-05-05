@@ -6,7 +6,7 @@ import {
   Options,
 } from "@contentful/rich-text-react-renderer";
 import { Document } from "@contentful/rich-text-types";
-import { ProjectFields } from "../../../Utils/types";
+import { ProjectFields } from "../../Utils/types";
 
 // Material UI Imports
 import { Link, makeStyles, Typography } from "@material-ui/core";

@@ -3,9 +3,16 @@ import React, { FC } from "react";
 import { useParams } from "react-router";
 import NotFound from "../NotFound";
 import { useProjects } from "../../Context/DataContext";
+import Info from "../../Components/Project/Info";
 
 // Material UI Imports
-import { CircularProgress, makeStyles, Paper } from "@material-ui/core";
+import {
+  CircularProgress,
+  makeStyles,
+  Paper,
+  Typography,
+} from "@material-ui/core";
+import { getImageTitle, getImageUrl } from "../../API/helpers";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -14,9 +21,30 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+    padding: theme.spacing(2),
   },
   projectDisplay: {
     display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "75%",
+    padding: theme.spacing(2),
+  },
+  projectImage: {
+    width: 200,
+    marginLeft: theme.spacing(1),
+  },
+  projectInfo: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flexGrow: 1,
+    marginLeft: theme.spacing(2),
+  },
+  projectDescription: {
+    display: "flex",
+    flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
   },
@@ -51,7 +79,21 @@ const Project: FC = () => {
 
   return (
     <Container>
-      <Paper className={classes.projectDisplay}></Paper>
+      <Paper className={classes.projectDisplay}>
+        <img
+          src={getImageUrl(project.image)}
+          alt={getImageTitle(project.image)}
+          className={classes.projectImage}
+        />
+        <div className={classes.projectInfo}>
+          <Typography variant="h3" align="center">
+            {project.title}
+          </Typography>
+          <div className={classes.projectDescription}>
+            <Info {...project} />
+          </div>
+        </div>
+      </Paper>
     </Container>
   );
 };
