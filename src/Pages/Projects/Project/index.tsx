@@ -1,8 +1,8 @@
 //React Imports
-import React, { FC, Fragment } from "react";
-import { Link as RouterLink } from "react-router-dom";
+import React, { FC } from "react";
 import FloatingIcons from "./FloatingIcons";
 import Tag from "./Tag";
+import Title from "./Title";
 import { Matches } from "../Filters";
 import Info from "../../../Components/Project/Info";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
@@ -11,7 +11,6 @@ import { ProjectFields } from "../../../Utils/types";
 //Material UI Imports
 import {
   Divider,
-  Link,
   makeStyles,
   Paper,
   Theme,
@@ -20,7 +19,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 
-const projectWidths = {
+export const PROJECT_WIDTHS = {
   xl: 550,
   lg: 472,
   md: 432,
@@ -41,29 +40,29 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     margin: theme.spacing(2),
 
     [theme.breakpoints.only("xl")]: {
-      width: projectWidths.xl,
+      width: PROJECT_WIDTHS.xl,
       marginRight: ({ pushLeft }) =>
-        pushLeft ? projectWidths.xl + 3 * theme.spacing(2) : theme.spacing(2),
+        pushLeft ? PROJECT_WIDTHS.xl + 3 * theme.spacing(2) : theme.spacing(2),
     },
 
     [theme.breakpoints.only("lg")]: {
-      width: projectWidths.lg,
+      width: PROJECT_WIDTHS.lg,
       marginRight: ({ pushLeft }) =>
-        pushLeft ? projectWidths.lg + 3 * theme.spacing(2) : theme.spacing(2),
+        pushLeft ? PROJECT_WIDTHS.lg + 3 * theme.spacing(2) : theme.spacing(2),
     },
 
     [theme.breakpoints.only("md")]: {
-      width: projectWidths.md,
+      width: PROJECT_WIDTHS.md,
       marginRight: ({ pushLeft }) =>
-        pushLeft ? projectWidths.md + 3 * theme.spacing(2) : theme.spacing(2),
+        pushLeft ? PROJECT_WIDTHS.md + 3 * theme.spacing(2) : theme.spacing(2),
     },
 
     [theme.breakpoints.only("sm")]: {
-      width: projectWidths.sm,
+      width: PROJECT_WIDTHS.sm,
     },
 
     [theme.breakpoints.only("xs")]: {
-      width: projectWidths.xs,
+      width: PROJECT_WIDTHS.xs,
     },
   },
   projectTop: {
@@ -97,33 +96,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
       width: 125,
     },
   },
-  projectTitle: {
-    whiteSpace: "nowrap",
-    overflow: "hidden",
-    textOverflow: "ellipsis",
-    textAlign: "center",
-    marginBottom: theme.spacing(1),
-
-    [theme.breakpoints.only("xl")]: {
-      width: projectWidths.xl - theme.spacing(4),
-    },
-
-    [theme.breakpoints.only("lg")]: {
-      width: projectWidths.lg - theme.spacing(4),
-    },
-
-    [theme.breakpoints.only("md")]: {
-      width: projectWidths.md - theme.spacing(4),
-    },
-
-    [theme.breakpoints.only("sm")]: {
-      width: projectWidths.sm - theme.spacing(4),
-    },
-
-    [theme.breakpoints.only("xs")]: {
-      width: projectWidths.xs - theme.spacing(4),
-    },
-  },
   projectDivider: {
     height: "1px",
   },
@@ -139,7 +111,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-type ProjectProps = ProjectFields & {
+export type ProjectProps = ProjectFields & {
   id: string;
   pushLeft?: boolean;
   matches: Matches[keyof Matches] | undefined;
@@ -169,15 +141,7 @@ const Project: FC<ProjectProps> = (props) => {
           alt={getImageTitle(image)}
           className={classes.projectImage}
         />
-        <Link component={RouterLink} to={`/projects/${id}`}>
-          <Typography
-            variant={isSizeXS ? "h5" : "h4"}
-            color="primary"
-            className={classes.projectTitle}
-          >
-            <MarkedTitle title={title} matches={matches} />
-          </Typography>
-        </Link>
+        <Title title={title} matches={matches} id={id} />
       </Paper>
       <Info {...props} />
       <Divider flexItem className={classes.projectDivider} />
@@ -194,49 +158,6 @@ const Project: FC<ProjectProps> = (props) => {
         {start} - {end}
       </Typography>
     </Paper>
-  );
-};
-
-interface MarkedTitleProps {
-  title: string;
-  matches: ProjectProps["matches"];
-}
-
-const MarkedTitle: FC<MarkedTitleProps> = ({ title, matches }) => {
-  if (!matches) return <>{title}</>;
-
-  const titleMatch = matches.find((match) => match.key === "title");
-
-  if (!titleMatch) return <>{title}</>;
-
-  const parsed: (JSX.Element | string)[] = [];
-
-  for (let i = 0; i < title.length; i++) {
-    const isMarked = titleMatch.indices?.find((index) => index[0] === i);
-
-    if (!isMarked) {
-      const char = title.substring(i, i + 1);
-      const lastElement = parsed[parsed.length - 1];
-
-      if (typeof lastElement === "string") {
-        parsed[parsed.length - 1] = parsed[parsed.length - 1] + char;
-      } else {
-        parsed.push(char);
-      }
-
-      continue;
-    }
-
-    parsed.push(<mark>{title.substring(isMarked[0], isMarked[1] + 1)}</mark>);
-    i += isMarked[1] - isMarked[0];
-  }
-
-  return (
-    <>
-      {parsed.map((el, i) => (
-        <Fragment key={i}>{el}</Fragment>
-      ))}
-    </>
   );
 };
 
