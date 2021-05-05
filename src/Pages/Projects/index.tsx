@@ -1,5 +1,6 @@
 //React Imports
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
+import Filters from "./Filters";
 import Project from "./Project";
 import { useProjects } from "../../Context/DataContext";
 import { chunk } from "../../Utils/funcs";
@@ -12,7 +13,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "stretch",
+    padding: theme.spacing(0, 2),
   },
   projectChunk: {
     display: "flex",
@@ -26,6 +28,7 @@ const useStyles = makeStyles((theme) => ({
 const ProjectsPage: FC = () => {
   const classes = useStyles();
   const projects = useProjects();
+  const [filteredProjects, setFilteredProjects] = useState(projects || {});
 
   if (projects === null)
     return (
@@ -34,10 +37,22 @@ const ProjectsPage: FC = () => {
       </Container>
     );
 
-  const chunks = chunk(Object.keys(projects), 2);
+  if (
+    Object.keys(filteredProjects).length === 0 &&
+    Object.keys(projects).length > 0
+  )
+    setFilteredProjects(projects);
+
+  const chunks = chunk(Object.keys(filteredProjects), 2);
 
   return (
     <Container>
+      <Filters
+        projects={projects}
+        setProjects={(filtered) =>
+          setFilteredProjects(filtered === null ? projects : filtered)
+        }
+      />
       {chunks.map((ids, i) => (
         <div key={i} className={classes.projectChunk}>
           {ids.map((id) => (
