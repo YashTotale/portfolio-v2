@@ -7,6 +7,7 @@ import { SIDEBAR_WIDTH } from "./Utils/constants";
 
 // Pages
 import Home from "./Pages/Home";
+import NotFound from "./Pages/NotFound";
 import ProjectsPage from "./Pages/Projects";
 import ProjectPage from "./Pages/Project";
 
@@ -20,7 +21,7 @@ import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   app: {
-    paddingTop: theme.spacing(3),
+    paddingTop: theme.spacing(2),
     [theme.breakpoints.up("lg")]: {
       marginLeft: SIDEBAR_WIDTH,
     },
@@ -52,6 +53,9 @@ const Routes: FC = () => {
         </Route>
         <Route exact path="/">
           <Home />
+        </Route>
+        <Route path="*">
+          <NotFound />
         </Route>
       </Switch>
     </div>

@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
-import { Redirect, useParams } from "react-router";
+import { useParams } from "react-router";
+import NotFound from "../NotFound";
 import { useProjects } from "../../Context/DataContext";
 
 // Material UI Imports
@@ -39,7 +40,14 @@ const Project: FC = () => {
 
   const project = projects[id];
 
-  if (!project) return <Redirect to="/" />;
+  if (!project)
+    return (
+      <NotFound
+        name="project"
+        redirect="/projects"
+        redirectName="Projects Page"
+      />
+    );
 
   return (
     <Container>

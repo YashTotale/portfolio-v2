@@ -8,7 +8,7 @@ import { chunk } from "../../Utils/funcs";
 import { CircularProgress, makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  projects: {
+  container: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -27,28 +27,37 @@ const ProjectsPage: FC = () => {
   const classes = useStyles();
   const projects = useProjects();
 
-  const chunks = projects === null ? null : chunk(Object.keys(projects), 2);
+  if (projects === null)
+    return (
+      <Container>
+        <CircularProgress />
+      </Container>
+    );
+
+  const chunks = chunk(Object.keys(projects), 2);
 
   return (
-    <div className={classes.projects}>
-      {chunks === null ? (
-        <CircularProgress />
-      ) : (
-        chunks.map((ids, i) => (
-          <div key={i} className={classes.projectChunk}>
-            {ids.map((id) => (
-              <Project
-                key={id}
-                id={id}
-                isSingle={ids.length === 1}
-                {...projects![id]}
-              />
-            ))}
-          </div>
-        ))
-      )}
-    </div>
+    <Container>
+      {chunks.map((ids, i) => (
+        <div key={i} className={classes.projectChunk}>
+          {ids.map((id) => (
+            <Project
+              key={id}
+              id={id}
+              isSingle={ids.length === 1}
+              {...projects![id]}
+            />
+          ))}
+        </div>
+      ))}
+    </Container>
   );
+};
+
+const Container: FC = ({ children }) => {
+  const classes = useStyles();
+
+  return <div className={classes.container}>{children}</div>;
 };
 
 export default ProjectsPage;
