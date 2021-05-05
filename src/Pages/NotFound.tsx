@@ -12,6 +12,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
+    margin: theme.spacing(2),
     marginTop: "10vh",
   },
   heading: {
@@ -25,10 +26,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: "12rem",
     fontWeight: 900,
     letterSpacing: -40,
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "10rem",
+    },
   },
   subheading: {
     fontFamily: "Cabin, 'sans-serif'",
-    fontSize: "3rem",
+    fontSize: "2rem",
   },
   number: {
     textShadow: `-8px 0px 0px ${
