@@ -1,7 +1,8 @@
 //React Imports
-import React, { FC, Fragment } from "react";
+import React, { FC } from "react";
 import { Link as RouterLink } from "react-router-dom";
 import { PROJECT_WIDTHS, ProjectProps } from "./index";
+import MatchHighlight from "../../../Components/MatchHighlight";
 
 // Material UI Imports
 import {
@@ -49,7 +50,7 @@ interface TitleProps {
 }
 
 const Title: FC<TitleProps> = (props) => {
-  const { id } = props;
+  const { id, title, matches } = props;
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -61,47 +62,11 @@ const Title: FC<TitleProps> = (props) => {
         color="primary"
         className={classes.projectTitle}
       >
-        <MarkedTitle {...props} />
+        <MatchHighlight matches={matches} keyToMatch="title">
+          {title}
+        </MatchHighlight>
       </Typography>
     </Link>
-  );
-};
-
-const MarkedTitle: FC<TitleProps> = ({ title, matches }) => {
-  if (!matches) return <>{title}</>;
-
-  const titleMatch = matches.find((match) => match.key === "title");
-
-  if (!titleMatch) return <>{title}</>;
-
-  const parsed: (JSX.Element | string)[] = [];
-
-  for (let i = 0; i < title.length; i++) {
-    const isMarked = titleMatch.indices?.find((index) => index[0] === i);
-
-    if (!isMarked) {
-      const char = title.substring(i, i + 1);
-      const lastElement = parsed[parsed.length - 1];
-
-      if (typeof lastElement === "string") {
-        parsed[parsed.length - 1] = parsed[parsed.length - 1] + char;
-      } else {
-        parsed.push(char);
-      }
-
-      continue;
-    }
-
-    parsed.push(<mark>{title.substring(isMarked[0], isMarked[1] + 1)}</mark>);
-    i += isMarked[1] - isMarked[0];
-  }
-
-  return (
-    <>
-      {parsed.map((el, i) => (
-        <Fragment key={i}>{el}</Fragment>
-      ))}
-    </>
   );
 };
 

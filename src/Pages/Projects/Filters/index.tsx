@@ -47,7 +47,12 @@ const Filters: FC<FiltersProps> = ({ projects, setProjects, setMatches }) => {
   );
 
   const fuse = new Fuse(list, {
-    keys: ["title", "description", "link", "sourceCode"],
+    keys: [
+      { name: "title", weight: 3 },
+      { name: "description", weight: 2 },
+      "link",
+      "sourceCode",
+    ],
     threshold: 0.3,
     ignoreLocation: true,
     findAllMatches: true,
@@ -66,7 +71,21 @@ const Filters: FC<FiltersProps> = ({ projects, setProjects, setMatches }) => {
 
         const projectsArr = filtered.reduce((obj, p) => {
           const id = p.item.id;
-          if (p.matches) matches[id] = p.matches;
+          if (p.matches) {
+            const filteredMatches =
+              search.length < 3
+                ? p.matches
+                : p.matches.map((m) => {
+                    const indices = m.indices.filter((i) => {
+                      const diff = i[1] - i[0];
+                      if (diff > 3) return true;
+                      if (search.length - diff < 2) return true;
+                      return false;
+                    });
+                    return { ...m, indices };
+                  });
+            matches[id] = filteredMatches;
+          }
           return { ...obj, [id]: projects[id] };
         }, {} as Projects);
 

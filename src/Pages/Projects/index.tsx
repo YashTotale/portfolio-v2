@@ -84,7 +84,6 @@ interface ContentsProps {
 const Contents: FC<ContentsProps> = ({ projects, matches }) => {
   const classes = useStyles();
   const theme = useTheme();
-  console.log(theme.breakpoints);
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   if (isSmall)
