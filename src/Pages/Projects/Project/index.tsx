@@ -18,6 +18,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import MatchHighlight from "../../../Components/MatchHighlight";
 
 export const PROJECT_WIDTHS = {
   xl: 550,
@@ -155,7 +156,13 @@ const Project: FC<ProjectProps> = (props) => {
         className={classes.projectTimeline}
         variant={isSizeXS ? "body2" : "body1"}
       >
-        {start} - {end}
+        <MatchHighlight keyToMatch="start" matches={matches}>
+          {start}
+        </MatchHighlight>{" "}
+        -{" "}
+        <MatchHighlight keyToMatch="end" matches={matches}>
+          {end}
+        </MatchHighlight>
       </Typography>
     </Paper>
   );

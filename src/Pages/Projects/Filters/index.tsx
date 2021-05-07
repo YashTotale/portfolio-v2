@@ -68,6 +68,7 @@ const Filters: FC<FiltersProps> = ({ projects, setProjects, setMatches }) => {
         description: documentToPlainTextString(value.description as Document),
         link: value.link ?? "",
         sourceCode: value.sourceCode ?? "",
+        tags: value.tags.map((t) => t.fields.title),
       })),
     [projects]
   );
@@ -76,6 +77,9 @@ const Filters: FC<FiltersProps> = ({ projects, setProjects, setMatches }) => {
     keys: [
       { name: "title", weight: 3 },
       { name: "description", weight: 2 },
+      { name: "tags", weight: 2 },
+      "start",
+      "end",
       "link",
       "sourceCode",
     ],
