@@ -6,10 +6,31 @@ import { Input, makeStyles, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: theme.spacing(6),
     display: "flex",
     justifyContent: "space-between",
-    minWidth: "40%",
+    height: theme.spacing(6),
+
+    [theme.breakpoints.only("xl")]: {
+      width: "40%",
+    },
+
+    [theme.breakpoints.only("lg")]: {
+      width: "40%",
+    },
+
+    [theme.breakpoints.only("md")]: {
+      width: "50%",
+    },
+
+    [theme.breakpoints.only("sm")]: {
+      height: theme.spacing(5),
+      width: "75%",
+    },
+
+    [theme.breakpoints.only("xs")]: {
+      height: theme.spacing(5),
+      width: "100%",
+    },
   },
   container: {
     margin: "auto 16px",

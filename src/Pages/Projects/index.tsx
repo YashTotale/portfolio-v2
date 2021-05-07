@@ -9,6 +9,7 @@ import { chunk } from "../../Utils/funcs";
 import {
   CircularProgress,
   makeStyles,
+  Typography,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
@@ -85,6 +86,13 @@ const Contents: FC<ContentsProps> = ({ projects, matches }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+  if (!Object.keys(projects).length)
+    return (
+      <div className={classes.projects}>
+        <Typography variant="h6">No projects found</Typography>
+      </div>
+    );
 
   if (isSmall)
     return (
