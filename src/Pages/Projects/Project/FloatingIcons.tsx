@@ -29,9 +29,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type FloatingIconsProps = Pick<ProjectFields, "link" | "sourceCode">;
+type FloatingIconsProps = Pick<ProjectFields, "link" | "github">;
 
-const FloatingIcons: FC<FloatingIconsProps> = ({ link, sourceCode }) => {
+const FloatingIcons: FC<FloatingIconsProps> = ({ link, github }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -52,11 +52,11 @@ const FloatingIcons: FC<FloatingIconsProps> = ({ link, sourceCode }) => {
           </IconButton>
         </Tooltip>
       )}
-      {sourceCode && (
+      {github && (
         <Tooltip title="View Source Code">
           <IconButton
             component="a"
-            href={sourceCode}
+            href={github}
             target="_blank"
             rel="noopener noreferrer"
             size={isSizeXS ? "small" : "medium"}

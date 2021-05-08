@@ -17,7 +17,7 @@ export interface ProjectFields {
   start: EntryFields.Symbol;
   end: EntryFields.Symbol;
   link?: EntryFields.Symbol;
-  sourceCode?: EntryFields.Symbol;
+  github?: EntryFields.Symbol;
   tags: Entry<TagFields>[];
 }
 

@@ -67,7 +67,7 @@ const Filters: FC<FiltersProps> = ({ projects, setProjects, setMatches }) => {
         id: key,
         description: documentToPlainTextString(value.description as Document),
         link: value.link ?? "",
-        sourceCode: value.sourceCode ?? "",
+        github: value.github ?? "",
         tags: value.tags.map((t) => t.fields.title),
       })),
     [projects]
@@ -81,7 +81,7 @@ const Filters: FC<FiltersProps> = ({ projects, setProjects, setMatches }) => {
       "start",
       "end",
       "link",
-      "sourceCode",
+      "github",
     ],
     threshold: 0.2,
     ignoreLocation: true,
