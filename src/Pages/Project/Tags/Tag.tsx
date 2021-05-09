@@ -46,6 +46,10 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     },
   },
   link: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifySelf: "center",
     position: "relative",
     border: `4px solid ${
       theme.palette.common[theme.palette.type === "dark" ? "white" : "black"]
@@ -78,6 +82,12 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     transition: theme.transitions.create(["visibility", "opacity"], {
       duration: "0.4s",
     }),
+    // Clipping
+    maxHeight: `calc(100% - ${theme.spacing(2)}px)`,
+    maxWidth: `calc(100% - ${theme.spacing(2)}px)`,
+    textOverflow: "ellipsis",
+    overflowX: "hidden",
+    overflowY: "scroll",
   },
   icon: {
     width: "100%",
