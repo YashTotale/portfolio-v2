@@ -10,6 +10,7 @@ import Home from "./Pages/Home";
 import NotFound from "./Pages/NotFound";
 import ProjectsPage from "./Pages/Projects";
 import ProjectPage from "./Pages/Project";
+import TagsPage from "./Pages/Tags";
 
 // Components
 import Popup from "./Components/Popup";
@@ -50,6 +51,9 @@ const Routes: FC = () => {
         </Route>
         <Route exact path="/projects/:id">
           <ProjectPage />
+        </Route>
+        <Route exact path="/tags">
+          <TagsPage />
         </Route>
         <Route exact path="/">
           <Home />

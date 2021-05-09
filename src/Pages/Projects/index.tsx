@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "stretch",
-    padding: theme.spacing(0, 2),
+    margin: theme.spacing(0, 2),
   },
   projects: {
     display: "flex",
