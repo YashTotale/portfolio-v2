@@ -1,69 +1,29 @@
 // React Imports
 import React, { FC, useState } from "react";
-import { getImageTitle, getImageUrl } from "../../API/helpers";
-import { ProjectFields, TagFields } from "../../Utils/types";
+import { Link } from "react-router-dom";
+import { getImageTitle, getImageUrl } from "../../../API/helpers";
+import { TagFields } from "../../../Utils/types";
 
 // Material UI Imports
-import { makeStyles, Typography, useTheme, Theme } from "@material-ui/core";
-import { Link } from "react-router-dom";
-
-const useStyles = makeStyles((theme) => ({
-  projectTags: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "100%",
-    padding: theme.spacing(1, 0),
-  },
-  heading: {
-    width: "100%",
-    marginBottom: theme.spacing(1),
-  },
-  tagsContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    flexWrap: "wrap",
-  },
-}));
-
-const Tags: FC<ProjectFields> = (props) => {
-  const classes = useStyles();
-
-  return (
-    <div className={classes.projectTags}>
-      <Typography variant="h4" align="center" className={classes.heading}>
-        Technologies Used
-      </Typography>
-      <div className={classes.tagsContainer}>
-        {props.tags.map((tag, i) => (
-          <Tag key={i} {...tag.fields} id={tag.sys.id} />
-        ))}
-      </div>
-    </div>
-  );
-};
+import {
+  makeStyles,
+  Typography,
+  useTheme,
+  Theme,
+  useMediaQuery,
+} from "@material-ui/core";
 
 interface StyleProps {
   hovering: boolean;
 }
 
-const useTagStyles = makeStyles<Theme, StyleProps>((theme) => ({
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifySelf: "center",
-  },
-  link: {
-    position: "relative",
-    border: `4px solid ${
-      theme.palette.common[theme.palette.type === "dark" ? "white" : "black"]
-    }`,
-    borderRadius: "5px",
     margin: theme.spacing(1, 2),
-    padding: theme.spacing(1),
 
     [theme.breakpoints.only("xl")]: {
       width: 175,
@@ -84,6 +44,14 @@ const useTagStyles = makeStyles<Theme, StyleProps>((theme) => ({
     [theme.breakpoints.only("xs")]: {
       width: 100,
     },
+  },
+  link: {
+    position: "relative",
+    border: `4px solid ${
+      theme.palette.common[theme.palette.type === "dark" ? "white" : "black"]
+    }`,
+    borderRadius: "5px",
+    padding: theme.spacing(1),
   },
   overlay: {
     position: "absolute",
@@ -115,6 +83,13 @@ const useTagStyles = makeStyles<Theme, StyleProps>((theme) => ({
     width: "100%",
     height: "100%",
   },
+  titleXS: {
+    width: "100%",
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    textAlign: "center",
+  },
 }));
 
 type TagProps = TagFields & {
@@ -124,7 +99,8 @@ type TagProps = TagFields & {
 const Tag: FC<TagProps> = (props) => {
   const [hovering, setHovering] = useState(false);
   const theme = useTheme();
-  const classes = useTagStyles({ hovering });
+  const classes = useStyles({ hovering });
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const isDark = theme.palette.type === "dark";
   const icon = isDark ? props.darkIcon : props.lightIcon;
@@ -146,8 +122,13 @@ const Tag: FC<TagProps> = (props) => {
           className={classes.icon}
         />
       </Link>
+      {isSizeXS && (
+        <Typography variant="body1" align="center" className={classes.titleXS}>
+          {props.title}
+        </Typography>
+      )}
     </div>
   );
 };
 
-export default Tags;
+export default Tag;

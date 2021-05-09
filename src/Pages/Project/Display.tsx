@@ -13,10 +13,33 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "flex-start",
     padding: theme.spacing(2, 0),
+
+    [theme.breakpoints.only("xs")]: {
+      flexDirection: "column",
+    },
   },
   projectImage: {
-    width: 200,
     marginLeft: theme.spacing(1),
+
+    [theme.breakpoints.only("xl")]: {
+      width: 225,
+    },
+
+    [theme.breakpoints.only("lg")]: {
+      width: 200,
+    },
+
+    [theme.breakpoints.only("md")]: {
+      width: 175,
+    },
+
+    [theme.breakpoints.only("sm")]: {
+      width: 150,
+    },
+
+    [theme.breakpoints.only("xs")]: {
+      width: 125,
+    },
   },
   projectDescription: {
     display: "flex",

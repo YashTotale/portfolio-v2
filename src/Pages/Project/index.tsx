@@ -13,6 +13,8 @@ import {
   makeStyles,
   Paper,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -23,7 +25,26 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     margin: "auto",
     padding: theme.spacing(2),
-    width: "75%",
+
+    [theme.breakpoints.only("xl")]: {
+      width: "75%",
+    },
+
+    [theme.breakpoints.only("lg")]: {
+      width: "85%",
+    },
+
+    [theme.breakpoints.only("md")]: {
+      width: "85%",
+    },
+
+    [theme.breakpoints.only("sm")]: {
+      width: "95%",
+    },
+
+    [theme.breakpoints.only("xs")]: {
+      width: "95%",
+    },
   },
   project: {
     display: "flex",
@@ -49,6 +70,8 @@ interface Params {
 const Project: FC = () => {
   const { id } = useParams<Params>();
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const projects = useProjects();
 
   if (projects === null)
@@ -73,7 +96,7 @@ const Project: FC = () => {
     <Container>
       <Paper className={classes.project}>
         <Typography
-          variant="h3"
+          variant={isSizeSmall ? "h4" : "h3"}
           align="center"
           className={classes.projectTitle}
         >
