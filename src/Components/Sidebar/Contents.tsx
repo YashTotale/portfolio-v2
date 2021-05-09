@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import Category from "./Category";
 import Item from "./Item";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
-import { useProjects, useTags } from "../../Context/DataContext";
+import { useExperience, useProjects, useTags } from "../../Context/DataContext";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
@@ -16,6 +16,7 @@ const useStyles = makeStyles((theme) => ({
 
 const Contents: FC = () => {
   const classes = useStyles();
+  const experience = useExperience();
   const projects = useProjects();
   const tags = useTags();
 
@@ -25,6 +26,13 @@ const Contents: FC = () => {
       <Divider />
       <List disablePadding className={classes.list}>
         <Category label="Home" to="/" withChildren={false} />
+        <Category label="Experience" to="/experience">
+          {experience === null
+            ? null
+            : Object.entries(experience).map(([id, fields]) => (
+                <Item key={id} label={fields.name} to={`/experience/${id}`} />
+              ))}
+        </Category>
         <Category label="Projects" to="/projects">
           {projects === null
             ? null
