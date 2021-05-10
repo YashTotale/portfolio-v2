@@ -7,10 +7,11 @@ import { SIDEBAR_WIDTH } from "./Utils/constants";
 
 // Pages
 import Home from "./Pages/Home";
-import NotFound from "./Pages/NotFound";
+import ExperiencePage from "./Pages/Experience";
 import ProjectsPage from "./Pages/Projects";
 import ProjectPage from "./Pages/Project";
 import TagsPage from "./Pages/Tags";
+import NotFound from "./Pages/NotFound";
 
 // Components
 import Popup from "./Components/Popup";
@@ -46,6 +47,9 @@ const Routes: FC = () => {
   return (
     <div className={classes.app}>
       <Switch>
+        <Route exact path="/experience">
+          <ExperiencePage />
+        </Route>
         <Route exact path="/projects">
           <ProjectsPage />
         </Route>
