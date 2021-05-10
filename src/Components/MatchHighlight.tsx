@@ -1,58 +1,32 @@
 // React Imports
 import React, { FC, Fragment } from "react";
-import Fuse from "fuse.js";
 
 interface MatchHighlightProps {
-  matches?: readonly Fuse.FuseResultMatch[];
-  indexOffset?: number;
+  toMatch: string;
   children: string;
-  keyToMatch: string;
 }
 
-const MatchHighlight: FC<MatchHighlightProps> = ({
-  matches,
-  keyToMatch,
-  children,
-  indexOffset = 0,
-}) => {
-  if (!matches) return <>{children}</>;
+const MatchHighlight: FC<MatchHighlightProps> = ({ toMatch, children }) => {
+  if (!toMatch.length) return <>{children}</>;
 
-  const keyMatch = matches.find((match) => match.key === keyToMatch);
-
-  if (!keyMatch) return <>{children}</>;
+  const normalizedChildren = children.toLowerCase();
+  const normalizedMatch = toMatch.toLowerCase();
 
   const parsed: (JSX.Element | string)[] = [];
 
-  for (let i = 0; i < children.length; i++) {
-    const isMarked = keyMatch.indices?.find(
-      (index) => index[0] === i + indexOffset
-    );
+  let fromIndex = 0;
+  let index = 0;
 
-    if (!isMarked) {
-      const char = children.substring(i, i + 1);
-      const lastElement = parsed[parsed.length - 1];
-
-      if (typeof lastElement === "string") {
-        parsed[parsed.length - 1] = parsed[parsed.length - 1] + char;
-      } else {
-        parsed.push(char);
-      }
-
-      continue;
-    }
-
+  while (normalizedChildren.indexOf(normalizedMatch, fromIndex) !== -1) {
+    index = normalizedChildren.indexOf(normalizedMatch, fromIndex);
+    parsed.push(children.substring(fromIndex, index));
     parsed.push(
-      <mark>
-        {children.substring(
-          isMarked[0] - indexOffset,
-          isMarked[1] - indexOffset + 1
-        )}
-      </mark>
+      <mark>{children.substring(index, index + toMatch.length)}</mark>
     );
-    i += isMarked[1] - isMarked[0];
+    fromIndex = index + toMatch.length;
   }
 
-  console.log(parsed);
+  parsed.push(children.substring(fromIndex));
 
   return (
     <>

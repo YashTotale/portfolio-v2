@@ -1,5 +1,11 @@
 // React Imports
 import React, { FC, useState } from "react";
+import { debounce } from "lodash";
+
+// Redux Imports
+import { useSelector } from "react-redux";
+import { getProjectsSearch, setProjectsSearch } from "../../../Redux";
+import { useAppDispatch } from "../../../Store";
 
 // Material UI Imports
 import { Input, makeStyles, Paper } from "@material-ui/core";
@@ -34,32 +40,34 @@ const useStyles = makeStyles((theme) => ({
   },
   container: {
     margin: "auto 16px",
-    width: `calc(100% - ${theme.spacing(6 + 4)}px)`,
+    width: "100%",
   },
   input: {
     width: "100%",
   },
 }));
 
-interface SearchBarProps {
-  onChange: (search: string) => void;
-}
-
-const SearchBar: FC<SearchBarProps> = ({ onChange }) => {
+const SearchBar: FC = () => {
   const classes = useStyles();
-  const [search, setSearch] = useState("");
+  const dispatch = useAppDispatch();
+  const globalSearch = useSelector(getProjectsSearch);
+  const [localSearch, setLocalSearch] = useState(globalSearch);
 
-  const handleChange = (value: string) => {
-    setSearch(value);
-    onChange(value);
-  };
+  const handleChange = debounce((value: string) => {
+    dispatch(setProjectsSearch(value));
+  }, 500);
 
   return (
     <Paper className={classes.root}>
       <div className={classes.container}>
         <Input
-          value={search}
-          onChange={(e) => handleChange(e.target.value)}
+          value={localSearch}
+          onChange={(e) => {
+            const val = e.target.value;
+
+            setLocalSearch(val);
+            handleChange(val);
+          }}
           placeholder="Search..."
           fullWidth
           className={classes.input}

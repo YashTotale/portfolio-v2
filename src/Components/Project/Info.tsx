@@ -6,12 +6,11 @@ import {
   Options,
 } from "@contentful/rich-text-react-renderer";
 import { Document } from "@contentful/rich-text-types";
-import { ProjectFields } from "../../Utils/types";
-import { ProjectProps } from "../../Pages/Projects/Project";
+import MatchHighlight from "../MatchHighlight";
+import { useTags } from "../../Context/DataContext";
 
 // Material UI Imports
 import { Link, makeStyles, Typography } from "@material-ui/core";
-import MatchHighlight from "../MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   info: {
@@ -22,97 +21,75 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type InfoProps = Pick<ProjectFields, "description" | "tags"> & {
-  matches?: ProjectProps["matches"];
-};
+interface InfoProps {
+  richText: Document;
+  toMatch?: string;
+}
 
-const Info: FC<InfoProps> = ({ description, matches, tags }) => {
+const Info: FC<InfoProps> = ({ richText, toMatch }) => {
   const classes = useStyles();
 
   const options: Options = {
-    renderText: (text) => (
-      <TextRenderer matches={matches} tags={tags}>
-        {text}
-      </TextRenderer>
-    ),
+    renderText: (text) => <TextRenderer toMatch={toMatch}>{text}</TextRenderer>,
   };
 
   return (
     <div className={classes.info}>
-      {documentToReactComponents(description as Document, options)}
+      {documentToReactComponents(richText, options)}
     </div>
   );
 };
 
 interface TextRendererProps {
-  tags: ProjectFields["tags"];
   children: string;
-  matches?: ProjectProps["matches"];
+  toMatch?: string;
 }
 
-const TextRenderer: FC<TextRendererProps> = ({ tags, matches, children }) => {
-  const descriptionMatch = matches?.find((m) => m.key === "description");
-  const indexOffset = descriptionMatch?.value?.indexOf(children) ?? -1;
+const TextRenderer: FC<TextRendererProps> = ({ children, toMatch = "" }) => {
+  const tags = useTags();
 
   const parsed: (JSX.Element | string)[] = [];
 
-  for (let i = 0; i < children.length; i++) {
-    const matchedTags = tags.filter(
-      (tag) =>
-        tag.fields.title === children.substring(i, i + tag.fields.title.length)
-    );
-    const tag = matchedTags.length
-      ? matchedTags.sort(
-          (a, b) => b.fields.title.length - a.fields.title.length
-        )[0]
-      : undefined;
+  if (tags === null) parsed.push(children);
+  else {
+    const tagIdsArr = Object.keys(tags);
+    const tagFieldsArr = Object.values(tags);
 
-    let lastElement = parsed[parsed.length - 1];
-
-    if (tag === undefined) {
-      const char = children.substring(i, i + 1);
-
-      if (typeof lastElement === "string") {
-        parsed[parsed.length - 1] = parsed[parsed.length - 1] + char;
-      } else {
-        parsed.push(char);
-      }
-      lastElement = parsed[parsed.length - 1];
-
-      if (indexOffset !== -1 && i === children.length - 1) {
-        parsed[parsed.length - 1] = (
-          <MatchHighlight
-            keyToMatch="description"
-            indexOffset={indexOffset + i + 1 - (lastElement as string).length}
-            matches={matches}
-          >
-            {lastElement as string}
-          </MatchHighlight>
-        );
-      }
-
-      continue;
-    }
-
-    if (indexOffset !== -1 && parsed.length > 0) {
-      parsed[parsed.length - 1] = (
-        <MatchHighlight
-          keyToMatch="description"
-          indexOffset={indexOffset + i - (lastElement as string).length}
-          matches={matches}
-        >
-          {lastElement as string}
-        </MatchHighlight>
+    for (let i = 0; i < children.length; i++) {
+      const matchedTags = tagFieldsArr.filter(
+        (tag) => tag.title === children.substring(i, i + tag.title.length)
       );
+      const tag = matchedTags.length
+        ? matchedTags.sort((a, b) => b.title.length - a.title.length)[0]
+        : undefined;
+
+      if (tag === undefined) {
+        const char = children.substring(i, i + 1);
+
+        const last = parsed[parsed.length - 1];
+
+        if (typeof last === "string") {
+          parsed[parsed.length - 1] = last + char;
+        } else {
+          parsed.push(char);
+        }
+
+        continue;
+      }
+
+      const id =
+        tagIdsArr[
+          tagFieldsArr.findIndex((fields) => fields.title === tag.title)
+        ];
+
+      parsed.push(
+        <Link component={RouterLink} to={`/tags/${id}`} color="primary">
+          <MatchHighlight toMatch={toMatch}>{tag.title}</MatchHighlight>
+        </Link>
+      );
+
+      i += tag.title.length - 1;
     }
-
-    parsed.push(
-      <Link component={RouterLink} to={`/tags/${tag.sys.id}`} color="primary">
-        {tag.fields.title}
-      </Link>
-    );
-
-    i += tag.fields.title.length - 1;
   }
 
   return (
@@ -120,7 +97,7 @@ const TextRenderer: FC<TextRendererProps> = ({ tags, matches, children }) => {
       {parsed.map((el, i) =>
         typeof el === "string" ? (
           <Typography component="span" key={i} variant="body2">
-            {el}
+            <MatchHighlight toMatch={toMatch}>{el}</MatchHighlight>
           </Typography>
         ) : (
           <Fragment key={i}>{el}</Fragment>

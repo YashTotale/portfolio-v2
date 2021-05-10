@@ -49,3 +49,22 @@ export {
 } from "./popup.slice";
 
 export type { PopupState } from "./popup.slice";
+
+/**
+ * Searcg Slice
+ */
+
+export {
+  // -> Slice
+  default as searchSlice,
+  // -> Selectors
+  getProjectsSearch,
+  // -> Actions
+  setProjectsSearch,
+  // -> Reducer
+  searchReducer,
+  // -> State
+  initialSearchState,
+} from "./search.slice";
+
+export type { SearchState } from "./search.slice";

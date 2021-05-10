@@ -1,12 +1,17 @@
 //React Imports
 import React, { FC } from "react";
+import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "./FloatingIcons";
 import Tag from "./Tag";
 import Title from "./Title";
-import { Matches } from "../Filters";
 import Info from "../../../Components/Project/Info";
+import MatchHighlight from "../../../Components/MatchHighlight";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ProjectFields } from "../../../Utils/types";
+
+// Redux Imports
+import { useSelector } from "react-redux";
+import { getProjectsSearch } from "../../../Redux";
 
 //Material UI Imports
 import {
@@ -18,7 +23,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import MatchHighlight from "../../../Components/MatchHighlight";
 
 export const PROJECT_WIDTHS = {
   xl: 550,
@@ -115,22 +119,13 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 export type ProjectProps = ProjectFields & {
   id: string;
   pushLeft?: boolean;
-  matches: Matches[keyof Matches] | undefined;
 };
 
 const Project: FC<ProjectProps> = (props) => {
-  const {
-    id,
-    title,
-    image,
-    tags,
-    start,
-    end,
-    matches,
-    pushLeft = false,
-  } = props;
+  const { id, title, image, tags, start, end, pushLeft = false } = props;
   const classes = useStyles({ pushLeft });
   const theme = useTheme();
+  const search = useSelector(getProjectsSearch);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
@@ -142,9 +137,9 @@ const Project: FC<ProjectProps> = (props) => {
           alt={getImageTitle(image)}
           className={classes.projectImage}
         />
-        <Title title={title} matches={matches} id={id} />
+        <Title title={title} id={id} />
       </Paper>
-      <Info {...props} />
+      <Info richText={props.description as Document} toMatch={search} />
       <Divider flexItem className={classes.projectDivider} />
       <div className={classes.projectTags}>
         {tags.map((tag) => (
@@ -156,13 +151,8 @@ const Project: FC<ProjectProps> = (props) => {
         className={classes.projectTimeline}
         variant={isSizeXS ? "body2" : "body1"}
       >
-        <MatchHighlight keyToMatch="start" matches={matches}>
-          {start}
-        </MatchHighlight>{" "}
-        -{" "}
-        <MatchHighlight keyToMatch="end" matches={matches}>
-          {end}
-        </MatchHighlight>
+        <MatchHighlight toMatch={search}>{start}</MatchHighlight> -{" "}
+        <MatchHighlight toMatch={search}>{end}</MatchHighlight>
       </Typography>
     </Paper>
   );

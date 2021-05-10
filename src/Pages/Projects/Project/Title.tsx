@@ -1,8 +1,12 @@
 //React Imports
 import React, { FC } from "react";
 import { Link as RouterLink } from "react-router-dom";
-import { PROJECT_WIDTHS, ProjectProps } from "./index";
+import { PROJECT_WIDTHS } from "./index";
 import MatchHighlight from "../../../Components/MatchHighlight";
+
+// Redux Imports
+import { useSelector } from "react-redux";
+import { getProjectsSearch } from "../../../Redux";
 
 // Material UI Imports
 import {
@@ -46,13 +50,13 @@ const useStyles = makeStyles((theme) => ({
 interface TitleProps {
   id: string;
   title: string;
-  matches: ProjectProps["matches"];
 }
 
 const Title: FC<TitleProps> = (props) => {
-  const { id, title, matches } = props;
+  const { id, title } = props;
   const classes = useStyles();
   const theme = useTheme();
+  const search = useSelector(getProjectsSearch);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
@@ -62,9 +66,7 @@ const Title: FC<TitleProps> = (props) => {
         color="primary"
         className={classes.projectTitle}
       >
-        <MatchHighlight matches={matches} keyToMatch="title">
-          {title}
-        </MatchHighlight>
+        <MatchHighlight toMatch={search}>{title}</MatchHighlight>
       </Typography>
     </Link>
   );

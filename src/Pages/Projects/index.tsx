@@ -1,9 +1,16 @@
 //React Imports
-import React, { FC, useEffect, useState } from "react";
-import Filters, { Matches } from "./Filters";
+import React, { FC, useCallback, useMemo } from "react";
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
+import { Document } from "@contentful/rich-text-types";
+import Filters from "./Filters";
 import Project from "./Project";
 import { useProjects } from "../../Context/DataContext";
 import { chunk } from "../../Utils/funcs";
+import { ProjectFields, Projects } from "../../Utils/types";
+
+// Redux Imports
+import { useSelector } from "react-redux";
+import { getProjectsSearch } from "../../Redux";
 
 //Material UI Imports
 import {
@@ -13,7 +20,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import { Projects } from "../../Utils/types";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,17 +46,8 @@ const useStyles = makeStyles((theme) => ({
 
 const ProjectsPage: FC = () => {
   const projects = useProjects();
-  const [filteredProjects, setFilteredProjects] = useState(projects);
-  const [matches, setMatches] = useState<Matches>({});
 
-  useEffect(() => {
-    if (filteredProjects === null && projects !== null) {
-      setFilteredProjects(projects);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [projects]);
-
-  if (projects === null || filteredProjects === null)
+  if (projects === null)
     return (
       <Container>
         <CircularProgress />
@@ -59,14 +56,8 @@ const ProjectsPage: FC = () => {
 
   return (
     <Container>
-      <Filters
-        projects={projects}
-        setProjects={(filtered) =>
-          setFilteredProjects(filtered === null ? projects : filtered)
-        }
-        setMatches={setMatches}
-      />
-      <Contents projects={filteredProjects} matches={matches} />
+      <Filters />
+      <Contents projects={projects} />
     </Container>
   );
 };
@@ -79,51 +70,79 @@ const Container: FC = ({ children }) => {
 
 interface ContentsProps {
   projects: Projects;
-  matches: Matches;
 }
 
-const Contents: FC<ContentsProps> = ({ projects, matches }) => {
+type ProjectIndices = Record<Exclude<keyof ProjectFields, "image">, boolean>;
+
+const Contents: FC<ContentsProps> = ({ projects }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const search = useSelector(getProjectsSearch);
+  const normalizedSearch = search.toLowerCase();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  if (!Object.keys(projects).length)
+  const getProjectMatch = useCallback(
+    (p: ProjectFields) => {
+      const indices: ProjectIndices = {
+        title: p.title.toLowerCase().includes(normalizedSearch),
+        description: documentToPlainTextString(p.description as Document)
+          .toLowerCase()
+          .includes(normalizedSearch),
+        tags: p.tags.some((tag) =>
+          tag.fields.title.toLowerCase().includes(normalizedSearch)
+        ),
+        start: p.start.toLowerCase().includes(normalizedSearch),
+        end: p.end.toLowerCase().includes(normalizedSearch),
+        link: p.link?.toLowerCase().includes(normalizedSearch) ?? false,
+        github: p.github?.toLowerCase().includes(normalizedSearch) ?? false,
+      };
+
+      return indices;
+    },
+    [normalizedSearch]
+  );
+
+  const filteredProjects = useMemo(() => {
+    if (!normalizedSearch.length) return projects;
+
+    return Object.entries(projects).reduce((obj, [id, fields]) => {
+      const matches = getProjectMatch(fields);
+
+      if (Object.values(matches).some((bool) => bool))
+        return { ...obj, [id]: fields };
+
+      return obj;
+    }, {} as Projects);
+  }, [projects, normalizedSearch, getProjectMatch]);
+
+  if (!Object.keys(filteredProjects ?? projects).length)
     return (
       <div className={classes.projects}>
         <Typography variant="h6">No projects found</Typography>
       </div>
     );
 
-  if (isSmall)
-    return (
-      <div className={classes.projects}>
-        {Object.entries(projects).map(([id, fields]) => (
-          <Project
-            key={id}
-            id={id}
-            matches={matches[id]}
-            pushLeft={false}
-            {...fields}
-          />
-        ))}
-      </div>
-    );
+  const projectsToRender = Object.entries(
+    filteredProjects
+  ).map(([id, fields], i, arr) => (
+    <Project
+      key={id}
+      id={id}
+      pushLeft={!isSmall && arr.length % 2 !== 0 && i === arr.length - 1}
+      {...fields}
+    />
+  ));
 
-  const chunks = chunk(Object.keys(projects), 2);
+  if (isSmall)
+    return <div className={classes.projects}>{projectsToRender}</div>;
+
+  const chunks = chunk(projectsToRender, 2);
 
   return (
     <div className={classes.projects}>
-      {chunks.map((ids, i) => (
+      {chunks.map((projects, i) => (
         <div key={i} className={classes.projectChunk}>
-          {ids.map((id) => (
-            <Project
-              key={id}
-              id={id}
-              matches={matches[id]}
-              pushLeft={ids.length === 1}
-              {...projects[id]}
-            />
-          ))}
+          {projects}
         </div>
       ))}
     </div>

@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC } from "react";
+import { Document } from "@contentful/rich-text-types";
 import { ProjectFields } from "../../Utils/types";
 import Info from "../../Components/Project/Info";
 
@@ -60,7 +61,7 @@ const Display: FC<ProjectFields> = (props) => {
         className={classes.projectImage}
       />
       <div className={classes.projectDescription}>
-        <Info {...props} />
+        <Info richText={props.description as Document} />
       </div>
     </div>
   );

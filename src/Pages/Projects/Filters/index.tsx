@@ -1,12 +1,7 @@
 // React Imports
-import React, { FC, useMemo } from "react";
-import Fuse from "fuse.js";
-import { Document } from "@contentful/rich-text-types";
-import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
-import debounce from "lodash.debounce";
+import React, { FC } from "react";
 import SearchBar from "./SearchBar";
 import { PROJECT_WIDTHS } from "../Project/index";
-import { Projects } from "../../../Utils/types";
 
 // Material UI Imports
 import { Divider, makeStyles } from "@material-ui/core";
@@ -50,88 +45,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export type Matches = Record<string, readonly Fuse.FuseResultMatch[]>;
-
-interface FiltersProps {
-  projects: Projects;
-  setProjects: (p: Projects | null) => void;
-  setMatches: (m: Matches) => void;
-}
-
-const Filters: FC<FiltersProps> = ({ projects, setProjects, setMatches }) => {
+const Filters: FC = () => {
   const classes = useStyles();
-  const list = useMemo(
-    () =>
-      Object.entries(projects).map(([key, value]) => ({
-        ...value,
-        id: key,
-        description: documentToPlainTextString(value.description as Document),
-        link: value.link ?? "",
-        github: value.github ?? "",
-        tags: value.tags.map((t) => t.fields.title),
-      })),
-    [projects]
-  );
-
-  const fuse = new Fuse(list, {
-    keys: [
-      { name: "title", weight: 3 },
-      { name: "description", weight: 2 },
-      { name: "tags", weight: 2 },
-      "start",
-      "end",
-      "link",
-      "github",
-    ],
-    threshold: 0.2,
-    ignoreLocation: true,
-    findAllMatches: true,
-    includeMatches: true,
-  });
-
-  const onSearchChange = debounce(
-    (search: string) => {
-      if (!search) {
-        setProjects(null);
-        setMatches({});
-      } else {
-        const filtered = fuse.search(search);
-
-        const matches: Matches = {};
-
-        const projectsArr = filtered.reduce((obj, p) => {
-          const id = p.item.id;
-          if (p.matches) {
-            const filteredMatches =
-              search.length < 3
-                ? p.matches
-                : p.matches.map((m) => {
-                    const indices = m.indices.filter((i) => {
-                      const diff = i[1] - i[0];
-                      if (diff > 3) return true;
-                      if (search.length - diff < 2) return true;
-                      return false;
-                    });
-                    return { ...m, indices };
-                  });
-            matches[id] = filteredMatches;
-          }
-          return { ...obj, [id]: projects[id] };
-        }, {} as Projects);
-
-        setProjects(projectsArr);
-        setMatches(matches);
-      }
-    },
-    500,
-    { maxWait: 500 }
-  );
 
   return (
     <>
       <div className={classes.container}>
         <div className={classes.projectFilters}>
-          <SearchBar onChange={onSearchChange} />
+          <SearchBar />
         </div>
         <Divider flexItem className={classes.divider} />
       </div>
