@@ -1,8 +1,8 @@
 //React Imports
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import { getImageTitle, getImageUrl } from "../../../API/helpers";
-import { TagFields } from "../../../Utils/types";
+import { getImageTitle, getImageUrl } from "../../API/helpers";
+import { TagFields } from "../../Utils/types";
 
 //Material UI Imports
 import {
@@ -22,11 +22,11 @@ const useTagsStyles = makeStyles((theme) => ({
   },
 }));
 
-type TagProps = TagFields & {
+type TagChipProps = TagFields & {
   id: string;
 };
 
-const Tag: FC<TagProps> = ({ title, id, lightIcon, darkIcon }) => {
+const TagChip: FC<TagChipProps> = ({ title, id, lightIcon, darkIcon }) => {
   const theme = useTheme();
   const classes = useTagsStyles();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -53,4 +53,4 @@ const Tag: FC<TagProps> = ({ title, id, lightIcon, darkIcon }) => {
   );
 };
 
-export default Tag;
+export default TagChip;

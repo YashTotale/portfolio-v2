@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import { ProjectFields } from "../../Utils/types";
-import Info from "../../Components/Project/Info";
+import Info from "../../Components/Info";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";

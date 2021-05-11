@@ -2,9 +2,9 @@
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "./FloatingIcons";
-import Tag from "./Tag";
+import TagChip from "../../../Components/Tag/Chip";
 import Title from "./Title";
-import Info from "../../../Components/Project/Info";
+import Info from "../../../Components/Info";
 import MatchHighlight from "../../../Components/MatchHighlight";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ProjectFields } from "../../../Utils/types";
@@ -143,7 +143,7 @@ const Project: FC<ProjectProps> = (props) => {
       <Divider flexItem className={classes.projectDivider} />
       <div className={classes.projectTags}>
         {tags.map((tag) => (
-          <Tag key={tag.sys.id} id={tag.sys.id} {...tag.fields} />
+          <TagChip key={tag.sys.id} id={tag.sys.id} {...tag.fields} />
         ))}
       </div>
       <Divider flexItem className={classes.projectDivider} />

@@ -6,8 +6,8 @@ import {
   Options,
 } from "@contentful/rich-text-react-renderer";
 import { Document } from "@contentful/rich-text-types";
-import MatchHighlight from "../MatchHighlight";
-import { useTags } from "../../Context/DataContext";
+import MatchHighlight from "./MatchHighlight";
+import { useTags } from "../Context/DataContext";
 
 // Material UI Imports
 import { Link, makeStyles, Typography } from "@material-ui/core";

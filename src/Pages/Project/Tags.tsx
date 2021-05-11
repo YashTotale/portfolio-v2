@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
-import Tag from "./Tag";
-import { ProjectFields } from "../../../Utils/types";
+import TagPreview from "../../Components/Tag/Preview";
+import { ProjectFields } from "../../Utils/types";
 
 // Material UI Imports
 import {
@@ -48,7 +48,7 @@ const Tags: FC<ProjectFields> = (props) => {
       </Typography>
       <div className={classes.tagsContainer}>
         {props.tags.map((tag, i) => (
-          <Tag key={i} {...tag.fields} id={tag.sys.id} />
+          <TagPreview key={i} {...tag.fields} id={tag.sys.id} />
         ))}
       </div>
     </div>

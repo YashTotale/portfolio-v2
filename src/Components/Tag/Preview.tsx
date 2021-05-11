@@ -1,8 +1,8 @@
 // React Imports
 import React, { FC, useState } from "react";
 import { Link } from "react-router-dom";
-import { getImageTitle, getImageUrl } from "../../../API/helpers";
-import { TagFields } from "../../../Utils/types";
+import { getImageTitle, getImageUrl } from "../../API/helpers";
+import { TagFields } from "../../Utils/types";
 
 // Material UI Imports
 import {
@@ -102,11 +102,11 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-type TagProps = TagFields & {
+type TagPreviewProps = TagFields & {
   id: string;
 };
 
-const Tag: FC<TagProps> = (props) => {
+const TagPreview: FC<TagPreviewProps> = (props) => {
   const [hovering, setHovering] = useState(false);
   const theme = useTheme();
   const classes = useStyles({ hovering });
@@ -141,4 +141,4 @@ const Tag: FC<TagProps> = (props) => {
   );
 };
 
-export default Tag;
+export default TagPreview;
