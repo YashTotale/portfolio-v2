@@ -24,7 +24,7 @@ export interface ProjectFields {
 export type Projects = Record<string, ProjectFields>;
 
 export interface ExperienceFields {
-  name: EntryFields.Text;
+  title: EntryFields.Text;
   role: EntryFields.Text;
   type: "Organization" | "Company" | "Club";
   description: EntryFields.RichText;
@@ -36,3 +36,13 @@ export interface ExperienceFields {
 }
 
 export type Experience = Record<string, ExperienceFields>;
+
+export interface ArticleFields {
+  title: EntryFields.Text;
+  description: EntryFields.RichText;
+  link: EntryFields.Text;
+  published: EntryFields.Date;
+  image: Asset;
+}
+
+export type Articles = Record<string, ArticleFields>;

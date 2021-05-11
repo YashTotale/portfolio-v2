@@ -3,7 +3,12 @@ import React, { FC } from "react";
 import Category from "./Category";
 import Item from "./Item";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
-import { useExperience, useProjects, useTags } from "../../Context/DataContext";
+import {
+  useArticles,
+  useExperience,
+  useProjects,
+  useTags,
+} from "../../Context/DataContext";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
@@ -18,6 +23,7 @@ const Contents: FC = () => {
   const classes = useStyles();
   const experience = useExperience();
   const projects = useProjects();
+  const articles = useArticles();
   const tags = useTags();
 
   return (
@@ -30,7 +36,7 @@ const Contents: FC = () => {
           {experience === null
             ? null
             : Object.entries(experience).map(([id, fields]) => (
-                <Item key={id} label={fields.name} to={`/experience/${id}`} />
+                <Item key={id} label={fields.title} to={`/experience/${id}`} />
               ))}
         </Category>
         <Category label="Projects" to="/projects">
@@ -38,6 +44,13 @@ const Contents: FC = () => {
             ? null
             : Object.entries(projects).map(([id, fields]) => (
                 <Item key={id} label={fields.title} to={`/projects/${id}`} />
+              ))}
+        </Category>
+        <Category label="Articles" to="/articles">
+          {articles === null
+            ? null
+            : Object.entries(articles).map(([id, fields]) => (
+                <Item key={id} label={fields.title} to={`/articles/${id}`} />
               ))}
         </Category>
         <Category label="Tags" to="/tags">

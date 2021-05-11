@@ -23,7 +23,7 @@ const SingleExperience: FC<SingleExperienceProps> = (props) => {
 
   return (
     <Paper className={classes.container}>
-      <Typography variant="h5">{props.name}</Typography>
+      <Typography variant="h5">{props.title}</Typography>
     </Paper>
   );
 };
