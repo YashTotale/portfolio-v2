@@ -9,9 +9,7 @@ import React, {
 import { Projects, Tags, Experience } from "../Utils/types";
 
 // API Imports
-import { getProjects } from "../API/projects";
-import { getTags } from "../API/tags";
-import { getExperience } from "../API/experience";
+import query from "../API/query";
 
 interface Data {
   projects: Projects | null;
@@ -34,7 +32,7 @@ export const DataProvider: FC = ({ children }) => {
     let isMounted = true;
 
     (async () => {
-      const projects = await getProjects();
+      const projects = await query<Projects>("project");
 
       if (isMounted) {
         setData((d) => ({ ...d, projects }));
@@ -42,7 +40,7 @@ export const DataProvider: FC = ({ children }) => {
     })();
 
     (async () => {
-      const tags = await getTags();
+      const tags = await query<Tags>("tag");
 
       if (isMounted) {
         setData((d) => ({ ...d, tags }));
@@ -50,7 +48,7 @@ export const DataProvider: FC = ({ children }) => {
     })();
 
     (async () => {
-      const experience = await getExperience();
+      const experience = await query<Experience>("experience");
 
       if (isMounted) {
         setData((d) => ({ ...d, experience }));
