@@ -11,3 +11,4 @@ build/
 
 # misc
 .husky/_
+.env
