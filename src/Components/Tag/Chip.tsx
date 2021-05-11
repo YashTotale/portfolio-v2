@@ -22,11 +22,7 @@ const useTagsStyles = makeStyles((theme) => ({
   },
 }));
 
-type TagChipProps = TagFields & {
-  id: string;
-};
-
-const TagChip: FC<TagChipProps> = ({ title, id, lightIcon, darkIcon }) => {
+const TagChip: FC<TagFields> = ({ title, id, lightIcon, darkIcon }) => {
   const theme = useTheme();
   const classes = useTagsStyles();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));

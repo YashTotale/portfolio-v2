@@ -29,9 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type FloatingIconsProps = Pick<ProjectFields, "link" | "github">;
-
-const FloatingIcons: FC<FloatingIconsProps> = ({ link, github }) => {
+const FloatingIcons: FC<ProjectFields> = ({ link, github }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));

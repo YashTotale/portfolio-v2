@@ -14,11 +14,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type SingleExperienceProps = ExperienceFields & {
-  id: string;
-};
-
-const SingleExperience: FC<SingleExperienceProps> = (props) => {
+const SingleExperience: FC<ExperienceFields> = (props) => {
   const classes = useStyles();
 
   return (

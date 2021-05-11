@@ -52,11 +52,8 @@ const TextRenderer: FC<TextRendererProps> = ({ children, toMatch = "" }) => {
 
   if (tags === null) parsed.push(children);
   else {
-    const tagIdsArr = Object.keys(tags);
-    const tagFieldsArr = Object.values(tags);
-
     for (let i = 0; i < children.length; i++) {
-      const matchedTags = tagFieldsArr.filter(
+      const matchedTags = tags.filter(
         (tag) => tag.title === children.substring(i, i + tag.title.length)
       );
       const tag = matchedTags.length
@@ -77,13 +74,8 @@ const TextRenderer: FC<TextRendererProps> = ({ children, toMatch = "" }) => {
         continue;
       }
 
-      const id =
-        tagIdsArr[
-          tagFieldsArr.findIndex((fields) => fields.title === tag.title)
-        ];
-
       parsed.push(
-        <Link component={RouterLink} to={`/tags/${id}`} color="primary">
+        <Link component={RouterLink} to={`/tags/${tag.id}`} color="primary">
           <MatchHighlight toMatch={toMatch}>{tag.title}</MatchHighlight>
         </Link>
       );

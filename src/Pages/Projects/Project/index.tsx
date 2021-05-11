@@ -117,7 +117,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 }));
 
 export type ProjectProps = ProjectFields & {
-  id: string;
   pushLeft?: boolean;
 };
 
@@ -143,7 +142,7 @@ const Project: FC<ProjectProps> = (props) => {
       <Divider flexItem className={classes.projectDivider} />
       <div className={classes.projectTags}>
         {tags.map((tag) => (
-          <TagChip key={tag.sys.id} id={tag.sys.id} {...tag.fields} />
+          <TagChip key={tag.sys.id} {...tag.fields} id={tag.sys.id} />
         ))}
       </div>
       <Divider flexItem className={classes.projectDivider} />

@@ -30,8 +30,8 @@ const Tags: FC = () => {
 
   return (
     <Container>
-      {Object.entries(tags).map(([id, fields]) => (
-        <Tag key={id} {...fields} id={id} />
+      {tags.map((tag) => (
+        <Tag key={tag.id} {...tag} />
       ))}
     </Container>
   );

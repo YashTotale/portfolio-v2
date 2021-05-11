@@ -24,9 +24,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type ProjectsProps = TagFields & {
-  id: string;
-};
+type ProjectsProps = TagFields;
 
 const Projects: FC<ProjectsProps> = (props) => {
   const classes = useStyles();
@@ -35,17 +33,13 @@ const Projects: FC<ProjectsProps> = (props) => {
   const relatedProjects = useMemo(() => {
     if (projects === null) return <CircularProgress />;
 
-    const projectElements = Object.entries(projects).reduce(
-      (arr, [id, fields]) => {
-        const isRelated = fields.tags.find((tag) => tag.sys.id === props.id);
+    const projectElements = projects.reduce((arr, project) => {
+      const isRelated = project.tags.find((tag) => tag.sys.id === props.id);
 
-        if (isRelated)
-          return [...arr, <Project key={id} {...fields} id={id} />];
+      if (isRelated) return [...arr, <Project key={project.id} {...project} />];
 
-        return arr;
-      },
-      [] as JSX.Element[]
-    );
+      return arr;
+    }, [] as JSX.Element[]);
 
     if (!projectElements.length)
       return <Typography>No projects found with this tag</Typography>;
@@ -107,11 +101,7 @@ const useProjectStyles = makeStyles((theme) => ({
   },
 }));
 
-type ProjectProps = ProjectFields & {
-  id: string;
-};
-
-const Project: FC<ProjectProps> = (props) => {
+const Project: FC<ProjectFields> = (props) => {
   const classes = useProjectStyles();
 
   return (

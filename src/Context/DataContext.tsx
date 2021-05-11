@@ -6,16 +6,21 @@ import React, {
   useState,
   useEffect,
 } from "react";
-import { Projects, Tags, Experience, Articles } from "../Utils/types";
+import {
+  ProjectFields,
+  TagFields,
+  ExperienceFields,
+  ArticleFields,
+} from "../Utils/types";
 
 // API Imports
 import query from "../API/query";
 
 interface Data {
-  projects: Projects | null;
-  tags: Tags | null;
-  experience: Experience | null;
-  articles: Articles | null;
+  projects: ProjectFields[] | null;
+  tags: TagFields[] | null;
+  experience: ExperienceFields[] | null;
+  articles: ArticleFields[] | null;
 }
 
 const defaultValue: Data = {
@@ -44,10 +49,10 @@ export const DataProvider: FC = ({ children }) => {
       }
     };
 
-    fetchContent<Projects>("project", "projects");
-    fetchContent<Tags>("tag", "tags");
-    fetchContent<Experience>("experience", "experience");
-    fetchContent<Articles>("article", "articles");
+    fetchContent<ProjectFields>("project", "projects");
+    fetchContent<TagFields>("tag", "tags");
+    fetchContent<ExperienceFields>("experience", "experience");
+    fetchContent<ArticleFields>("article", "articles");
 
     return () => {
       isMounted = false;

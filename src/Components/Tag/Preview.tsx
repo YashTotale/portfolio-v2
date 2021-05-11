@@ -102,11 +102,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-type TagPreviewProps = TagFields & {
-  id: string;
-};
-
-const TagPreview: FC<TagPreviewProps> = (props) => {
+const TagPreview: FC<TagFields> = (props) => {
   const [hovering, setHovering] = useState(false);
   const theme = useTheme();
   const classes = useStyles({ hovering });

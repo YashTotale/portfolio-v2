@@ -28,8 +28,8 @@ const Experience: FC = () => {
 
   return (
     <Container>
-      {Object.entries(experience).map(([id, fields]) => (
-        <SingleExperience key={id} {...fields} id={id} />
+      {experience.map((fields) => (
+        <SingleExperience key={fields.id} {...fields} />
       ))}
     </Container>
   );

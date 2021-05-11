@@ -81,7 +81,7 @@ const Project: FC = () => {
       </Container>
     );
 
-  const project = projects[id];
+  const project = projects.find((p) => p.id === id);
 
   if (!project)
     return (

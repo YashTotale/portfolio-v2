@@ -2,15 +2,15 @@
 import { Asset, Entry, EntryFields } from "contentful";
 
 export interface TagFields {
+  id: string;
   title: EntryFields.Text;
   link?: EntryFields.Text;
   darkIcon: Asset;
   lightIcon: Asset;
 }
 
-export type Tags = Record<string, TagFields>;
-
 export interface ProjectFields {
+  id: string;
   title: EntryFields.Text;
   description: EntryFields.RichText;
   image: Asset;
@@ -21,9 +21,8 @@ export interface ProjectFields {
   tags: Entry<TagFields>[];
 }
 
-export type Projects = Record<string, ProjectFields>;
-
 export interface ExperienceFields {
+  id: string;
   title: EntryFields.Text;
   role: EntryFields.Text;
   type: "Organization" | "Company" | "Club";
@@ -35,14 +34,11 @@ export interface ExperienceFields {
   github?: EntryFields.Text;
 }
 
-export type Experience = Record<string, ExperienceFields>;
-
 export interface ArticleFields {
+  id: string;
   title: EntryFields.Text;
   description: EntryFields.RichText;
   link: EntryFields.Text;
   published: EntryFields.Date;
   image: Asset;
 }
-
-export type Articles = Record<string, ArticleFields>;

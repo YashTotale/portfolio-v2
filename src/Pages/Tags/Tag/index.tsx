@@ -20,11 +20,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type TagProps = TagFields & {
-  id: string;
-};
-
-const Tag: FC<TagProps> = (props) => {
+const Tag: FC<TagFields> = (props) => {
   const classes = useStyles();
 
   return (

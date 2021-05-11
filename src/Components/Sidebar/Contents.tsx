@@ -4,6 +4,12 @@ import Category from "./Category";
 import Item from "./Item";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
 import {
+  ArticleFields,
+  ExperienceFields,
+  ProjectFields,
+  TagFields,
+} from "../../Utils/types";
+import {
   useArticles,
   useExperience,
   useProjects,
@@ -19,6 +25,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface CategoryInfo {
+  label: string;
+  to: string;
+  objects:
+    | (ExperienceFields | ProjectFields | ArticleFields | TagFields)[]
+    | null;
+}
+
 const Contents: FC = () => {
   const classes = useStyles();
   const experience = useExperience();
@@ -26,40 +40,36 @@ const Contents: FC = () => {
   const articles = useArticles();
   const tags = useTags();
 
+  const categories: CategoryInfo[] = [
+    { label: "Experience", to: "experience", objects: experience },
+    { label: "Projects", to: "projects", objects: projects },
+    { label: "Articles", to: "articles", objects: articles },
+    { label: "Tags", to: "tags", objects: tags },
+  ];
+
   return (
     <>
       <Toolbar />
       <Divider />
       <List disablePadding className={classes.list}>
         <Category label="Home" to="/" withChildren={false} />
-        <Category label="Experience" to="/experience">
-          {experience === null
-            ? null
-            : Object.entries(experience).map(([id, fields]) => (
-                <Item key={id} label={fields.title} to={`/experience/${id}`} />
-              ))}
-        </Category>
-        <Category label="Projects" to="/projects">
-          {projects === null
-            ? null
-            : Object.entries(projects).map(([id, fields]) => (
-                <Item key={id} label={fields.title} to={`/projects/${id}`} />
-              ))}
-        </Category>
-        <Category label="Articles" to="/articles">
-          {articles === null
-            ? null
-            : Object.entries(articles).map(([id, fields]) => (
-                <Item key={id} label={fields.title} to={`/articles/${id}`} />
-              ))}
-        </Category>
-        <Category label="Tags" to="/tags">
-          {tags === null
-            ? null
-            : Object.entries(tags).map(([id, fields]) => (
-                <Item key={id} label={fields.title} to={`/tags/${id}`} />
-              ))}
-        </Category>
+        {categories.map((category, i) => {
+          const { label, to, objects } = category;
+
+          return (
+            <Category key={i} label={label} to={`/${to}`}>
+              {objects === null
+                ? null
+                : objects.map((fields) => (
+                    <Item
+                      key={fields.id}
+                      label={fields.title}
+                      to={`/${to}/${fields.id}`}
+                    />
+                  ))}
+            </Category>
+          );
+        })}
       </List>
     </>
   );

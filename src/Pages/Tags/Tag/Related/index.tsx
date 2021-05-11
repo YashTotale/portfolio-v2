@@ -18,11 +18,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type RelatedProps = TagFields & {
-  id: string;
-};
-
-const Related: FC<RelatedProps> = (props) => {
+const Related: FC<TagFields> = (props) => {
   const classes = useStyles();
 
   return (

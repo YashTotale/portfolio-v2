@@ -6,7 +6,7 @@ import Filters from "./Filters";
 import Project from "./Project";
 import { useProjects } from "../../Context/DataContext";
 import { chunk } from "../../Utils/funcs";
-import { ProjectFields, Projects } from "../../Utils/types";
+import { ProjectFields } from "../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -69,10 +69,13 @@ const Container: FC = ({ children }) => {
 };
 
 interface ContentsProps {
-  projects: Projects;
+  projects: ProjectFields[];
 }
 
-type ProjectIndices = Record<Exclude<keyof ProjectFields, "image">, boolean>;
+type ProjectIndices = Record<
+  Exclude<keyof ProjectFields, "id" | "image">,
+  boolean
+>;
 
 const Contents: FC<ContentsProps> = ({ projects }) => {
   const classes = useStyles();
@@ -105,31 +108,27 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
   const filteredProjects = useMemo(() => {
     if (!normalizedSearch.length) return projects;
 
-    return Object.entries(projects).reduce((obj, [id, fields]) => {
-      const matches = getProjectMatch(fields);
+    return projects.reduce((arr, project) => {
+      const matches = getProjectMatch(project);
 
-      if (Object.values(matches).some((bool) => bool))
-        return { ...obj, [id]: fields };
+      if (Object.values(matches).some((bool) => bool)) return [...arr, project];
 
-      return obj;
-    }, {} as Projects);
+      return arr;
+    }, [] as ProjectFields[]);
   }, [projects, normalizedSearch, getProjectMatch]);
 
-  if (!Object.keys(filteredProjects ?? projects).length)
+  if (!filteredProjects.length)
     return (
       <div className={classes.projects}>
         <Typography variant="h6">No projects found</Typography>
       </div>
     );
 
-  const projectsToRender = Object.entries(
-    filteredProjects
-  ).map(([id, fields], i, arr) => (
+  const projectsToRender = filteredProjects.map((project, i, arr) => (
     <Project
-      key={id}
-      id={id}
+      key={project.id}
       pushLeft={!isSmall && arr.length % 2 !== 0 && i === arr.length - 1}
-      {...fields}
+      {...project}
     />
   ));
 
