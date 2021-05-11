@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const Experience: FC = () => {
-  const classes = useStyles();
   const experience = useExperience();
 
   if (experience === null)
