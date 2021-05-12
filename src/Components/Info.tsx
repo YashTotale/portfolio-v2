@@ -5,7 +5,7 @@ import {
   documentToReactComponents,
   Options,
 } from "@contentful/rich-text-react-renderer";
-import { Document } from "@contentful/rich-text-types";
+import { BLOCKS, Document } from "@contentful/rich-text-types";
 import MatchHighlight from "./MatchHighlight";
 import { useTags } from "../Context/DataContext";
 
@@ -13,11 +13,17 @@ import { useTags } from "../Context/DataContext";
 import { Link, makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  info: {
-    flexGrow: 1,
-    width: "100%",
+  paragraph: {
     margin: theme.spacing(1, 0),
-    padding: theme.spacing(0, 2),
+    "&:empty": {
+      display: "none",
+    },
+  },
+  unorderedList: {
+    margin: theme.spacing(0),
+  },
+  text: {
+    fontWeight: "inherit",
   },
 }));
 
@@ -31,13 +37,17 @@ const Info: FC<InfoProps> = ({ richText, toMatch }) => {
 
   const options: Options = {
     renderText: (text) => <TextRenderer toMatch={toMatch}>{text}</TextRenderer>,
+    renderNode: {
+      [BLOCKS.PARAGRAPH]: (node, children) => (
+        <p className={classes.paragraph}>{children}</p>
+      ),
+      [BLOCKS.UL_LIST]: (node, children) => (
+        <ul className={classes.unorderedList}>{children}</ul>
+      ),
+    },
   };
 
-  return (
-    <div className={classes.info}>
-      {documentToReactComponents(richText, options)}
-    </div>
-  );
+  return <>{documentToReactComponents(richText, options)}</>;
 };
 
 interface TextRendererProps {
@@ -47,6 +57,7 @@ interface TextRendererProps {
 
 const TextRenderer: FC<TextRendererProps> = ({ children, toMatch = "" }) => {
   const tags = useTags();
+  const classes = useStyles();
 
   const parsed: (JSX.Element | string)[] = [];
 
@@ -88,7 +99,12 @@ const TextRenderer: FC<TextRendererProps> = ({ children, toMatch = "" }) => {
     <>
       {parsed.map((el, i) =>
         typeof el === "string" ? (
-          <Typography component="span" key={i} variant="body2">
+          <Typography
+            className={classes.text}
+            component="span"
+            key={i}
+            variant="body2"
+          >
             <MatchHighlight toMatch={toMatch}>{el}</MatchHighlight>
           </Typography>
         ) : (

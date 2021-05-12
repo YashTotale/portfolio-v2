@@ -27,6 +27,7 @@ export interface ExperienceFields {
   role: EntryFields.Text;
   type: "Organization" | "Company" | "Club";
   description: EntryFields.RichText;
+  responsibilities: EntryFields.RichText;
   image: Asset;
   start: EntryFields.Text;
   end?: EntryFields.Text;

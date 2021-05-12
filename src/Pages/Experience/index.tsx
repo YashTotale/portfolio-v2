@@ -1,10 +1,10 @@
 // React Imports
 import React, { FC } from "react";
+import SingleExperience from "./SingleExperience";
 import { useExperience } from "../../Context/DataContext";
 
 // Material UI Imports
 import { CircularProgress, makeStyles } from "@material-ui/core";
-import SingleExperience from "./SingleExperience";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "stretch",
     margin: theme.spacing(0, 2),
+    width: "100%",
   },
 }));
 

@@ -101,6 +101,11 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
       width: 125,
     },
   },
+  projectDescription: {
+    flexGrow: 1,
+    width: "100%",
+    padding: theme.spacing(2, 1),
+  },
   projectDivider: {
     height: "1px",
   },
@@ -138,7 +143,9 @@ const Project: FC<ProjectProps> = (props) => {
         />
         <Title title={title} id={id} />
       </Paper>
-      <Info richText={props.description as Document} toMatch={search} />
+      <div className={classes.projectDescription}>
+        <Info richText={props.description as Document} toMatch={search} />
+      </div>
       <Divider flexItem className={classes.projectDivider} />
       <div className={classes.projectTags}>
         {tags.map((tag) => (
