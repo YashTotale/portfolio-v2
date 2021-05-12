@@ -1,21 +1,14 @@
 //React Imports
 import React, { FC } from "react";
-import { Link as RouterLink } from "react-router-dom";
 import { PROJECT_WIDTHS } from "./index";
-import MatchHighlight from "../../../Components/MatchHighlight";
 
 // Redux Imports
 import { useSelector } from "react-redux";
 import { getProjectsSearch } from "../../../Redux";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-  Link,
-} from "@material-ui/core";
+import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import StyledLink from "../../../Components/StyledLink";
 
 const useStyles = makeStyles((theme) => ({
   projectTitle: {
@@ -60,15 +53,14 @@ const Title: FC<TitleProps> = (props) => {
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
-    <Link component={RouterLink} to={`/projects/${id}`}>
-      <Typography
-        variant={isSizeXS ? "h5" : "h4"}
-        color="primary"
-        className={classes.projectTitle}
-      >
-        <MatchHighlight toMatch={search}>{title}</MatchHighlight>
-      </Typography>
-    </Link>
+    <StyledLink
+      to={`/projects/${id}`}
+      variant={isSizeXS ? "h5" : "h4"}
+      titleClassName={classes.projectTitle}
+      toMatch={search}
+    >
+      {title}
+    </StyledLink>
   );
 };
 

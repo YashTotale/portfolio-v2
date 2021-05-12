@@ -1,16 +1,16 @@
 // React Imports
 import React, { FC, Fragment } from "react";
-import { Link as RouterLink } from "react-router-dom";
 import {
   documentToReactComponents,
   Options,
 } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, Document } from "@contentful/rich-text-types";
 import MatchHighlight from "./MatchHighlight";
+import StyledLink from "./StyledLink";
 import { useTags } from "../Context/DataContext";
 
 // Material UI Imports
-import { Link, makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paragraph: {
@@ -86,9 +86,9 @@ const TextRenderer: FC<TextRendererProps> = ({ children, toMatch = "" }) => {
       }
 
       parsed.push(
-        <Link component={RouterLink} to={`/tags/${tag.id}`} color="primary">
-          <MatchHighlight toMatch={toMatch}>{tag.title}</MatchHighlight>
-        </Link>
+        <StyledLink to={`/tags/${tag.id}`} variant="body2" toMatch={toMatch}>
+          {tag.title}
+        </StyledLink>
       );
 
       i += tag.title.length - 1;
