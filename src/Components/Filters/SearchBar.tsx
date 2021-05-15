@@ -2,11 +2,6 @@
 import React, { FC, useState } from "react";
 import { debounce } from "lodash";
 
-// Redux Imports
-import { useSelector } from "react-redux";
-import { getProjectsSearch, setProjectsSearch } from "../../../Redux";
-import { useAppDispatch } from "../../../Store";
-
 // Material UI Imports
 import { Input, makeStyles, Paper } from "@material-ui/core";
 
@@ -47,14 +42,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SearchBar: FC = () => {
+interface SearchBarProps {
+  defaultSearch: string;
+  onSearchChange: (value: string) => void;
+}
+
+const SearchBar: FC<SearchBarProps> = ({ defaultSearch, onSearchChange }) => {
   const classes = useStyles();
-  const dispatch = useAppDispatch();
-  const globalSearch = useSelector(getProjectsSearch);
-  const [localSearch, setLocalSearch] = useState(globalSearch);
+  const [localSearch, setLocalSearch] = useState(defaultSearch);
 
   const handleChange = debounce((value: string) => {
-    dispatch(setProjectsSearch(value));
+    onSearchChange(value);
   }, 500);
 
   return (

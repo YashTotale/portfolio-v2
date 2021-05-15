@@ -2,15 +2,16 @@
 import React, { FC, useCallback, useMemo } from "react";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import { Document } from "@contentful/rich-text-types";
-import Filters from "./Filters";
-import Project from "./Project";
+import Project, { PROJECT_WIDTHS } from "./Project";
+import Filters from "../../Components/Filters";
 import { useProjects } from "../../Context/DataContext";
 import { chunk } from "../../Utils/funcs";
 import { ProjectFields } from "../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getProjectsSearch } from "../../Redux";
+import { getProjectsSearch, setProjectsSearch } from "../../Redux";
+import { useAppDispatch } from "../../Store";
 
 //Material UI Imports
 import {
@@ -29,6 +30,27 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "stretch",
     margin: theme.spacing(0, 2),
   },
+  filters: {
+    [theme.breakpoints.only("xl")]: {
+      width: PROJECT_WIDTHS.xl * 2 + theme.spacing() * 4,
+    },
+
+    [theme.breakpoints.only("lg")]: {
+      width: PROJECT_WIDTHS.lg * 2 + theme.spacing() * 4,
+    },
+
+    [theme.breakpoints.only("md")]: {
+      width: PROJECT_WIDTHS.md * 2 + theme.spacing() * 4,
+    },
+
+    [theme.breakpoints.only("sm")]: {
+      width: PROJECT_WIDTHS.sm,
+    },
+
+    [theme.breakpoints.only("xs")]: {
+      width: PROJECT_WIDTHS.xs,
+    },
+  },
   projects: {
     display: "flex",
     flexDirection: "column",
@@ -45,7 +67,10 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const ProjectsPage: FC = () => {
+  const classes = useStyles();
+  const dispatch = useAppDispatch();
   const projects = useProjects();
+  const search = useSelector(getProjectsSearch);
 
   if (projects === null)
     return (
@@ -56,7 +81,11 @@ const ProjectsPage: FC = () => {
 
   return (
     <Container>
-      <Filters />
+      <Filters
+        defaultSearch={search}
+        onSearchChange={(value) => dispatch(setProjectsSearch(value))}
+        className={classes.filters}
+      />
       <Contents projects={projects} />
     </Container>
   );
