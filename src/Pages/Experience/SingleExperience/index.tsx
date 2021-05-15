@@ -2,11 +2,20 @@
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import Info from "../../../Components/Info";
+import StyledLink from "../../../Components/StyledLink";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ExperienceFields } from "../../../Utils/types";
 
 // Material UI Imports
-import { Divider, makeStyles, Paper, Typography } from "@material-ui/core";
+import {
+  Divider,
+  IconButton,
+  makeStyles,
+  Paper,
+  Tooltip,
+  Typography,
+} from "@material-ui/core";
+import { GitHub, Launch } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -17,8 +26,18 @@ const useStyles = makeStyles((theme) => ({
     width: "95%",
     margin: theme.spacing(2, 0),
   },
-  title: {
+  titleContainer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     margin: theme.spacing(1, 0),
+    width: "100%",
+    position: "relative",
+    minHeight: theme.spacing(6),
+  },
+  rightIcons: {
+    position: "absolute",
+    right: theme.spacing(1),
   },
   divider: {
     height: "1px",
@@ -72,6 +91,9 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     margin: theme.spacing(1, 0),
   },
+  role: {
+    margin: theme.spacing(1, 0),
+  },
 }));
 
 const SingleExperience: FC<ExperienceFields> = (props) => {
@@ -79,9 +101,37 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
 
   return (
     <Paper className={classes.container}>
-      <Typography variant="h4" className={classes.title}>
-        {props.title}
-      </Typography>
+      <div className={classes.titleContainer}>
+        <StyledLink to={`/experience/${props.id}`} variant="h4">
+          {props.title}
+        </StyledLink>
+        <div className={classes.rightIcons}>
+          {props.link && (
+            <Tooltip title="View Website">
+              <IconButton
+                component="a"
+                href={props.link}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Launch />
+              </IconButton>
+            </Tooltip>
+          )}
+          {props.github && (
+            <Tooltip title="View GitHub">
+              <IconButton
+                component="a"
+                href={props.github}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <GitHub />
+              </IconButton>
+            </Tooltip>
+          )}
+        </div>
+      </div>
       <Divider flexItem className={classes.divider} />
       <div className={classes.main}>
         <div className={classes.imageContainer}>
@@ -97,6 +147,12 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
           className={classes.verticalDivider}
         />
         <div className={classes.info}>
+          <Typography variant="h5" className={classes.heading}>
+            Role
+          </Typography>
+          <Typography variant="body2" className={classes.role}>
+            {props.role} ({props.start} - {props.end ?? "Present"})
+          </Typography>
           <Typography variant="h5" className={classes.heading}>
             Description
           </Typography>

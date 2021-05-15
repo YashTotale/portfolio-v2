@@ -5,32 +5,33 @@ import { LocationDescriptor } from "history";
 import MatchHighlight from "./MatchHighlight";
 
 // Material UI Imports
-import { Link, TypographyProps } from "@material-ui/core";
+import { Link, LinkProps } from "@material-ui/core";
 
 interface StyledLinkProps {
   to: LocationDescriptor;
   children: string;
-  variant: TypographyProps["variant"];
+  variant?: LinkProps["variant"];
+  align?: LinkProps["align"];
   toMatch?: string;
-  linkClassName?: string;
-  titleClassName?: string;
+  className?: string;
 }
 
 const StyledLink: FC<StyledLinkProps> = ({
   to,
   children,
   variant,
+  align,
   toMatch = "",
-  linkClassName,
-  titleClassName,
+  className,
 }) => {
   return (
     <Link
       component={RouterLink}
       to={to}
-      className={linkClassName}
+      className={className}
       color="primary"
       variant={variant}
+      align={align}
     >
       <MatchHighlight toMatch={toMatch}>{children}</MatchHighlight>
     </Link>

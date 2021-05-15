@@ -56,7 +56,7 @@ const Title: FC<TitleProps> = (props) => {
     <StyledLink
       to={`/projects/${id}`}
       variant={isSizeXS ? "h5" : "h4"}
-      titleClassName={classes.projectTitle}
+      className={classes.projectTitle}
       toMatch={search}
     >
       {title}

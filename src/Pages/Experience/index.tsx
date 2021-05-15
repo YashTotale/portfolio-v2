@@ -12,7 +12,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "stretch",
-    margin: theme.spacing(0, 2),
     width: "100%",
   },
 }));
