@@ -6,6 +6,10 @@ import StyledLink from "../../../Components/StyledLink";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ExperienceFields } from "../../../Utils/types";
 
+// Redux Imports
+import { useSelector } from "react-redux";
+import { getExperienceSearch } from "../../../Redux";
+
 // Material UI Imports
 import {
   Divider,
@@ -16,6 +20,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { GitHub, Launch } from "@material-ui/icons";
+import MatchHighlight from "../../../Components/MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -98,11 +103,16 @@ const useStyles = makeStyles((theme) => ({
 
 const SingleExperience: FC<ExperienceFields> = (props) => {
   const classes = useStyles();
+  const search = useSelector(getExperienceSearch);
 
   return (
     <Paper className={classes.container}>
       <div className={classes.titleContainer}>
-        <StyledLink to={`/experience/${props.id}`} variant="h4">
+        <StyledLink
+          to={`/experience/${props.id}`}
+          variant="h4"
+          toMatch={search}
+        >
           {props.title}
         </StyledLink>
         <div className={classes.rightIcons}>
@@ -151,16 +161,21 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
             Role
           </Typography>
           <Typography variant="body2" className={classes.role}>
-            {props.role} ({props.start} - {props.end ?? "Present"})
+            <MatchHighlight toMatch={search}>
+              {`${props.role} (${props.start} - ${props.end ?? "Present"})`}
+            </MatchHighlight>
           </Typography>
           <Typography variant="h5" className={classes.heading}>
             Description
           </Typography>
-          <Info richText={props.description as Document} />
+          <Info richText={props.description as Document} toMatch={search} />
           <Typography variant="h5" className={classes.heading}>
             Responsibilities
           </Typography>
-          <Info richText={props.responsibilities as Document} />
+          <Info
+            richText={props.responsibilities as Document}
+            toMatch={search}
+          />
         </div>
       </div>
     </Paper>

@@ -59,8 +59,10 @@ export {
   default as searchSlice,
   // -> Selectors
   getProjectsSearch,
+  getExperienceSearch,
   // -> Actions
   setProjectsSearch,
+  setExperienceSearch,
   // -> Reducer
   searchReducer,
   // -> State

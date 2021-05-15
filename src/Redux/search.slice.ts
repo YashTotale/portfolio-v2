@@ -3,10 +3,12 @@ import { RootState } from "../Store";
 
 export interface SearchState {
   projects: string;
+  experience: string;
 }
 
 export const initialSearchState: SearchState = {
   projects: "",
+  experience: "",
 };
 
 const searchSlice = createSlice({
@@ -17,15 +19,23 @@ const searchSlice = createSlice({
       ...state,
       projects: action.payload,
     }),
+    setExperienceSearch: (state, action: PayloadAction<string>) => ({
+      ...state,
+      experience: action.payload,
+    }),
   },
 });
 
 // Actions
-export const { setProjectsSearch } = searchSlice.actions;
+export const { setProjectsSearch, setExperienceSearch } = searchSlice.actions;
 
 // Selectors
 export const getProjectsSearch = (state: RootState): SearchState["projects"] =>
   state.search.projects;
+
+export const getExperienceSearch = (
+  state: RootState
+): SearchState["experience"] => state.search.experience;
 
 // Reducer
 export const searchReducer = searchSlice.reducer;

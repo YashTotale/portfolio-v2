@@ -101,11 +101,6 @@ interface ContentsProps {
   projects: ProjectFields[];
 }
 
-type ProjectIndices = Record<
-  Exclude<keyof ProjectFields, "id" | "image">,
-  boolean
->;
-
 const Contents: FC<ContentsProps> = ({ projects }) => {
   const classes = useStyles();
   const theme = useTheme();
@@ -115,21 +110,21 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
 
   const getProjectMatch = useCallback(
     (p: ProjectFields) => {
-      const indices: ProjectIndices = {
-        title: p.title.toLowerCase().includes(normalizedSearch),
-        description: documentToPlainTextString(p.description as Document)
+      const matches: boolean[] = [
+        p.title.toLowerCase().includes(normalizedSearch),
+        documentToPlainTextString(p.description as Document)
           .toLowerCase()
           .includes(normalizedSearch),
-        tags: p.tags.some((tag) =>
+        p.tags.some((tag) =>
           tag.fields.title.toLowerCase().includes(normalizedSearch)
         ),
-        start: p.start.toLowerCase().includes(normalizedSearch),
-        end: p.end.toLowerCase().includes(normalizedSearch),
-        link: p.link?.toLowerCase().includes(normalizedSearch) ?? false,
-        github: p.github?.toLowerCase().includes(normalizedSearch) ?? false,
-      };
+        p.start.toLowerCase().includes(normalizedSearch),
+        p.end.toLowerCase().includes(normalizedSearch),
+        p.link?.toLowerCase().includes(normalizedSearch) ?? false,
+        p.github?.toLowerCase().includes(normalizedSearch) ?? false,
+      ];
 
-      return indices;
+      return matches;
     },
     [normalizedSearch]
   );
@@ -140,7 +135,7 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
     return projects.reduce((arr, project) => {
       const matches = getProjectMatch(project);
 
-      if (Object.values(matches).some((bool) => bool)) return [...arr, project];
+      if (matches.some((bool) => bool)) return [...arr, project];
 
       return arr;
     }, [] as ProjectFields[]);
