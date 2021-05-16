@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import { ProjectFields } from "../../Utils/types";
-import Info from "../../Components/Info";
+import RichText from "../../Components/RichText";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
@@ -61,7 +61,7 @@ const Display: FC<ProjectFields> = (props) => {
         className={classes.projectImage}
       />
       <div className={classes.projectDescription}>
-        <Info richText={props.description as Document} />
+        <RichText richText={props.description as Document} />
       </div>
     </div>
   );

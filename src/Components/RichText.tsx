@@ -4,13 +4,13 @@ import {
   documentToReactComponents,
   Options,
 } from "@contentful/rich-text-react-renderer";
-import { BLOCKS, Document } from "@contentful/rich-text-types";
+import { BLOCKS, Document, INLINES } from "@contentful/rich-text-types";
 import MatchHighlight from "./MatchHighlight";
 import StyledLink from "./StyledLink";
 import { useTags } from "../Context/DataContext";
 
 // Material UI Imports
-import { makeStyles, Typography } from "@material-ui/core";
+import { Link, makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paragraph: {
@@ -27,12 +27,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface InfoProps {
+interface RichTextProps {
   richText: Document;
   toMatch?: string;
 }
 
-const Info: FC<InfoProps> = ({ richText, toMatch }) => {
+const RichText: FC<RichTextProps> = ({ richText, toMatch }) => {
   const classes = useStyles();
 
   const options: Options = {
@@ -44,6 +44,32 @@ const Info: FC<InfoProps> = ({ richText, toMatch }) => {
       [BLOCKS.UL_LIST]: (node, children) => (
         <ul className={classes.unorderedList}>{children}</ul>
       ),
+      [INLINES.HYPERLINK]: (node, children) => (
+        <Link href={node.data.uri} target="_blank" rel="noopener noreferrer">
+          {children}
+        </Link>
+      ),
+      [INLINES.EMBEDDED_ENTRY]: (node) => {
+        const entry = node.data.target;
+        const id = entry.sys.id;
+        const type = entry.sys.contentType.sys.id;
+
+        let to = "";
+        let label = "";
+
+        switch (type) {
+          case "project": {
+            to = `/projects/${id}`;
+            label = entry.fields.title;
+          }
+        }
+
+        return (
+          <StyledLink to={to} variant="body2" toMatch={toMatch}>
+            {label}
+          </StyledLink>
+        );
+      },
     },
   };
 
@@ -115,4 +141,4 @@ const TextRenderer: FC<TextRendererProps> = ({ children, toMatch = "" }) => {
   );
 };
 
-export default Info;
+export default RichText;

@@ -4,7 +4,7 @@ import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "./FloatingIcons";
 import TagChip from "../../../Components/Tag/Chip";
 import Title from "./Title";
-import Info from "../../../Components/Info";
+import RichText from "../../../Components/RichText";
 import MatchHighlight from "../../../Components/MatchHighlight";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ProjectFields } from "../../../Utils/types";
@@ -144,7 +144,7 @@ const Project: FC<ProjectProps> = (props) => {
         <Title title={title} id={id} />
       </Paper>
       <div className={classes.projectDescription}>
-        <Info richText={props.description as Document} toMatch={search} />
+        <RichText richText={props.description as Document} toMatch={search} />
       </div>
       <Divider flexItem className={classes.projectDivider} />
       <div className={classes.projectTags}>

@@ -1,7 +1,8 @@
 // React Imports
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
-import Info from "../../../Components/Info";
+import RichText from "../../../Components/RichText";
+import MatchHighlight from "../../../Components/MatchHighlight";
 import StyledLink from "../../../Components/StyledLink";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ExperienceFields } from "../../../Utils/types";
@@ -20,7 +21,6 @@ import {
   Typography,
 } from "@material-ui/core";
 import { GitHub, Launch } from "@material-ui/icons";
-import MatchHighlight from "../../../Components/MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -168,11 +168,11 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
           <Typography variant="h5" className={classes.heading}>
             Description
           </Typography>
-          <Info richText={props.description as Document} toMatch={search} />
+          <RichText richText={props.description as Document} toMatch={search} />
           <Typography variant="h5" className={classes.heading}>
             Responsibilities
           </Typography>
-          <Info
+          <RichText
             richText={props.responsibilities as Document}
             toMatch={search}
           />
