@@ -1,10 +1,10 @@
 // React Imports
 import React, { FC } from "react";
+import { ExperienceFields } from "../../../Utils/types";
 
 // Material UI Imports
 import { IconButton, makeStyles, Tooltip } from "@material-ui/core";
 import { GitHub, Launch } from "@material-ui/icons";
-import { ExperienceFields } from "../../../Utils/types";
 
 const useStyles = makeStyles((theme) => ({
   floatingIcons: {
