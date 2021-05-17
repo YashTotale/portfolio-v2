@@ -1,8 +1,8 @@
 // React Imports
 import React, { FC, useState } from "react";
-import { Link } from "react-router-dom";
-import { getImageTitle, getImageUrl } from "../../API/helpers";
-import { TagFields } from "../../Utils/types";
+import { Link, LinkProps } from "react-router-dom";
+import { Asset } from "contentful";
+import { getImageTitle, getImageUrl } from "../API/helpers";
 
 // Material UI Imports
 import {
@@ -102,14 +102,17 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-const TagPreview: FC<TagFields> = (props) => {
+interface OverlayProps {
+  label: string;
+  to: LinkProps["to"];
+  icon: Asset;
+}
+
+const Overlay: FC<OverlayProps> = ({ label, to, icon }) => {
   const [hovering, setHovering] = useState(false);
   const theme = useTheme();
   const classes = useStyles({ hovering });
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
-
-  const isDark = theme.palette.type === "dark";
-  const icon = isDark ? props.darkIcon : props.lightIcon;
 
   return (
     <div
@@ -117,10 +120,10 @@ const TagPreview: FC<TagFields> = (props) => {
       onMouseLeave={() => setHovering(false)}
       className={classes.root}
     >
-      <Link to={`/tags/${props.id}`} className={classes.link}>
+      <Link to={to} className={classes.link}>
         <div className={classes.overlay}></div>
         <Typography variant="h5" align="center" className={classes.title}>
-          {props.title}
+          {label}
         </Typography>
         <img
           src={getImageUrl(icon)}
@@ -130,11 +133,11 @@ const TagPreview: FC<TagFields> = (props) => {
       </Link>
       {isSizeXS && (
         <Typography variant="body1" align="center" className={classes.titleXS}>
-          {props.title}
+          {label}
         </Typography>
       )}
     </div>
   );
 };
 
-export default TagPreview;
+export default Overlay;

@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import TagPreview from "../../Components/Tag/Preview";
+import Overlay from "../../Components/Overlay";
 import { ProjectFields } from "../../Utils/types";
 
 // Material UI Imports
@@ -37,6 +37,8 @@ const Tags: FC<ProjectFields> = (props) => {
   const theme = useTheme();
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const isDark = theme.palette.type === "dark";
+
   return (
     <div className={classes.projectTags}>
       <Typography
@@ -47,8 +49,13 @@ const Tags: FC<ProjectFields> = (props) => {
         Technologies Used
       </Typography>
       <div className={classes.tagsContainer}>
-        {props.tags.map((tag, i) => (
-          <TagPreview key={i} {...tag.fields} id={tag.sys.id} />
+        {props.tags.map((tag) => (
+          <Overlay
+            to={`/tags/${tag.sys.id}`}
+            icon={isDark ? tag.fields.darkIcon : tag.fields.lightIcon}
+            label={tag.fields.title}
+            key={tag.sys.id}
+          />
         ))}
       </div>
     </div>

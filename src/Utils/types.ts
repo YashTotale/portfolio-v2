@@ -9,6 +9,8 @@ export interface TagFields {
   lightIcon: Asset;
 }
 
+type TagFieldsWithoutID = Omit<TagFields, "id">;
+
 export interface ProjectFields {
   id: string;
   title: EntryFields.Text;
@@ -18,7 +20,7 @@ export interface ProjectFields {
   end: EntryFields.Text;
   link?: EntryFields.Text;
   github?: EntryFields.Text;
-  tags: Entry<TagFields>[];
+  tags: Entry<TagFieldsWithoutID>[];
 }
 
 export interface ExperienceFields {
