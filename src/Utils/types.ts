@@ -20,6 +20,7 @@ export interface ProjectFields {
   end: EntryFields.Text;
   link?: EntryFields.Text;
   github?: EntryFields.Text;
+  associated?: Entry<ExperienceFieldsWithoutID>;
   tags: Entry<TagFieldsWithoutID>[];
 }
 
@@ -36,6 +37,8 @@ export interface ExperienceFields {
   link?: EntryFields.Text;
   github?: EntryFields.Text;
 }
+
+type ExperienceFieldsWithoutID = Omit<ExperienceFields, "id">;
 
 export interface ArticleFields {
   id: string;
