@@ -46,5 +46,6 @@ export interface ArticleFields {
   description: EntryFields.RichText;
   link: EntryFields.Text;
   published: EntryFields.Date;
+  associated?: Entry<ExperienceFieldsWithoutID>;
   image: Asset;
 }

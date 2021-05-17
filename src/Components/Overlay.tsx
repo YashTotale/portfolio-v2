@@ -26,22 +26,27 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 
     [theme.breakpoints.only("xl")]: {
       width: 175,
+      height: 175,
     },
 
     [theme.breakpoints.only("lg")]: {
       width: 150,
+      height: 150,
     },
 
     [theme.breakpoints.only("md")]: {
       width: 150,
+      height: 150,
     },
 
     [theme.breakpoints.only("sm")]: {
       width: 125,
+      height: 125,
     },
 
     [theme.breakpoints.only("xs")]: {
       width: 100,
+      height: 100,
     },
   },
   link: {
@@ -55,6 +60,8 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     }`,
     borderRadius: "5px",
     padding: theme.spacing(1),
+    width: "100%",
+    height: "100%",
   },
   overlay: {
     position: "absolute",
@@ -91,6 +98,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   icon: {
     width: "100%",
     height: "100%",
+    objectFit: "cover",
   },
   titleXS: {
     width: "100%",

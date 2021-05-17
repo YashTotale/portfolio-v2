@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
-import Projects from "./Projects";
+import Related from "./Related";
 import RichText from "../../../Components/RichText";
 import MatchHighlight from "../../../Components/MatchHighlight";
 import StyledLink from "../../../Components/StyledLink";
@@ -180,10 +180,7 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
             richText={props.responsibilities as Document}
             toMatch={search}
           />
-          <Typography variant="h5" className={classes.heading}>
-            Projects
-          </Typography>
-          <Projects {...props} />
+          <Related {...props} />
         </div>
       </div>
     </Paper>
