@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import Related from "./Related";
+import FloatingIcons from "./FloatingIcons";
 import RichText from "../../../Components/RichText";
 import MatchHighlight from "../../../Components/MatchHighlight";
 import StyledLink from "../../../Components/StyledLink";
@@ -13,15 +14,7 @@ import { useSelector } from "react-redux";
 import { getExperienceSearch } from "../../../Redux";
 
 // Material UI Imports
-import {
-  Divider,
-  IconButton,
-  makeStyles,
-  Paper,
-  Tooltip,
-  Typography,
-} from "@material-ui/core";
-import { GitHub, Launch } from "@material-ui/icons";
+import { Divider, makeStyles, Paper, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,10 +33,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     position: "relative",
     minHeight: theme.spacing(6),
-  },
-  rightIcons: {
-    position: "absolute",
-    right: theme.spacing(1),
   },
   divider: {
     height: "1px",
@@ -116,32 +105,7 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
         >
           {props.title}
         </StyledLink>
-        <div className={classes.rightIcons}>
-          {props.link && (
-            <Tooltip title="View Website">
-              <IconButton
-                component="a"
-                href={props.link}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <Launch />
-              </IconButton>
-            </Tooltip>
-          )}
-          {props.github && (
-            <Tooltip title="View GitHub">
-              <IconButton
-                component="a"
-                href={props.github}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <GitHub />
-              </IconButton>
-            </Tooltip>
-          )}
-        </div>
+        <FloatingIcons {...props} />
       </div>
       <Divider flexItem className={classes.divider} />
       <div className={classes.main}>

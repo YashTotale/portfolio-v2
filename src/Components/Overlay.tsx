@@ -130,7 +130,7 @@ const Overlay: FC<OverlayProps> = ({ label, to, icon, className }) => {
     >
       <Link to={to} className={classes.link}>
         <div className={classes.overlay}></div>
-        <Typography variant="h5" align="center" className={classes.title}>
+        <Typography variant="h6" align="center" className={classes.title}>
           {label}
         </Typography>
         <img
