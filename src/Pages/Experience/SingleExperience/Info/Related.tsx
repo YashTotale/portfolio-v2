@@ -1,7 +1,13 @@
 // React Imports
 import React, { FC } from "react";
 import Overlay from "../../../../Components/Overlay";
-import { useArticles, useProjects } from "../../../../Context/DataContext";
+import TagChip from "../../../../Components/Tag/Chip";
+import {
+  useArticles,
+  useProjects,
+  useTags,
+} from "../../../../Context/DataContext";
+import { ExperienceFields } from "../../../../Utils/types";
 
 // Material UI Imports
 import { CircularProgress, makeStyles, Typography } from "@material-ui/core";
@@ -22,19 +28,38 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface RelatedProps {
-  id: string;
-}
-
-const Related: FC<RelatedProps> = ({ id }) => {
+const Related: FC<ExperienceFields> = ({ id, tags }) => {
   const classes = useStyles();
   const projects = useProjects();
   const articles = useArticles();
+  const allTags = useTags();
 
-  if (projects === null || articles === null) return <CircularProgress />;
+  if (projects === null || articles === null || allTags === null)
+    return <CircularProgress />;
 
   const relatedProjects = projects.filter((p) => p.associated?.sys.id === id);
+
   const relatedArticles = articles.filter((a) => a.associated?.sys.id === id);
+
+  const relatedTags = allTags.filter((tag) => {
+    if (
+      relatedProjects.some((project) =>
+        project.tags.some((t) => t.sys.id === tag.id)
+      )
+    )
+      return true;
+
+    if (
+      relatedArticles.some((article) =>
+        article.tags.some((t) => t.sys.id === tag.id)
+      )
+    )
+      return true;
+
+    if (tags?.some((t) => t.sys.id === tag.id)) return true;
+
+    return false;
+  });
 
   return (
     <>
@@ -70,6 +95,18 @@ const Related: FC<RelatedProps> = ({ id }) => {
                 key={article.id}
                 className={classes.overlay}
               />
+            ))}
+          </div>
+        </>
+      )}
+      {!!relatedTags.length && (
+        <>
+          <Typography variant="h5" className={classes.heading}>
+            Tags
+          </Typography>
+          <div className={classes.container}>
+            {relatedTags.map((tag) => (
+              <TagChip {...tag} key={tag.id} />
             ))}
           </div>
         </>

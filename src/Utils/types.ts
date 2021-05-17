@@ -36,6 +36,7 @@ export interface ExperienceFields {
   end?: EntryFields.Text;
   link?: EntryFields.Text;
   github?: EntryFields.Text;
+  tags?: Entry<TagFieldsWithoutID>[];
 }
 
 type ExperienceFieldsWithoutID = Omit<ExperienceFields, "id">;
@@ -48,4 +49,5 @@ export interface ArticleFields {
   published: EntryFields.Date;
   associated?: Entry<ExperienceFieldsWithoutID>;
   image: Asset;
+  tags: Entry<TagFieldsWithoutID>[];
 }
