@@ -23,7 +23,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifySelf: "center",
-    margin: theme.spacing(1, 2),
 
     [theme.breakpoints.only("xl")]: {
       width: 175,
@@ -106,9 +105,10 @@ interface OverlayProps {
   label: string;
   to: LinkProps["to"];
   icon: Asset;
+  className?: string;
 }
 
-const Overlay: FC<OverlayProps> = ({ label, to, icon }) => {
+const Overlay: FC<OverlayProps> = ({ label, to, icon, className }) => {
   const [hovering, setHovering] = useState(false);
   const theme = useTheme();
   const classes = useStyles({ hovering });
@@ -118,7 +118,7 @@ const Overlay: FC<OverlayProps> = ({ label, to, icon }) => {
     <div
       onMouseOver={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
-      className={classes.root}
+      className={`${classes.root} ${className}`}
     >
       <Link to={to} className={classes.link}>
         <div className={classes.overlay}></div>

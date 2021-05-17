@@ -30,6 +30,9 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     flexWrap: "wrap",
   },
+  tag: {
+    margin: theme.spacing(1, 2),
+  },
 }));
 
 const Tags: FC<ProjectFields> = (props) => {
@@ -54,6 +57,7 @@ const Tags: FC<ProjectFields> = (props) => {
             to={`/tags/${tag.sys.id}`}
             icon={isDark ? tag.fields.darkIcon : tag.fields.lightIcon}
             label={tag.fields.title}
+            className={classes.tag}
             key={tag.sys.id}
           />
         ))}
