@@ -11,7 +11,13 @@ import { useSelector } from "react-redux";
 import { getExperienceSearch } from "../../../Redux";
 
 // Material UI Imports
-import { Divider, makeStyles, Paper } from "@material-ui/core";
+import {
+  Divider,
+  makeStyles,
+  Paper,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -75,14 +81,16 @@ const useStyles = makeStyles((theme) => ({
 
 const SingleExperience: FC<ExperienceFields> = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
   const search = useSelector(getExperienceSearch);
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
-    <Paper className={classes.container}>
+    <Paper className={classes.container} elevation={12}>
       <div className={classes.titleContainer}>
         <StyledLink
           to={`/experience/${props.id}`}
-          variant="h4"
+          variant={isSizeXS ? "h5" : "h4"}
           toMatch={search}
         >
           {props.title}

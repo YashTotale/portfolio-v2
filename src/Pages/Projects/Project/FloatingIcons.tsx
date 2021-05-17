@@ -1,15 +1,10 @@
 // React Imports
 import React, { FC } from "react";
+import LinkIcon from "../../../Components/Icons/LinkIcon";
 import { ProjectFields } from "../../../Utils/types";
 
 // Material UI Imports
-import {
-  IconButton,
-  makeStyles,
-  Tooltip,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { GitHub, Launch } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,38 +26,24 @@ const useStyles = makeStyles((theme) => ({
 
 const FloatingIcons: FC<ProjectFields> = ({ link, github }) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
     <div className={classes.floatingIcons}>
       {link && (
-        <Tooltip title="View Project">
-          <IconButton
-            component="a"
-            href={link}
-            target="_blank"
-            rel="noopener noreferrer"
-            size={isSizeXS ? "small" : "medium"}
-            className={classes.iconButton}
-          >
-            <Launch fontSize={isSizeXS ? "small" : "default"} />
-          </IconButton>
-        </Tooltip>
+        <LinkIcon
+          label="View Project"
+          href={link}
+          icon={<Launch />}
+          className={classes.iconButton}
+        />
       )}
       {github && (
-        <Tooltip title="View Source Code">
-          <IconButton
-            component="a"
-            href={github}
-            target="_blank"
-            rel="noopener noreferrer"
-            size={isSizeXS ? "small" : "medium"}
-            className={classes.iconButton}
-          >
-            <GitHub fontSize={isSizeXS ? "small" : "default"} />
-          </IconButton>
-        </Tooltip>
+        <LinkIcon
+          label="View GitHub"
+          href={github}
+          icon={<GitHub />}
+          className={classes.iconButton}
+        />
       )}
     </div>
   );

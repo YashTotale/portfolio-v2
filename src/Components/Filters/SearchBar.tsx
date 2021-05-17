@@ -56,7 +56,7 @@ const SearchBar: FC<SearchBarProps> = ({ defaultSearch, onSearchChange }) => {
   }, 500);
 
   return (
-    <Paper className={classes.root}>
+    <Paper className={classes.root} elevation={4}>
       <div className={classes.container}>
         <Input
           value={localSearch}
