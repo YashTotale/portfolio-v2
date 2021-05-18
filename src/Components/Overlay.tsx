@@ -24,7 +24,8 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifySelf: "center",
-
+  },
+  container: {
     [theme.breakpoints.only("xl")]: {
       width: 175,
       height: 175,
@@ -102,11 +103,12 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     objectFit: "cover",
   },
   titleXS: {
-    width: "100%",
+    width: 100,
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
     textAlign: "center",
+    marginTop: theme.spacing(0.5),
   },
 }));
 
@@ -124,22 +126,24 @@ const Overlay: FC<OverlayProps> = ({ label, to, icon, className }) => {
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
-    <div
-      onMouseOver={() => setHovering(true)}
-      onMouseLeave={() => setHovering(false)}
-      className={clsx(classes.root, className)}
-    >
-      <Link to={to} className={classes.link}>
-        <div className={classes.overlay}></div>
-        <Typography variant="h6" align="center" className={classes.title}>
-          {label}
-        </Typography>
-        <img
-          src={getImageUrl(icon)}
-          alt={getImageTitle(icon)}
-          className={classes.icon}
-        />
-      </Link>
+    <div className={clsx(classes.root, className)}>
+      <div
+        onMouseOver={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+        className={classes.container}
+      >
+        <Link to={to} className={classes.link}>
+          <div className={classes.overlay}></div>
+          <Typography variant="h6" align="center" className={classes.title}>
+            {label}
+          </Typography>
+          <img
+            src={getImageUrl(icon)}
+            alt={getImageTitle(icon)}
+            className={classes.icon}
+          />
+        </Link>
+      </div>
       {isSizeXS && (
         <Typography variant="body1" align="center" className={classes.titleXS}>
           {label}

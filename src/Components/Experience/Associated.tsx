@@ -10,14 +10,18 @@ import { getImageTitle, getImageUrl } from "../../API/helpers";
 import { ExperienceFields } from "../../Utils/types";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    width: "100%",
+    alignItems: "center",
     border: `2px solid ${theme.palette.divider}`,
     borderRadius: "5px",
+
+    [theme.breakpoints.only("xs")]: {
+      flexDirection: "column",
+    },
   },
   image: {
     margin: theme.spacing(1),
@@ -52,12 +56,18 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
+    alignSelf: "stretch",
   },
   title: {
     margin: theme.spacing(1, 0),
+
+    [theme.breakpoints.only("xs")]: {
+      lineHeight: 1.3,
+    },
   },
   description: {
     margin: theme.spacing(1),
+    textAlign: "center",
   },
 }));
 
@@ -67,6 +77,9 @@ type AssociatedProps = ExperienceFields & {
 
 const Associated: FC<AssociatedProps> = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
+
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
     <div className={clsx(classes.container, props.className)}>
@@ -75,7 +88,7 @@ const Associated: FC<AssociatedProps> = (props) => {
         alt={getImageTitle(props.image)}
         className={classes.image}
       />
-      <VerticalDivider />
+      {!isSizeXS && <VerticalDivider />}
       <div className={classes.info}>
         <StyledLink
           variant="h6"

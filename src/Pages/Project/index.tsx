@@ -25,7 +25,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     margin: "auto",
-    padding: theme.spacing(2),
 
     [theme.breakpoints.only("xl")]: {
       width: "75%",
@@ -50,24 +49,20 @@ const useStyles = makeStyles((theme) => ({
   project: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "stretch",
     justifyContent: "center",
-    padding: theme.spacing(1, 2, 2),
+    padding: theme.spacing(1, 0),
+    margin: theme.spacing(1, 0),
     width: "100%",
-  },
-  projectTitle: {
-    width: "100%",
-    marginBottom: theme.spacing(1),
   },
   divider: {
     margin: theme.spacing(1, 0),
   },
   heading: {
-    width: "100%",
-    marginBottom: theme.spacing(1),
+    margin: theme.spacing(0, 1, 1),
   },
   associated: {
-    marginBottom: theme.spacing(1),
+    margin: theme.spacing(1, 2),
   },
 }));
 
@@ -103,11 +98,7 @@ const Project: FC = () => {
   return (
     <Container>
       <Paper className={classes.project}>
-        <Typography
-          variant={isSizeSmall ? "h4" : "h3"}
-          align="center"
-          className={classes.projectTitle}
-        >
+        <Typography variant={isSizeSmall ? "h4" : "h3"} align="center">
           {project.title}
         </Typography>
         <HorizontalDivider height={2} className={classes.divider} />
