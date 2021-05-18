@@ -10,7 +10,12 @@ import StyledLink from "./StyledLink";
 import { useTags } from "../Context/DataContext";
 
 // Material UI Imports
-import { Link, makeStyles, Typography } from "@material-ui/core";
+import {
+  Link,
+  makeStyles,
+  Typography,
+  TypographyProps,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   paragraph: {
@@ -29,14 +34,23 @@ const useStyles = makeStyles((theme) => ({
 
 interface RichTextProps {
   richText: Document;
+  variant?: TypographyProps["variant"];
   toMatch?: string;
 }
 
-const RichText: FC<RichTextProps> = ({ richText, toMatch }) => {
+const RichText: FC<RichTextProps> = ({
+  richText,
+  toMatch,
+  variant = "body2",
+}) => {
   const classes = useStyles();
 
   const options: Options = {
-    renderText: (text) => <TextRenderer toMatch={toMatch}>{text}</TextRenderer>,
+    renderText: (text) => (
+      <TextRenderer variant={variant} toMatch={toMatch}>
+        {text}
+      </TextRenderer>
+    ),
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node, children) => (
         <p className={classes.paragraph}>{children}</p>
@@ -45,7 +59,12 @@ const RichText: FC<RichTextProps> = ({ richText, toMatch }) => {
         <ul className={classes.unorderedList}>{children}</ul>
       ),
       [INLINES.HYPERLINK]: (node, children) => (
-        <Link href={node.data.uri} target="_blank" rel="noopener noreferrer">
+        <Link
+          variant={variant}
+          href={node.data.uri}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           {children}
         </Link>
       ),
@@ -65,7 +84,7 @@ const RichText: FC<RichTextProps> = ({ richText, toMatch }) => {
         }
 
         return (
-          <StyledLink to={to} variant="body2" toMatch={toMatch}>
+          <StyledLink to={to} variant={variant} toMatch={toMatch}>
             {label}
           </StyledLink>
         );
@@ -78,10 +97,15 @@ const RichText: FC<RichTextProps> = ({ richText, toMatch }) => {
 
 interface TextRendererProps {
   children: string;
+  variant: TypographyProps["variant"];
   toMatch?: string;
 }
 
-const TextRenderer: FC<TextRendererProps> = ({ children, toMatch = "" }) => {
+const TextRenderer: FC<TextRendererProps> = ({
+  children,
+  variant,
+  toMatch = "",
+}) => {
   const tags = useTags();
   const classes = useStyles();
 
@@ -112,7 +136,7 @@ const TextRenderer: FC<TextRendererProps> = ({ children, toMatch = "" }) => {
       }
 
       parsed.push(
-        <StyledLink to={`/tags/${tag.id}`} variant="body2" toMatch={toMatch}>
+        <StyledLink to={`/tags/${tag.id}`} variant={variant} toMatch={toMatch}>
           {tag.title}
         </StyledLink>
       );
@@ -129,7 +153,7 @@ const TextRenderer: FC<TextRendererProps> = ({ children, toMatch = "" }) => {
             className={classes.text}
             component="span"
             key={i}
-            variant="body2"
+            variant={variant}
           >
             <MatchHighlight toMatch={toMatch}>{el}</MatchHighlight>
           </Typography>

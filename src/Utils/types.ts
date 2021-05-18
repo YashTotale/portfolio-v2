@@ -1,6 +1,10 @@
 // Externals
 import { Asset, Entry, EntryFields } from "contentful";
 
+export interface Main {
+  description: EntryFields.RichText;
+}
+
 export interface TagFields {
   id: string;
   title: EntryFields.Text;

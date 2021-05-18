@@ -11,6 +11,7 @@ import {
   TagFields,
   ExperienceFields,
   ArticleFields,
+  Main,
 } from "../Utils/types";
 
 // API Imports
@@ -21,6 +22,7 @@ interface Data {
   tags: TagFields[] | null;
   experience: ExperienceFields[] | null;
   articles: ArticleFields[] | null;
+  main: Main | null;
 }
 
 const defaultValue: Data = {
@@ -28,6 +30,7 @@ const defaultValue: Data = {
   tags: null,
   experience: null,
   articles: null,
+  main: null,
 };
 
 const DataContext = createContext<Data>(defaultValue);
@@ -40,12 +43,16 @@ export const DataProvider: FC = ({ children }) => {
 
     const fetchContent = async <T extends unknown>(
       contentType: string,
-      key: keyof Data
+      key: keyof Data,
+      transform?: (content: unknown[]) => unknown
     ) => {
       const content = await query<T>(contentType);
+      let transformedContent: unknown;
+
+      if (transform) transformedContent = transform(content);
 
       if (isMounted) {
-        setData((d) => ({ ...d, [key]: content }));
+        setData((d) => ({ ...d, [key]: transformedContent ?? content }));
       }
     };
 
@@ -53,6 +60,7 @@ export const DataProvider: FC = ({ children }) => {
     fetchContent<TagFields>("tag", "tags");
     fetchContent<ExperienceFields>("experience", "experience");
     fetchContent<ArticleFields>("article", "articles");
+    fetchContent<Main>("main", "main", (content) => content[0]);
 
     return () => {
       isMounted = false;
@@ -71,3 +79,5 @@ export const useTags = (): Data["tags"] => useData().tags;
 export const useExperience = (): Data["experience"] => useData().experience;
 
 export const useArticles = (): Data["articles"] => useData().articles;
+
+export const useMainData = (): Data["main"] => useData().main;
