@@ -20,6 +20,7 @@ import Sidebar from "./Components/Sidebar";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
+import ScrollToTop from "./Components/ScrollToTop";
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -33,10 +34,12 @@ const useStyles = makeStyles((theme) => ({
 const App: FC = () => {
   return (
     <DataProvider>
-      <Popup />
-      <Navbar />
-      <Sidebar />
-      <Routes />
+      <ScrollToTop>
+        <Popup />
+        <Navbar />
+        <Sidebar />
+        <Routes />
+      </ScrollToTop>
     </DataProvider>
   );
 };
