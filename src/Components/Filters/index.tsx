@@ -2,9 +2,10 @@
 import React, { FC } from "react";
 import clsx from "clsx";
 import SearchBar from "./SearchBar";
+import HorizontalDivider from "../Divider/Horizontal";
 
 // Material UI Imports
-import { Divider, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -20,7 +21,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   divider: {
-    height: "1px",
     margin: theme.spacing(1, 0),
   },
 }));
@@ -40,7 +40,7 @@ const Filters: FC<FiltersProps> = (props) => {
         <div className={classes.filters}>
           <SearchBar {...props} />
         </div>
-        <Divider flexItem className={classes.divider} />
+        <HorizontalDivider className={classes.divider} />
       </div>
     </>
   );

@@ -6,6 +6,7 @@ import TagChip from "../../../Components/Tag/Chip";
 import Title from "./Title";
 import RichText from "../../../Components/RichText";
 import MatchHighlight from "../../../Components/MatchHighlight";
+import HorizontalDivider from "../../../Components/Divider/Horizontal";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ProjectFields } from "../../../Utils/types";
 
@@ -15,7 +16,6 @@ import { getProjectsSearch } from "../../../Redux";
 
 //Material UI Imports
 import {
-  Divider,
   makeStyles,
   Paper,
   Theme,
@@ -106,9 +106,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     width: "100%",
     padding: theme.spacing(2, 1),
   },
-  projectDivider: {
-    height: "1px",
-  },
   projectTags: {
     display: "flex",
     alignItems: "center",
@@ -146,13 +143,13 @@ const Project: FC<ProjectProps> = (props) => {
       <div className={classes.projectDescription}>
         <RichText richText={props.description as Document} toMatch={search} />
       </div>
-      <Divider flexItem className={classes.projectDivider} />
+      <HorizontalDivider />
       <div className={classes.projectTags}>
         {tags.map((tag) => (
           <TagChip key={tag.sys.id} {...tag.fields} id={tag.sys.id} />
         ))}
       </div>
-      <Divider flexItem className={classes.projectDivider} />
+      <HorizontalDivider />
       <Typography
         className={classes.projectTimeline}
         variant={isSizeXS ? "body2" : "body1"}

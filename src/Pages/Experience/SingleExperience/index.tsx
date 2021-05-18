@@ -3,6 +3,8 @@ import React, { FC } from "react";
 import Info from "./Info";
 import FloatingIcons from "./FloatingIcons";
 import StyledLink from "../../../Components/StyledLink";
+import VerticalDivider from "../../../Components/Divider/Vertical";
+import HorizontalDivider from "../../../Components/Divider/Horizontal";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ExperienceFields } from "../../../Utils/types";
 
@@ -11,13 +13,7 @@ import { useSelector } from "react-redux";
 import { getExperienceSearch } from "../../../Redux";
 
 // Material UI Imports
-import {
-  Divider,
-  makeStyles,
-  Paper,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { makeStyles, Paper, useMediaQuery, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,9 +32,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     position: "relative",
     minHeight: theme.spacing(6),
-  },
-  divider: {
-    height: "1px",
   },
   main: {
     display: "flex",
@@ -74,9 +67,6 @@ const useStyles = makeStyles((theme) => ({
       width: 125,
     },
   },
-  verticalDivider: {
-    width: "2px",
-  },
 }));
 
 const SingleExperience: FC<ExperienceFields> = (props) => {
@@ -97,7 +87,7 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
         </StyledLink>
         <FloatingIcons {...props} />
       </div>
-      <Divider flexItem className={classes.divider} />
+      <HorizontalDivider />
       <div className={classes.main}>
         <div className={classes.imageContainer}>
           <img
@@ -106,11 +96,7 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
             className={classes.image}
           />
         </div>
-        <Divider
-          orientation="vertical"
-          flexItem
-          className={classes.verticalDivider}
-        />
+        <VerticalDivider />
         <Info {...props} />
       </div>
     </Paper>

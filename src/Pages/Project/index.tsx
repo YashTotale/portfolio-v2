@@ -4,19 +4,19 @@ import { useParams } from "react-router";
 import Display from "./Display";
 import Tags from "./Tags";
 import NotFound from "../NotFound";
+import HorizontalDivider from "../../Components/Divider/Horizontal";
+import Associated from "../../Components/Experiencce/Associated";
 import { useProjects } from "../../Context/DataContext";
 
 // Material UI Imports
 import {
   CircularProgress,
-  Divider,
   makeStyles,
   Paper,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import Associated from "../../Components/Experiencce/Associated";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: theme.spacing(1),
   },
   divider: {
-    height: "2px",
     margin: theme.spacing(1, 0),
   },
   heading: {
@@ -111,9 +110,9 @@ const Project: FC = () => {
         >
           {project.title}
         </Typography>
-        <Divider flexItem className={classes.divider} />
+        <HorizontalDivider height={2} className={classes.divider} />
         <Display {...project} />
-        <Divider flexItem className={classes.divider} />
+        <HorizontalDivider height={2} className={classes.divider} />
         {project.associated && (
           <>
             <Typography
@@ -128,7 +127,7 @@ const Project: FC = () => {
               id={project.associated.sys.id}
               className={classes.associated}
             />
-            <Divider flexItem className={classes.divider} />
+            <HorizontalDivider height={2} className={classes.divider} />
           </>
         )}
         <Typography

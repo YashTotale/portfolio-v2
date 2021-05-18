@@ -1,10 +1,11 @@
 // React Imports
 import React, { FC } from "react";
 import Display from "./Display";
+import VerticalDivider from "../../../Components/Divider/Vertical";
 import { TagFields } from "../../../Utils/types";
 
 // Material UI Imports
-import { Divider, makeStyles, Paper } from "@material-ui/core";
+import { makeStyles, Paper } from "@material-ui/core";
 import Related from "./Related";
 
 const useStyles = makeStyles((theme) => ({
@@ -26,7 +27,7 @@ const Tag: FC<TagFields> = (props) => {
   return (
     <Paper elevation={12} className={classes.container}>
       <Display {...props} />
-      <Divider orientation="vertical" flexItem className={classes.divider} />
+      <VerticalDivider />
       <Related {...props} />
     </Paper>
   );
