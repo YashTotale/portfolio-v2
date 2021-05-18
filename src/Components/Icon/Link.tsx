@@ -13,10 +13,17 @@ interface LinkIconProps {
   label: string;
   href: string;
   icon: JSX.Element;
+  withResize?: boolean;
   className?: string;
 }
 
-const LinkIcon: FC<LinkIconProps> = ({ label, href, icon, className }) => {
+const LinkIcon: FC<LinkIconProps> = ({
+  label,
+  href,
+  icon,
+  withResize = true,
+  className,
+}) => {
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
@@ -28,10 +35,10 @@ const LinkIcon: FC<LinkIconProps> = ({ label, href, icon, className }) => {
         rel="noopener noreferrer"
         href={href}
         className={className}
-        size={isSizeXS ? "small" : "medium"}
+        size={isSizeXS && withResize ? "small" : "medium"}
       >
         {cloneElement(icon, {
-          fontSize: isSizeXS ? "small" : "default",
+          fontSize: isSizeXS && withResize ? "small" : "default",
         })}
       </IconButton>
     </Tooltip>

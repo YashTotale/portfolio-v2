@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import LinkIcon from "../../../Components/Icons/LinkIcon";
+import LinkIcon from "../../../Components/Icon/Link";
 import { ExperienceFields } from "../../../Utils/types";
 
 // Material UI Imports
@@ -8,9 +8,12 @@ import { makeStyles } from "@material-ui/core";
 import { GitHub, Launch } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
-  floatingIcons: {
-    position: "absolute",
-    right: theme.spacing(1),
+  container: {
+    width: "100%",
+    padding: theme.spacing(1),
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-end",
   },
 }));
 
@@ -18,10 +21,22 @@ const FloatingIcons: FC<ExperienceFields> = ({ link, github }) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.floatingIcons}>
-      {link && <LinkIcon label="View Website" href={link} icon={<Launch />} />}
+    <div className={classes.container}>
+      {link && (
+        <LinkIcon
+          label="View Website"
+          href={link}
+          icon={<Launch />}
+          withResize={false}
+        />
+      )}
       {github && (
-        <LinkIcon label="View GitHub" href={github} icon={<GitHub />} />
+        <LinkIcon
+          label="View GitHub"
+          href={github}
+          icon={<GitHub />}
+          withResize={false}
+        />
       )}
     </div>
   );

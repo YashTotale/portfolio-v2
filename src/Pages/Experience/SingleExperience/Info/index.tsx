@@ -21,9 +21,22 @@ const useStyles = makeStyles((theme) => ({
     width: "70%",
     flexGrow: 1,
     padding: theme.spacing(2),
+
+    [theme.breakpoints.only("xs")]: {
+      width: "100%",
+      paddingTop: 0,
+    },
   },
   heading: {
     margin: theme.spacing(1, 0),
+    width: "100%",
+
+    [theme.breakpoints.only("xs")]: {
+      textAlign: "center",
+    },
+  },
+  text: {
+    width: "100%",
   },
 }));
 
@@ -36,14 +49,18 @@ const Info: FC<ExperienceFields> = (props) => {
       <Typography variant="h5" className={classes.heading}>
         Description
       </Typography>
-      <RichText richText={props.description as Document} toMatch={search} />
+      <div className={classes.text}>
+        <RichText richText={props.description as Document} toMatch={search} />
+      </div>
       <Typography variant="h5" className={classes.heading}>
         Responsibilities
       </Typography>
-      <RichText
-        richText={props.responsibilities as Document}
-        toMatch={search}
-      />
+      <div className={classes.text}>
+        <RichText
+          richText={props.responsibilities as Document}
+          toMatch={search}
+        />
+      </div>
       <Related {...props} />
     </div>
   );

@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import LinkIcon from "../../../Components/Icons/LinkIcon";
+import LinkIcon from "../../../Components/Icon/Link";
 import { ProjectFields } from "../../../Utils/types";
 
 // Material UI Imports

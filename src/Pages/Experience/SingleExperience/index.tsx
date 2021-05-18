@@ -41,13 +41,18 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
   },
   title: {
-    margin: theme.spacing(1, 0),
+    margin: theme.spacing(1),
   },
   main: {
     display: "flex",
     alignItems: "stretch",
     justifyContent: "center",
     width: "100%",
+
+    [theme.breakpoints.only("xs")]: {
+      flexDirection: "column",
+      alignItems: "center",
+    },
   },
   imageContainer: {
     display: "flex",
@@ -55,6 +60,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "30%",
     padding: theme.spacing(2),
+
+    [theme.breakpoints.only("xs")]: {
+      width: "100%",
+      paddingBottom: 0,
+    },
   },
   image: {
     [theme.breakpoints.only("xl")]: {
@@ -91,6 +101,7 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
         <StyledLink
           to={`/experience/${props.id}`}
           variant={isSizeXS ? "h5" : "h4"}
+          align="center"
           toMatch={search}
           className={classes.title}
         >
@@ -101,7 +112,6 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
             {`${props.start} - ${props.end ?? "Present"}`}
           </MatchHighlight>
         </Typography>
-        <FloatingIcons {...props} />
       </div>
       <HorizontalDivider />
       <div className={classes.main}>
@@ -112,9 +122,11 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
             className={classes.image}
           />
         </div>
-        <VerticalDivider />
+        {!isSizeXS && <VerticalDivider />}
         <Info {...props} />
       </div>
+      <HorizontalDivider />
+      <FloatingIcons {...props} />
     </Paper>
   );
 };

@@ -13,15 +13,32 @@ import { ExperienceFields } from "../../../../Utils/types";
 import { CircularProgress, makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  spinner: {
+    margin: theme.spacing(1, 0),
+
+    [theme.breakpoints.only("xs")]: {
+      margin: theme.spacing(1, "auto"),
+    },
+  },
   container: {
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
     flexWrap: "wrap",
     marginLeft: theme.spacing(-1),
+    width: "100%",
+
+    [theme.breakpoints.only("xs")]: {
+      justifyContent: "center",
+    },
   },
   heading: {
     margin: theme.spacing(1, 0),
+    width: "100%",
+
+    [theme.breakpoints.only("xs")]: {
+      textAlign: "center",
+    },
   },
   overlay: {
     margin: theme.spacing(1),
@@ -35,7 +52,7 @@ const Related: FC<ExperienceFields> = ({ id, tags }) => {
   const allTags = useTags();
 
   if (projects === null || articles === null || allTags === null)
-    return <CircularProgress />;
+    return <CircularProgress className={classes.spinner} />;
 
   const relatedProjects = projects.filter((p) => p.associated?.sys.id === id);
 
