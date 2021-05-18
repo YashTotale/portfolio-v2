@@ -4,12 +4,7 @@ import Overlay from "../../Components/Overlay";
 import { ProjectFields } from "../../Utils/types";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useTheme,
-  useMediaQuery,
-} from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   projectTags: {
@@ -38,19 +33,11 @@ const useStyles = makeStyles((theme) => ({
 const Tags: FC<ProjectFields> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const isDark = theme.palette.type === "dark";
 
   return (
     <div className={classes.projectTags}>
-      <Typography
-        variant={isSizeSmall ? "h5" : "h4"}
-        align="center"
-        className={classes.heading}
-      >
-        Technologies Used
-      </Typography>
       <div className={classes.tagsContainer}>
         {props.tags.map((tag) => (
           <Overlay

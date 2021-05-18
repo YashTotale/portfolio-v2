@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC } from "react";
+import clsx from "clsx";
 import SearchBar from "./SearchBar";
 
 // Material UI Imports
@@ -35,7 +36,7 @@ const Filters: FC<FiltersProps> = (props) => {
 
   return (
     <>
-      <div className={`${classes.container} ${props.className}`}>
+      <div className={clsx(classes.container, props.className)}>
         <div className={classes.filters}>
           <SearchBar {...props} />
         </div>

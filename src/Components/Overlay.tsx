@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC, useState } from "react";
+import clsx from "clsx";
 import { Link, LinkProps } from "react-router-dom";
 import { Asset } from "contentful";
 import { getImageTitle, getImageUrl } from "../API/helpers";
@@ -126,7 +127,7 @@ const Overlay: FC<OverlayProps> = ({ label, to, icon, className }) => {
     <div
       onMouseOver={() => setHovering(true)}
       onMouseLeave={() => setHovering(false)}
-      className={`${classes.root} ${className}`}
+      className={clsx(classes.root, className)}
     >
       <Link to={to} className={classes.link}>
         <div className={classes.overlay}></div>

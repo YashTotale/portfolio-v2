@@ -43,7 +43,7 @@ export interface ExperienceFields {
   tags?: Entry<TagFieldsWithoutID>[];
 }
 
-type ExperienceFieldsWithoutID = Omit<ExperienceFields, "id">;
+export type ExperienceFieldsWithoutID = Omit<ExperienceFields, "id">;
 
 export interface ArticleFields {
   id: string;

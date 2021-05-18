@@ -16,6 +16,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import Associated from "../../Components/Experiencce/Associated";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -60,6 +61,14 @@ const useStyles = makeStyles((theme) => ({
   },
   divider: {
     height: "2px",
+    margin: theme.spacing(1, 0),
+  },
+  heading: {
+    width: "100%",
+    margin: theme.spacing(1, 0),
+  },
+  associated: {
+    margin: theme.spacing(2, 0),
   },
 }));
 
@@ -105,6 +114,30 @@ const Project: FC = () => {
         <Divider flexItem className={classes.divider} />
         <Display {...project} />
         <Divider flexItem className={classes.divider} />
+        {project.associated && (
+          <>
+            <Typography
+              variant={isSizeSmall ? "h5" : "h4"}
+              align="center"
+              className={classes.heading}
+            >
+              Associated With
+            </Typography>
+            <Associated
+              {...project.associated.fields}
+              id={project.associated.sys.id}
+              className={classes.associated}
+            />
+            <Divider flexItem className={classes.divider} />
+          </>
+        )}
+        <Typography
+          variant={isSizeSmall ? "h5" : "h4"}
+          align="center"
+          className={classes.heading}
+        >
+          Technologies Used
+        </Typography>
         <Tags {...project} />
       </Paper>
     </Container>
