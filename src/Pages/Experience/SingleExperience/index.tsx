@@ -49,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "100%",
 
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
       alignItems: "center",
     },
@@ -61,7 +61,7 @@ const useStyles = makeStyles((theme) => ({
     width: "30%",
     padding: theme.spacing(2),
 
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       width: "100%",
       paddingBottom: 0,
     },
@@ -93,14 +93,15 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const search = useSelector(getExperienceSearch);
-  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Paper className={classes.container} elevation={12}>
       <div className={classes.titleContainer}>
         <StyledLink
           to={`/experience/${props.id}`}
-          variant={isSizeXS ? "h5" : "h4"}
+          variant={isSizeSmall ? "h5" : "h4"}
           align="center"
           toMatch={search}
           className={classes.title}
@@ -122,7 +123,7 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
             className={classes.image}
           />
         </div>
-        {!isSizeXS && <VerticalDivider />}
+        {!isSizeSmall && <VerticalDivider />}
         <Info {...props} />
       </div>
       <HorizontalDivider />

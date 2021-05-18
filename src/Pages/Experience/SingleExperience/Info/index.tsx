@@ -22,16 +22,18 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     padding: theme.spacing(2),
 
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       width: "100%",
       paddingTop: 0,
+      alignItems: "center",
+      justifyContent: "center",
     },
   },
   heading: {
     margin: theme.spacing(1, 0),
     width: "100%",
 
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       textAlign: "center",
     },
   },

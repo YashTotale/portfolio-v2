@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
   spinner: {
     margin: theme.spacing(1, 0),
 
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       margin: theme.spacing(1, "auto"),
     },
   },
@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(-1),
     width: "100%",
 
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       justifyContent: "center",
     },
   },
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 0),
     width: "100%",
 
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       textAlign: "center",
     },
   },
