@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC, useState } from "react";
-import { debounce } from "lodash";
+import debounce from "lodash.debounce";
 
 // Material UI Imports
 import { Input, makeStyles, Paper } from "@material-ui/core";
