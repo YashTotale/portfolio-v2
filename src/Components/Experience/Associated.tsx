@@ -1,6 +1,11 @@
 // React Imports
 import React, { FC } from "react";
 import clsx from "clsx";
+import { Document } from "@contentful/rich-text-types";
+import RichText from "../RichText";
+import StyledLink from "../StyledLink";
+import VerticalDivider from "../Divider/Vertical";
+import HorizontalDivider from "../Divider/Horizontal";
 import { getImageTitle, getImageUrl } from "../../API/helpers";
 import { ExperienceFields } from "../../Utils/types";
 
@@ -10,12 +15,13 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    alignItems: "center",
     width: "100%",
     border: `2px solid ${theme.palette.divider}`,
     borderRadius: "5px",
   },
   image: {
+    margin: theme.spacing(1),
+
     [theme.breakpoints.only("xl")]: {
       width: 175,
       height: 175,
@@ -41,6 +47,18 @@ const useStyles = makeStyles((theme) => ({
       height: 100,
     },
   },
+  info: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+  },
+  title: {
+    margin: theme.spacing(1, 0),
+  },
+  description: {
+    margin: theme.spacing(1),
+  },
 }));
 
 type AssociatedProps = ExperienceFields & {
@@ -57,6 +75,21 @@ const Associated: FC<AssociatedProps> = (props) => {
         alt={getImageTitle(props.image)}
         className={classes.image}
       />
+      <VerticalDivider />
+      <div className={classes.info}>
+        <StyledLink
+          variant="h6"
+          align="center"
+          to={`/experience/${props.id}`}
+          className={classes.title}
+        >
+          {`${props.role} @ ${props.title}`}
+        </StyledLink>
+        <HorizontalDivider />
+        <div className={classes.description}>
+          <RichText richText={props.description as Document} />
+        </div>
+      </div>
     </div>
   );
 };

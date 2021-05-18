@@ -64,10 +64,10 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     width: "100%",
-    margin: theme.spacing(1, 0),
+    marginBottom: theme.spacing(1),
   },
   associated: {
-    margin: theme.spacing(2, 0),
+    marginBottom: theme.spacing(1),
   },
 }));
 
