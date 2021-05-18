@@ -20,6 +20,9 @@ import {
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  toolbar: {
+    justifyContent: "center",
+  },
   list: {
     width: SIDEBAR_WIDTH,
   },
@@ -49,7 +52,9 @@ const Contents: FC = () => {
 
   return (
     <>
-      <Toolbar />
+      <Toolbar className={classes.toolbar}>
+        <img src="/logo192.png" alt="Website Logo" height={40} />
+      </Toolbar>
       <Divider />
       <List disablePadding className={classes.list}>
         <Category label="Home" to="/" withChildren={false} />
