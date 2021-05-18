@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import Info from "./Info";
 import FloatingIcons from "./FloatingIcons";
+import MatchHighlight from "../../../Components/MatchHighlight";
 import StyledLink from "../../../Components/StyledLink";
 import VerticalDivider from "../../../Components/Divider/Vertical";
 import HorizontalDivider from "../../../Components/Divider/Horizontal";
@@ -13,7 +14,13 @@ import { useSelector } from "react-redux";
 import { getExperienceSearch } from "../../../Redux";
 
 // Material UI Imports
-import { makeStyles, Paper, useMediaQuery, useTheme } from "@material-ui/core";
+import {
+  makeStyles,
+  Paper,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -26,12 +33,15 @@ const useStyles = makeStyles((theme) => ({
   },
   titleContainer: {
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     margin: theme.spacing(1, 0),
     width: "100%",
     position: "relative",
-    minHeight: theme.spacing(6),
+  },
+  title: {
+    margin: theme.spacing(1, 0),
   },
   main: {
     display: "flex",
@@ -82,9 +92,15 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
           to={`/experience/${props.id}`}
           variant={isSizeXS ? "h5" : "h4"}
           toMatch={search}
+          className={classes.title}
         >
-          {props.title}
+          {`${props.role} @ ${props.title}`}
         </StyledLink>
+        <Typography variant="body1">
+          <MatchHighlight toMatch={search}>
+            {`${props.start} - ${props.end ?? "Present"}`}
+          </MatchHighlight>
+        </Typography>
         <FloatingIcons {...props} />
       </div>
       <HorizontalDivider />
