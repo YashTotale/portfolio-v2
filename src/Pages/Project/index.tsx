@@ -5,7 +5,7 @@ import Display from "./Display";
 import Tags from "./Tags";
 import NotFound from "../NotFound";
 import HorizontalDivider from "../../Components/Divider/Horizontal";
-import Associated from "../../Components/Experiencce/Associated";
+import Associated from "../../Components/Experience/Associated";
 import { useProjects } from "../../Context/DataContext";
 
 // Material UI Imports
