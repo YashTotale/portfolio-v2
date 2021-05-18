@@ -10,6 +10,7 @@ import { Link, LinkProps } from "@material-ui/core";
 interface StyledLinkProps {
   to: LocationDescriptor;
   children: string;
+  onClick?: LinkProps["onClick"];
   variant?: LinkProps["variant"];
   align?: LinkProps["align"];
   toMatch?: string;
@@ -19,6 +20,7 @@ interface StyledLinkProps {
 const StyledLink: FC<StyledLinkProps> = ({
   to,
   children,
+  onClick,
   variant,
   align,
   toMatch = "",
@@ -32,6 +34,7 @@ const StyledLink: FC<StyledLinkProps> = ({
       color="primary"
       variant={variant}
       align={align}
+      onClick={onClick}
     >
       <MatchHighlight toMatch={toMatch}>{children}</MatchHighlight>
     </Link>

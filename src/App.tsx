@@ -47,7 +47,7 @@ const Routes: FC = () => {
   return (
     <div className={classes.app}>
       <Switch>
-        <Route exact path="/experience">
+        <Route exact path={["/experience", "/experience/:id"]}>
           <ExperiencePage />
         </Route>
         <Route exact path="/projects">

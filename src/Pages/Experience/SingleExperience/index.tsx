@@ -1,5 +1,6 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router";
 import Info from "./Info";
 import FloatingIcons from "./FloatingIcons";
 import MatchHighlight from "../../../Components/MatchHighlight";
@@ -92,12 +93,31 @@ const useStyles = makeStyles((theme) => ({
 const SingleExperience: FC<ExperienceFields> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const ref = useRef<HTMLDivElement>();
+  const [shouldScroll, setShouldScroll] = useState(false);
   const search = useSelector(getExperienceSearch);
+
+  const pathname = useLocation().pathname;
+  const parts = pathname.split("/");
+  const last = parts[parts.length - 1];
 
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  useEffect(() => {
+    if (last === props.id) {
+      ref.current?.scrollIntoView(true);
+    }
+  }, [last, props.id]);
+
+  useEffect(() => {
+    if (shouldScroll) {
+      ref.current?.scrollIntoView(true);
+      setShouldScroll(false);
+    }
+  }, [shouldScroll]);
+
   return (
-    <Paper className={classes.container} elevation={12}>
+    <Paper ref={ref} className={classes.container} elevation={12}>
       <div className={classes.titleContainer}>
         <StyledLink
           to={`/experience/${props.id}`}
@@ -105,6 +125,9 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
           align="center"
           toMatch={search}
           className={classes.title}
+          onClick={() => {
+            if (last === props.id) setShouldScroll(true);
+          }}
         >
           {`${props.role} @ ${props.title}`}
         </StyledLink>
