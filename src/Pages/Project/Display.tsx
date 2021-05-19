@@ -3,16 +3,25 @@ import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import { ProjectFields } from "../../Utils/types";
 import RichText from "../../Components/RichText";
+import HorizontalDivider from "../../Components/Divider/Horizontal";
+import { getImageTitle, getImageUrl } from "../../API/helpers";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
-import { getImageTitle, getImageUrl } from "../../API/helpers";
+import {
+  darken,
+  lighten,
+  makeStyles,
+  Typography,
+  useTheme,
+} from "@material-ui/core";
+import { GitHub, Launch } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   projectInfo: {
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    width: "100%",
     padding: theme.spacing(2),
 
     [theme.breakpoints.only("xs")]: {
@@ -47,11 +56,40 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "flex-start",
+    marginRight: theme.spacing(1),
+  },
+  projectLinks: {
+    margin: theme.spacing(1),
+    marginLeft: "auto",
+    borderRadius: "10px",
+    border: `2px solid ${
+      theme.palette.common[theme.palette.type === "dark" ? "white" : "black"]
+    }`,
+    minWidth: "150px",
+    overflow: "hidden",
+  },
+  projectLink: {
+    display: "flex",
+    justifyContent: "space-around",
+    alignItems: "center",
+    padding: theme.spacing(1),
+    color: theme.palette.text.primary,
+    textDecoration: "inherit",
+    transition: theme.transitions.create("background-color", {
+      duration: "0.3s",
+    }),
+    "&:hover": {
+      backgroundColor: (theme.palette.type === "dark" ? lighten : darken)(
+        theme.palette.background.paper,
+        0.2
+      ),
+    },
   },
 }));
 
 const Display: FC<ProjectFields> = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <div className={classes.projectInfo}>
@@ -63,6 +101,29 @@ const Display: FC<ProjectFields> = (props) => {
       <div className={classes.projectDescription}>
         <RichText richText={props.description as Document} />
       </div>
+      {(props.link || props.github) && (
+        <div className={classes.projectLinks}>
+          {props.link && (
+            <a href={props.link} target="_blank" rel="noopener noreferrer">
+              <div className={classes.projectLink}>
+                <Typography>View Website</Typography>
+                <Launch fontSize="small" />
+              </div>
+            </a>
+          )}
+          {props.link && props.github && (
+            <HorizontalDivider color={theme.palette.text.primary} />
+          )}
+          {props.github && (
+            <a href={props.github} target="_blank" rel="noopener noreferrer">
+              <div className={classes.projectLink}>
+                <Typography>View GitHub</Typography>
+                <GitHub fontSize="small" />
+              </div>
+            </a>
+          )}
+        </div>
+      )}
     </div>
   );
 };

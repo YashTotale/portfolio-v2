@@ -57,9 +57,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     alignItems: "center",
     justifySelf: "center",
     position: "relative",
-    border: `4px solid ${
-      theme.palette.common[theme.palette.type === "dark" ? "white" : "black"]
-    }`,
+    border: `4px solid ${theme.palette.text.primary}`,
     borderRadius: "5px",
     padding: theme.spacing(1),
     width: "100%",
