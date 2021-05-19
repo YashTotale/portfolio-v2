@@ -7,7 +7,13 @@ import VerticalDivider from "../../../Components/Divider/Vertical";
 import { TagFields } from "../../../Utils/types";
 
 // Material UI Imports
-import { makeStyles, Paper, Typography } from "@material-ui/core";
+import {
+  makeStyles,
+  Paper,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -26,21 +32,32 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "stretch",
     justifyContent: "center",
     width: "100%",
+
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+      alignItems: "center",
+    },
   },
 }));
 
 const Tag: FC<TagFields> = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <Paper elevation={12} className={classes.container}>
-      <Typography variant="h4" align="center" className={classes.heading}>
+      <Typography
+        variant={isSizeSmall ? "h5" : "h4"}
+        align="center"
+        className={classes.heading}
+      >
         {props.title}
       </Typography>
       <HorizontalDivider />
       <div className={classes.main}>
         <Icon {...props} />
-        <VerticalDivider />
+        {!isSizeSmall && <VerticalDivider />}
         <Related {...props} />
       </div>
     </Paper>

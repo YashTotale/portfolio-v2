@@ -17,10 +17,10 @@ import NotFound from "./Pages/NotFound";
 import Popup from "./Components/Popup";
 import Navbar from "./Components/Navbar";
 import Sidebar from "./Components/Sidebar";
+import ScrollToTop from "./Components/ScrollToTop";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
-import ScrollToTop from "./Components/ScrollToTop";
 
 const useStyles = makeStyles((theme) => ({
   app: {

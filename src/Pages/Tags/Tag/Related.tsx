@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import Overlay from "../../../Components/Overlay";
+import Associated from "../../../Components/Experience/Associated";
 import HorizontalDivider from "../../../Components/Divider/Horizontal";
 import {
   useArticles,
@@ -8,31 +9,55 @@ import {
   useProjects,
 } from "../../../Context/DataContext";
 import { TagFields } from "../../../Utils/types";
+import { getExperienceRelated } from "../../../Utils/experience";
 
 // Material UI Imports
-import { CircularProgress, makeStyles, Typography } from "@material-ui/core";
-import { getExperienceRelated } from "../../../Utils/experience";
-import Associated from "../../../Components/Experience/Associated";
+import {
+  CircularProgress,
+  makeStyles,
+  Typography,
+  useTheme,
+  useMediaQuery,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     flexDirection: "column",
-    justifyContent: "flex-start",
+    justifyContent: "center",
     alignItems: "flex-start",
     height: "100%",
     width: "70%",
+
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      alignItems: "center",
+    },
   },
   container: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
     margin: theme.spacing(1, 2),
+    width: "100%",
+
+    [theme.breakpoints.down("sm")]: {
+      alignItems: "center",
+      margin: theme.spacing(1, 0),
+      padding: theme.spacing(0, 2),
+    },
   },
-  heading: {},
   related: {
     display: "flex",
     justifyContent: "flex-start",
     alignItems: "center",
     flexWrap: "wrap",
     marginLeft: theme.spacing(-2),
+
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "center",
+      marginLeft: theme.spacing(0),
+    },
   },
   associated: {
     margin: theme.spacing(1, 2),
@@ -73,9 +98,7 @@ const Related: FC<TagFields> = (props) => {
     <div className={classes.root}>
       {!!relatedExperience.length && (
         <div className={classes.container}>
-          <Typography variant="h5" className={classes.heading}>
-            Related Experience
-          </Typography>
+          <Heading>Related Experience</Heading>
           <div className={classes.related}>
             {relatedExperience.map((experience) => (
               <Associated
@@ -92,9 +115,7 @@ const Related: FC<TagFields> = (props) => {
       )}
       {!!relatedProjects.length && (
         <div className={classes.container}>
-          <Typography variant="h5" className={classes.heading}>
-            Related Projects
-          </Typography>
+          <Heading>Related Projects</Heading>
           <div className={classes.related}>
             {relatedProjects.map((project) => (
               <Overlay
@@ -112,9 +133,7 @@ const Related: FC<TagFields> = (props) => {
         !!relatedArticles.length && <HorizontalDivider height={3} />}
       {!!relatedArticles.length && (
         <div className={classes.container}>
-          <Typography variant="h5" className={classes.heading}>
-            Related Articles
-          </Typography>
+          <Heading>Related Articles</Heading>
           <div className={classes.related}>
             {relatedArticles.map((article) => (
               <Overlay
@@ -129,6 +148,20 @@ const Related: FC<TagFields> = (props) => {
         </div>
       )}
     </div>
+  );
+};
+
+const Heading: FC = ({ children }) => {
+  const theme = useTheme();
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+  return (
+    <Typography
+      align={isSizeSmall ? "center" : "left"}
+      variant={isSizeSmall ? "h6" : "h5"}
+    >
+      {children}
+    </Typography>
   );
 };
 
