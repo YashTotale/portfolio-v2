@@ -75,7 +75,7 @@ const Contents: FC<ContentsProps> = ({ experience }) => {
   );
 };
 
-const sortExperience = (
+export const sortExperience = (
   sort: ExperienceSort,
   filteredExperience: ExperienceFields[]
 ): ExperienceFields[] => {

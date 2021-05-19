@@ -14,7 +14,7 @@ const ScrollToTop: FC = () => {
   }, [pathname]);
 
   if (pathname.charAt(pathname.length - 1) === "/")
-    return <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />;
+    return <Redirect to={pathname.slice(0, -1)} />;
 
   return null;
 };

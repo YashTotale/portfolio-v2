@@ -2,6 +2,8 @@
 import React, { FC } from "react";
 import Category from "./Category";
 import Item from "./Item";
+import { sortExperience } from "../../Pages/Experience/Contents";
+import { sortProjects } from "../../Pages/Projects";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
 import {
   ArticleFields,
@@ -15,6 +17,10 @@ import {
   useProjects,
   useTags,
 } from "../../Context/DataContext";
+
+// Redux Imports
+import { useSelector } from "react-redux";
+import { getExperienceSort, getProjectsSort } from "../../Redux";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
@@ -38,14 +44,25 @@ interface CategoryInfo {
 
 const Contents: FC = () => {
   const classes = useStyles();
+
   const experience = useExperience();
+  const experienceSort = useSelector(getExperienceSort);
+  const sortedExperience =
+    experience === null
+      ? null
+      : sortExperience(experienceSort, [...experience]);
+
   const projects = useProjects();
+  const projectsSort = useSelector(getProjectsSort);
+  const sortedProjects =
+    projects === null ? null : sortProjects(projectsSort, [...projects]);
+
   const articles = useArticles();
   const tags = useTags();
 
   const categories: CategoryInfo[] = [
-    { label: "Experience", to: "experience", objects: experience },
-    { label: "Projects", to: "projects", objects: projects },
+    { label: "Experience", to: "experience", objects: sortedExperience },
+    { label: "Projects", to: "projects", objects: sortedProjects },
     { label: "Articles", to: "articles", objects: articles },
     { label: "Tags", to: "tags", objects: tags },
   ];

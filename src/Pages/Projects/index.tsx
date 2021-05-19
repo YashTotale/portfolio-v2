@@ -192,7 +192,7 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
   );
 };
 
-const sortProjects = (
+export const sortProjects = (
   sort: ProjectsSort,
   filteredProjects: ProjectFields[]
 ): ProjectFields[] => {
