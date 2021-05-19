@@ -22,6 +22,11 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import {
+  useArticles,
+  useProjects,
+  useTags,
+} from "../../../Context/DataContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -103,15 +108,30 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
 
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const projects = useProjects();
+  const articles = useArticles();
+  const tags = useTags();
+  const loading = projects === null || articles === null || tags === null;
+
   useEffect(() => {
-    if (last === props.id) {
-      ref.current?.scrollIntoView(true);
+    if (!loading && last === props.id) {
+      setTimeout(
+        () =>
+          ref.current?.scrollIntoView({
+            behavior: "smooth",
+            block: "start",
+          }),
+        200
+      );
     }
-  }, [last, props.id]);
+  }, [loading, last, props.id]);
 
   useEffect(() => {
     if (shouldScroll) {
-      ref.current?.scrollIntoView(true);
+      ref.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
       setShouldScroll(false);
     }
   }, [shouldScroll]);
