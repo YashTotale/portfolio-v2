@@ -20,6 +20,7 @@
     "contentful": "^8.3.2",
     "firebase": "^8.3.3",
     "lodash.debounce": "^4.0.8",
+    "moment": "^2.29.1",
     "notistack": "^1.0.5",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",

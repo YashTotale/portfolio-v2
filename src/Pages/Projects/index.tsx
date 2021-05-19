@@ -2,6 +2,7 @@
 import React, { FC, useCallback, useMemo } from "react";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import { Document } from "@contentful/rich-text-types";
+import moment from "moment";
 import Project, { PROJECT_WIDTHS } from "./Project";
 import Filters from "../../Components/Filters";
 import { useProjects } from "../../Context/DataContext";
@@ -10,7 +11,13 @@ import { ProjectFields } from "../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getProjectsSearch, setProjectsSearch } from "../../Redux";
+import {
+  getProjectsSearch,
+  getProjectsSort,
+  setProjectsSearch,
+  setProjectsSort,
+} from "../../Redux";
+import { ProjectsSort, PROJECTS_SORT } from "../../Redux/sort.slice";
 import { useAppDispatch } from "../../Store";
 
 //Material UI Imports
@@ -71,6 +78,7 @@ const ProjectsPage: FC = () => {
   const dispatch = useAppDispatch();
   const projects = useProjects();
   const search = useSelector(getProjectsSearch);
+  const sort = useSelector(getProjectsSort);
 
   if (projects === null)
     return (
@@ -84,6 +92,11 @@ const ProjectsPage: FC = () => {
       <Filters
         defaultSearch={search}
         onSearchChange={(value) => dispatch(setProjectsSearch(value))}
+        sort={{
+          value: sort,
+          values: PROJECTS_SORT,
+          onChange: (value) => dispatch(setProjectsSort(value as ProjectsSort)),
+        }}
         className={classes.filters}
       />
       <Contents projects={projects} />
@@ -105,6 +118,7 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
   const classes = useStyles();
   const theme = useTheme();
   const search = useSelector(getProjectsSearch);
+  const sort = useSelector(getProjectsSort);
   const normalizedSearch = search.toLowerCase();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -141,14 +155,19 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
     }, [] as ProjectFields[]);
   }, [projects, normalizedSearch, getProjectMatch]);
 
-  if (!filteredProjects.length)
+  const sortedProjects = useMemo(
+    () => sortProjects(sort, [...filteredProjects]),
+    [filteredProjects, sort]
+  );
+
+  if (!sortedProjects.length)
     return (
       <div className={classes.projects}>
         <Typography variant="h6">No projects found</Typography>
       </div>
     );
 
-  const projectsToRender = filteredProjects.map((project, i, arr) => (
+  const projectsToRender = sortedProjects.map((project, i, arr) => (
     <Project
       key={project.id}
       pushLeft={!isSmall && arr.length % 2 !== 0 && i === arr.length - 1}
@@ -170,6 +189,59 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
       ))}
     </div>
   );
+};
+
+const sortProjects = (
+  sort: ProjectsSort,
+  filteredProjects: ProjectFields[]
+): ProjectFields[] => {
+  const byDate = (multiplier: number) => {
+    return filteredProjects.sort((a, b) => {
+      if (!a.end && b.end) {
+        return 1 * multiplier;
+      }
+      if (a.end && !b.end) {
+        return -1 * multiplier;
+      }
+
+      if (a.end && b.end) {
+        const firstEnd = moment(a.end, "MMMM YYYY");
+        const secondEnd = moment(b.end, "MMMM YYYY");
+
+        const areEqual = firstEnd.isSame(secondEnd);
+
+        if (!areEqual) {
+          const isBefore = firstEnd.isBefore(secondEnd);
+          if (isBefore) return 1 * multiplier;
+          return -1 * multiplier;
+        }
+      }
+
+      const firstStart = moment(a.start, "MMMM YYYY");
+      const secondStart = moment(b.start, "MMMM YYYY");
+
+      const areEqual = firstStart.isSame(secondStart);
+
+      if (areEqual) return 0;
+
+      const isBefore = firstStart.isBefore(secondStart);
+
+      if (isBefore) return 1 * multiplier;
+      return -1 * multiplier;
+    });
+  };
+
+  switch (sort) {
+    case "Newest": {
+      return byDate(1);
+    }
+    case "Oldest": {
+      return byDate(-1);
+    }
+    default: {
+      return filteredProjects;
+    }
+  }
 };
 
 export default ProjectsPage;

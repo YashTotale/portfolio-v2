@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import clsx from "clsx";
+import Sorter, { SorterProps } from "./Sorter";
 import SearchBar from "./SearchBar";
 import HorizontalDivider from "../Divider/Horizontal";
 
@@ -17,7 +18,8 @@ const useStyles = makeStyles((theme) => ({
   filters: {
     display: "flex",
     alignItems: "center",
-    justifyContent: "flex-start",
+    justifyContent: "space-between",
+    flexWrap: "wrap",
     width: "100%",
   },
   divider: {
@@ -29,6 +31,7 @@ interface FiltersProps {
   defaultSearch: string;
   onSearchChange: (value: string) => void;
   className?: string;
+  sort?: SorterProps;
 }
 
 const Filters: FC<FiltersProps> = (props) => {
@@ -38,6 +41,7 @@ const Filters: FC<FiltersProps> = (props) => {
     <>
       <div className={clsx(classes.container, props.className)}>
         <div className={classes.filters}>
+          {props.sort && <Sorter {...props.sort} />}
           <SearchBar {...props} />
         </div>
         <HorizontalDivider className={classes.divider} />

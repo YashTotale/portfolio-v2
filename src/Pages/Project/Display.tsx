@@ -78,7 +78,7 @@ const useStyles = makeStyles((theme) => ({
   },
   projectLink: {
     display: "flex",
-    justifyContent: "space-around",
+    justifyContent: "space-between",
     alignItems: "center",
     padding: theme.spacing(1),
     color: theme.palette.text.primary,

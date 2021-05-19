@@ -51,7 +51,7 @@ export {
 export type { PopupState } from "./popup.slice";
 
 /**
- * Searcg Slice
+ * Search Slice
  */
 
 export {
@@ -70,3 +70,24 @@ export {
 } from "./search.slice";
 
 export type { SearchState } from "./search.slice";
+
+/**
+ * Sort Slice
+ */
+
+export {
+  // -> Slice
+  default as sortSlice,
+  // -> Selectors
+  getProjectsSort,
+  getExperienceSort,
+  // -> Actions
+  setProjectsSort,
+  setExperienceSort,
+  // -> Reducer
+  sortReducer,
+  // -> State
+  initialSortState,
+} from "./sort.slice";
+
+export type { SortState } from "./sort.slice";
