@@ -44,14 +44,10 @@ const Container: FC<ContainerProps> = (props) => {
 
   useEffect(() => {
     if (!loading && props.lastPath === props.id) {
-      setTimeout(
-        () =>
-          ref.current?.scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          }),
-        200
-      );
+      ref.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
     }
   }, [loading, props.lastPath, props.id]);
 

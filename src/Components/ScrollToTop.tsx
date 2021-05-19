@@ -6,15 +6,16 @@ const EXCLUDED = [/^\/experience\/.+$/];
 
 const ScrollToTop: FC = () => {
   const pathname = useLocation().pathname;
+  const withTrailingSlash = pathname.charAt(pathname.length - 1) === "/";
 
   useEffect(() => {
-    const isExcluded = EXCLUDED.some((regexp) => regexp.test(pathname));
+    const newPathname = withTrailingSlash ? pathname.slice(0, -1) : pathname;
+    const isExcluded = EXCLUDED.some((regexp) => regexp.test(newPathname));
 
     if (!isExcluded) window.scrollTo(0, 0);
-  }, [pathname]);
+  }, [pathname, withTrailingSlash]);
 
-  if (pathname.charAt(pathname.length - 1) === "/")
-    return <Redirect to={pathname.slice(0, -1)} />;
+  if (withTrailingSlash) return <Redirect to={pathname.slice(0, -1)} />;
 
   return null;
 };

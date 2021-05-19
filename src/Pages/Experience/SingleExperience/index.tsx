@@ -1,6 +1,5 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router";
 import Container from "./Container";
 import Info from "./Info";
 import FloatingIcons from "./FloatingIcons";
@@ -8,6 +7,7 @@ import StyledLink from "../../../Components/StyledLink";
 import MatchHighlight from "../../../Components/MatchHighlight";
 import VerticalDivider from "../../../Components/Divider/Vertical";
 import HorizontalDivider from "../../../Components/Divider/Horizontal";
+import { useLastPath } from "../../../Hooks";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ExperienceFields } from "../../../Utils/types";
 
@@ -85,11 +85,7 @@ const useStyles = makeStyles((theme) => ({
 const SingleExperience: FC<ExperienceFields> = (props) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-
-  const pathname = useLocation().pathname;
-  const parts = pathname.split("/");
-  const lastPath = parts[parts.length - 1];
-
+  const lastPath = useLastPath();
   const search = useSelector(getExperienceSearch);
 
   const theme = useTheme();

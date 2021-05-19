@@ -27,9 +27,10 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 interface ItemProps {
   label: string;
   to: string;
+  onClick?: () => void;
 }
 
-const Item: FC<ItemProps> = ({ label, to }) => {
+const Item: FC<ItemProps> = ({ label, to, onClick }) => {
   const pathname = useLocation().pathname;
   const history = useHistory();
   const classes = useStyles({
@@ -40,7 +41,10 @@ const Item: FC<ItemProps> = ({ label, to }) => {
     <ListItem
       button
       className={classes.listItem}
-      onClick={() => history.push(to)}
+      onClick={() => {
+        history.push(to);
+        onClick?.();
+      }}
     >
       <ListItemText
         primary={label}
