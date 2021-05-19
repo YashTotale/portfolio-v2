@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import clsx from "clsx";
 import Sorter, { SorterProps } from "./Sorter";
-import SearchBar from "./SearchBar";
+import SearchBar, { SearchBarProps } from "./SearchBar";
 import HorizontalDivider from "../Divider/Horizontal";
 
 // Material UI Imports
@@ -28,10 +28,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface FiltersProps {
-  defaultSearch: string;
-  onSearchChange: (value: string) => void;
   className?: string;
   sort?: SorterProps;
+  search?: SearchBarProps;
 }
 
 const Filters: FC<FiltersProps> = (props) => {
@@ -42,7 +41,7 @@ const Filters: FC<FiltersProps> = (props) => {
       <div className={clsx(classes.container, props.className)}>
         <div className={classes.filters}>
           {props.sort && <Sorter {...props.sort} />}
-          <SearchBar {...props} />
+          {props.search && <SearchBar {...props.search} />}
         </div>
         <HorizontalDivider className={classes.divider} />
       </div>

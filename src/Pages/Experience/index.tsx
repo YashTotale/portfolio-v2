@@ -6,7 +6,13 @@ import { useExperience } from "../../Context/DataContext";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getExperienceSearch, setExperienceSearch } from "../../Redux";
+import {
+  getExperienceSearch,
+  getExperienceSort,
+  setExperienceSearch,
+  setExperienceSort,
+} from "../../Redux";
+import { ExperienceSort, EXPERIENCE_SORT } from "../../Redux/sort.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
@@ -29,6 +35,7 @@ const Experience: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const search = useSelector(getExperienceSearch);
+  const sort = useSelector(getExperienceSort);
   const experience = useExperience();
 
   if (experience === null)
@@ -41,8 +48,16 @@ const Experience: FC = () => {
   return (
     <Container>
       <Filters
-        defaultSearch={search}
-        onSearchChange={(value) => dispatch(setExperienceSearch(value))}
+        search={{
+          defaultSearch: search,
+          onSearchChange: (value) => dispatch(setExperienceSearch(value)),
+        }}
+        sort={{
+          value: sort,
+          values: EXPERIENCE_SORT,
+          onChange: (value) =>
+            dispatch(setExperienceSort(value as ExperienceSort)),
+        }}
         className={classes.filters}
       />
       <Contents experience={experience} />

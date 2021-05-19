@@ -4,10 +4,12 @@ import { documentToPlainTextString } from "@contentful/rich-text-plain-text-rend
 import { Document } from "@contentful/rich-text-types";
 import SingleExperience from "./SingleExperience";
 import { ExperienceFields } from "../../Utils/types";
+import { sortByDate } from "../../Utils/funcs";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getExperienceSearch } from "../../Redux";
+import { getExperienceSearch, getExperienceSort } from "../../Redux";
+import { ExperienceSort } from "../../Redux/sort.slice";
 
 // Material UI Imports
 import { Typography } from "@material-ui/core";
@@ -18,6 +20,7 @@ interface ContentsProps {
 
 const Contents: FC<ContentsProps> = ({ experience }) => {
   const search = useSelector(getExperienceSearch);
+  const sort = useSelector(getExperienceSort);
   const normalizedSearch = search.toLowerCase();
 
   const getExperienceMatch = useCallback(
@@ -55,16 +58,38 @@ const Contents: FC<ContentsProps> = ({ experience }) => {
     }, [] as ExperienceFields[]);
   }, [experience, normalizedSearch, getExperienceMatch]);
 
-  if (!filteredExperience.length)
+  const sortedExperience = useMemo(
+    () => sortExperience(sort, [...filteredExperience]),
+    [filteredExperience, sort]
+  );
+
+  if (!sortedExperience.length)
     return <Typography variant="h6">No experience found</Typography>;
 
   return (
     <>
-      {filteredExperience.map((fields) => (
+      {sortedExperience.map((fields) => (
         <SingleExperience key={fields.id} {...fields} />
       ))}
     </>
   );
+};
+
+const sortExperience = (
+  sort: ExperienceSort,
+  filteredExperience: ExperienceFields[]
+): ExperienceFields[] => {
+  switch (sort) {
+    case "Latest": {
+      return filteredExperience.sort((a, b) => sortByDate(a, b, 1));
+    }
+    case "Earliest": {
+      return filteredExperience.sort((a, b) => sortByDate(a, b, -1));
+    }
+    default: {
+      return filteredExperience;
+    }
+  }
 };
 
 export default Contents;

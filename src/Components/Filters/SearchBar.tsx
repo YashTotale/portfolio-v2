@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface SearchBarProps {
+export interface SearchBarProps {
   defaultSearch: string;
   onSearchChange: (value: string) => void;
 }

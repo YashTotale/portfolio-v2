@@ -1,17 +1,20 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
+export type ExperienceSort = "Latest" | "Earliest";
+export const EXPERIENCE_SORT: ExperienceSort[] = ["Latest", "Earliest"];
+
 export type ProjectsSort = "Newest" | "Oldest";
 export const PROJECTS_SORT: ProjectsSort[] = ["Newest", "Oldest"];
 
 export interface SortState {
   projects: ProjectsSort;
-  experience: string;
+  experience: ExperienceSort;
 }
 
 export const initialSortState: SortState = {
   projects: PROJECTS_SORT[0],
-  experience: "",
+  experience: EXPERIENCE_SORT[0],
 };
 
 const sortSlice = createSlice({
@@ -22,7 +25,7 @@ const sortSlice = createSlice({
       ...state,
       projects: action.payload,
     }),
-    setExperienceSort: (state, action: PayloadAction<string>) => ({
+    setExperienceSort: (state, action: PayloadAction<ExperienceSort>) => ({
       ...state,
       experience: action.payload,
     }),

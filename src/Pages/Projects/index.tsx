@@ -2,11 +2,10 @@
 import React, { FC, useCallback, useMemo } from "react";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import { Document } from "@contentful/rich-text-types";
-import moment from "moment";
 import Project, { PROJECT_WIDTHS } from "./Project";
 import Filters from "../../Components/Filters";
 import { useProjects } from "../../Context/DataContext";
-import { chunk } from "../../Utils/funcs";
+import { chunk, sortByDate } from "../../Utils/funcs";
 import { ProjectFields } from "../../Utils/types";
 
 // Redux Imports
@@ -90,8 +89,10 @@ const ProjectsPage: FC = () => {
   return (
     <Container>
       <Filters
-        defaultSearch={search}
-        onSearchChange={(value) => dispatch(setProjectsSearch(value))}
+        search={{
+          defaultSearch: search,
+          onSearchChange: (value) => dispatch(setProjectsSearch(value)),
+        }}
         sort={{
           value: sort,
           values: PROJECTS_SORT,
@@ -195,48 +196,12 @@ const sortProjects = (
   sort: ProjectsSort,
   filteredProjects: ProjectFields[]
 ): ProjectFields[] => {
-  const byDate = (multiplier: number) => {
-    return filteredProjects.sort((a, b) => {
-      if (!a.end && b.end) {
-        return 1 * multiplier;
-      }
-      if (a.end && !b.end) {
-        return -1 * multiplier;
-      }
-
-      if (a.end && b.end) {
-        const firstEnd = moment(a.end, "MMMM YYYY");
-        const secondEnd = moment(b.end, "MMMM YYYY");
-
-        const areEqual = firstEnd.isSame(secondEnd);
-
-        if (!areEqual) {
-          const isBefore = firstEnd.isBefore(secondEnd);
-          if (isBefore) return 1 * multiplier;
-          return -1 * multiplier;
-        }
-      }
-
-      const firstStart = moment(a.start, "MMMM YYYY");
-      const secondStart = moment(b.start, "MMMM YYYY");
-
-      const areEqual = firstStart.isSame(secondStart);
-
-      if (areEqual) return 0;
-
-      const isBefore = firstStart.isBefore(secondStart);
-
-      if (isBefore) return 1 * multiplier;
-      return -1 * multiplier;
-    });
-  };
-
   switch (sort) {
     case "Newest": {
-      return byDate(1);
+      return filteredProjects.sort((a, b) => sortByDate(a, b, 1));
     }
     case "Oldest": {
-      return byDate(-1);
+      return filteredProjects.sort((a, b) => sortByDate(a, b, -1));
     }
     default: {
       return filteredProjects;
