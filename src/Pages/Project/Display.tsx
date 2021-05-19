@@ -57,6 +57,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     marginRight: theme.spacing(1),
+
+    [theme.breakpoints.down("sm")]: {
+      marginRight: 0,
+    },
   },
   projectLinks: {
     margin: theme.spacing(1),
@@ -67,6 +71,10 @@ const useStyles = makeStyles((theme) => ({
     }`,
     minWidth: "150px",
     overflow: "hidden",
+
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: theme.spacing(1),
+    },
   },
   projectLink: {
     display: "flex",

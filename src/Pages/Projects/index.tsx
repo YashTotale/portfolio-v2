@@ -119,7 +119,7 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
           tag.fields.title.toLowerCase().includes(normalizedSearch)
         ),
         p.start.toLowerCase().includes(normalizedSearch),
-        p.end.toLowerCase().includes(normalizedSearch),
+        p.end?.toLowerCase().includes(normalizedSearch) ?? false,
         p.link?.toLowerCase().includes(normalizedSearch) ?? false,
         p.github?.toLowerCase().includes(normalizedSearch) ?? false,
       ];

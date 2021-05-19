@@ -155,7 +155,7 @@ const Project: FC<ProjectProps> = (props) => {
         variant={isSizeXS ? "body2" : "body1"}
       >
         <MatchHighlight toMatch={search}>{start}</MatchHighlight> -{" "}
-        <MatchHighlight toMatch={search}>{end}</MatchHighlight>
+        <MatchHighlight toMatch={search}>{end ?? "Present"}</MatchHighlight>
       </Typography>
     </Paper>
   );

@@ -31,7 +31,7 @@ const FloatingIcons: FC<ProjectFields> = ({ link, github }) => {
     <div className={classes.floatingIcons}>
       {link && (
         <LinkIcon
-          label="View Project"
+          label="View Website"
           href={link}
           icon={<Launch />}
           className={classes.iconButton}

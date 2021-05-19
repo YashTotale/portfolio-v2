@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 0),
     width: "100%",
   },
+  timeline: {
+    marginTop: theme.spacing(1),
+  },
   divider: {
     margin: theme.spacing(1, 0),
   },
@@ -100,6 +103,9 @@ const Project: FC = () => {
       <Paper className={classes.project}>
         <Typography variant={isSizeSmall ? "h4" : "h3"} align="center">
           {project.title}
+        </Typography>
+        <Typography align="center" className={classes.timeline}>
+          {project.start} - {project.end ?? "Present"}
         </Typography>
         <HorizontalDivider height={2} className={classes.divider} />
         <Display {...project} />

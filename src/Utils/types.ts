@@ -21,7 +21,7 @@ export interface ProjectFields {
   description: EntryFields.RichText;
   image: Asset;
   start: EntryFields.Text;
-  end: EntryFields.Text;
+  end?: EntryFields.Text;
   link?: EntryFields.Text;
   github?: EntryFields.Text;
   associated?: Entry<ExperienceFieldsWithoutID>;
