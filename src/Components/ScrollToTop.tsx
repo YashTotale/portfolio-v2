@@ -1,10 +1,10 @@
 // React Imports
 import React, { FC, useEffect } from "react";
-import { useLocation } from "react-router";
+import { Redirect, useLocation } from "react-router";
 
 const EXCLUDED = [/^\/experience\/.+$/];
 
-const ScrollToTop: FC = ({ children }) => {
+const ScrollToTop: FC = () => {
   const pathname = useLocation().pathname;
 
   useEffect(() => {
@@ -13,7 +13,10 @@ const ScrollToTop: FC = ({ children }) => {
     if (!isExcluded) window.scrollTo(0, 0);
   }, [pathname]);
 
-  return <>{children}</>;
+  if (pathname.charAt(pathname.length - 1) === "/")
+    return <Redirect from="/:url*(/+)" to={pathname.slice(0, -1)} />;
+
+  return null;
 };
 
 export default ScrollToTop;

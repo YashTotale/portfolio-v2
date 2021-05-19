@@ -34,12 +34,11 @@ const useStyles = makeStyles((theme) => ({
 const App: FC = () => {
   return (
     <DataProvider>
-      <ScrollToTop>
-        <Popup />
-        <Navbar />
-        <Sidebar />
-        <Routes />
-      </ScrollToTop>
+      <ScrollToTop />
+      <Popup />
+      <Navbar />
+      <Sidebar />
+      <Routes />
     </DataProvider>
   );
 };
