@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import Related from "./Related";
 import Icon from "./Icon";
+import DynamicPaper from "../../../Components/DynamicPaper";
 import HorizontalDivider from "../../../Components/Divider/Horizontal";
 import VerticalDivider from "../../../Components/Divider/Vertical";
 import { TagFields } from "../../../Utils/types";
@@ -10,7 +11,6 @@ import { TagFields } from "../../../Utils/types";
 import {
   Link,
   makeStyles,
-  Paper,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -48,7 +48,7 @@ const Tag: FC<TagFields> = (props) => {
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Paper elevation={12} className={classes.container}>
+    <DynamicPaper className={classes.container}>
       {props.link ? (
         <Tooltip title="View Website">
           <Link
@@ -77,7 +77,7 @@ const Tag: FC<TagFields> = (props) => {
         {!isSizeSmall && <VerticalDivider />}
         <Related {...props} />
       </div>
-    </Paper>
+    </DynamicPaper>
   );
 };
 

@@ -6,6 +6,7 @@ import TagChip from "../../../Components/Tag/Chip";
 import Title from "./Title";
 import RichText from "../../../Components/RichText";
 import MatchHighlight from "../../../Components/MatchHighlight";
+import DynamicPaper from "../../../Components/DynamicPaper";
 import HorizontalDivider from "../../../Components/Divider/Horizontal";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ProjectFields } from "../../../Utils/types";
@@ -130,7 +131,7 @@ const Project: FC<ProjectProps> = (props) => {
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
-    <Paper className={classes.project} elevation={12}>
+    <DynamicPaper className={classes.project}>
       <Paper className={classes.projectTop} elevation={3}>
         <FloatingIcons {...props} />
         <img
@@ -157,7 +158,7 @@ const Project: FC<ProjectProps> = (props) => {
         <MatchHighlight toMatch={search}>{start}</MatchHighlight> -{" "}
         <MatchHighlight toMatch={search}>{end ?? "Present"}</MatchHighlight>
       </Typography>
-    </Paper>
+    </DynamicPaper>
   );
 };
 

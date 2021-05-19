@@ -4,6 +4,7 @@ import { useParams } from "react-router";
 import Display from "./Display";
 import Tags from "./Tags";
 import NotFound from "../NotFound";
+import DynamicPaper from "../../Components/DynamicPaper";
 import HorizontalDivider from "../../Components/Divider/Horizontal";
 import Associated from "../../Components/Experience/Associated";
 import { useProjects } from "../../Context/DataContext";
@@ -12,7 +13,6 @@ import { useProjects } from "../../Context/DataContext";
 import {
   CircularProgress,
   makeStyles,
-  Paper,
   Typography,
   useMediaQuery,
   useTheme,
@@ -100,7 +100,7 @@ const Project: FC = () => {
 
   return (
     <Container>
-      <Paper className={classes.project}>
+      <DynamicPaper className={classes.project}>
         <Typography variant={isSizeSmall ? "h4" : "h3"} align="center">
           {project.title}
         </Typography>
@@ -135,7 +135,7 @@ const Project: FC = () => {
           Technologies Used
         </Typography>
         <Tags {...project} />
-      </Paper>
+      </DynamicPaper>
     </Container>
   );
 };

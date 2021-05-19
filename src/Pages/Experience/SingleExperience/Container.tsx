@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC, useEffect, useRef } from "react";
+import DynamicPaper from "../../../Components/DynamicPaper";
 import {
   useArticles,
   useProjects,
@@ -12,7 +13,7 @@ import { useSelector } from "react-redux";
 import { getExperienceScroll, setExperienceScroll } from "../../../Redux";
 
 // Material UI Imports
-import { makeStyles, Paper } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { useAppDispatch } from "../../../Store";
 
 const useStyles = makeStyles((theme) => ({
@@ -33,7 +34,7 @@ type ContainerProps = ExperienceFields & {
 const Container: FC<ContainerProps> = (props) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const ref = useRef<HTMLDivElement>();
+  const ref = useRef<HTMLDivElement>(null);
 
   const projects = useProjects();
   const articles = useArticles();
@@ -62,9 +63,9 @@ const Container: FC<ContainerProps> = (props) => {
   }, [scroll, dispatch, props.id]);
 
   return (
-    <Paper ref={ref} className={classes.container} elevation={12}>
+    <DynamicPaper ref={ref} className={classes.container}>
       {props.children}
-    </Paper>
+    </DynamicPaper>
   );
 };
 
