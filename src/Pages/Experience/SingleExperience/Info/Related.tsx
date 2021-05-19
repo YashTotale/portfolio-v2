@@ -8,6 +8,7 @@ import {
   useTags,
 } from "../../../../Context/DataContext";
 import { ExperienceFields } from "../../../../Utils/types";
+import { getExperienceRelated } from "../../../../Utils/experience";
 
 // Material UI Imports
 import { CircularProgress, makeStyles, Typography } from "@material-ui/core";
@@ -45,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Related: FC<ExperienceFields> = ({ id, tags }) => {
+const Related: FC<ExperienceFields> = (props) => {
   const classes = useStyles();
   const projects = useProjects();
   const articles = useArticles();
@@ -54,29 +55,11 @@ const Related: FC<ExperienceFields> = ({ id, tags }) => {
   if (projects === null || articles === null || allTags === null)
     return <CircularProgress className={classes.spinner} />;
 
-  const relatedProjects = projects.filter((p) => p.associated?.sys.id === id);
-
-  const relatedArticles = articles.filter((a) => a.associated?.sys.id === id);
-
-  const relatedTags = allTags.filter((tag) => {
-    if (
-      relatedProjects.some((project) =>
-        project.tags.some((t) => t.sys.id === tag.id)
-      )
-    )
-      return true;
-
-    if (
-      relatedArticles.some((article) =>
-        article.tags.some((t) => t.sys.id === tag.id)
-      )
-    )
-      return true;
-
-    if (tags?.some((t) => t.sys.id === tag.id)) return true;
-
-    return false;
-  });
+  const {
+    projects: relatedProjects,
+    articles: relatedArticles,
+    tags: relatedTags,
+  } = getExperienceRelated(props, projects, articles, allTags);
 
   return (
     <>

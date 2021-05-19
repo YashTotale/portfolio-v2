@@ -1,12 +1,12 @@
 // React Imports
 import React, { FC } from "react";
+import Related from "./Related";
 import Display from "./Display";
 import VerticalDivider from "../../../Components/Divider/Vertical";
 import { TagFields } from "../../../Utils/types";
 
 // Material UI Imports
 import { makeStyles, Paper } from "@material-ui/core";
-import Related from "./Related";
 
 const useStyles = makeStyles((theme) => ({
   container: {
