@@ -15,7 +15,7 @@ import { getExperienceRelated } from "../../../Utils/experience";
 import Associated from "../../../Components/Experience/Associated";
 
 const useStyles = makeStyles((theme) => ({
-  tagRelated: {
+  root: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "flex-start",
@@ -70,7 +70,7 @@ const Related: FC<TagFields> = (props) => {
   });
 
   return (
-    <div className={classes.tagRelated}>
+    <div className={classes.root}>
       {!!relatedExperience.length && (
         <div className={classes.container}>
           <Typography variant="h5" className={classes.heading}>

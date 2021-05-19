@@ -4,16 +4,10 @@ import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { TagFields } from "../../../Utils/types";
 
 // Material UI Imports
-import {
-  Link,
-  makeStyles,
-  Tooltip,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
+import { makeStyles, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  tagDisplay: {
+  iconContainer: {
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
@@ -21,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     width: "30%",
   },
-  tagIcon: {
+  icon: {
     margin: theme.spacing(2),
 
     [theme.breakpoints.only("xl")]: {
@@ -46,37 +40,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Display: FC<TagFields> = (props) => {
+const Icon: FC<TagFields> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
   const isDark = theme.palette.type === "dark";
   const icon = isDark ? props.darkIcon : props.lightIcon;
 
-  const title = (
-    <Typography variant="h4" align="center">
-      {props.title}
-    </Typography>
-  );
-
   return (
-    <div className={classes.tagDisplay}>
-      {props.link ? (
-        <Tooltip title="View Website">
-          <Link href={props.link} target="_blank" rel="noopener noreferrer">
-            {title}
-          </Link>
-        </Tooltip>
-      ) : (
-        title
-      )}
+    <div className={classes.iconContainer}>
       <img
         src={getImageUrl(icon)}
         alt={getImageTitle(icon)}
-        className={classes.tagIcon}
+        className={classes.icon}
       />
     </div>
   );
 };
 
-export default Display;
+export default Icon;
