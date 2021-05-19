@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC } from "react";
+import DynamicImage from "../../../Components/DynamicImage";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { TagFields } from "../../../Utils/types";
 
@@ -55,7 +56,7 @@ const Icon: FC<TagFields> = (props) => {
 
   return (
     <div className={classes.iconContainer}>
-      <img
+      <DynamicImage
         src={getImageUrl(icon)}
         alt={getImageTitle(icon)}
         className={classes.icon}

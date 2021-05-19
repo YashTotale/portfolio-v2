@@ -6,6 +6,7 @@ import TagChip from "../../../Components/Tag/Chip";
 import Title from "./Title";
 import RichText from "../../../Components/RichText";
 import MatchHighlight from "../../../Components/MatchHighlight";
+import DynamicImage from "../../../Components/DynamicImage";
 import DynamicPaper from "../../../Components/DynamicPaper";
 import HorizontalDivider from "../../../Components/Divider/Horizontal";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
@@ -134,7 +135,7 @@ const Project: FC<ProjectProps> = (props) => {
     <DynamicPaper className={classes.project}>
       <Paper className={classes.projectTop} elevation={3}>
         <FloatingIcons {...props} />
-        <img
+        <DynamicImage
           src={getImageUrl(image)}
           alt={getImageTitle(image)}
           className={classes.projectImage}

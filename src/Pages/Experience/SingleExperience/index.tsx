@@ -4,6 +4,7 @@ import Container from "./Container";
 import Info from "./Info";
 import FloatingIcons from "./FloatingIcons";
 import StyledLink from "../../../Components/StyledLink";
+import DynamicImage from "../../../Components/DynamicImage";
 import MatchHighlight from "../../../Components/MatchHighlight";
 import VerticalDivider from "../../../Components/Divider/Vertical";
 import HorizontalDivider from "../../../Components/Divider/Horizontal";
@@ -115,7 +116,7 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
       <HorizontalDivider />
       <div className={classes.main}>
         <div className={classes.imageContainer}>
-          <img
+          <DynamicImage
             src={getImageUrl(props.image)}
             alt={getImageTitle(props.image)}
             className={classes.image}
