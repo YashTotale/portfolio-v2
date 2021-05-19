@@ -64,6 +64,16 @@ const useStyles = makeStyles((theme) => ({
   heading: {
     margin: theme.spacing(0, 1, 1),
   },
+  badges: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+  badge: {
+    margin: theme.spacing(0.5),
+    marginBottom: 0,
+  },
   associated: {
     margin: theme.spacing(1, 2),
   },
@@ -108,6 +118,24 @@ const Project: FC = () => {
           {project.start} - {project.end ?? "Present"}
         </Typography>
         <HorizontalDivider height={2} className={classes.divider} />
+        {project.badges && (
+          <>
+            <div className={classes.badges}>
+              {project.badges.map((badge) => (
+                <a
+                  key={badge.sys.id}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  href={badge.fields.url}
+                  className={classes.badge}
+                >
+                  <img src={badge.fields.source} alt={badge.fields.title} />
+                </a>
+              ))}
+            </div>
+            <HorizontalDivider height={2} className={classes.divider} />
+          </>
+        )}
         <Display {...project} />
         <HorizontalDivider height={2} className={classes.divider} />
         {project.associated && (

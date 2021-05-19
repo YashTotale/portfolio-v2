@@ -26,6 +26,7 @@ export interface ProjectFields {
   github?: EntryFields.Text;
   associated?: Entry<ExperienceFieldsWithoutID>;
   tags: Entry<TagFieldsWithoutID>[];
+  badges?: Entry<BadgeFields>[];
 }
 
 export interface ExperienceFields {
@@ -54,4 +55,10 @@ export interface ArticleFields {
   associated?: Entry<ExperienceFieldsWithoutID>;
   image: Asset;
   tags: Entry<TagFieldsWithoutID>[];
+}
+
+export interface BadgeFields {
+  title: EntryFields.Text;
+  source: EntryFields.Text;
+  url: EntryFields.Text;
 }
