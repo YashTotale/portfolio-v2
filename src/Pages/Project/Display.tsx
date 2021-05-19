@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    marginRight: theme.spacing(1),
+    marginRight: theme.spacing(2),
 
     [theme.breakpoints.down("sm")]: {
       marginRight: 0,

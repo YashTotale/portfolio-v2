@@ -59,7 +59,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     position: "relative",
     border: `4px solid ${theme.palette.text.primary}`,
     borderRadius: "5px",
-    padding: theme.spacing(1),
+    padding: theme.spacing(1.5),
     width: "100%",
     height: "100%",
   },
@@ -71,7 +71,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     bottom: 0,
     backgroundColor: "#1d1c1c",
     visibility: ({ hovering }) => (hovering ? "visible" : "hidden"),
-    opacity: ({ hovering }) => (hovering ? 0.7 : 0),
+    opacity: ({ hovering }) => (hovering ? 0.75 : 0),
     transition: theme.transitions.create(["visibility", "opacity"], {
       duration: "0.4s",
     }),
