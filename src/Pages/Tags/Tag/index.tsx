@@ -8,8 +8,10 @@ import { TagFields } from "../../../Utils/types";
 
 // Material UI Imports
 import {
+  Link,
   makeStyles,
   Paper,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
@@ -47,13 +49,28 @@ const Tag: FC<TagFields> = (props) => {
 
   return (
     <Paper elevation={12} className={classes.container}>
-      <Typography
-        variant={isSizeSmall ? "h5" : "h4"}
-        align="center"
-        className={classes.heading}
-      >
-        {props.title}
-      </Typography>
+      {props.link ? (
+        <Tooltip title="View Website">
+          <Link
+            href={props.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            variant={isSizeSmall ? "h5" : "h4"}
+            align="center"
+            className={classes.heading}
+          >
+            {props.title}
+          </Link>
+        </Tooltip>
+      ) : (
+        <Typography
+          variant={isSizeSmall ? "h5" : "h4"}
+          align="center"
+          className={classes.heading}
+        >
+          {props.title}
+        </Typography>
+      )}
       <HorizontalDivider />
       <div className={classes.main}>
         <Icon {...props} />
