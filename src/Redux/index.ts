@@ -51,43 +51,45 @@ export {
 export type { PopupState } from "./popup.slice";
 
 /**
- * Search Slice
+ * Experience Slice
  */
 
 export {
   // -> Slice
-  default as searchSlice,
+  default as experienceSlice,
   // -> Selectors
-  getProjectsSearch,
+  getExperienceScroll,
   getExperienceSearch,
-  // -> Actions
-  setProjectsSearch,
-  setExperienceSearch,
-  // -> Reducer
-  searchReducer,
-  // -> State
-  initialSearchState,
-} from "./search.slice";
-
-export type { SearchState } from "./search.slice";
-
-/**
- * Sort Slice
- */
-
-export {
-  // -> Slice
-  default as sortSlice,
-  // -> Selectors
-  getProjectsSort,
   getExperienceSort,
   // -> Actions
-  setProjectsSort,
+  setExperienceScroll,
+  setExperienceSearch,
   setExperienceSort,
   // -> Reducer
-  sortReducer,
+  experienceReducer,
   // -> State
-  initialSortState,
-} from "./sort.slice";
+  initialExperienceState,
+} from "./experience.slice";
 
-export type { SortState } from "./sort.slice";
+export type { ExperienceState } from "./experience.slice";
+
+/**
+ * Projects Slice
+ */
+
+export {
+  // -> Slice
+  default as projectsSlice,
+  // -> Selectors
+  getProjectsSearch,
+  getProjectsSort,
+  // -> Actions
+  setProjectsSearch,
+  setProjectsSort,
+  // -> Reducer
+  projectsReducer,
+  // -> State
+  initialProjectsState,
+} from "./projects.slice";
+
+export type { ProjectsState } from "./projects.slice";

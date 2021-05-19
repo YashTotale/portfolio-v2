@@ -50,14 +50,14 @@ import storage from "redux-persist/lib/storage";
 // Reducer Imports
 import { displayReducer, DisplayState } from "./Redux/display.slice";
 import { popupReducer, PopupState } from "./Redux/popup.slice";
-import { searchReducer, SearchState } from "./Redux/search.slice";
-import { sortReducer, SortState } from "./Redux/sort.slice";
+import { experienceReducer, ExperienceState } from "./Redux/experience.slice";
+import { projectsReducer, ProjectsState } from "./Redux/projects.slice";
 
 interface State {
   display: DisplayState;
   popup: PopupState;
-  search: SearchState;
-  sort: SortState;
+  experience: ExperienceState;
+  projects: ProjectsState;
   firebase: FirebaseReducer.Reducer<
     Record<string, unknown>,
     Record<string, unknown>
@@ -73,14 +73,14 @@ const rootPersistConfig = {
 const reducers = combineReducers<State>({
   display: displayReducer,
   popup: popupReducer,
-  search: searchReducer,
-  sort: sortReducer,
+  experience: experienceReducer,
+  projects: projectsReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
 });
 
 const persistedReducer = persistReducer<State>(
-  { ...rootPersistConfig, key: "root", blacklist: ["search", "sort"] },
+  { ...rootPersistConfig, key: "root", blacklist: ["experience", "projects"] },
   reducers
 );
 

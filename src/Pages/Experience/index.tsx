@@ -12,7 +12,7 @@ import {
   setExperienceSearch,
   setExperienceSort,
 } from "../../Redux";
-import { ExperienceSort, EXPERIENCE_SORT } from "../../Redux/sort.slice";
+import { ExperienceSort, EXPERIENCE_SORT } from "../../Redux/experience.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports

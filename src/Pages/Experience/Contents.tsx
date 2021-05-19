@@ -9,7 +9,7 @@ import { sortByDate } from "../../Utils/funcs";
 // Redux Imports
 import { useSelector } from "react-redux";
 import { getExperienceSearch, getExperienceSort } from "../../Redux";
-import { ExperienceSort } from "../../Redux/sort.slice";
+import { ExperienceSort } from "../../Redux/experience.slice";
 
 // Material UI Imports
 import { Typography } from "@material-ui/core";

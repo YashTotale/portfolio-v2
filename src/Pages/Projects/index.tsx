@@ -16,7 +16,7 @@ import {
   setProjectsSearch,
   setProjectsSort,
 } from "../../Redux";
-import { ProjectsSort, PROJECTS_SORT } from "../../Redux/sort.slice";
+import { ProjectsSort, PROJECTS_SORT } from "../../Redux/projects.slice";
 import { useAppDispatch } from "../../Store";
 
 //Material UI Imports
