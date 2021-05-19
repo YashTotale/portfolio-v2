@@ -1,9 +1,5 @@
 // React Imports
-import React, { FC, useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router";
-import MatchHighlight from "../../../Components/MatchHighlight";
-import HorizontalDivider from "../../../Components/Divider/Horizontal";
-import StyledLink from "../../../Components/StyledLink";
+import React, { FC, useEffect, useRef } from "react";
 import {
   useArticles,
   useProjects,
@@ -13,16 +9,11 @@ import { ExperienceFields } from "../../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getExperienceSearch } from "../../../Redux";
+import { getExperienceScroll, setExperienceScroll } from "../../../Redux";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Paper,
-  Typography,
-  useTheme,
-  useMediaQuery,
-} from "@material-ui/core";
+import { makeStyles, Paper } from "@material-ui/core";
+import { useAppDispatch } from "../../../Store";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -33,40 +24,26 @@ const useStyles = makeStyles((theme) => ({
     width: "95%",
     margin: theme.spacing(2, 0),
   },
-  titleContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: theme.spacing(1, 0),
-    width: "100%",
-  },
-  title: {
-    margin: theme.spacing(1),
-  },
 }));
 
-const Container: FC<ExperienceFields> = (props) => {
-  const classes = useStyles();
-  const ref = useRef<HTMLDivElement>();
-  const [shouldScroll, setShouldScroll] = useState(false);
+type ContainerProps = ExperienceFields & {
+  lastPath: string;
+};
 
-  const pathname = useLocation().pathname;
-  const parts = pathname.split("/");
-  const last = parts[parts.length - 1];
+const Container: FC<ContainerProps> = (props) => {
+  const classes = useStyles();
+  const dispatch = useAppDispatch();
+  const ref = useRef<HTMLDivElement>();
 
   const projects = useProjects();
   const articles = useArticles();
   const tags = useTags();
   const loading = projects === null || articles === null || tags === null;
 
-  const search = useSelector(getExperienceSearch);
-
-  const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const scroll = useSelector(getExperienceScroll);
 
   useEffect(() => {
-    if (!loading && last === props.id) {
+    if (!loading && props.lastPath === props.id) {
       setTimeout(
         () =>
           ref.current?.scrollIntoView({
@@ -76,40 +53,20 @@ const Container: FC<ExperienceFields> = (props) => {
         200
       );
     }
-  }, [loading, last, props.id]);
+  }, [loading, props.lastPath, props.id]);
 
   useEffect(() => {
-    if (shouldScroll) {
+    if (scroll === props.id) {
       ref.current?.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
-      setShouldScroll(false);
+      dispatch(setExperienceScroll(null));
     }
-  }, [shouldScroll]);
+  }, [scroll, dispatch, props.id]);
 
   return (
     <Paper ref={ref} className={classes.container} elevation={12}>
-      <div className={classes.titleContainer}>
-        <StyledLink
-          to={`/experience/${props.id}`}
-          variant={isSizeSmall ? "h5" : "h4"}
-          align="center"
-          toMatch={search}
-          className={classes.title}
-          onClick={() => {
-            if (last === props.id) setShouldScroll(true);
-          }}
-        >
-          {`${props.role} @ ${props.title}`}
-        </StyledLink>
-        <Typography variant="body1">
-          <MatchHighlight toMatch={search}>
-            {`${props.start} - ${props.end ?? "Present"}`}
-          </MatchHighlight>
-        </Typography>
-      </div>
-      <HorizontalDivider />
       {props.children}
     </Paper>
   );

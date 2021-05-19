@@ -1,17 +1,41 @@
 // React Imports
 import React, { FC } from "react";
+import { useLocation } from "react-router";
 import Container from "./Container";
 import Info from "./Info";
 import FloatingIcons from "./FloatingIcons";
+import StyledLink from "../../../Components/StyledLink";
+import MatchHighlight from "../../../Components/MatchHighlight";
 import VerticalDivider from "../../../Components/Divider/Vertical";
 import HorizontalDivider from "../../../Components/Divider/Horizontal";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { ExperienceFields } from "../../../Utils/types";
 
+// Redux Imports
+import { useSelector } from "react-redux";
+import { getExperienceSearch, setExperienceScroll } from "../../../Redux";
+import { useAppDispatch } from "../../../Store";
+
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import {
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  titleContainer: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: theme.spacing(1, 0),
+    width: "100%",
+  },
+  title: {
+    margin: theme.spacing(1),
+  },
   main: {
     display: "flex",
     alignItems: "stretch",
@@ -60,12 +84,39 @@ const useStyles = makeStyles((theme) => ({
 
 const SingleExperience: FC<ExperienceFields> = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
+  const dispatch = useAppDispatch();
 
+  const pathname = useLocation().pathname;
+  const parts = pathname.split("/");
+  const lastPath = parts[parts.length - 1];
+
+  const search = useSelector(getExperienceSearch);
+
+  const theme = useTheme();
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <Container {...props}>
+    <Container {...props} lastPath={lastPath}>
+      <div className={classes.titleContainer}>
+        <StyledLink
+          to={`/experience/${props.id}`}
+          variant={isSizeSmall ? "h5" : "h4"}
+          align="center"
+          toMatch={search}
+          className={classes.title}
+          onClick={() => {
+            if (lastPath === props.id) dispatch(setExperienceScroll(props.id));
+          }}
+        >
+          {`${props.role} @ ${props.title}`}
+        </StyledLink>
+        <Typography variant="body1">
+          <MatchHighlight toMatch={search}>
+            {`${props.start} - ${props.end ?? "Present"}`}
+          </MatchHighlight>
+        </Typography>
+      </div>
+      <HorizontalDivider />
       <div className={classes.main}>
         <div className={classes.imageContainer}>
           <img
