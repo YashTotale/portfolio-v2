@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import Tag from "./Tag";
+import Contents from "./Contents";
 import { useTags } from "../../Context/DataContext";
 
 // Redux Imports
@@ -61,9 +61,7 @@ const Tags: FC = () => {
         }}
         className={classes.filters}
       />
-      {tags.map((tag) => (
-        <Tag key={tag.id} {...tag} />
-      ))}
+      <Contents tags={tags} />
     </Container>
   );
 };

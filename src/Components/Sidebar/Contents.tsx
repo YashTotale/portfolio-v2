@@ -24,12 +24,14 @@ import { useSelector } from "react-redux";
 import {
   getExperienceSort,
   getProjectsSort,
+  getTagsSort,
   setExperienceScroll,
 } from "../../Redux";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
 import { useAppDispatch } from "../../Store";
+import { sortTags } from "../../Utils/tags";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -66,8 +68,12 @@ const Contents: FC = () => {
   const sortedProjects =
     projects === null ? null : sortProjects(projectsSort, [...projects]);
 
-  const articles = useArticles();
   const tags = useTags();
+  const tagsSort = useSelector(getTagsSort);
+  const sortedTags =
+    tags === null ? null : sortTags(tagsSort, [...tags], projects);
+
+  const articles = useArticles();
 
   const categories: CategoryInfo[] = [
     {
@@ -80,7 +86,7 @@ const Contents: FC = () => {
     },
     { label: "Projects", to: "projects", objects: sortedProjects },
     { label: "Articles", to: "articles", objects: articles },
-    { label: "Tags", to: "tags", objects: tags },
+    { label: "Tags", to: "tags", objects: sortedTags },
   ];
 
   return (

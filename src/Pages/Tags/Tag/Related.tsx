@@ -8,6 +8,7 @@ import {
   useExperience,
   useProjects,
 } from "../../../Context/DataContext";
+import { getTagProjects } from "../../../Utils/tags";
 import { TagFields } from "../../../Utils/types";
 import { getExperienceRelated } from "../../../Utils/experience";
 
@@ -76,9 +77,7 @@ const Related: FC<TagFields> = (props) => {
   if (experience === null || projects === null || articles === null)
     return <CircularProgress />;
 
-  const relatedProjects = projects.filter((p) =>
-    p.tags.some((tag) => tag.sys.id === props.id)
-  );
+  const relatedProjects = getTagProjects(props.id, projects);
   const relatedArticles = articles.filter((a) =>
     a.tags.some((tag) => tag.sys.id === props.id)
   );
