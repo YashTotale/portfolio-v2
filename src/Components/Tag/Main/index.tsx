@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC } from "react";
+import clsx from "clsx";
 import Related from "./Related";
 import Icon from "./Icon";
 import DynamicPaper from "../../DynamicPaper";
@@ -49,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 
 type TagProps = TagFields & {
   withSearch?: boolean;
+  className?: string;
 };
 
 const Tag: FC<TagProps> = (props) => {
@@ -58,7 +60,7 @@ const Tag: FC<TagProps> = (props) => {
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
-    <DynamicPaper className={classes.container}>
+    <DynamicPaper className={clsx(classes.container, props.className)}>
       {props.link ? (
         <Tooltip title="View Website">
           <Link
