@@ -58,7 +58,7 @@ const Contents: FC<ContentsProps> = ({ experience }) => {
   }, [experience, normalizedSearch, getExperienceMatch]);
 
   const sortedExperience = useMemo(
-    () => sortExperience(sort, [...filteredExperience]),
+    () => sortExperience(sort, filteredExperience),
     [filteredExperience, sort]
   );
 

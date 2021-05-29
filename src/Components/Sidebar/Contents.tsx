@@ -59,9 +59,7 @@ const Contents: FC = () => {
   const experience = useExperience();
   const experienceSort = useSelector(getExperienceSort);
   const sortedExperience =
-    experience === null
-      ? null
-      : sortExperience(experienceSort, [...experience]);
+    experience === null ? null : sortExperience(experienceSort, experience);
 
   const projects = useProjects();
   const projectsSort = useSelector(getProjectsSort);
@@ -70,8 +68,7 @@ const Contents: FC = () => {
 
   const tags = useTags();
   const tagsSort = useSelector(getTagsSort);
-  const sortedTags =
-    tags === null ? null : sortTags(tagsSort, [...tags], projects);
+  const sortedTags = tags === null ? null : sortTags(tagsSort, tags, projects);
 
   const articles = useArticles();
 

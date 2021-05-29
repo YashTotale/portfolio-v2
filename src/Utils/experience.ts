@@ -51,16 +51,33 @@ export const getExperienceRelated = (
   };
 };
 
+const sortCache: Record<ExperienceSort, ExperienceFields[] | null> = {
+  Latest: null,
+  Earliest: null,
+};
+
 export const sortExperience = (
   sort: ExperienceSort,
   filteredExperience: ExperienceFields[]
 ): ExperienceFields[] => {
   switch (sort) {
     case "Latest": {
-      return filteredExperience.sort((a, b) => sortByDate(a, b, 1));
+      if (sortCache.Latest) return sortCache.Latest;
+      const toSort = [...filteredExperience];
+
+      const sorted = toSort.sort((a, b) => sortByDate(a, b, 1));
+
+      sortCache.Latest = sorted;
+      return sorted;
     }
     case "Earliest": {
-      return filteredExperience.sort((a, b) => sortByDate(a, b, -1));
+      if (sortCache.Earliest) return sortCache.Earliest;
+      const toSort = [...filteredExperience];
+
+      const sorted = toSort.sort((a, b) => sortByDate(a, b, -1));
+
+      sortCache.Earliest = sorted;
+      return sorted;
     }
     default: {
       return filteredExperience;

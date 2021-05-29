@@ -32,7 +32,7 @@ const Contents: FC<ContentsProps> = ({ tags }) => {
   const sort = useSelector(getTagsSort);
   const projects = useProjects();
 
-  const sortedTags = sortTags(sort, [...tags], projects);
+  const sortedTags = sortTags(sort, tags, projects);
 
   return (
     <div className={classes.container}>

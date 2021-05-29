@@ -21,8 +21,9 @@ export const sortTags = (
   switch (sort) {
     case "Alphabetically": {
       if (sortCache.Alphabetically) return sortCache.Alphabetically;
+      const toSort = [...filteredTags];
 
-      const sorted = filteredTags.sort((a, b) => {
+      const sorted = toSort.sort((a, b) => {
         const aTitle = a.title.toLowerCase();
         const bTitle = b.title.toLowerCase();
 
@@ -34,9 +35,11 @@ export const sortTags = (
     }
     case "Most Projects": {
       if (sortCache["Most Projects"]) return sortCache["Most Projects"];
-      if (projects === null) return filteredTags;
+      const toSort = [...filteredTags];
 
-      const sorted = filteredTags.sort((a, b) => {
+      if (projects === null) return toSort;
+
+      const sorted = toSort.sort((a, b) => {
         const aProjects = getTagProjects(a.id, projects);
         const bProjects = getTagProjects(b.id, projects);
 
