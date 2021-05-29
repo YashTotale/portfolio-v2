@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "stretch",
   },
   title: {
-    margin: theme.spacing(1, 0),
+    margin: theme.spacing(1),
 
     [theme.breakpoints.only("xs")]: {
       lineHeight: 1.3,
