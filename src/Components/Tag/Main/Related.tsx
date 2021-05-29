@@ -1,8 +1,8 @@
 // React Imports
 import React, { FC } from "react";
-import Overlay from "../../../Components/Overlay";
-import Associated from "../../../Components/Experience/Associated";
-import HorizontalDivider from "../../../Components/Divider/Horizontal";
+import Overlay from "../../Overlay";
+import Associated from "../../Experience/Associated";
+import HorizontalDivider from "../../Divider/Horizontal";
 import {
   useArticles,
   useExperience,
@@ -33,6 +33,9 @@ const useStyles = makeStyles((theme) => ({
       width: "100%",
       alignItems: "center",
     },
+  },
+  spinner: {
+    margin: theme.spacing(1, "auto"),
   },
   container: {
     display: "flex",
@@ -74,7 +77,11 @@ const Related: FC<TagFields> = (props) => {
   const articles = useArticles();
 
   if (experience === null || projects === null || articles === null)
-    return <CircularProgress />;
+    return (
+      <div className={classes.root}>
+        <CircularProgress className={classes.spinner} />
+      </div>
+    );
 
   const { relatedExperience, relatedProjects, relatedArticles } = getTagRelated(
     props,

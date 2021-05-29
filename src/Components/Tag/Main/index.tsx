@@ -2,10 +2,10 @@
 import React, { FC } from "react";
 import Related from "./Related";
 import Icon from "./Icon";
-import DynamicPaper from "../../../Components/DynamicPaper";
-import MatchHighlight from "../../../Components/MatchHighlight";
-import HorizontalDivider from "../../../Components/Divider/Horizontal";
-import VerticalDivider from "../../../Components/Divider/Vertical";
+import DynamicPaper from "../../DynamicPaper";
+import MatchHighlight from "../../MatchHighlight";
+import HorizontalDivider from "../../Divider/Horizontal";
+import VerticalDivider from "../../Divider/Vertical";
 import { TagFields } from "../../../Utils/types";
 
 // Redux Imports

@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC, useCallback, useMemo } from "react";
-import Tag from "./Tag";
+import Tag from "../../Components/Tag/Main";
 import { sortTags } from "../../Utils/tags";
 import { TagFields } from "../../Utils/types";
 

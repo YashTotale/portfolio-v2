@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import DynamicImage from "../../../Components/DynamicImage";
+import DynamicImage from "../../DynamicImage";
 import { getImageTitle, getImageUrl } from "../../../API/helpers";
 import { TagFields } from "../../../Utils/types";
 
