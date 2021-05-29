@@ -8,9 +8,8 @@ import {
   useExperience,
   useProjects,
 } from "../../../Context/DataContext";
-import { getTagProjects } from "../../../Utils/tags";
+import { getTagRelated } from "../../../Utils/tags";
 import { TagFields } from "../../../Utils/types";
-import { getExperienceRelated } from "../../../Utils/experience";
 
 // Material UI Imports
 import {
@@ -77,21 +76,12 @@ const Related: FC<TagFields> = (props) => {
   if (experience === null || projects === null || articles === null)
     return <CircularProgress />;
 
-  const relatedProjects = getTagProjects(props.id, projects);
-  const relatedArticles = articles.filter((a) =>
-    a.tags.some((tag) => tag.sys.id === props.id)
+  const { relatedExperience, relatedProjects, relatedArticles } = getTagRelated(
+    props,
+    experience,
+    projects,
+    articles
   );
-
-  const relatedExperience = experience.filter((exp) => {
-    const { tags } = getExperienceRelated(
-      exp,
-      relatedProjects,
-      relatedArticles,
-      [props]
-    );
-
-    return tags.some((tag) => tag.id === props.id);
-  });
 
   return (
     <div className={classes.root}>

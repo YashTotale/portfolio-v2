@@ -10,7 +10,11 @@ import { getTagsSearch, getTagsSort } from "../../Redux";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
-import { useProjects } from "../../Context/DataContext";
+import {
+  useArticles,
+  useExperience,
+  useProjects,
+} from "../../Context/DataContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,11 +33,14 @@ interface ContentsProps {
 const Contents: FC<ContentsProps> = ({ tags }) => {
   const classes = useStyles();
   const sort = useSelector(getTagsSort);
-  const projects = useProjects();
   const search = useSelector(getTagsSearch);
   const normalizedSearch = search.toLowerCase();
 
-  const sortedTags = sortTags(sort, tags, projects);
+  const experience = useExperience();
+  const projects = useProjects();
+  const articles = useArticles();
+
+  const sortedTags = sortTags(sort, tags, experience, projects, articles);
 
   const getTagMatch = useCallback(
     (t: TagFields) => {

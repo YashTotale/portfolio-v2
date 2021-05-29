@@ -1,8 +1,17 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
-export type TagsSort = "Alphabetically" | "Most Projects";
-export const TAGS_SORT: TagsSort[] = ["Alphabetically", "Most Projects"];
+export type TagsSort =
+  | "Alphabetically"
+  | "Most Related Experience"
+  | "Most Related Projects"
+  | "Most Related Articles";
+export const TAGS_SORT: TagsSort[] = [
+  "Alphabetically",
+  "Most Related Experience",
+  "Most Related Projects",
+  "Most Related Articles",
+];
 
 export interface TagsState {
   search: string;

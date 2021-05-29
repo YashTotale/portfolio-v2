@@ -66,11 +66,14 @@ const Contents: FC = () => {
   const sortedProjects =
     projects === null ? null : sortProjects(projectsSort, projects);
 
+  const articles = useArticles();
+
   const tags = useTags();
   const tagsSort = useSelector(getTagsSort);
-  const sortedTags = tags === null ? null : sortTags(tagsSort, tags, projects);
-
-  const articles = useArticles();
+  const sortedTags =
+    tags === null
+      ? null
+      : sortTags(tagsSort, tags, experience, projects, articles);
 
   const categories: CategoryInfo[] = [
     {
