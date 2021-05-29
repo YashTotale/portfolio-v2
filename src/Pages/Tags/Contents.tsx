@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, useCallback, useMemo } from "react";
 import Tag from "./Tag";
 import { sortTags } from "../../Utils/tags";
 import { TagFields } from "../../Utils/types";
@@ -28,15 +28,40 @@ interface ContentsProps {
 
 const Contents: FC<ContentsProps> = ({ tags }) => {
   const classes = useStyles();
-  const search = useSelector(getTagsSearch);
   const sort = useSelector(getTagsSort);
   const projects = useProjects();
+  const search = useSelector(getTagsSearch);
+  const normalizedSearch = search.toLowerCase();
 
   const sortedTags = sortTags(sort, tags, projects);
 
+  const getTagMatch = useCallback(
+    (t: TagFields) => {
+      const matches: boolean[] = [
+        t.title.toLowerCase().includes(normalizedSearch),
+        t.link?.toLowerCase().includes(normalizedSearch) ?? false,
+      ];
+
+      return matches;
+    },
+    [normalizedSearch]
+  );
+
+  const filteredTags = useMemo(() => {
+    if (!normalizedSearch.length) return sortedTags;
+
+    return sortedTags.reduce((arr, tag) => {
+      const matches = getTagMatch(tag);
+
+      if (matches.some((bool) => bool)) return [...arr, tag];
+
+      return arr;
+    }, [] as TagFields[]);
+  }, [sortedTags, normalizedSearch, getTagMatch]);
+
   return (
     <div className={classes.container}>
-      {sortedTags.map((tag) => (
+      {filteredTags.map((tag) => (
         <Tag key={tag.id} {...tag} />
       ))}
     </div>

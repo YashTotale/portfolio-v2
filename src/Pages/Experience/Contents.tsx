@@ -22,6 +22,8 @@ const Contents: FC<ContentsProps> = ({ experience }) => {
   const sort = useSelector(getExperienceSort);
   const normalizedSearch = search.toLowerCase();
 
+  const sortedExperience = sortExperience(sort, experience);
+
   const getExperienceMatch = useCallback(
     (e: ExperienceFields) => {
       const matches: boolean[] = [
@@ -46,25 +48,23 @@ const Contents: FC<ContentsProps> = ({ experience }) => {
   );
 
   const filteredExperience = useMemo(() => {
-    if (!normalizedSearch.length) return experience;
+    if (!normalizedSearch.length) return sortedExperience;
 
-    return experience.reduce((arr, exp) => {
+    return sortedExperience.reduce((arr, exp) => {
       const matches = getExperienceMatch(exp);
 
       if (matches.some((bool) => bool)) return [...arr, exp];
 
       return arr;
     }, [] as ExperienceFields[]);
-  }, [experience, normalizedSearch, getExperienceMatch]);
+  }, [sortedExperience, normalizedSearch, getExperienceMatch]);
 
-  const sortedExperience = sortExperience(sort, filteredExperience);
-
-  if (!sortedExperience.length)
+  if (!filteredExperience.length)
     return <Typography variant="h6">No experience found</Typography>;
 
   return (
     <>
-      {sortedExperience.map((fields) => (
+      {filteredExperience.map((fields) => (
         <SingleExperience key={fields.id} {...fields} />
       ))}
     </>

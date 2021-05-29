@@ -124,6 +124,8 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
   const normalizedSearch = search.toLowerCase();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const sortedProjects = sortProjects(sort, projects);
+
   const getProjectMatch = useCallback(
     (p: ProjectFields) => {
       const matches: boolean[] = [
@@ -146,27 +148,25 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
   );
 
   const filteredProjects = useMemo(() => {
-    if (!normalizedSearch.length) return projects;
+    if (!normalizedSearch.length) return sortedProjects;
 
-    return projects.reduce((arr, project) => {
+    return sortedProjects.reduce((arr, project) => {
       const matches = getProjectMatch(project);
 
       if (matches.some((bool) => bool)) return [...arr, project];
 
       return arr;
     }, [] as ProjectFields[]);
-  }, [projects, normalizedSearch, getProjectMatch]);
+  }, [sortedProjects, normalizedSearch, getProjectMatch]);
 
-  const sortedProjects = sortProjects(sort, filteredProjects);
-
-  if (!sortedProjects.length)
+  if (!filteredProjects.length)
     return (
       <div className={classes.projects}>
         <Typography variant="h6">No projects found</Typography>
       </div>
     );
 
-  const projectsToRender = sortedProjects.map((project, i, arr) => (
+  const projectsToRender = filteredProjects.map((project, i, arr) => (
     <Project
       key={project.id}
       pushLeft={!isSmall && arr.length % 2 !== 0 && i === arr.length - 1}

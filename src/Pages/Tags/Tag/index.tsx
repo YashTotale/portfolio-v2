@@ -3,9 +3,14 @@ import React, { FC } from "react";
 import Related from "./Related";
 import Icon from "./Icon";
 import DynamicPaper from "../../../Components/DynamicPaper";
+import MatchHighlight from "../../../Components/MatchHighlight";
 import HorizontalDivider from "../../../Components/Divider/Horizontal";
 import VerticalDivider from "../../../Components/Divider/Vertical";
 import { TagFields } from "../../../Utils/types";
+
+// Redux Imports
+import { useSelector } from "react-redux";
+import { getTagsSearch } from "../../../Redux";
 
 // Material UI Imports
 import {
@@ -45,6 +50,7 @@ const useStyles = makeStyles((theme) => ({
 const Tag: FC<TagFields> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const search = useSelector(getTagsSearch);
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
@@ -59,7 +65,7 @@ const Tag: FC<TagFields> = (props) => {
             align="center"
             className={classes.heading}
           >
-            {props.title}
+            <MatchHighlight toMatch={search}>{props.title}</MatchHighlight>
           </Link>
         </Tooltip>
       ) : (
@@ -68,7 +74,7 @@ const Tag: FC<TagFields> = (props) => {
           align="center"
           className={classes.heading}
         >
-          {props.title}
+          <MatchHighlight toMatch={search}>{props.title}</MatchHighlight>
         </Typography>
       )}
       <HorizontalDivider />
