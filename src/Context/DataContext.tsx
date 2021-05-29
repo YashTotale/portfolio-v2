@@ -35,6 +35,11 @@ const defaultValue: Data = {
 
 const DataContext = createContext<Data>(defaultValue);
 
+interface FetchOptions {
+  transform?: (content: unknown[]) => unknown;
+  order?: string;
+}
+
 export const DataProvider: FC = ({ children }) => {
   const [data, setData] = useState<Data>(defaultValue);
 
@@ -44,9 +49,10 @@ export const DataProvider: FC = ({ children }) => {
     const fetchContent = async <T extends unknown>(
       contentType: string,
       key: keyof Data,
-      transform?: (content: unknown[]) => unknown
+      options?: FetchOptions
     ) => {
-      const content = await query<T>(contentType);
+      const { transform, order } = options ?? {};
+      const content = await query<T>(contentType, order);
       let transformedContent: unknown;
 
       if (transform) transformedContent = transform(content);
@@ -57,10 +63,14 @@ export const DataProvider: FC = ({ children }) => {
     };
 
     fetchContent<ProjectFields>("project", "projects");
-    fetchContent<TagFields>("tag", "tags");
+    fetchContent<TagFields>("tag", "tags", {
+      order: "fields.title",
+    });
     fetchContent<ExperienceFields>("experience", "experience");
     fetchContent<ArticleFields>("article", "articles");
-    fetchContent<Main>("main", "main", (content) => content[0]);
+    fetchContent<Main>("main", "main", {
+      transform: (content) => content[0],
+    });
 
     return () => {
       isMounted = false;

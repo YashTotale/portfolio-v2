@@ -1,9 +1,11 @@
+import { sortByDate } from "./funcs";
 import {
   ArticleFields,
   ExperienceFields,
   ProjectFields,
   TagFields,
 } from "./types";
+import { ExperienceSort } from "../Redux/experience.slice";
 
 interface ExperienceRelated {
   projects: ProjectFields[];
@@ -21,6 +23,7 @@ export const getExperienceRelated = (
 
   const relatedProjects = projects.filter((p) => p.associated?.sys.id === id);
   const relatedArticles = articles.filter((a) => a.associated?.sys.id === id);
+
   const relatedTags = allTags.filter((tag) => {
     if (
       relatedProjects.some((project) =>
@@ -46,4 +49,21 @@ export const getExperienceRelated = (
     articles: relatedArticles,
     tags: relatedTags,
   };
+};
+
+export const sortExperience = (
+  sort: ExperienceSort,
+  filteredExperience: ExperienceFields[]
+): ExperienceFields[] => {
+  switch (sort) {
+    case "Latest": {
+      return filteredExperience.sort((a, b) => sortByDate(a, b, 1));
+    }
+    case "Earliest": {
+      return filteredExperience.sort((a, b) => sortByDate(a, b, -1));
+    }
+    default: {
+      return filteredExperience;
+    }
+  }
 };

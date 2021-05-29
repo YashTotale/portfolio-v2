@@ -3,8 +3,8 @@ import React, { FC } from "react";
 import Category from "./Category";
 import Item from "./Item";
 import { useLastPath } from "../../Hooks";
-import { sortExperience } from "../../Pages/Experience/Contents";
 import { sortProjects } from "../../Pages/Projects";
+import { sortExperience } from "../../Utils/experience";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
 import {
   ArticleFields,

@@ -4,12 +4,11 @@ import { documentToPlainTextString } from "@contentful/rich-text-plain-text-rend
 import { Document } from "@contentful/rich-text-types";
 import SingleExperience from "./SingleExperience";
 import { ExperienceFields } from "../../Utils/types";
-import { sortByDate } from "../../Utils/funcs";
+import { sortExperience } from "../../Utils/experience";
 
 // Redux Imports
 import { useSelector } from "react-redux";
 import { getExperienceSearch, getExperienceSort } from "../../Redux";
-import { ExperienceSort } from "../../Redux/experience.slice";
 
 // Material UI Imports
 import { Typography } from "@material-ui/core";
@@ -73,23 +72,6 @@ const Contents: FC<ContentsProps> = ({ experience }) => {
       ))}
     </>
   );
-};
-
-export const sortExperience = (
-  sort: ExperienceSort,
-  filteredExperience: ExperienceFields[]
-): ExperienceFields[] => {
-  switch (sort) {
-    case "Latest": {
-      return filteredExperience.sort((a, b) => sortByDate(a, b, 1));
-    }
-    case "Earliest": {
-      return filteredExperience.sort((a, b) => sortByDate(a, b, -1));
-    }
-    default: {
-      return filteredExperience;
-    }
-  }
 };
 
 export default Contents;

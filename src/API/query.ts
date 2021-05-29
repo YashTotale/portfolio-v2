@@ -1,9 +1,10 @@
 // Internals
 import client from "./client";
 
-const query = async <T>(contentType: string): Promise<T[]> => {
+const query = async <T>(contentType: string, order?: string): Promise<T[]> => {
   const queriedObjects = await client.getEntries({
     content_type: contentType,
+    order,
   });
 
   const objects = queriedObjects.items.reduce((arr, obj) => {
