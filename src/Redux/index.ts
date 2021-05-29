@@ -40,8 +40,6 @@ export {
   getPopupOpen,
   getPopupType,
   // -> Actions
-  togglePopup,
-  setPopupType,
   // -> Reducer
   popupReducer,
   // -> State

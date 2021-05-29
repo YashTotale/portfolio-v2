@@ -1,7 +1,7 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
-export type PopupType = "login" | "logout";
+export type PopupType = null;
 
 export interface PopupState {
   open: boolean;
@@ -10,33 +10,17 @@ export interface PopupState {
 
 export const initialPopupState: PopupState = {
   open: false,
-  type: "login",
+  type: null,
 };
 
 const popupSlice = createSlice({
   name: "popup",
   initialState: initialPopupState,
-  reducers: {
-    togglePopup: (
-      state,
-      action: PayloadAction<PopupState | boolean | undefined>
-    ) => {
-      if (action.payload === undefined) return { ...state, open: !state.open };
-      if (typeof action.payload === "boolean")
-        return { ...state, open: action.payload };
-      return {
-        ...action.payload,
-      };
-    },
-    setPopupType: (state, action: PayloadAction<PopupType>) => ({
-      ...state,
-      type: action.payload,
-    }),
-  },
+  reducers: {},
 });
 
 // Actions
-export const { togglePopup, setPopupType } = popupSlice.actions;
+// export const {} = popupSlice.actions;
 
 // Selectors
 export const getPopupOpen = (state: RootState): PopupState["open"] =>
