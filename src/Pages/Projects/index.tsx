@@ -5,7 +5,8 @@ import { Document } from "@contentful/rich-text-types";
 import Project, { PROJECT_WIDTHS } from "./Project";
 import Filters from "../../Components/Filters";
 import { useProjects } from "../../Context/DataContext";
-import { chunk, sortByDate } from "../../Utils/funcs";
+import { sortProjects } from "../../Utils/projects";
+import { chunk } from "../../Utils/funcs";
 import { ProjectFields } from "../../Utils/types";
 
 // Redux Imports
@@ -156,10 +157,7 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
     }, [] as ProjectFields[]);
   }, [projects, normalizedSearch, getProjectMatch]);
 
-  const sortedProjects = useMemo(
-    () => sortProjects(sort, [...filteredProjects]),
-    [filteredProjects, sort]
-  );
+  const sortedProjects = sortProjects(sort, filteredProjects);
 
   if (!sortedProjects.length)
     return (
@@ -190,23 +188,6 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
       ))}
     </div>
   );
-};
-
-export const sortProjects = (
-  sort: ProjectsSort,
-  filteredProjects: ProjectFields[]
-): ProjectFields[] => {
-  switch (sort) {
-    case "Newest": {
-      return filteredProjects.sort((a, b) => sortByDate(a, b, 1));
-    }
-    case "Oldest": {
-      return filteredProjects.sort((a, b) => sortByDate(a, b, -1));
-    }
-    default: {
-      return filteredProjects;
-    }
-  }
 };
 
 export default ProjectsPage;

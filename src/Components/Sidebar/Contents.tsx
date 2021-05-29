@@ -3,8 +3,9 @@ import React, { FC } from "react";
 import Category from "./Category";
 import Item from "./Item";
 import { useLastPath } from "../../Hooks";
-import { sortProjects } from "../../Pages/Projects";
 import { sortExperience } from "../../Utils/experience";
+import { sortProjects } from "../../Utils/projects";
+import { sortTags } from "../../Utils/tags";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
 import {
   ArticleFields,
@@ -27,11 +28,10 @@ import {
   getTagsSort,
   setExperienceScroll,
 } from "../../Redux";
+import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
-import { useAppDispatch } from "../../Store";
-import { sortTags } from "../../Utils/tags";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -64,7 +64,7 @@ const Contents: FC = () => {
   const projects = useProjects();
   const projectsSort = useSelector(getProjectsSort);
   const sortedProjects =
-    projects === null ? null : sortProjects(projectsSort, [...projects]);
+    projects === null ? null : sortProjects(projectsSort, projects);
 
   const tags = useTags();
   const tagsSort = useSelector(getTagsSort);

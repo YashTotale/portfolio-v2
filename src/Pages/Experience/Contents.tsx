@@ -57,10 +57,7 @@ const Contents: FC<ContentsProps> = ({ experience }) => {
     }, [] as ExperienceFields[]);
   }, [experience, normalizedSearch, getExperienceMatch]);
 
-  const sortedExperience = useMemo(
-    () => sortExperience(sort, filteredExperience),
-    [filteredExperience, sort]
-  );
+  const sortedExperience = sortExperience(sort, filteredExperience);
 
   if (!sortedExperience.length)
     return <Typography variant="h6">No experience found</Typography>;
