@@ -17,7 +17,7 @@ export const initialExperienceState: ExperienceState = {
 };
 
 const experienceSlice = createSlice({
-  name: "search",
+  name: "experience",
   initialState: initialExperienceState,
   reducers: {
     setExperienceScroll: (

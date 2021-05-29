@@ -93,3 +93,24 @@ export {
 } from "./projects.slice";
 
 export type { ProjectsState } from "./projects.slice";
+
+/**
+ * Projects Slice
+ */
+
+export {
+  // -> Slice
+  default as tagsSlice,
+  // -> Selectors
+  getTagsSearch,
+  getTagsSort,
+  // -> Actions
+  setTagsSearch,
+  setTagsSort,
+  // -> Reducer
+  tagsReducer,
+  // -> State
+  initialTagsState,
+} from "./tags.slice";
+
+export type { TagsState } from "./tags.slice";

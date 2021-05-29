@@ -52,12 +52,14 @@ import { displayReducer, DisplayState } from "./Redux/display.slice";
 import { popupReducer, PopupState } from "./Redux/popup.slice";
 import { experienceReducer, ExperienceState } from "./Redux/experience.slice";
 import { projectsReducer, ProjectsState } from "./Redux/projects.slice";
+import { tagsReducer, TagsState } from "./Redux/tags.slice";
 
 interface State {
   display: DisplayState;
   popup: PopupState;
   experience: ExperienceState;
   projects: ProjectsState;
+  tags: TagsState;
   firebase: FirebaseReducer.Reducer<
     Record<string, unknown>,
     Record<string, unknown>
@@ -65,22 +67,23 @@ interface State {
   firestore: FirestoreReducer.Reducer;
 }
 
-const rootPersistConfig = {
-  version: 1,
-  storage,
-};
-
 const reducers = combineReducers<State>({
   display: displayReducer,
   popup: popupReducer,
   experience: experienceReducer,
   projects: projectsReducer,
+  tags: tagsReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
 });
 
 const persistedReducer = persistReducer<State>(
-  { ...rootPersistConfig, key: "root", blacklist: ["experience", "projects"] },
+  {
+    version: 1,
+    storage,
+    key: "root",
+    blacklist: ["experience", "projects", "tags"],
+  },
   reducers
 );
 

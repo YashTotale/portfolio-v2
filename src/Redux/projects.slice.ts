@@ -15,7 +15,7 @@ export const initialProjectsState: ProjectsState = {
 };
 
 const projectsSlice = createSlice({
-  name: "search",
+  name: "projects",
   initialState: initialProjectsState,
   reducers: {
     setProjectsSearch: (
