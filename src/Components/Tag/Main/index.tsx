@@ -47,7 +47,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Tag: FC<TagFields> = (props) => {
+type TagProps = TagFields & {
+  withSearch?: boolean;
+};
+
+const Tag: FC<TagProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const search = useSelector(getTagsSearch);
@@ -65,7 +69,11 @@ const Tag: FC<TagFields> = (props) => {
             align="center"
             className={classes.heading}
           >
-            <MatchHighlight toMatch={search}>{props.title}</MatchHighlight>
+            {props.withSearch ? (
+              <MatchHighlight toMatch={search}>{props.title}</MatchHighlight>
+            ) : (
+              props.title
+            )}
           </Link>
         </Tooltip>
       ) : (
@@ -74,7 +82,11 @@ const Tag: FC<TagFields> = (props) => {
           align="center"
           className={classes.heading}
         >
-          <MatchHighlight toMatch={search}>{props.title}</MatchHighlight>
+          {props.withSearch ? (
+            <MatchHighlight toMatch={search}>{props.title}</MatchHighlight>
+          ) : (
+            props.title
+          )}
         </Typography>
       )}
       <HorizontalDivider />

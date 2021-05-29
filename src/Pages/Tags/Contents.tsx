@@ -69,7 +69,7 @@ const Contents: FC<ContentsProps> = ({ tags }) => {
   return (
     <div className={classes.container}>
       {filteredTags.map((tag) => (
-        <Tag key={tag.id} {...tag} />
+        <Tag key={tag.id} {...tag} withSearch={true} />
       ))}
     </div>
   );
