@@ -1,17 +1,9 @@
 //React Imports
 import { hot } from "react-hot-loader";
-import React, { FC } from "react";
+import React, { FC, lazy, Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
 import { DataProvider } from "./Context/DataContext";
 import { SIDEBAR_WIDTH } from "./Utils/constants";
-
-// Pages
-import Home from "./Pages/Home";
-import ExperiencePage from "./Pages/Experience";
-import ProjectsPage from "./Pages/Projects";
-import ProjectPage from "./Pages/Project";
-import TagsPage from "./Pages/Tags";
-import NotFound from "./Pages/NotFound";
 
 // Components
 import Popup from "./Components/Popup";
@@ -20,7 +12,15 @@ import Sidebar from "./Components/Sidebar";
 import ScrollToTop from "./Components/ScrollToTop";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
+import { CircularProgress, makeStyles } from "@material-ui/core";
+
+// Pages
+const Home = lazy(() => import("./Pages/Home"));
+const ExperiencePage = lazy(() => import("./Pages/Experience"));
+const ProjectsPage = lazy(() => import("./Pages/Projects"));
+const ProjectPage = lazy(() => import("./Pages/Project"));
+const TagsPage = lazy(() => import("./Pages/Tags"));
+const NotFound = lazy(() => import("./Pages/NotFound"));
 
 const useStyles = makeStyles((theme) => ({
   app: {
@@ -28,6 +28,11 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("lg")]: {
       marginLeft: SIDEBAR_WIDTH,
     },
+  },
+  spinner: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
   },
 }));
 
@@ -48,26 +53,34 @@ const Routes: FC = () => {
 
   return (
     <div className={classes.app}>
-      <Switch>
-        <Route exact path={["/experience", "/experience/:id"]}>
-          <ExperiencePage />
-        </Route>
-        <Route exact path="/projects">
-          <ProjectsPage />
-        </Route>
-        <Route exact path="/projects/:id">
-          <ProjectPage />
-        </Route>
-        <Route exact path="/tags">
-          <TagsPage />
-        </Route>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="*">
-          <NotFound />
-        </Route>
-      </Switch>
+      <Suspense
+        fallback={
+          <div className={classes.spinner}>
+            <CircularProgress />
+          </div>
+        }
+      >
+        <Switch>
+          <Route exact path={["/experience", "/experience/:id"]}>
+            <ExperiencePage />
+          </Route>
+          <Route exact path="/projects">
+            <ProjectsPage />
+          </Route>
+          <Route exact path="/projects/:id">
+            <ProjectPage />
+          </Route>
+          <Route exact path="/tags">
+            <TagsPage />
+          </Route>
+          <Route exact path="/">
+            <Home />
+          </Route>
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+      </Suspense>
     </div>
   );
 };
