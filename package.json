@@ -7,10 +7,10 @@
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "test": "react-scripts test --passWithNoTests",
+    "data": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node ./scripts/data/index.ts",
     "postinstall": "husky install",
     "lint": "npx lint-check",
-    "lint:staged": "lint-staged",
-    "get-data": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node ./scripts/data/index.ts"
+    "lint:staged": "lint-staged"
   },
   "dependencies": {
     "@contentful/rich-text-plain-text-renderer": "^14.1.2",
