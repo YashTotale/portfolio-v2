@@ -115,6 +115,7 @@ const Contents: FC = () => {
             </Category>
           );
         })}
+        <Category label="Contact" to="/contact" withChildren={false} />
       </List>
     </>
   );

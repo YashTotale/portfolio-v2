@@ -21,6 +21,7 @@ const ProjectsPage = lazy(() => import("./Pages/Projects"));
 const ProjectPage = lazy(() => import("./Pages/Project"));
 const TagsPage = lazy(() => import("./Pages/Tags"));
 const TagPage = lazy(() => import("./Pages/Tag"));
+const Contact = lazy(() => import("./Pages/Contact"));
 const NotFound = lazy(() => import("./Pages/NotFound"));
 
 const useStyles = makeStyles((theme) => ({
@@ -76,6 +77,9 @@ const Routes: FC = () => {
           </Route>
           <Route exact path="/tags/:id">
             <TagPage />
+          </Route>
+          <Route exact path="/contact">
+            <Contact />
           </Route>
           <Route exact path="/">
             <Home />

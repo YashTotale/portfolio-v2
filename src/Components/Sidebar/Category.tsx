@@ -65,8 +65,8 @@ const Category: FC<CategoryProps> = ({
         disabled={childrenLoading}
         className={classes.listItemRoot}
         onClick={() => {
-          if (!open) history.push(to);
-          else history.push("/");
+          if (open && withChildren) history.push("/");
+          else history.push(to);
         }}
       >
         <ListItemText
