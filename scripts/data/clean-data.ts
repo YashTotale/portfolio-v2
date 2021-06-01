@@ -62,6 +62,7 @@ const cleanExperience = async (
   }, {} as Dict<Experience>);
 
   await writeData(parsed, "experience");
+  return parsed;
 };
 
 const cleanProjects = async () => {
@@ -95,14 +96,49 @@ const cleanArticles = async () => {
   return parsed;
 };
 
-const cleanTags = async () => {
+const cleanTags = async (
+  experience: Dict<Experience>,
+  projects: Dict<Project>,
+  articles: Dict<Article>
+) => {
   const tags = await readData<RawTag>("tag");
 
   const parsed = Object.entries(tags).reduce((obj, [id, fields]) => {
     const darkIcon = getId(fields.darkIcon);
     const lightIcon = getId(fields.lightIcon);
 
-    return { ...obj, [id]: { ...fields, darkIcon, lightIcon } };
+    const relatedExperience = Object.values(experience).reduce((arr, exp) => {
+      if (exp.tags.includes(id)) {
+        return [...arr, exp.id];
+      }
+      return arr;
+    }, [] as string[]);
+
+    const relatedProjects = Object.values(projects).reduce((arr, project) => {
+      if (project.tags.includes(id)) {
+        return [...arr, project.id];
+      }
+      return arr;
+    }, [] as string[]);
+
+    const relatedArticles = Object.values(articles).reduce((arr, article) => {
+      if (article.tags.includes(id)) {
+        return [...arr, article.id];
+      }
+      return arr;
+    }, [] as string[]);
+
+    return {
+      ...obj,
+      [id]: {
+        ...fields,
+        darkIcon,
+        lightIcon,
+        experience: relatedExperience,
+        projects: relatedProjects,
+        articles: relatedArticles,
+      },
+    };
   }, {} as Dict<Tag>);
 
   await writeData(parsed, "tag");
@@ -119,11 +155,11 @@ const cleanData = async (): Promise<void> => {
   const [projects, articles] = await Promise.all([
     cleanProjects(),
     cleanArticles(),
-    cleanTags(),
     cleanMain(),
   ]);
 
-  await cleanExperience(projects, articles);
+  const experience = await cleanExperience(projects, articles);
+  await cleanTags(experience, projects, articles);
 };
 
 export default cleanData;

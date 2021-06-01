@@ -90,6 +90,9 @@ export type Article = Omit<RawArticle, "image" | "tags" | "associated"> & {
 export type Tag = Omit<RawTag, "darkIcon" | "lightIcon"> & {
   darkIcon: string;
   lightIcon: string;
+  experience: string[];
+  projects: string[];
+  articles: string[];
 };
 
 export const ROOT_DIR = join(__dirname, "..", "..");
