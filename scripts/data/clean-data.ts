@@ -12,6 +12,7 @@ import {
   Experience,
   RawTag,
   Tag,
+  Main,
 } from "./helpers";
 
 const getId = (x: RawLink) => x.sys.id;
@@ -108,11 +109,18 @@ const cleanTags = async () => {
   return parsed;
 };
 
+const cleanMain = async () => {
+  const main = await readData<Main>("main");
+  const parsed = Object.values(main)[0];
+  await writeData(parsed, "main");
+};
+
 const cleanData = async (): Promise<void> => {
   const [projects, articles] = await Promise.all([
     cleanProjects(),
     cleanArticles(),
     cleanTags(),
+    cleanMain(),
   ]);
 
   await cleanExperience(projects, articles);

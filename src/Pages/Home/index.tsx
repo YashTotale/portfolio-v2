@@ -3,7 +3,9 @@ import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import Typer from "./Typer";
 import RichText from "../../Components/RichText";
-import { useMainData } from "../../Context/DataContext";
+
+// Data Imports
+import main from "../../Data/main.json";
 
 //Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
@@ -24,17 +26,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Home: FC = () => {
   const classes = useStyles();
-  const mainData = useMainData();
-
-  console.log(mainData);
 
   return (
     <div className={classes.home}>
       <Typography variant="h1">Yash Totale</Typography>
       <Typer />
-      {mainData !== null && (
-        <RichText richText={mainData.description as Document} variant="body1" />
-      )}
+      <RichText richText={main.description as Document} variant="body1" />
     </div>
   );
 };

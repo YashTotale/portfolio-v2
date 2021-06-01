@@ -11,7 +11,6 @@ import {
   TagFields,
   ExperienceFields,
   ArticleFields,
-  Main,
 } from "../Utils/types";
 
 // API Imports
@@ -22,7 +21,6 @@ interface Data {
   tags: TagFields[] | null;
   experience: ExperienceFields[] | null;
   articles: ArticleFields[] | null;
-  main: Main | null;
 }
 
 const defaultValue: Data = {
@@ -30,7 +28,6 @@ const defaultValue: Data = {
   tags: null,
   experience: null,
   articles: null,
-  main: null,
 };
 
 const DataContext = createContext<Data>(defaultValue);
@@ -68,9 +65,6 @@ export const DataProvider: FC = ({ children }) => {
     });
     fetchContent<ExperienceFields>("experience", "experience");
     fetchContent<ArticleFields>("article", "articles");
-    fetchContent<Main>("main", "main", {
-      transform: (content) => content[0],
-    });
 
     return () => {
       isMounted = false;
@@ -89,5 +83,3 @@ export const useTags = (): Data["tags"] => useData().tags;
 export const useExperience = (): Data["experience"] => useData().experience;
 
 export const useArticles = (): Data["articles"] => useData().articles;
-
-export const useMainData = (): Data["main"] => useData().main;

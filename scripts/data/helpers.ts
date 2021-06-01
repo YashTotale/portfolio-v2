@@ -60,6 +60,10 @@ export interface RawTag {
   link?: EntryFields.Text;
 }
 
+export interface Main {
+  description: EntryFields.RichText;
+}
+
 export type Experience = Omit<RawExperience, "image" | "tags"> & {
   image: string;
   projects: string[];
