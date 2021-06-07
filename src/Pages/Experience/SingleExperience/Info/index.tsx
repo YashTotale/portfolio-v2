@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import Related from "./Related";
 import RichText from "../../../../Components/RichText";
-import { ExperienceFields } from "../../../../Utils/types";
+import { ResolvedExperience } from "../../../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Info: FC<ExperienceFields> = (props) => {
+const Info: FC<ResolvedExperience> = (props) => {
   const classes = useStyles();
   const search = useSelector(getExperienceSearch);
 

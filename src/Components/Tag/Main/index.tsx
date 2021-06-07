@@ -7,7 +7,6 @@ import DynamicPaper from "../../DynamicPaper";
 import MatchHighlight from "../../MatchHighlight";
 import HorizontalDivider from "../../Divider/Horizontal";
 import VerticalDivider from "../../Divider/Vertical";
-import { TagFields } from "../../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -22,6 +21,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import { getTag } from "../../../Utils/Content/tags";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -48,23 +48,27 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type TagProps = TagFields & {
+interface TagProps {
+  id: string;
   withSearch?: boolean;
   className?: string;
-};
+}
 
 const Tag: FC<TagProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const search = useSelector(getTagsSearch);
+  const tag = getTag(props.id);
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+
+  if (!tag) return null;
 
   return (
     <DynamicPaper className={clsx(classes.container, props.className)}>
-      {props.link ? (
+      {tag.link ? (
         <Tooltip title="View Website">
           <Link
-            href={props.link}
+            href={tag.link}
             target="_blank"
             rel="noopener noreferrer"
             variant={isSizeSmall ? "h5" : "h4"}
@@ -72,9 +76,9 @@ const Tag: FC<TagProps> = (props) => {
             className={classes.heading}
           >
             {props.withSearch ? (
-              <MatchHighlight toMatch={search}>{props.title}</MatchHighlight>
+              <MatchHighlight toMatch={search}>{tag.title}</MatchHighlight>
             ) : (
-              props.title
+              tag.title
             )}
           </Link>
         </Tooltip>
@@ -85,17 +89,17 @@ const Tag: FC<TagProps> = (props) => {
           className={classes.heading}
         >
           {props.withSearch ? (
-            <MatchHighlight toMatch={search}>{props.title}</MatchHighlight>
+            <MatchHighlight toMatch={search}>{tag.title}</MatchHighlight>
           ) : (
-            props.title
+            tag.title
           )}
         </Typography>
       )}
       <HorizontalDivider />
       <div className={classes.main}>
-        <Icon {...props} />
+        <Icon {...tag} />
         {!isSizeSmall && <VerticalDivider />}
-        <Related {...props} />
+        <Related {...tag} />
       </div>
     </DynamicPaper>
   );

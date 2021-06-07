@@ -4,10 +4,9 @@ import { documentToPlainTextString } from "@contentful/rich-text-plain-text-rend
 import { Document } from "@contentful/rich-text-types";
 import Project, { PROJECT_WIDTHS } from "./Project";
 import Filters from "../../Components/Filters";
-import { useProjects } from "../../Context/DataContext";
-import { sortProjects } from "../../Utils/projects";
+import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 import { chunk } from "../../Utils/funcs";
-import { ProjectFields } from "../../Utils/types";
+import { ResolvedProject } from "../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -22,7 +21,6 @@ import { useAppDispatch } from "../../Store";
 
 //Material UI Imports
 import {
-  CircularProgress,
   makeStyles,
   Typography,
   useMediaQuery,
@@ -76,16 +74,8 @@ const useStyles = makeStyles((theme) => ({
 const ProjectsPage: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const projects = useProjects();
   const search = useSelector(getProjectsSearch);
   const sort = useSelector(getProjectsSort);
-
-  if (projects === null)
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
 
   return (
     <Container>
@@ -101,7 +91,7 @@ const ProjectsPage: FC = () => {
         }}
         className={classes.filters}
       />
-      <Contents projects={projects} />
+      <Contents />
     </Container>
   );
 };
@@ -112,29 +102,30 @@ const Container: FC = ({ children }) => {
   return <div className={classes.container}>{children}</div>;
 };
 
-interface ContentsProps {
-  projects: ProjectFields[];
-}
-
-const Contents: FC<ContentsProps> = ({ projects }) => {
+const Contents: FC = () => {
   const classes = useStyles();
   const theme = useTheme();
+
+  const nonResolved = useSortedProjects();
+  const projects = nonResolved.reduce((arr, p) => {
+    const project = getProject(p.id);
+    if (project) arr.push(project);
+    return arr;
+  }, [] as ResolvedProject[]);
+
   const search = useSelector(getProjectsSearch);
-  const sort = useSelector(getProjectsSort);
   const normalizedSearch = search.toLowerCase();
   const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
-  const sortedProjects = sortProjects(sort, projects);
-
   const getProjectMatch = useCallback(
-    (p: ProjectFields) => {
+    (p: ResolvedProject) => {
       const matches: boolean[] = [
         p.title.toLowerCase().includes(normalizedSearch),
         documentToPlainTextString(p.description as Document)
           .toLowerCase()
           .includes(normalizedSearch),
         p.tags.some((tag) =>
-          tag.fields.title.toLowerCase().includes(normalizedSearch)
+          tag.title.toLowerCase().includes(normalizedSearch)
         ),
         p.start.toLowerCase().includes(normalizedSearch),
         p.end?.toLowerCase().includes(normalizedSearch) ?? false,
@@ -148,16 +139,16 @@ const Contents: FC<ContentsProps> = ({ projects }) => {
   );
 
   const filteredProjects = useMemo(() => {
-    if (!normalizedSearch.length) return sortedProjects;
+    if (!normalizedSearch.length) return projects;
 
-    return sortedProjects.reduce((arr, project) => {
+    return projects.reduce((arr, project) => {
       const matches = getProjectMatch(project);
 
       if (matches.some((bool) => bool)) return [...arr, project];
 
       return arr;
-    }, [] as ProjectFields[]);
-  }, [sortedProjects, normalizedSearch, getProjectMatch]);
+    }, [] as ResolvedProject[]);
+  }, [projects, normalizedSearch, getProjectMatch]);
 
   if (!filteredProjects.length)
     return (

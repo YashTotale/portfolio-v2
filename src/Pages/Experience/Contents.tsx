@@ -3,29 +3,24 @@ import React, { FC, useCallback, useMemo } from "react";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import { Document } from "@contentful/rich-text-types";
 import SingleExperience from "./SingleExperience";
-import { ExperienceFields } from "../../Utils/types";
-import { sortExperience } from "../../Utils/experience";
+import { useSortedExperience } from "../../Utils/Content/experience";
+import { Experience } from "../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getExperienceSearch, getExperienceSort } from "../../Redux";
+import { getExperienceSearch } from "../../Redux";
 
 // Material UI Imports
 import { Typography } from "@material-ui/core";
 
-interface ContentsProps {
-  experience: ExperienceFields[];
-}
-
-const Contents: FC<ContentsProps> = ({ experience }) => {
+const Contents: FC = () => {
   const search = useSelector(getExperienceSearch);
-  const sort = useSelector(getExperienceSort);
   const normalizedSearch = search.toLowerCase();
 
-  const sortedExperience = sortExperience(sort, experience);
+  const sortedExperience = useSortedExperience();
 
   const getExperienceMatch = useCallback(
-    (e: ExperienceFields) => {
+    (e: Experience) => {
       const matches: boolean[] = [
         e.title.toLowerCase().includes(normalizedSearch),
         documentToPlainTextString(e.description as Document)
@@ -56,7 +51,7 @@ const Contents: FC<ContentsProps> = ({ experience }) => {
       if (matches.some((bool) => bool)) return [...arr, exp];
 
       return arr;
-    }, [] as ExperienceFields[]);
+    }, [] as Experience[]);
   }, [sortedExperience, normalizedSearch, getExperienceMatch]);
 
   if (!filteredExperience.length)

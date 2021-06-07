@@ -3,17 +3,11 @@ import React, { FC } from "react";
 import Overlay from "../../Overlay";
 import Associated from "../../Experience/Associated";
 import HorizontalDivider from "../../Divider/Horizontal";
-import {
-  useArticles,
-  useExperience,
-  useProjects,
-} from "../../../Context/DataContext";
-import { getTagRelated } from "../../../Utils/tags";
-import { TagFields } from "../../../Utils/types";
+import { ResolvedTag } from "../../../Utils/types";
+import { getAsset } from "../../../Utils/Content/assets";
 
 // Material UI Imports
 import {
-  CircularProgress,
   makeStyles,
   Typography,
   useTheme,
@@ -70,35 +64,18 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Related: FC<TagFields> = (props) => {
+const Related: FC<ResolvedTag> = (props) => {
   const classes = useStyles();
-  const experience = useExperience();
-  const projects = useProjects();
-  const articles = useArticles();
-
-  if (experience === null || projects === null || articles === null)
-    return (
-      <div className={classes.root}>
-        <CircularProgress className={classes.spinner} />
-      </div>
-    );
-
-  const { relatedExperience, relatedProjects, relatedArticles } = getTagRelated(
-    props,
-    experience,
-    projects,
-    articles
-  );
 
   return (
     <div className={classes.root}>
-      {!!relatedExperience.length && (
+      {!!props.experience.length && (
         <div className={classes.container}>
           <Heading>Related Experience</Heading>
           <div className={classes.related}>
-            {relatedExperience.map((experience) => (
+            {props.experience.map((experience) => (
               <Associated
-                {...experience}
+                id={experience.id}
                 className={classes.associated}
                 key={experience.id}
               />
@@ -106,17 +83,17 @@ const Related: FC<TagFields> = (props) => {
           </div>
         </div>
       )}
-      {!!relatedExperience.length && !!relatedProjects.length && (
+      {!!props.experience.length && !!props.projects.length && (
         <HorizontalDivider height={3} />
       )}
-      {!!relatedProjects.length && (
+      {!!props.projects.length && (
         <div className={classes.container}>
           <Heading>Related Projects</Heading>
           <div className={classes.related}>
-            {relatedProjects.map((project) => (
+            {props.projects.map((project) => (
               <Overlay
                 key={project.id}
-                icon={project.image}
+                icon={getAsset(project.image)}
                 label={project.title}
                 to={`/projects/${project.id}`}
                 className={classes.overlay}
@@ -125,16 +102,16 @@ const Related: FC<TagFields> = (props) => {
           </div>
         </div>
       )}
-      {(!!relatedProjects.length || !!relatedExperience.length) &&
-        !!relatedArticles.length && <HorizontalDivider height={3} />}
-      {!!relatedArticles.length && (
+      {(!!props.projects.length || !!props.experience.length) &&
+        !!props.articles.length && <HorizontalDivider height={3} />}
+      {!!props.articles.length && (
         <div className={classes.container}>
           <Heading>Related Articles</Heading>
           <div className={classes.related}>
-            {relatedArticles.map((article) => (
+            {props.articles.map((article) => (
               <Overlay
                 key={article.id}
-                icon={article.image}
+                icon={getAsset(article.image)}
                 label={article.title}
                 to={`/projects/${article.id}`}
                 className={classes.overlay}

@@ -3,35 +3,19 @@ import React, { FC } from "react";
 import Category from "./Category";
 import Item from "./Item";
 import { useLastPath } from "../../Hooks";
-import { sortExperience } from "../../Utils/experience";
-import { sortProjects } from "../../Utils/projects";
-import { sortTags } from "../../Utils/tags";
+import { useSortedExperience } from "../../Utils/Content/experience";
+import { useSortedProjects } from "../../Utils/Content/projects";
+import { useSortedTags } from "../../Utils/Content/tags";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
-import {
-  ArticleFields,
-  ExperienceFields,
-  ProjectFields,
-  TagFields,
-} from "../../Utils/types";
-import {
-  useArticles,
-  useExperience,
-  useProjects,
-  useTags,
-} from "../../Context/DataContext";
+import { Experience, Article, Project, Tag } from "../../Utils/types";
 
 // Redux Imports
-import { useSelector } from "react-redux";
-import {
-  getExperienceSort,
-  getProjectsSort,
-  getTagsSort,
-  setExperienceScroll,
-} from "../../Redux";
+import { setExperienceScroll } from "../../Redux";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
+import { getArticles } from "../../Utils/Content/articles";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -45,9 +29,7 @@ const useStyles = makeStyles((theme) => ({
 interface CategoryInfo {
   label: string;
   to: string;
-  objects:
-    | (ExperienceFields | ProjectFields | ArticleFields | TagFields)[]
-    | null;
+  objects: (Experience | Project | Article | Tag)[];
   onClick?: (id: string) => void;
 }
 
@@ -56,37 +38,23 @@ const Contents: FC = () => {
   const dispatch = useAppDispatch();
   const lastPath = useLastPath();
 
-  const experience = useExperience();
-  const experienceSort = useSelector(getExperienceSort);
-  const sortedExperience =
-    experience === null ? null : sortExperience(experienceSort, experience);
-
-  const projects = useProjects();
-  const projectsSort = useSelector(getProjectsSort);
-  const sortedProjects =
-    projects === null ? null : sortProjects(projectsSort, projects);
-
-  const articles = useArticles();
-
-  const tags = useTags();
-  const tagsSort = useSelector(getTagsSort);
-  const sortedTags =
-    tags === null
-      ? null
-      : sortTags(tagsSort, tags, experience, projects, articles);
+  const experience = useSortedExperience();
+  const projects = useSortedProjects();
+  const articles = getArticles();
+  const tags = useSortedTags();
 
   const categories: CategoryInfo[] = [
     {
       label: "Experience",
       to: "experience",
-      objects: sortedExperience,
+      objects: experience,
       onClick: (id) => {
         if (lastPath === id) dispatch(setExperienceScroll(id));
       },
     },
-    { label: "Projects", to: "projects", objects: sortedProjects },
-    { label: "Articles", to: "articles", objects: articles },
-    { label: "Tags", to: "tags", objects: sortedTags },
+    { label: "Projects", to: "projects", objects: projects },
+    { label: "Articles", to: "articles", objects: Object.values(articles) },
+    { label: "Tags", to: "tags", objects: tags },
   ];
 
   return (
@@ -96,26 +64,24 @@ const Contents: FC = () => {
       </Toolbar>
       <Divider />
       <List disablePadding className={classes.list}>
-        <Category label="Home" to="/" withChildren={false} />
+        <Category label="Home" to="/" />
         {categories.map((category, i) => {
           const { label, to, objects, onClick } = category;
 
           return (
             <Category key={i} label={label} to={`/${to}`}>
-              {objects === null
-                ? null
-                : objects.map((fields) => (
-                    <Item
-                      key={fields.id}
-                      label={fields.title}
-                      to={`/${to}/${fields.id}`}
-                      onClick={() => onClick?.(fields.id)}
-                    />
-                  ))}
+              {objects.map((fields) => (
+                <Item
+                  key={fields.id}
+                  label={fields.title}
+                  to={`/${to}/${fields.id}`}
+                  onClick={() => onClick?.(fields.id)}
+                />
+              ))}
             </Category>
           );
         })}
-        <Category label="Contact" to="/contact" withChildren={false} />
+        <Category label="Contact" to="/contact" />
       </List>
     </>
   );

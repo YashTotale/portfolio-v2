@@ -1,64 +1,82 @@
 // Externals
-import { Asset, Entry, EntryFields } from "contentful";
+import { Asset, EntryFields } from "contentful";
+
+// Internals
+import {
+  RawExperience,
+  RawProject,
+  RawTag,
+  RawArticle,
+} from "../../scripts/data/helpers";
 
 export interface Main {
   description: EntryFields.RichText;
 }
-
-export interface TagFields {
+export interface Badge {
+  title: string;
+  source: string;
+  url: string;
   id: string;
-  title: EntryFields.Text;
-  link?: EntryFields.Text;
-  darkIcon: Asset;
-  lightIcon: Asset;
 }
 
-type TagFieldsWithoutID = Omit<TagFields, "id">;
+export type Experience = Omit<RawExperience, "image" | "tags"> & {
+  image: string;
+  projects: string[];
+  articles: string[];
+  tags: string[];
+};
 
-export interface ProjectFields {
-  id: string;
-  title: EntryFields.Text;
-  description: EntryFields.RichText;
-  image: Asset;
-  start: EntryFields.Text;
-  end?: EntryFields.Text;
-  link?: EntryFields.Text;
-  github?: EntryFields.Text;
-  associated?: Entry<ExperienceFieldsWithoutID>;
-  tags: Entry<TagFieldsWithoutID>[];
-  badges?: Entry<BadgeFields>[];
-}
+export type ResolvedExperience = Omit<
+  Experience,
+  "image" | "projects" | "articles" | "tags"
+> & {
+  image: Asset["fields"];
+  projects: Project[];
+  articles: Article[];
+  tags: Tag[];
+};
 
-export interface ExperienceFields {
-  id: string;
-  title: EntryFields.Text;
-  role: EntryFields.Text;
-  type: "Organization" | "Company" | "Club";
-  description: EntryFields.RichText;
-  responsibilities: EntryFields.RichText;
-  image: Asset;
-  start: EntryFields.Text;
-  end?: EntryFields.Text;
-  link?: EntryFields.Text;
-  github?: EntryFields.Text;
-  tags?: Entry<TagFieldsWithoutID>[];
-}
+export type Project = Omit<
+  RawProject,
+  "image" | "tags" | "badges" | "associated"
+> & {
+  image: string;
+  tags: string[];
+  badges?: string[];
+  associated?: string;
+};
 
-export type ExperienceFieldsWithoutID = Omit<ExperienceFields, "id">;
+export type ResolvedProject = Omit<
+  Project,
+  "image" | "associated" | "badges" | "tags"
+> & {
+  image: Asset["fields"];
+  associated?: Experience;
+  badges?: Badge[];
+  tags: Tag[];
+};
 
-export interface ArticleFields {
-  id: string;
-  title: EntryFields.Text;
-  description: EntryFields.RichText;
-  link: EntryFields.Text;
-  published: EntryFields.Date;
-  associated?: Entry<ExperienceFieldsWithoutID>;
-  image: Asset;
-  tags: Entry<TagFieldsWithoutID>[];
-}
+export type Article = Omit<RawArticle, "image" | "tags" | "associated"> & {
+  image: string;
+  tags: string[];
+  associated?: string;
+};
 
-export interface BadgeFields {
-  title: EntryFields.Text;
-  source: EntryFields.Text;
-  url: EntryFields.Text;
-}
+export type Tag = Omit<RawTag, "darkIcon" | "lightIcon"> & {
+  darkIcon: string;
+  lightIcon: string;
+  experience: string[];
+  projects: string[];
+  articles: string[];
+};
+
+export type ResolvedTag = Omit<
+  Tag,
+  "darkIcon" | "lightIcon" | "experience" | "projects" | "articles"
+> & {
+  darkIcon: Asset["fields"];
+  lightIcon: Asset["fields"];
+  experience: Experience[];
+  projects: Project[];
+  articles: Article[];
+};

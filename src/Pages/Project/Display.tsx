@@ -1,10 +1,9 @@
 // React Imports
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
-import { ProjectFields } from "../../Utils/types";
 import RichText from "../../Components/RichText";
 import HorizontalDivider from "../../Components/Divider/Horizontal";
-import { getImageTitle, getImageUrl } from "../../API/helpers";
+import { ResolvedProject } from "../../Utils/types";
 
 // Material UI Imports
 import {
@@ -95,15 +94,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Display: FC<ProjectFields> = (props) => {
+const Display: FC<ResolvedProject> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
   return (
     <div className={classes.projectInfo}>
       <img
-        src={getImageUrl(props.image)}
-        alt={getImageTitle(props.image)}
+        src={props.image.file.url}
+        alt={props.image.title}
         className={classes.projectImage}
       />
       <div className={classes.projectDescription}>

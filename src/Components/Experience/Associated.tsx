@@ -6,8 +6,7 @@ import RichText from "../RichText";
 import StyledLink from "../StyledLink";
 import VerticalDivider from "../Divider/Vertical";
 import HorizontalDivider from "../Divider/Horizontal";
-import { getImageTitle, getImageUrl } from "../../API/helpers";
-import { ExperienceFields } from "../../Utils/types";
+import { getSingleExperience } from "../../Utils/Content/experience";
 
 // Material UI Imports
 import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
@@ -71,21 +70,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type AssociatedProps = ExperienceFields & {
+interface AssociatedProps {
+  id: string;
   className?: string;
-};
+}
 
-const Associated: FC<AssociatedProps> = (props) => {
+const Associated: FC<AssociatedProps> = ({ id, className }) => {
   const classes = useStyles();
   const theme = useTheme();
-
+  const experience = getSingleExperience(id);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
+  if (!experience) return null;
+
   return (
-    <div className={clsx(classes.container, props.className)}>
+    <div className={clsx(classes.container, className)}>
       <img
-        src={getImageUrl(props.image)}
-        alt={getImageTitle(props.image)}
+        src={experience.image.file.url}
+        alt={experience.image.title}
         className={classes.image}
       />
       {!isSizeXS && <VerticalDivider />}
@@ -93,14 +95,14 @@ const Associated: FC<AssociatedProps> = (props) => {
         <StyledLink
           variant="h6"
           align="center"
-          to={`/experience/${props.id}`}
+          to={`/experience/${experience.id}`}
           className={classes.title}
         >
-          {`${props.role} @ ${props.title}`}
+          {`${experience.role} @ ${experience.title}`}
         </StyledLink>
         <HorizontalDivider />
         <div className={classes.description}>
-          <RichText richText={props.description as Document} />
+          <RichText richText={experience.description as Document} />
         </div>
       </div>
     </div>

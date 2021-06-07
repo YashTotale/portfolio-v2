@@ -1,8 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import DynamicImage from "../../DynamicImage";
-import { getImageTitle, getImageUrl } from "../../../API/helpers";
-import { TagFields } from "../../../Utils/types";
+import { ResolvedTag } from "../../../Utils/types";
 
 // Material UI Imports
 import { makeStyles, useTheme } from "@material-ui/core";
@@ -47,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Icon: FC<TagFields> = (props) => {
+const Icon: FC<ResolvedTag> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -57,8 +56,8 @@ const Icon: FC<TagFields> = (props) => {
   return (
     <div className={classes.iconContainer}>
       <DynamicImage
-        src={getImageUrl(icon)}
-        alt={getImageTitle(icon)}
+        src={icon.file.url}
+        alt={icon.title}
         className={classes.icon}
       />
     </div>

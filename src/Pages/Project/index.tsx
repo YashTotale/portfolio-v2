@@ -7,11 +7,10 @@ import NotFound from "../NotFound";
 import DynamicPaper from "../../Components/DynamicPaper";
 import HorizontalDivider from "../../Components/Divider/Horizontal";
 import Associated from "../../Components/Experience/Associated";
-import { useProjects } from "../../Context/DataContext";
+import { getProject } from "../../Utils/Content/projects";
 
 // Material UI Imports
 import {
-  CircularProgress,
   makeStyles,
   Typography,
   useMediaQuery,
@@ -88,16 +87,7 @@ const Project: FC = () => {
   const classes = useStyles();
   const theme = useTheme();
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const projects = useProjects();
-
-  if (projects === null)
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
-
-  const project = projects.find((p) => p.id === id);
+  const project = getProject(id);
 
   if (!project)
     return (
@@ -123,13 +113,13 @@ const Project: FC = () => {
             <div className={classes.badges}>
               {project.badges.map((badge) => (
                 <a
-                  key={badge.sys.id}
+                  key={badge.id}
                   target="_blank"
                   rel="noopener noreferrer"
-                  href={badge.fields.url}
+                  href={badge.url}
                   className={classes.badge}
                 >
-                  <img src={badge.fields.source} alt={badge.fields.title} />
+                  <img src={badge.source} alt={badge.title} />
                 </a>
               ))}
             </div>
@@ -148,8 +138,7 @@ const Project: FC = () => {
               Associated With
             </Typography>
             <Associated
-              {...project.associated.fields}
-              id={project.associated.sys.id}
+              id={project.associated.id}
               className={classes.associated}
             />
             <HorizontalDivider height={2} className={classes.divider} />

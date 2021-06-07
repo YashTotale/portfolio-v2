@@ -7,7 +7,7 @@ import {
 import { BLOCKS, Document, INLINES } from "@contentful/rich-text-types";
 import MatchHighlight from "./MatchHighlight";
 import StyledLink from "./StyledLink";
-import { useTags } from "../Context/DataContext";
+import { getTags } from "../Utils/Content/tags";
 
 // Material UI Imports
 import {
@@ -106,7 +106,7 @@ const TextRenderer: FC<TextRendererProps> = ({
   variant,
   toMatch = "",
 }) => {
-  const tags = useTags();
+  const tags = getTags();
   const classes = useStyles();
 
   const parsed: (JSX.Element | string)[] = [];

@@ -9,8 +9,7 @@ import MatchHighlight from "../../../Components/MatchHighlight";
 import VerticalDivider from "../../../Components/Divider/Vertical";
 import HorizontalDivider from "../../../Components/Divider/Horizontal";
 import { useLastPath } from "../../../Hooks";
-import { getImageTitle, getImageUrl } from "../../../API/helpers";
-import { ExperienceFields } from "../../../Utils/types";
+import { getSingleExperience } from "../../../Utils/Content/experience";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -83,33 +82,41 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const SingleExperience: FC<ExperienceFields> = (props) => {
+interface SingleExperienceProps {
+  id: string;
+}
+
+const SingleExperience: FC<SingleExperienceProps> = (props) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const lastPath = useLastPath();
   const search = useSelector(getExperienceSearch);
+  const experience = getSingleExperience(props.id);
 
   const theme = useTheme();
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  if (!experience) return null;
+
   return (
-    <Container {...props} lastPath={lastPath}>
+    <Container {...experience} lastPath={lastPath}>
       <div className={classes.titleContainer}>
         <StyledLink
-          to={`/experience/${props.id}`}
+          to={`/experience/${experience.id}`}
           variant={isSizeSmall ? "h5" : "h4"}
           align="center"
           toMatch={search}
           className={classes.title}
           onClick={() => {
-            if (lastPath === props.id) dispatch(setExperienceScroll(props.id));
+            if (lastPath === experience.id)
+              dispatch(setExperienceScroll(experience.id));
           }}
         >
-          {`${props.role} @ ${props.title}`}
+          {`${experience.role} @ ${experience.title}`}
         </StyledLink>
         <Typography variant="body1">
           <MatchHighlight toMatch={search}>
-            {`${props.start} - ${props.end ?? "Present"}`}
+            {`${experience.start} - ${experience.end ?? "Present"}`}
           </MatchHighlight>
         </Typography>
       </div>
@@ -117,16 +124,16 @@ const SingleExperience: FC<ExperienceFields> = (props) => {
       <div className={classes.main}>
         <div className={classes.imageContainer}>
           <DynamicImage
-            src={getImageUrl(props.image)}
-            alt={getImageTitle(props.image)}
+            src={experience.image.file.url}
+            alt={experience.image.title}
             className={classes.image}
           />
         </div>
         {!isSizeSmall && <VerticalDivider />}
-        <Info {...props} />
+        <Info {...experience} />
       </div>
       <HorizontalDivider />
-      <FloatingIcons {...props} />
+      <FloatingIcons {...experience} />
     </Container>
   );
 };

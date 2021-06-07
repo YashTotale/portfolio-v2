@@ -9,7 +9,6 @@ import {
   ListItem,
   ListItemText,
   Collapse,
-  CircularProgress,
   Theme,
 } from "@material-ui/core";
 import { ExpandLess } from "@material-ui/icons";
@@ -23,11 +22,11 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   listItemContainer: {
     padding: theme.spacing(0),
   },
-  listItemRoot: {
+  listItem: {
     padding: theme.spacing(0.75, 1),
     paddingLeft: theme.spacing(3),
   },
-  listItemTextRoot: {
+  listItemText: {
     fontWeight: theme.typography.fontWeightBold,
     color: ({ isActive }) =>
       isActive ? theme.palette.primary.main : theme.palette.text.primary,
@@ -41,44 +40,33 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 interface CategoryProps {
   to: string;
   label: string;
-  withChildren?: boolean;
 }
 
-const Category: FC<CategoryProps> = ({
-  label,
-  to,
-  withChildren = true,
-  children,
-}) => {
+const Category: FC<CategoryProps> = ({ label, to, children }) => {
   const pathname = useLocation().pathname;
   const open = pathname.includes(to);
   const classes = useStyles({ open, isActive: pathname === to });
   const history = useHistory();
 
-  const childrenLoading = withChildren && children === null;
-  const childrenReady = withChildren && children !== null;
-
   return (
     <li className={classes.listItemContainer}>
       <ListItem
         button
-        disabled={childrenLoading}
-        className={classes.listItemRoot}
+        className={classes.listItem}
         onClick={() => {
-          if (open && withChildren) history.push("/");
+          if (open && children) history.push("/");
           else history.push(to);
         }}
       >
         <ListItemText
           primary={label}
           classes={{
-            primary: classes.listItemTextRoot,
+            primary: classes.listItemText,
           }}
         />
-        {childrenLoading && <CircularProgress size={24} />}
-        {childrenReady && <ExpandLess className={classes.arrow} />}
+        {children && <ExpandLess className={classes.arrow} />}
       </ListItem>
-      {childrenReady && (
+      {children && (
         <Collapse in={open} timeout="auto">
           <List component="div" disablePadding>
             {children}

@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import LinkIcon from "../../../Components/Icon/Link";
-import { ExperienceFields } from "../../../Utils/types";
+import { ResolvedExperience } from "../../../Utils/types";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FloatingIcons: FC<ExperienceFields> = ({ link, github }) => {
+const FloatingIcons: FC<ResolvedExperience> = ({ link, github }) => {
   const classes = useStyles();
 
   return (

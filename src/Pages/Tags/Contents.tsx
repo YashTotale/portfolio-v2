@@ -1,20 +1,15 @@
 // React Imports
 import React, { FC, useCallback, useMemo } from "react";
 import Tag from "../../Components/Tag/Main";
-import { sortTags } from "../../Utils/tags";
-import { TagFields } from "../../Utils/types";
+import { useSortedTags } from "../../Utils/Content/tags";
+import { Tag as TagFields } from "../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getTagsSearch, getTagsSort } from "../../Redux";
+import { getTagsSearch } from "../../Redux";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
-import {
-  useArticles,
-  useExperience,
-  useProjects,
-} from "../../Context/DataContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -26,21 +21,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface ContentsProps {
-  tags: TagFields[];
-}
-
-const Contents: FC<ContentsProps> = ({ tags }) => {
+const Contents: FC = () => {
   const classes = useStyles();
-  const sort = useSelector(getTagsSort);
+  const tags = useSortedTags();
+
   const search = useSelector(getTagsSearch);
   const normalizedSearch = search.toLowerCase();
-
-  const experience = useExperience();
-  const projects = useProjects();
-  const articles = useArticles();
-
-  const sortedTags = sortTags(sort, tags, experience, projects, articles);
 
   const getTagMatch = useCallback(
     (t: TagFields) => {
@@ -55,16 +41,16 @@ const Contents: FC<ContentsProps> = ({ tags }) => {
   );
 
   const filteredTags = useMemo(() => {
-    if (!normalizedSearch.length) return sortedTags;
+    if (!normalizedSearch.length) return tags;
 
-    return sortedTags.reduce((arr, tag) => {
+    return tags.reduce((arr, tag) => {
       const matches = getTagMatch(tag);
 
       if (matches.some((bool) => bool)) return [...arr, tag];
 
       return arr;
     }, [] as TagFields[]);
-  }, [sortedTags, normalizedSearch, getTagMatch]);
+  }, [tags, normalizedSearch, getTagMatch]);
 
   return (
     <div className={classes.container}>

@@ -1,5 +1,5 @@
 //React Imports
-import React, { FC, Fragment, useEffect, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import Typist from "react-typist";
 
 //Material UI Imports

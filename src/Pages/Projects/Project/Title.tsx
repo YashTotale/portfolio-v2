@@ -1,6 +1,7 @@
 //React Imports
 import React, { FC } from "react";
 import { PROJECT_WIDTHS } from "./index";
+import StyledLink from "../../../Components/StyledLink";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -8,7 +9,6 @@ import { getProjectsSearch } from "../../../Redux";
 
 // Material UI Imports
 import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
-import StyledLink from "../../../Components/StyledLink";
 
 const useStyles = makeStyles((theme) => ({
   projectTitle: {

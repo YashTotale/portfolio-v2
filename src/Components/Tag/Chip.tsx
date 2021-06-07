@@ -1,8 +1,8 @@
 //React Imports
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import { getImageTitle, getImageUrl } from "../../API/helpers";
-import { TagFields } from "../../Utils/types";
+import clsx from "clsx";
+import { getTag } from "../../Utils/Content/tags";
 
 //Material UI Imports
 import {
@@ -13,7 +13,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 
-const useTagsStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   projectTag: {
     margin: theme.spacing(0.3),
     "& .MuiChip-avatarColorSecondary": {
@@ -22,27 +22,32 @@ const useTagsStyles = makeStyles((theme) => ({
   },
 }));
 
-const TagChip: FC<TagFields> = ({ title, id, lightIcon, darkIcon }) => {
-  const theme = useTheme();
-  const classes = useTagsStyles();
-  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+interface TagChipProps {
+  id: string;
+  className?: string;
+}
 
+const TagChip: FC<TagChipProps> = (props) => {
+  const theme = useTheme();
+  const classes = useStyles();
+  const tag = getTag(props.id);
+
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const isDark = theme.palette.type === "dark";
+
+  if (!tag) return null;
+
+  const icon = isDark ? tag.darkIcon : tag.lightIcon;
 
   return (
     <Chip
       clickable
       size={isSizeXS ? "small" : "medium"}
-      label={title}
-      className={classes.projectTag}
-      avatar={
-        <Avatar
-          src={isDark ? getImageUrl(darkIcon) : getImageUrl(lightIcon)}
-          alt={isDark ? getImageTitle(darkIcon) : getImageTitle(lightIcon)}
-        />
-      }
+      label={tag.title}
+      className={clsx(classes.projectTag, props.className)}
+      avatar={<Avatar src={icon.file.url} alt={icon.title} />}
       component={Link}
-      to={`/tags/${id}`}
+      to={`/tags/${tag.id}`}
       color="secondary"
       variant="outlined"
     />

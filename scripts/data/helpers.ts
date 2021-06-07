@@ -60,41 +60,6 @@ export interface RawTag {
   link?: EntryFields.Text;
 }
 
-export interface Main {
-  description: EntryFields.RichText;
-}
-
-export type Experience = Omit<RawExperience, "image" | "tags"> & {
-  image: string;
-  projects: string[];
-  articles: string[];
-  tags: string[];
-};
-
-export type Project = Omit<
-  RawProject,
-  "image" | "tags" | "badges" | "associated"
-> & {
-  image: string;
-  tags: string[];
-  badges?: string[];
-  associated?: string;
-};
-
-export type Article = Omit<RawArticle, "image" | "tags" | "associated"> & {
-  image: string;
-  tags: string[];
-  associated?: string;
-};
-
-export type Tag = Omit<RawTag, "darkIcon" | "lightIcon"> & {
-  darkIcon: string;
-  lightIcon: string;
-  experience: string[];
-  projects: string[];
-  articles: string[];
-};
-
 export const ROOT_DIR = join(__dirname, "..", "..");
 export const DATA_DIR = join(ROOT_DIR, "src", "Data");
 

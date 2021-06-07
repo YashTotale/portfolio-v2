@@ -7,13 +7,9 @@ import {
   Dict,
   readData,
   writeData,
-  Project,
-  Article,
-  Experience,
   RawTag,
-  Tag,
-  Main,
 } from "./helpers";
+import { Project, Article, Experience, Tag, Main } from "../../src/Utils/types";
 
 const getId = (x: RawLink) => x.sys.id;
 

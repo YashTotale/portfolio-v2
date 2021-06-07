@@ -3,7 +3,6 @@ import React, { FC, useState } from "react";
 import clsx from "clsx";
 import { Link, LinkProps } from "react-router-dom";
 import { Asset } from "contentful";
-import { getImageTitle, getImageUrl } from "../API/helpers";
 
 // Material UI Imports
 import {
@@ -113,7 +112,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 interface OverlayProps {
   label: string;
   to: LinkProps["to"];
-  icon: Asset;
+  icon: Asset["fields"];
   className?: string;
 }
 
@@ -135,11 +134,7 @@ const Overlay: FC<OverlayProps> = ({ label, to, icon, className }) => {
           <Typography variant="h6" align="center" className={classes.title}>
             {label}
           </Typography>
-          <img
-            src={getImageUrl(icon)}
-            alt={getImageTitle(icon)}
-            className={classes.icon}
-          />
+          <img src={icon.file.url} alt={icon.title} className={classes.icon} />
         </Link>
       </div>
       {isSizeXS && (

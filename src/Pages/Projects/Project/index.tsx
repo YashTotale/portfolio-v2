@@ -9,8 +9,7 @@ import MatchHighlight from "../../../Components/MatchHighlight";
 import DynamicImage from "../../../Components/DynamicImage";
 import DynamicPaper from "../../../Components/DynamicPaper";
 import HorizontalDivider from "../../../Components/Divider/Horizontal";
-import { getImageTitle, getImageUrl } from "../../../API/helpers";
-import { ProjectFields } from "../../../Utils/types";
+import { ResolvedProject } from "../../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -120,7 +119,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-export type ProjectProps = ProjectFields & {
+export type ProjectProps = ResolvedProject & {
   pushLeft?: boolean;
 };
 
@@ -136,8 +135,8 @@ const Project: FC<ProjectProps> = (props) => {
       <Paper className={classes.projectTop} elevation={3}>
         <FloatingIcons {...props} />
         <DynamicImage
-          src={getImageUrl(image)}
-          alt={getImageTitle(image)}
+          src={image.file.url}
+          alt={image.title}
           className={classes.projectImage}
         />
         <Title title={title} id={id} />
@@ -148,7 +147,7 @@ const Project: FC<ProjectProps> = (props) => {
       <HorizontalDivider />
       <div className={classes.projectTags}>
         {tags.map((tag) => (
-          <TagChip key={tag.sys.id} {...tag.fields} id={tag.sys.id} />
+          <TagChip key={tag.id} id={tag.id} />
         ))}
       </div>
       <HorizontalDivider />

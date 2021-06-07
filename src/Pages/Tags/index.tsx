@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import Contents from "./Contents";
-import { useTags } from "../../Context/DataContext";
+import Filters from "../../Components/Filters";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -15,8 +15,7 @@ import {
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { CircularProgress, makeStyles } from "@material-ui/core";
-import Filters from "../../Components/Filters";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -37,15 +36,6 @@ const Tags: FC = () => {
   const dispatch = useAppDispatch();
   const search = useSelector(getTagsSearch);
   const sort = useSelector(getTagsSort);
-  const tags = useTags();
-
-  if (tags === null) {
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
-  }
 
   return (
     <Container>
@@ -61,7 +51,7 @@ const Tags: FC = () => {
         }}
         className={classes.filters}
       />
-      <Contents tags={tags} />
+      <Contents />
     </Container>
   );
 };

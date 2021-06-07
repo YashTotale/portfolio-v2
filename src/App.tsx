@@ -2,7 +2,6 @@
 import { hot } from "react-hot-loader";
 import React, { FC, lazy, Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
-import { DataProvider } from "./Context/DataContext";
 import { SIDEBAR_WIDTH } from "./Utils/constants";
 
 // Components
@@ -25,7 +24,7 @@ const Contact = lazy(() => import("./Pages/Contact"));
 const NotFound = lazy(() => import("./Pages/NotFound"));
 
 const useStyles = makeStyles((theme) => ({
-  app: {
+  root: {
     paddingTop: theme.spacing(2),
     [theme.breakpoints.up("lg")]: {
       marginLeft: SIDEBAR_WIDTH,
@@ -40,13 +39,13 @@ const useStyles = makeStyles((theme) => ({
 
 const App: FC = () => {
   return (
-    <DataProvider>
+    <>
       <ScrollToTop />
       <Popup />
       <Navbar />
       <Sidebar />
       <Routes />
-    </DataProvider>
+    </>
   );
 };
 
@@ -54,7 +53,7 @@ const Routes: FC = () => {
   const classes = useStyles();
 
   return (
-    <div className={classes.app}>
+    <div className={classes.root}>
       <Suspense
         fallback={
           <div className={classes.spinner}>

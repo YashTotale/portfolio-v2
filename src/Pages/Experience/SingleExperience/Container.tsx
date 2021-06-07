@@ -1,20 +1,15 @@
 // React Imports
 import React, { FC, useEffect, useRef } from "react";
 import DynamicPaper from "../../../Components/DynamicPaper";
-import {
-  useArticles,
-  useProjects,
-  useTags,
-} from "../../../Context/DataContext";
-import { ExperienceFields } from "../../../Utils/types";
+import { ResolvedExperience } from "../../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
 import { getExperienceScroll, setExperienceScroll } from "../../../Redux";
+import { useAppDispatch } from "../../../Store";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
-import { useAppDispatch } from "../../../Store";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -27,7 +22,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type ContainerProps = ExperienceFields & {
+type ContainerProps = ResolvedExperience & {
   lastPath: string;
 };
 
@@ -36,21 +31,16 @@ const Container: FC<ContainerProps> = (props) => {
   const dispatch = useAppDispatch();
   const ref = useRef<HTMLDivElement>(null);
 
-  const projects = useProjects();
-  const articles = useArticles();
-  const tags = useTags();
-  const loading = projects === null || articles === null || tags === null;
-
   const scroll = useSelector(getExperienceScroll);
 
   useEffect(() => {
-    if (!loading && props.lastPath === props.id) {
+    if (props.lastPath === props.id) {
       ref.current?.scrollIntoView({
         behavior: "smooth",
         block: "start",
       });
     }
-  }, [loading, props.lastPath, props.id]);
+  }, [props.lastPath, props.id]);
 
   useEffect(() => {
     if (scroll === props.id) {

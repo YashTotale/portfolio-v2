@@ -2,7 +2,6 @@
 import React, { FC } from "react";
 import Contents from "./Contents";
 import Filters from "../../Components/Filters";
-import { useExperience } from "../../Context/DataContext";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -16,7 +15,7 @@ import { ExperienceSort, EXPERIENCE_SORT } from "../../Redux/experience.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { CircularProgress, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,14 +35,6 @@ const Experience: FC = () => {
   const dispatch = useAppDispatch();
   const search = useSelector(getExperienceSearch);
   const sort = useSelector(getExperienceSort);
-  const experience = useExperience();
-
-  if (experience === null)
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
 
   return (
     <Container>
@@ -60,7 +51,7 @@ const Experience: FC = () => {
         }}
         className={classes.filters}
       />
-      <Contents experience={experience} />
+      <Contents />
     </Container>
   );
 };

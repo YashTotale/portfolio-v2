@@ -1,15 +1,15 @@
 // React Imports
 import React, { FC } from "react";
 import { useParams } from "react-router";
+import { Link } from "react-router-dom";
 import clsx from "clsx";
 import NotFound from "../NotFound";
 import TagMain from "../../Components/Tag/Main";
-import { useTags } from "../../Context/DataContext";
+import { getTag, useSortedTags } from "../../Utils/Content/tags";
 
 // Material UI Imports
-import { CircularProgress, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 import { ArrowDownward, ArrowUpward } from "@material-ui/icons";
-import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -70,30 +70,22 @@ interface Params {
 const Tag: FC = () => {
   const { id } = useParams<Params>();
   const classes = useStyles();
-  const tags = useTags();
+  const tag = getTag(id);
+  const sortedTags = useSortedTags();
 
-  if (tags === null)
-    return (
-      <Container>
-        <CircularProgress />
-      </Container>
-    );
-
-  const tagIndex = tags.findIndex((t) => t.id === id);
-
-  if (tagIndex === -1)
+  if (!tag)
     return <NotFound name="tag" redirect="/tags" redirectName="Tags Page" />;
 
-  const tag = tags[tagIndex];
+  const tagIndex = sortedTags.findIndex((t) => t.id === tag.id);
 
   return (
     <Container>
       {tagIndex !== 0 && (
-        <Arrow up={true} to={`/tags/${tags[tagIndex - 1].id}`} />
+        <Arrow up={true} to={`/tags/${sortedTags[tagIndex - 1].id}`} />
       )}
       <TagMain {...tag} className={classes.tag} />
-      {tagIndex !== tags.length - 1 && (
-        <Arrow to={`/tags/${tags[tagIndex + 1].id}`} />
+      {tagIndex !== sortedTags.length - 1 && (
+        <Arrow to={`/tags/${sortedTags[tagIndex + 1].id}`} />
       )}
     </Container>
   );
