@@ -56,7 +56,7 @@ const Icon: FC<ResolvedTag> = (props) => {
   return (
     <div className={classes.iconContainer}>
       <DynamicImage
-        src={icon.file.url}
+        src={`${icon.file.url}?w=175`}
         alt={icon.title}
         className={classes.icon}
       />

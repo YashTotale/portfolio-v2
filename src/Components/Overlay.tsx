@@ -134,7 +134,11 @@ const Overlay: FC<OverlayProps> = ({ label, to, icon, className }) => {
           <Typography variant="h6" align="center" className={classes.title}>
             {label}
           </Typography>
-          <img src={icon.file.url} alt={icon.title} className={classes.icon} />
+          <img
+            src={`${icon.file.url}?w=175`}
+            alt={icon.title}
+            className={classes.icon}
+          />
         </Link>
       </div>
       {isSizeXS && (

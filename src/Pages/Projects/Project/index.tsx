@@ -135,7 +135,7 @@ const Project: FC<ProjectProps> = (props) => {
       <Paper className={classes.projectTop} elevation={3}>
         <FloatingIcons {...props} />
         <DynamicImage
-          src={image.file.url}
+          src={`${image.file.url}?w=200`}
           alt={image.title}
           className={classes.projectImage}
         />

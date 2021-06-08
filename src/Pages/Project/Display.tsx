@@ -101,7 +101,7 @@ const Display: FC<ResolvedProject> = (props) => {
   return (
     <div className={classes.projectInfo}>
       <img
-        src={props.image.file.url}
+        src={`${props.image.file.url}?w=225`}
         alt={props.image.title}
         className={classes.projectImage}
       />

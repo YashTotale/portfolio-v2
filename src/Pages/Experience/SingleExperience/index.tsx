@@ -124,7 +124,7 @@ const SingleExperience: FC<SingleExperienceProps> = (props) => {
       <div className={classes.main}>
         <div className={classes.imageContainer}>
           <DynamicImage
-            src={experience.image.file.url}
+            src={`${experience.image.file.url}?w=225`}
             alt={experience.image.title}
             className={classes.image}
           />

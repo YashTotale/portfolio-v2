@@ -35,8 +35,7 @@ export const sortByDate = (
 
     if (!areEqual) {
       const isBefore = firstEnd.isBefore(secondEnd);
-      if (isBefore) return 1 * multiplier;
-      return -1 * multiplier;
+      return (isBefore ? 1 : -1) * multiplier;
     }
   }
 
@@ -48,7 +47,5 @@ export const sortByDate = (
   if (areEqual) return 0;
 
   const isBefore = firstStart.isBefore(secondStart);
-
-  if (isBefore) return 1 * multiplier;
-  return -1 * multiplier;
+  return (isBefore ? 1 : -1) * multiplier;
 };

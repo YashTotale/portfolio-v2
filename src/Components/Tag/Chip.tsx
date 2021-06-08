@@ -45,7 +45,7 @@ const TagChip: FC<TagChipProps> = (props) => {
       size={isSizeXS ? "small" : "medium"}
       label={tag.title}
       className={clsx(classes.projectTag, props.className)}
-      avatar={<Avatar src={icon.file.url} alt={icon.title} />}
+      avatar={<Avatar src={`${icon.file.url}?w=30`} alt={icon.title} />}
       component={Link}
       to={`/tags/${tag.id}`}
       color="secondary"

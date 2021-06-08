@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import RichText from "../RichText";
+import DynamicImage from "../DynamicImage";
 import StyledLink from "../StyledLink";
 import VerticalDivider from "../Divider/Vertical";
 import HorizontalDivider from "../Divider/Horizontal";
@@ -85,8 +86,8 @@ const Associated: FC<AssociatedProps> = ({ id, className }) => {
 
   return (
     <div className={clsx(classes.container, className)}>
-      <img
-        src={experience.image.file.url}
+      <DynamicImage
+        src={`https:${experience.image.file.url}?w=175`}
         alt={experience.image.title}
         className={classes.image}
       />
