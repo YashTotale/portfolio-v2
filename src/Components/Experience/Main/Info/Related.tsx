@@ -7,6 +7,7 @@ import { ResolvedExperience } from "../../../../Utils/types";
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
 import { getAsset } from "../../../../Utils/Content/assets";
+import ProjectAssociated from "../../../Project/Associated";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -29,6 +30,10 @@ const useStyles = makeStyles((theme) => ({
       textAlign: "center",
     },
   },
+  associated: {
+    margin: theme.spacing(1),
+    width: "100%",
+  },
   overlay: {
     margin: theme.spacing(1),
   },
@@ -46,12 +51,10 @@ const Related: FC<ResolvedExperience> = (props) => {
           </Typography>
           <div className={classes.container}>
             {props.projects.map((project) => (
-              <Overlay
-                label={project.title}
-                icon={getAsset(project.image)}
-                to={`/projects/${project.id}`}
+              <ProjectAssociated
+                id={project.id}
                 key={project.id}
-                className={classes.overlay}
+                className={classes.associated}
               />
             ))}
           </div>

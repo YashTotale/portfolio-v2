@@ -7,7 +7,7 @@ import DynamicImage from "../DynamicImage";
 import StyledLink from "../StyledLink";
 import VerticalDivider from "../Divider/Vertical";
 import HorizontalDivider from "../Divider/Horizontal";
-import { getSingleExperience } from "../../Utils/Content/experience";
+import { getProject } from "../../Utils/Content/projects";
 
 // Material UI Imports
 import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
@@ -67,7 +67,6 @@ const useStyles = makeStyles((theme) => ({
   },
   description: {
     margin: theme.spacing(1),
-    textAlign: "center",
   },
 }));
 
@@ -79,16 +78,16 @@ interface AssociatedProps {
 const Associated: FC<AssociatedProps> = ({ id, className }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const experience = getSingleExperience(id);
+  const project = getProject(id);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  if (!experience) return null;
+  if (!project) return null;
 
   return (
     <div className={clsx(classes.container, className)}>
       <DynamicImage
-        src={`${experience.image.file.url}?w=175`}
-        alt={experience.image.title}
+        src={`${project.image.file.url}?w=175`}
+        alt={project.image.title}
         className={classes.image}
       />
       {!isSizeXS && <VerticalDivider />}
@@ -96,14 +95,14 @@ const Associated: FC<AssociatedProps> = ({ id, className }) => {
         <StyledLink
           variant="h6"
           align="center"
-          to={`/experience/${experience.id}`}
+          to={`/experience/${project.id}`}
           className={classes.title}
         >
-          {`${experience.role} @ ${experience.title}`}
+          {project.title}
         </StyledLink>
         <HorizontalDivider />
         <div className={classes.description}>
-          <RichText richText={experience.description as Document} />
+          <RichText richText={project.description as Document} />
         </div>
       </div>
     </div>
