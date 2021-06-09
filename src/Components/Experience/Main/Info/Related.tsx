@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
-import Overlay from "../../../../Components/Overlay";
-import TagChip from "../../../../Components/Tag/Chip";
+import Overlay from "../../../Overlay";
+import TagChip from "../../../Tag/Chip";
 import { ResolvedExperience } from "../../../../Utils/types";
 
 // Material UI Imports

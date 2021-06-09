@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC, useEffect, useRef } from "react";
-import DynamicPaper from "../../../Components/DynamicPaper";
+import DynamicPaper from "../../DynamicPaper";
 import { ResolvedExperience } from "../../../Utils/types";
 
 // Redux Imports

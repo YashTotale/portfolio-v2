@@ -2,7 +2,7 @@
 import React, { FC, useCallback, useMemo } from "react";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import { Document } from "@contentful/rich-text-types";
-import SingleExperience from "./SingleExperience";
+import SingleExperience from "../../Components/Experience/Main";
 import { useSortedExperience } from "../../Utils/Content/experience";
 import { Experience } from "../../Utils/types";
 

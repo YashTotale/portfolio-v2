@@ -3,11 +3,11 @@ import React, { FC } from "react";
 import Container from "./Container";
 import Info from "./Info";
 import FloatingIcons from "./FloatingIcons";
-import StyledLink from "../../../Components/StyledLink";
-import DynamicImage from "../../../Components/DynamicImage";
-import MatchHighlight from "../../../Components/MatchHighlight";
-import VerticalDivider from "../../../Components/Divider/Vertical";
-import HorizontalDivider from "../../../Components/Divider/Horizontal";
+import StyledLink from "../../StyledLink";
+import DynamicImage from "../../DynamicImage";
+import MatchHighlight from "../../MatchHighlight";
+import VerticalDivider from "../../Divider/Vertical";
+import HorizontalDivider from "../../Divider/Horizontal";
 import { useLastPath } from "../../../Hooks";
 import { getSingleExperience } from "../../../Utils/Content/experience";
 

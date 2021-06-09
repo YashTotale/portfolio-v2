@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import Related from "./Related";
-import RichText from "../../../../Components/RichText";
+import RichText from "../../../RichText";
 import { ResolvedExperience } from "../../../../Utils/types";
 
 // Redux Imports

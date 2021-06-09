@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import LinkIcon from "../../../Components/Icon/Link";
+import LinkIcon from "../../Icon/Link";
 import { ResolvedExperience } from "../../../Utils/types";
 
 // Material UI Imports
