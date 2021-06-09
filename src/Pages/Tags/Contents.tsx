@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC, useCallback, useMemo } from "react";
-import Tag from "../../Components/Tag/Main";
+import TagPreview from "../../Components/Tag/Preview";
 import { useSortedTags } from "../../Utils/Content/tags";
 import { Tag as TagFields } from "../../Utils/types";
 
@@ -14,10 +14,14 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "stretch",
-    width: "100%",
+    alignItems: "stretch",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    width: "95%",
+    marginLeft: theme.spacing(-2),
+  },
+  preview: {
+    margin: theme.spacing(2),
   },
 }));
 
@@ -55,7 +59,7 @@ const Contents: FC = () => {
   return (
     <div className={classes.container}>
       {filteredTags.map((tag) => (
-        <Tag key={tag.id} {...tag} withSearch={true} />
+        <TagPreview key={tag.id} id={tag.id} className={classes.preview} />
       ))}
     </div>
   );
