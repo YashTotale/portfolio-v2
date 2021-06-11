@@ -9,7 +9,7 @@ import ProjectPreview, {
 import { chunk } from "../../Utils/funcs";
 import { ResolvedProject } from "../../Utils/types";
 import { getProject, useSortedProjects } from "../../Utils/Content/projects";
-import { getTags } from "../../Utils/Content/tags";
+import { sortTags } from "../../Utils/Content/tags";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -79,7 +79,7 @@ const useStyles = makeStyles((theme) => ({
 const ProjectsPage: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const allTags = getTags();
+  const allTags = sortTags("Alphabetically");
 
   const search = useSelector(getProjectsSearch);
   const sort = useSelector(getProjectsSort);

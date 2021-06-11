@@ -9,7 +9,7 @@ import {
   getSingleExperience,
   useSortedExperience,
 } from "../../Utils/Content/experience";
-import { getTags } from "../../Utils/Content/tags";
+import { sortTags } from "../../Utils/Content/tags";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
 const Experience: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const allTags = getTags();
+  const allTags = sortTags("Alphabetically");
 
   const search = useSelector(getExperienceSearch);
   const sort = useSelector(getExperienceSort);

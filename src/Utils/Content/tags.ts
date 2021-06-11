@@ -60,8 +60,12 @@ const sortCache: Record<TagsSort, Tag[] | null> = {
 };
 
 export const useSortedTags = (): Tag[] => {
-  const tags = getTags();
   const sort = useSelector(getTagsSort);
+  return sortTags(sort);
+};
+
+export const sortTags = (sort: TagsSort): Tag[] => {
+  const tags = getTags();
 
   if (sortCache[sort]) return sortCache[sort] as Tag[];
 
