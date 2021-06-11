@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, ChangeEvent } from "react";
 import clsx from "clsx";
 import { Filter } from "./index";
 
@@ -12,28 +12,30 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export interface SorterProps {
-  value: string;
+export interface RelatedProps {
+  label: string;
+  value: string[];
   values: string[];
-  onChange: (value: string) => void;
+  onChange: (value: string[]) => void;
 }
 
-const Sorter: FC<SorterProps> = ({ value, values, onChange }) => {
+const Related: FC<RelatedProps> = ({ label, value, values, onChange }) => {
   const classes = useStyles();
 
+  const handleChange = (event: ChangeEvent<{ value: unknown }>) => {
+    onChange([...(event.target.value as string[])]);
+  };
+
   return (
-    <Filter label="Sort">
+    <Filter label={`Related ${label}`}>
       <FormControl>
-        <Select
-          value={value}
-          onChange={(e) => onChange(e.target.value as string)}
-        >
-          {values.map((v, i) => (
+        <Select multiple value={value} onChange={handleChange}>
+          {values.map((v) => (
             <MenuItem
-              key={i}
+              key={v}
               value={v}
               className={clsx({
-                [classes.itemSelected]: value === v,
+                [classes.itemSelected]: value.includes(v),
               })}
             >
               {v}
@@ -45,4 +47,4 @@ const Sorter: FC<SorterProps> = ({ value, values, onChange }) => {
   );
 };
 
-export default Sorter;
+export default Related;

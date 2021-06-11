@@ -1,8 +1,9 @@
 // React Imports
 import React, { FC, cloneElement, ReactElement } from "react";
 import clsx from "clsx";
-import Sorter, { SorterProps } from "./Sorter";
 import SearchBar, { SearchBarProps } from "./SearchBar";
+import Sorter, { SorterProps } from "./Sorter";
+import Related, { RelatedProps } from "./Related";
 import HorizontalDivider from "../Divider/Horizontal";
 
 // Material UI Imports
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   filterLabel: {
-    minWidth: 75,
+    minWidth: 110,
   },
 }));
 
@@ -55,6 +56,7 @@ interface FiltersProps {
   className?: string;
   sort?: SorterProps;
   search?: SearchBarProps;
+  related?: RelatedProps[];
 }
 
 const Filters: FC<FiltersProps> = (props) => {
@@ -65,6 +67,10 @@ const Filters: FC<FiltersProps> = (props) => {
       <div className={clsx(classes.filters, props.className)}>
         {props.search && <SearchBar {...props.search} />}
         {props.sort && <Sorter {...props.sort} />}
+        {props.related &&
+          props.related.map((props) => (
+            <Related {...props} key={props.label} />
+          ))}
       </div>
     </>
   );
