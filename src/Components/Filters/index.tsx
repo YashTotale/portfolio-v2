@@ -1,29 +1,53 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, cloneElement, ReactElement } from "react";
 import clsx from "clsx";
 import Sorter, { SorterProps } from "./Sorter";
 import SearchBar, { SearchBarProps } from "./SearchBar";
 import HorizontalDivider from "../Divider/Horizontal";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "flex-start",
-    justifyContent: "center",
-  },
   filters: {
     display: "flex",
-    alignItems: "center",
-    justifyContent: "space-between",
-    flexWrap: "wrap",
-    width: "100%",
+    flexDirection: "column",
+    width: "95%",
+    border: `1px solid ${theme.palette.text.disabled}`,
+    borderRadius: "10px",
+    marginBottom: theme.spacing(1),
   },
-  divider: {
-    margin: theme.spacing(1, 0),
+  filter: {
+    display: "flex",
+    alignItems: "flex-end",
+    justifyContent: "flex-start",
+    margin: theme.spacing(2),
+  },
+  filterAction: {
+    [theme.breakpoints.only("xl")]: {
+      width: "40%",
+    },
+
+    [theme.breakpoints.only("lg")]: {
+      width: "40%",
+    },
+
+    [theme.breakpoints.only("md")]: {
+      width: "50%",
+    },
+
+    [theme.breakpoints.only("sm")]: {
+      height: theme.spacing(5),
+      width: "75%",
+    },
+
+    [theme.breakpoints.only("xs")]: {
+      height: theme.spacing(5),
+      width: "100%",
+    },
+  },
+  filterLabel: {
+    minWidth: 75,
   },
 }));
 
@@ -38,13 +62,34 @@ const Filters: FC<FiltersProps> = (props) => {
 
   return (
     <>
-      <div className={clsx(classes.container, props.className)}>
-        <div className={classes.filters}>
-          {props.sort && <Sorter {...props.sort} />}
-          {props.search && <SearchBar {...props.search} />}
-        </div>
-        <HorizontalDivider className={classes.divider} />
+      <div className={clsx(classes.filters, props.className)}>
+        {props.search && <SearchBar {...props.search} />}
+        {props.sort && <Sorter {...props.sort} />}
       </div>
+    </>
+  );
+};
+
+interface FilterProps {
+  label: string;
+  children: ReactElement;
+}
+
+export const Filter: FC<FilterProps> = (props) => {
+  const classes = useStyles();
+  const filterAction = cloneElement(props.children, {
+    className: classes.filterAction,
+  });
+
+  return (
+    <>
+      <div className={classes.filter}>
+        <Typography variant="subtitle1" className={classes.filterLabel}>
+          <strong>{props.label}</strong>
+        </Typography>
+        {filterAction}
+      </div>
+      <HorizontalDivider />
     </>
   );
 };
