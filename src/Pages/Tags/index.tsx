@@ -2,13 +2,19 @@
 import React, { FC, useCallback, useMemo } from "react";
 import TagPreview from "../../Components/Tag/Preview";
 import Filters from "../../Components/Filters";
-import { Tag as TagFields } from "../../Utils/types";
-import { useSortedTags } from "../../Utils/Content/tags";
+import { ResolvedTag } from "../../Utils/types";
+import { getTag, useSortedTags } from "../../Utils/Content/tags";
+import { getProjects } from "../../Utils/Content/projects";
+import { getExperience } from "../../Utils/Content/experience";
 
 // Redux Imports
 import { useSelector } from "react-redux";
 import { getTagsSearch, getTagsSort } from "../../Redux";
 import {
+  getTagsExperienceFilter,
+  getTagsProjectFilter,
+  setTagsExperienceFilter,
+  setTagsProjectFilter,
   setTagsSearch,
   setTagsSort,
   TagsSort,
@@ -47,8 +53,13 @@ const useStyles = makeStyles((theme) => ({
 const Tags: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const allProjects = getProjects();
+  const allExperience = getExperience();
+
   const search = useSelector(getTagsSearch);
   const sort = useSelector(getTagsSort);
+  const projectFilter = useSelector(getTagsProjectFilter);
+  const experienceFilter = useSelector(getTagsExperienceFilter);
 
   return (
     <div className={classes.container}>
@@ -62,6 +73,20 @@ const Tags: FC = () => {
           values: TAGS_SORT,
           onChange: (value) => dispatch(setTagsSort(value as TagsSort)),
         }}
+        related={[
+          {
+            label: "Projects",
+            values: allProjects.map((tag) => tag.title),
+            value: projectFilter,
+            onChange: (values) => dispatch(setTagsProjectFilter(values)),
+          },
+          {
+            label: "Experience",
+            values: allExperience.map((exp) => exp.title),
+            value: experienceFilter,
+            onChange: (values) => dispatch(setTagsExperienceFilter(values)),
+          },
+        ]}
         className={classes.filters}
       />
       <Contents />
@@ -71,13 +96,43 @@ const Tags: FC = () => {
 
 const Contents: FC = () => {
   const classes = useStyles();
-  const tags = useSortedTags();
+
+  const nonResolved = useSortedTags();
+  const tags = nonResolved.reduce((arr, t) => {
+    const project = getTag(t.id);
+    if (project) arr.push(project);
+    return arr;
+  }, [] as ResolvedTag[]);
 
   const search = useSelector(getTagsSearch);
   const normalizedSearch = search.toLowerCase();
+  const projectFilter = useSelector(getTagsProjectFilter);
+  const experienceFilter = useSelector(getTagsExperienceFilter);
 
-  const getTagMatch = useCallback(
-    (t: TagFields) => {
+  const checkExperienceFilter = useCallback(
+    (t: ResolvedTag) => {
+      if (!experienceFilter.length) return true;
+
+      return experienceFilter.some((experience) =>
+        t.experience.some((exp) => exp.title === experience)
+      );
+    },
+    [experienceFilter]
+  );
+
+  const checkProjectFilter = useCallback(
+    (t: ResolvedTag) => {
+      if (!projectFilter.length) return true;
+
+      return projectFilter.some((project) =>
+        t.projects.some((p) => p.title === project)
+      );
+    },
+    [projectFilter]
+  );
+
+  const getSearchMatch = useCallback(
+    (t: ResolvedTag) => {
       const matches: boolean[] = [
         t.title.toLowerCase().includes(normalizedSearch),
       ];
@@ -87,17 +142,30 @@ const Contents: FC = () => {
     [normalizedSearch]
   );
 
-  const filteredTags = useMemo(() => {
-    if (!normalizedSearch.length) return tags;
+  const filteredTags = useMemo(
+    () =>
+      tags.reduce((arr, tag) => {
+        const experienceFiltered = checkExperienceFilter(tag);
+        if (!experienceFiltered) return arr;
 
-    return tags.reduce((arr, tag) => {
-      const matches = getTagMatch(tag);
+        const projectFiltered = checkProjectFilter(tag);
+        if (!projectFiltered) return arr;
 
-      if (matches.some((bool) => bool)) return [...arr, tag];
+        if (normalizedSearch.length) {
+          const matches = getSearchMatch(tag);
+          if (!matches.some((bool) => bool)) return arr;
+        }
 
-      return arr;
-    }, [] as TagFields[]);
-  }, [tags, normalizedSearch, getTagMatch]);
+        return [...arr, tag];
+      }, [] as ResolvedTag[]),
+    [
+      tags,
+      normalizedSearch,
+      checkExperienceFilter,
+      checkProjectFilter,
+      getSearchMatch,
+    ]
+  );
 
   return (
     <div className={classes.tags}>

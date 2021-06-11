@@ -108,9 +108,13 @@ export {
   // -> Selectors
   getTagsSearch,
   getTagsSort,
+  getTagsProjectFilter,
+  getTagsExperienceFilter,
   // -> Actions
   setTagsSearch,
   setTagsSort,
+  setTagsProjectFilter,
+  setTagsExperienceFilter,
   // -> Reducer
   tagsReducer,
   // -> State
