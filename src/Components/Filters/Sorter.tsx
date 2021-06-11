@@ -5,6 +5,7 @@ import { Filter } from "./index";
 
 // Material UI Imports
 import { FormControl, makeStyles, MenuItem, Select } from "@material-ui/core";
+import { Replay } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   itemSelected: {
@@ -22,7 +23,16 @@ const Sorter: FC<SorterProps> = ({ value, values, onChange }) => {
   const classes = useStyles();
 
   return (
-    <Filter label="Sort">
+    <Filter
+      label="Sort"
+      actions={[
+        {
+          label: "Reset",
+          icon: <Replay />,
+          action: () => onChange(values[0]),
+        },
+      ]}
+    >
       <FormControl>
         <Select
           value={value}

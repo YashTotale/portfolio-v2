@@ -7,7 +7,7 @@ import Related, { RelatedProps } from "./Related";
 import HorizontalDivider from "../Divider/Horizontal";
 
 // Material UI Imports
-import { makeStyles, Typography } from "@material-ui/core";
+import { IconButton, makeStyles, Tooltip, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   filters: {
@@ -20,11 +20,11 @@ const useStyles = makeStyles((theme) => ({
   },
   filter: {
     display: "flex",
-    alignItems: "flex-end",
+    alignItems: "center",
     justifyContent: "flex-start",
-    margin: theme.spacing(2),
+    margin: theme.spacing(1, 2),
   },
-  filterAction: {
+  filterItem: {
     [theme.breakpoints.only("xl")]: {
       width: "40%",
     },
@@ -49,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
   },
   filterLabel: {
     minWidth: 110,
+  },
+  filterActions: {
+    marginLeft: "auto",
   },
 }));
 
@@ -79,12 +82,13 @@ const Filters: FC<FiltersProps> = (props) => {
 interface FilterProps {
   label: string;
   children: ReactElement;
+  actions?: FilterActionProps[];
 }
 
 export const Filter: FC<FilterProps> = (props) => {
   const classes = useStyles();
-  const filterAction = cloneElement(props.children, {
-    className: classes.filterAction,
+  const filterItem = cloneElement(props.children, {
+    className: classes.filterItem,
   });
 
   return (
@@ -93,10 +97,31 @@ export const Filter: FC<FilterProps> = (props) => {
         <Typography variant="subtitle1" className={classes.filterLabel}>
           <strong>{props.label}</strong>
         </Typography>
-        {filterAction}
+        {filterItem}
+        {props.actions && (
+          <div className={classes.filterActions}>
+            {props.actions.map((props, i) => (
+              <FilterAction key={i} {...props} />
+            ))}
+          </div>
+        )}
       </div>
       <HorizontalDivider />
     </>
+  );
+};
+
+interface FilterActionProps {
+  label: string;
+  icon: JSX.Element;
+  action: () => void;
+}
+
+const FilterAction: FC<FilterActionProps> = (props) => {
+  return (
+    <Tooltip title={props.label}>
+      <IconButton onClick={props.action}>{props.icon}</IconButton>
+    </Tooltip>
   );
 };
 

@@ -5,6 +5,7 @@ import { Filter } from "./index";
 
 // Material UI Imports
 import { Input, makeStyles, Paper } from "@material-ui/core";
+import { Clear } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -35,14 +36,25 @@ const SearchBar: FC<SearchBarProps> = ({ defaultSearch, onSearchChange }) => {
   }, 500);
 
   return (
-    <Filter label="Search">
+    <Filter
+      label="Search"
+      actions={[
+        {
+          label: "Clear",
+          icon: <Clear />,
+          action: () => {
+            setLocalSearch("");
+            handleChange("");
+          },
+        },
+      ]}
+    >
       <Paper className={classes.root} elevation={4}>
         <div className={classes.container}>
           <Input
             value={localSearch}
             onChange={(e) => {
               const val = e.target.value;
-
               setLocalSearch(val);
               handleChange(val);
             }}

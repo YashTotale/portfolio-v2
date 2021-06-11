@@ -5,6 +5,7 @@ import { Filter } from "./index";
 
 // Material UI Imports
 import { FormControl, makeStyles, MenuItem, Select } from "@material-ui/core";
+import { Clear } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   itemSelected: {
@@ -17,6 +18,7 @@ export interface RelatedProps {
   value: string[];
   values: string[];
   onChange: (value: string[]) => void;
+  onClear?: () => void;
 }
 
 const Related: FC<RelatedProps> = ({ label, value, values, onChange }) => {
@@ -27,7 +29,16 @@ const Related: FC<RelatedProps> = ({ label, value, values, onChange }) => {
   };
 
   return (
-    <Filter label={`Related ${label}`}>
+    <Filter
+      label={`Related ${label}`}
+      actions={[
+        {
+          label: "Clear",
+          icon: <Clear />,
+          action: () => onChange([]),
+        },
+      ]}
+    >
       <FormControl>
         <Select multiple value={value} onChange={handleChange}>
           {values.map((v) => (
