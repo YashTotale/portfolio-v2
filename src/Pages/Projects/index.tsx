@@ -2,7 +2,9 @@
 import React, { FC, useCallback, useMemo } from "react";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import { Document } from "@contentful/rich-text-types";
-import Project, { PROJECT_WIDTHS } from "./Project";
+import ProjectPreview, {
+  PROJECT_WIDTHS,
+} from "../../Components/Project/Preview";
 import Filters from "../../Components/Filters";
 import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 import { chunk } from "../../Utils/funcs";
@@ -158,7 +160,7 @@ const Contents: FC = () => {
     );
 
   const projectsToRender = filteredProjects.map((project, i, arr) => (
-    <Project
+    <ProjectPreview
       key={project.id}
       pushLeft={!isSmall && arr.length % 2 !== 0 && i === arr.length - 1}
       {...project}

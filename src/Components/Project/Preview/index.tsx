@@ -2,13 +2,13 @@
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "./FloatingIcons";
-import TagChip from "../../../Components/Tag/Chip";
+import TagChip from "../../Tag/Chip";
 import Title from "./Title";
-import RichText from "../../../Components/RichText";
-import MatchHighlight from "../../../Components/MatchHighlight";
-import DynamicImage from "../../../Components/DynamicImage";
-import DynamicPaper from "../../../Components/DynamicPaper";
-import HorizontalDivider from "../../../Components/Divider/Horizontal";
+import RichText from "../../RichText";
+import MatchHighlight from "../../MatchHighlight";
+import DynamicImage from "../../DynamicImage";
+import DynamicPaper from "../../DynamicPaper";
+import HorizontalDivider from "../../Divider/Horizontal";
 import { ResolvedProject } from "../../../Utils/types";
 
 // Redux Imports

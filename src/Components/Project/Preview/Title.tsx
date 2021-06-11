@@ -1,7 +1,7 @@
 //React Imports
 import React, { FC } from "react";
 import { PROJECT_WIDTHS } from "./index";
-import StyledLink from "../../../Components/StyledLink";
+import StyledLink from "../../StyledLink";
 
 // Redux Imports
 import { useSelector } from "react-redux";
