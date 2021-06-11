@@ -115,7 +115,9 @@ const TextRenderer: FC<TextRendererProps> = ({
   else {
     for (let i = 0; i < children.length; i++) {
       const matchedTags = tags.filter(
-        (tag) => tag.title === children.substring(i, i + tag.title.length)
+        (tag) =>
+          tag.title.toLowerCase() ===
+          children.substring(i, i + tag.title.length).toLowerCase()
       );
       const tag = matchedTags.length
         ? matchedTags.sort((a, b) => b.title.length - a.title.length)[0]
@@ -137,7 +139,7 @@ const TextRenderer: FC<TextRendererProps> = ({
 
       parsed.push(
         <StyledLink to={`/tags/${tag.id}`} variant={variant} toMatch={toMatch}>
-          {tag.title}
+          {children.substring(i, i + tag.title.length)}
         </StyledLink>
       );
 
