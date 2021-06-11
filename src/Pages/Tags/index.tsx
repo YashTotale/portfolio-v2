@@ -5,6 +5,7 @@ import Filters from "../../Components/Filters";
 import { ResolvedTag } from "../../Utils/types";
 import { getTag, useSortedTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
+import { getArticles } from "../../Utils/Content/articles";
 import {
   generateExperienceTitle,
   sortExperience,
@@ -14,8 +15,10 @@ import {
 import { useSelector } from "react-redux";
 import { getTagsSearch, getTagsSort } from "../../Redux";
 import {
+  getTagsArticleFilter,
   getTagsExperienceFilter,
   getTagsProjectFilter,
+  setTagsArticleFilter,
   setTagsExperienceFilter,
   setTagsProjectFilter,
   setTagsSearch,
@@ -50,11 +53,13 @@ const Tags: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const allProjects = sortProjects("Alphabetically");
+  const allArticles = getArticles();
   const allExperience = sortExperience("Alphabetically");
 
   const search = useSelector(getTagsSearch);
   const sort = useSelector(getTagsSort);
   const projectFilter = useSelector(getTagsProjectFilter);
+  const articleFilter = useSelector(getTagsArticleFilter);
   const experienceFilter = useSelector(getTagsExperienceFilter);
 
   return (
@@ -78,9 +83,15 @@ const Tags: FC = () => {
           },
           {
             label: "Projects",
-            values: allProjects.map((tag) => tag.title),
+            values: allProjects.map((project) => project.title),
             value: projectFilter,
             onChange: (values) => dispatch(setTagsProjectFilter(values)),
+          },
+          {
+            label: "Articles",
+            values: allArticles.map((article) => article.title),
+            value: articleFilter,
+            onChange: (values) => dispatch(setTagsArticleFilter(values)),
           },
         ]}
       />
@@ -102,6 +113,7 @@ const Contents: FC = () => {
   const search = useSelector(getTagsSearch);
   const normalizedSearch = search.toLowerCase();
   const projectFilter = useSelector(getTagsProjectFilter);
+  const articleFilter = useSelector(getTagsArticleFilter);
   const experienceFilter = useSelector(getTagsExperienceFilter);
 
   const checkExperienceFilter = useCallback(
@@ -126,6 +138,17 @@ const Contents: FC = () => {
     [projectFilter]
   );
 
+  const checkArticleFilter = useCallback(
+    (t: ResolvedTag) => {
+      if (!articleFilter.length) return true;
+
+      return articleFilter.some((article) =>
+        t.articles.some((a) => a.title === article)
+      );
+    },
+    [articleFilter]
+  );
+
   const getSearchMatch = useCallback(
     (t: ResolvedTag) => {
       const matches: boolean[] = [
@@ -146,6 +169,9 @@ const Contents: FC = () => {
         const projectFiltered = checkProjectFilter(tag);
         if (!projectFiltered) return arr;
 
+        const articleFiltered = checkArticleFilter(tag);
+        if (!articleFiltered) return arr;
+
         if (normalizedSearch.length) {
           const matches = getSearchMatch(tag);
           if (!matches.some((bool) => bool)) return arr;
@@ -158,6 +184,7 @@ const Contents: FC = () => {
       normalizedSearch,
       checkExperienceFilter,
       checkProjectFilter,
+      checkArticleFilter,
       getSearchMatch,
     ]
   );

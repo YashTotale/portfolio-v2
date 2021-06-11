@@ -17,6 +17,7 @@ export interface TagsState {
   search: string;
   sort: TagsSort;
   projectFilter: string[];
+  articleFilter: string[];
   experienceFilter: string[];
 }
 
@@ -24,6 +25,7 @@ export const initialTagsState: TagsState = {
   search: "",
   sort: TAGS_SORT[0],
   projectFilter: [],
+  articleFilter: [],
   experienceFilter: [],
 };
 
@@ -46,6 +48,13 @@ const tagsSlice = createSlice({
       ...state,
       projectFilter: action.payload,
     }),
+    setTagsArticleFilter: (
+      state,
+      action: PayloadAction<TagsState["articleFilter"]>
+    ) => ({
+      ...state,
+      articleFilter: action.payload,
+    }),
     setTagsExperienceFilter: (
       state,
       action: PayloadAction<TagsState["experienceFilter"]>
@@ -61,6 +70,7 @@ export const {
   setTagsSearch,
   setTagsSort,
   setTagsProjectFilter,
+  setTagsArticleFilter,
   setTagsExperienceFilter,
 } = tagsSlice.actions;
 
@@ -75,6 +85,10 @@ export const getTagsSort = (state: RootState): TagsState["sort"] =>
 export const getTagsProjectFilter = (
   state: RootState
 ): TagsState["projectFilter"] => state.tags.projectFilter;
+
+export const getTagsArticleFilter = (
+  state: RootState
+): TagsState["articleFilter"] => state.tags.articleFilter;
 
 export const getTagsExperienceFilter = (
   state: RootState

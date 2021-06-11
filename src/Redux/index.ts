@@ -134,11 +134,13 @@ export {
   getTagsSearch,
   getTagsSort,
   getTagsProjectFilter,
+  getTagsArticleFilter,
   getTagsExperienceFilter,
   // -> Actions
   setTagsSearch,
   setTagsSort,
   setTagsProjectFilter,
+  setTagsArticleFilter,
   setTagsExperienceFilter,
   // -> Reducer
   tagsReducer,
