@@ -21,11 +21,17 @@ import {
   getExperienceTagFilter,
   setExperienceTagFilter,
 } from "../../Redux";
-import { ExperienceSort, EXPERIENCE_SORT } from "../../Redux/experience.slice";
+import {
+  ExperienceSort,
+  EXPERIENCE_SORT,
+  getExperienceProjectFilter,
+  setExperienceProjectFilter,
+} from "../../Redux/experience.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
+import { getProjects } from "../../Utils/Content/projects";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,10 +50,12 @@ const Experience: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const allTags = sortTags("Alphabetically");
+  const allProjects = getProjects();
 
   const search = useSelector(getExperienceSearch);
   const sort = useSelector(getExperienceSort);
   const tagFilter = useSelector(getExperienceTagFilter);
+  const projectFilter = useSelector(getExperienceProjectFilter);
 
   return (
     <div className={classes.container}>
@@ -69,6 +77,13 @@ const Experience: FC = () => {
             value: tagFilter,
             onChange: (values) => dispatch(setExperienceTagFilter(values)),
           },
+
+          {
+            label: "Projects",
+            values: allProjects.map((project) => project.title),
+            value: projectFilter,
+            onChange: (values) => dispatch(setExperienceProjectFilter(values)),
+          },
         ]}
         className={classes.filters}
       />
@@ -88,12 +103,24 @@ const Contents: FC = () => {
   const search = useSelector(getExperienceSearch);
   const normalizedSearch = search.toLowerCase();
   const tagFilter = useSelector(getExperienceTagFilter);
+  const projectFilter = useSelector(getExperienceProjectFilter);
+
+  const checkProjectFilter = useCallback(
+    (e: ResolvedExperience) => {
+      if (!projectFilter.length) return true;
+
+      return projectFilter.some((project) =>
+        e.projects.some((p) => p.title === project)
+      );
+    },
+    [projectFilter]
+  );
 
   const checkTagFilter = useCallback(
-    (p: ResolvedExperience) => {
+    (e: ResolvedExperience) => {
       if (!tagFilter.length) return true;
 
-      return tagFilter.some((tag) => p.tags.some((t) => t.title === tag));
+      return tagFilter.some((tag) => e.tags.some((t) => t.title === tag));
     },
     [tagFilter]
   );
@@ -124,6 +151,9 @@ const Contents: FC = () => {
   const filteredExperience = useMemo(
     () =>
       experience.reduce((arr, experience) => {
+        const projectFiltered = checkProjectFilter(experience);
+        if (!projectFiltered) return arr;
+
         const tagFiltered = checkTagFilter(experience);
         if (!tagFiltered) return arr;
 
@@ -134,7 +164,13 @@ const Contents: FC = () => {
 
         return [...arr, experience];
       }, [] as ResolvedExperience[]),
-    [experience, normalizedSearch, getSearchMatch, checkTagFilter]
+    [
+      experience,
+      normalizedSearch,
+      checkProjectFilter,
+      checkTagFilter,
+      getSearchMatch,
+    ]
   );
 
   if (!filteredExperience.length)

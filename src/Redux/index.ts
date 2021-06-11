@@ -59,10 +59,12 @@ export {
   getExperienceSearch,
   getExperienceSort,
   getExperienceTagFilter,
+  getExperienceProjectFilter,
   // -> Actions
   setExperienceSearch,
   setExperienceSort,
   setExperienceTagFilter,
+  setExperienceProjectFilter,
   // -> Reducer
   experienceReducer,
   // -> State
