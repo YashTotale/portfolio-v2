@@ -9,7 +9,7 @@ import MatchHighlight from "../../MatchHighlight";
 import DynamicImage from "../../DynamicImage";
 import DynamicPaper from "../../DynamicPaper";
 import HorizontalDivider from "../../Divider/Horizontal";
-import { ResolvedProject } from "../../../Utils/types";
+import { getProject } from "../../../Utils/Content/projects";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -19,56 +19,25 @@ import { getProjectsSearch } from "../../../Redux";
 import {
   makeStyles,
   Paper,
-  Theme,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
 
-export const PROJECT_WIDTHS = {
-  xl: 550,
-  lg: 472,
-  md: 432,
-  sm: 450,
-  xs: 300,
-};
-
-interface StyleProps {
-  pushLeft: boolean;
-}
-
-const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
+const useStyles = makeStyles((theme) => ({
   project: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
     margin: theme.spacing(2),
-
-    [theme.breakpoints.only("xl")]: {
-      width: PROJECT_WIDTHS.xl,
-      marginRight: ({ pushLeft }) =>
-        pushLeft ? PROJECT_WIDTHS.xl + 3 * theme.spacing(2) : theme.spacing(2),
-    },
-
-    [theme.breakpoints.only("lg")]: {
-      width: PROJECT_WIDTHS.lg,
-      marginRight: ({ pushLeft }) =>
-        pushLeft ? PROJECT_WIDTHS.lg + 3 * theme.spacing(2) : theme.spacing(2),
-    },
-
-    [theme.breakpoints.only("md")]: {
-      width: PROJECT_WIDTHS.md,
-      marginRight: ({ pushLeft }) =>
-        pushLeft ? PROJECT_WIDTHS.md + 3 * theme.spacing(2) : theme.spacing(2),
-    },
+    width: "45%",
 
     [theme.breakpoints.only("sm")]: {
-      width: PROJECT_WIDTHS.sm,
+      width: "80%",
     },
-
     [theme.breakpoints.only("xs")]: {
-      width: PROJECT_WIDTHS.xs,
+      width: "100%",
     },
   },
   projectTop: {
@@ -119,34 +88,37 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-export type ProjectProps = ResolvedProject & {
-  pushLeft?: boolean;
-};
+interface ProjectProps {
+  id: string;
+}
 
 const Project: FC<ProjectProps> = (props) => {
-  const { id, title, image, tags, start, end, pushLeft = false } = props;
-  const classes = useStyles({ pushLeft });
-  const theme = useTheme();
+  const classes = useStyles();
   const search = useSelector(getProjectsSearch);
+
+  const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+
+  const project = getProject(props.id);
+  if (!project) return null;
 
   return (
     <DynamicPaper className={classes.project}>
       <Paper className={classes.projectTop} elevation={3}>
-        <FloatingIcons {...props} />
+        <FloatingIcons {...project} />
         <DynamicImage
-          src={`${image.file.url}?w=200`}
-          alt={image.title}
+          src={`${project.image.file.url}?w=200`}
+          alt={project.image.title}
           className={classes.projectImage}
         />
-        <Title title={title} id={id} />
+        <Title title={project.title} id={props.id} />
       </Paper>
       <div className={classes.projectDescription}>
-        <RichText richText={props.description as Document} toMatch={search} />
+        <RichText richText={project.description as Document} toMatch={search} />
       </div>
       <HorizontalDivider />
       <div className={classes.projectTags}>
-        {tags.map((tag) => (
+        {project.tags.map((tag) => (
           <TagChip key={tag.id} id={tag.id} />
         ))}
       </div>
@@ -155,8 +127,10 @@ const Project: FC<ProjectProps> = (props) => {
         className={classes.projectTimeline}
         variant={isSizeXS ? "body2" : "body1"}
       >
-        <MatchHighlight toMatch={search}>{start}</MatchHighlight> -{" "}
-        <MatchHighlight toMatch={search}>{end ?? "Present"}</MatchHighlight>
+        <MatchHighlight toMatch={search}>{project.start}</MatchHighlight> -{" "}
+        <MatchHighlight toMatch={search}>
+          {project.end ?? "Present"}
+        </MatchHighlight>
       </Typography>
     </DynamicPaper>
   );

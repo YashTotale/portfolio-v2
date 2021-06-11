@@ -3,10 +3,7 @@ import React, { FC, useCallback, useMemo } from "react";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import { Document } from "@contentful/rich-text-types";
 import Filters from "../../Components/Filters";
-import ProjectPreview, {
-  PROJECT_WIDTHS,
-} from "../../Components/Project/Preview";
-import { chunk } from "../../Utils/funcs";
+import ProjectPreview from "../../Components/Project/Preview";
 import { ResolvedProject } from "../../Utils/types";
 import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 import { sortTags } from "../../Utils/Content/tags";
@@ -31,12 +28,7 @@ import { ProjectsSort, PROJECTS_SORT } from "../../Redux/projects.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -44,41 +36,14 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "stretch",
-    margin: theme.spacing(0, 2),
-  },
-  filters: {
-    [theme.breakpoints.only("xl")]: {
-      width: PROJECT_WIDTHS.xl * 2 + theme.spacing() * 4,
-    },
-
-    [theme.breakpoints.only("lg")]: {
-      width: PROJECT_WIDTHS.lg * 2 + theme.spacing() * 4,
-    },
-
-    [theme.breakpoints.only("md")]: {
-      width: PROJECT_WIDTHS.md * 2 + theme.spacing() * 4,
-    },
-
-    [theme.breakpoints.only("sm")]: {
-      width: PROJECT_WIDTHS.sm,
-    },
-
-    [theme.breakpoints.only("xs")]: {
-      width: PROJECT_WIDTHS.xs,
-    },
   },
   projects: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: "row",
     justifyContent: "center",
-    alignItems: "center",
-    width: "100%",
-  },
-  projectChunk: {
-    display: "flex",
     alignItems: "stretch",
-    justifyContent: "center",
-    width: "100%",
+    flexWrap: "wrap",
+    margin: theme.spacing(0, -2),
   },
 }));
 
@@ -94,7 +59,7 @@ const ProjectsPage: FC = () => {
   const experienceFilter = useSelector(getProjectsExperienceFilter);
 
   return (
-    <Container>
+    <div className={classes.container}>
       <Filters
         search={{
           defaultSearch: search,
@@ -119,23 +84,14 @@ const ProjectsPage: FC = () => {
             onChange: (values) => dispatch(setProjectsExperienceFilter(values)),
           },
         ]}
-        className={classes.filters}
       />
       <Contents />
-    </Container>
+    </div>
   );
-};
-
-const Container: FC = ({ children }) => {
-  const classes = useStyles();
-
-  return <div className={classes.container}>{children}</div>;
 };
 
 const Contents: FC = () => {
   const classes = useStyles();
-  const theme = useTheme();
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const nonResolved = useSortedProjects();
   const projects = nonResolved.reduce((arr, p) => {
@@ -153,7 +109,9 @@ const Contents: FC = () => {
     (p: ResolvedProject) => {
       if (!experienceFilter.length) return true;
 
-      return experienceFilter.some((exp) => p.associated?.title === exp);
+      return experienceFilter.some(
+        (exp) => p.associated && generateExperienceTitle(p.associated) === exp
+      );
     },
     [experienceFilter]
   );
@@ -220,25 +178,10 @@ const Contents: FC = () => {
       </div>
     );
 
-  const projectsToRender = filteredProjects.map((project, i, arr) => (
-    <ProjectPreview
-      key={project.id}
-      pushLeft={!isSmall && arr.length % 2 !== 0 && i === arr.length - 1}
-      {...project}
-    />
-  ));
-
-  if (isSmall)
-    return <div className={classes.projects}>{projectsToRender}</div>;
-
-  const chunks = chunk(projectsToRender, 2);
-
   return (
     <div className={classes.projects}>
-      {chunks.map((projects, i) => (
-        <div key={i} className={classes.projectChunk}>
-          {projects}
-        </div>
+      {filteredProjects.map((project) => (
+        <ProjectPreview key={project.id} id={project.id} />
       ))}
     </div>
   );
