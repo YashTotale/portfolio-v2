@@ -58,9 +58,11 @@ export {
   // -> Selectors
   getExperienceSearch,
   getExperienceSort,
+  getExperienceTagFilter,
   // -> Actions
   setExperienceSearch,
   setExperienceSort,
+  setExperienceTagFilter,
   // -> Reducer
   experienceReducer,
   // -> State
@@ -79,9 +81,11 @@ export {
   // -> Selectors
   getProjectsSearch,
   getProjectsSort,
+  getProjectsTagFilter,
   // -> Actions
   setProjectsSearch,
   setProjectsSort,
+  setProjectsTagFilter,
   // -> Reducer
   projectsReducer,
   // -> State

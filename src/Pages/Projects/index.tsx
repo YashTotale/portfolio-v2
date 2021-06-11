@@ -1,14 +1,15 @@
-//React Imports
+// React Imports
 import React, { FC, useCallback, useMemo } from "react";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import { Document } from "@contentful/rich-text-types";
+import Filters from "../../Components/Filters";
 import ProjectPreview, {
   PROJECT_WIDTHS,
 } from "../../Components/Project/Preview";
-import Filters from "../../Components/Filters";
-import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 import { chunk } from "../../Utils/funcs";
 import { ResolvedProject } from "../../Utils/types";
+import { getProject, useSortedProjects } from "../../Utils/Content/projects";
+import { getTags } from "../../Utils/Content/tags";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -17,11 +18,13 @@ import {
   getProjectsSort,
   setProjectsSearch,
   setProjectsSort,
+  setProjectsTagFilter,
+  getProjectsTagFilter,
 } from "../../Redux";
 import { ProjectsSort, PROJECTS_SORT } from "../../Redux/projects.slice";
 import { useAppDispatch } from "../../Store";
 
-//Material UI Imports
+// Material UI Imports
 import {
   makeStyles,
   Typography,
@@ -76,8 +79,11 @@ const useStyles = makeStyles((theme) => ({
 const ProjectsPage: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const allTags = getTags();
+
   const search = useSelector(getProjectsSearch);
   const sort = useSelector(getProjectsSort);
+  const tagFilter = useSelector(getProjectsTagFilter);
 
   return (
     <Container>
@@ -91,6 +97,14 @@ const ProjectsPage: FC = () => {
           values: PROJECTS_SORT,
           onChange: (value) => dispatch(setProjectsSort(value as ProjectsSort)),
         }}
+        related={[
+          {
+            label: "Tags",
+            values: allTags.map((tag) => tag.title),
+            value: tagFilter,
+            onChange: (values) => dispatch(setProjectsTagFilter(values)),
+          },
+        ]}
         className={classes.filters}
       />
       <Contents />
@@ -107,6 +121,7 @@ const Container: FC = ({ children }) => {
 const Contents: FC = () => {
   const classes = useStyles();
   const theme = useTheme();
+  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const nonResolved = useSortedProjects();
   const projects = nonResolved.reduce((arr, p) => {
@@ -117,9 +132,18 @@ const Contents: FC = () => {
 
   const search = useSelector(getProjectsSearch);
   const normalizedSearch = search.toLowerCase();
-  const isSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const tagFilter = useSelector(getProjectsTagFilter);
 
-  const getProjectMatch = useCallback(
+  const checkTagFilter = useCallback(
+    (p: ResolvedProject) => {
+      if (!tagFilter.length) return true;
+
+      return tagFilter.some((tag) => p.tags.some((t) => t.title === tag));
+    },
+    [tagFilter]
+  );
+
+  const getSearchMatch = useCallback(
     (p: ResolvedProject) => {
       const matches: boolean[] = [
         p.title.toLowerCase().includes(normalizedSearch),
@@ -140,17 +164,21 @@ const Contents: FC = () => {
     [normalizedSearch]
   );
 
-  const filteredProjects = useMemo(() => {
-    if (!normalizedSearch.length) return projects;
+  const filteredProjects = useMemo(
+    () =>
+      projects.reduce((arr, project) => {
+        const tagFiltered = checkTagFilter(project);
+        if (!tagFiltered) return arr;
 
-    return projects.reduce((arr, project) => {
-      const matches = getProjectMatch(project);
+        if (normalizedSearch.length) {
+          const matches = getSearchMatch(project);
+          if (!matches.some((bool) => bool)) return arr;
+        }
 
-      if (matches.some((bool) => bool)) return [...arr, project];
-
-      return arr;
-    }, [] as ResolvedProject[]);
-  }, [projects, normalizedSearch, getProjectMatch]);
+        return [...arr, project];
+      }, [] as ResolvedProject[]),
+    [projects, normalizedSearch, getSearchMatch, checkTagFilter]
+  );
 
   if (!filteredProjects.length)
     return (

@@ -3,9 +3,13 @@ import React, { FC, useCallback, useMemo } from "react";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import { Document } from "@contentful/rich-text-types";
 import Filters from "../../Components/Filters";
-import SingleExperience from "../../Components/Experience/Main";
-import { Experience as ExperienceFields } from "../../Utils/types";
-import { useSortedExperience } from "../../Utils/Content/experience";
+import ExperienceMain from "../../Components/Experience/Main";
+import { ResolvedExperience } from "../../Utils/types";
+import {
+  getSingleExperience,
+  useSortedExperience,
+} from "../../Utils/Content/experience";
+import { getTags } from "../../Utils/Content/tags";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -14,6 +18,8 @@ import {
   getExperienceSort,
   setExperienceSearch,
   setExperienceSort,
+  getExperienceTagFilter,
+  setExperienceTagFilter,
 } from "../../Redux";
 import { ExperienceSort, EXPERIENCE_SORT } from "../../Redux/experience.slice";
 import { useAppDispatch } from "../../Store";
@@ -37,8 +43,11 @@ const useStyles = makeStyles((theme) => ({
 const Experience: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const allTags = getTags();
+
   const search = useSelector(getExperienceSearch);
   const sort = useSelector(getExperienceSort);
+  const tagFilter = useSelector(getExperienceTagFilter);
 
   return (
     <div className={classes.container}>
@@ -53,6 +62,14 @@ const Experience: FC = () => {
           onChange: (value) =>
             dispatch(setExperienceSort(value as ExperienceSort)),
         }}
+        related={[
+          {
+            label: "Tags",
+            values: allTags.map((tag) => tag.title),
+            value: tagFilter,
+            onChange: (values) => dispatch(setExperienceTagFilter(values)),
+          },
+        ]}
         className={classes.filters}
       />
       <Contents />
@@ -61,13 +78,28 @@ const Experience: FC = () => {
 };
 
 const Contents: FC = () => {
+  const nonResolved = useSortedExperience();
+  const experience = nonResolved.reduce((arr, e) => {
+    const experience = getSingleExperience(e.id);
+    if (experience) arr.push(experience);
+    return arr;
+  }, [] as ResolvedExperience[]);
+
   const search = useSelector(getExperienceSearch);
   const normalizedSearch = search.toLowerCase();
+  const tagFilter = useSelector(getExperienceTagFilter);
 
-  const sortedExperience = useSortedExperience();
+  const checkTagFilter = useCallback(
+    (p: ResolvedExperience) => {
+      if (!tagFilter.length) return true;
 
-  const getExperienceMatch = useCallback(
-    (e: ExperienceFields) => {
+      return tagFilter.some((tag) => p.tags.some((t) => t.title === tag));
+    },
+    [tagFilter]
+  );
+
+  const getSearchMatch = useCallback(
+    (e: ResolvedExperience) => {
       const matches: boolean[] = [
         e.title.toLowerCase().includes(normalizedSearch),
         documentToPlainTextString(e.description as Document)
@@ -89,17 +121,21 @@ const Contents: FC = () => {
     [normalizedSearch]
   );
 
-  const filteredExperience = useMemo(() => {
-    if (!normalizedSearch.length) return sortedExperience;
+  const filteredExperience = useMemo(
+    () =>
+      experience.reduce((arr, experience) => {
+        const tagFiltered = checkTagFilter(experience);
+        if (!tagFiltered) return arr;
 
-    return sortedExperience.reduce((arr, exp) => {
-      const matches = getExperienceMatch(exp);
+        if (normalizedSearch.length) {
+          const matches = getSearchMatch(experience);
+          if (!matches.some((bool) => bool)) return arr;
+        }
 
-      if (matches.some((bool) => bool)) return [...arr, exp];
-
-      return arr;
-    }, [] as ExperienceFields[]);
-  }, [sortedExperience, normalizedSearch, getExperienceMatch]);
+        return [...arr, experience];
+      }, [] as ResolvedExperience[]),
+    [experience, normalizedSearch, getSearchMatch, checkTagFilter]
+  );
 
   if (!filteredExperience.length)
     return <Typography variant="h6">No experience found</Typography>;
@@ -107,7 +143,7 @@ const Contents: FC = () => {
   return (
     <>
       {filteredExperience.map((fields) => (
-        <SingleExperience key={fields.id} {...fields} />
+        <ExperienceMain key={fields.id} id={fields.id} />
       ))}
     </>
   );

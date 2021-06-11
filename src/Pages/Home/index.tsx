@@ -1,4 +1,4 @@
-//React Imports
+// React Imports
 import React, { FC, useState, useEffect } from "react";
 import { Document } from "@contentful/rich-text-types";
 import Typist from "react-typist";
@@ -7,7 +7,7 @@ import RichText from "../../Components/RichText";
 // Data Imports
 import main from "../../Data/main.json";
 
-//Material UI Imports
+// Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({

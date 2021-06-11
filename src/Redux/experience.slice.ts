@@ -7,11 +7,13 @@ export const EXPERIENCE_SORT: ExperienceSort[] = ["Latest", "Earliest"];
 export interface ExperienceState {
   search: string;
   sort: ExperienceSort;
+  tagFilter: string[];
 }
 
 export const initialExperienceState: ExperienceState = {
   search: "",
   sort: EXPERIENCE_SORT[0],
+  tagFilter: [],
 };
 
 const experienceSlice = createSlice({
@@ -29,6 +31,13 @@ const experienceSlice = createSlice({
       ...state,
       sort: action.payload,
     }),
+    setExperienceTagFilter: (
+      state,
+      action: PayloadAction<ExperienceState["tagFilter"]>
+    ) => ({
+      ...state,
+      tagFilter: action.payload,
+    }),
   },
 });
 
@@ -36,6 +45,7 @@ const experienceSlice = createSlice({
 export const {
   setExperienceSearch,
   setExperienceSort,
+  setExperienceTagFilter,
 } = experienceSlice.actions;
 
 // Selectors
@@ -45,6 +55,10 @@ export const getExperienceSearch = (
 
 export const getExperienceSort = (state: RootState): ExperienceState["sort"] =>
   state.experience.sort;
+
+export const getExperienceTagFilter = (
+  state: RootState
+): ExperienceState["tagFilter"] => state.experience.tagFilter;
 
 // Reducer
 export const experienceReducer = experienceSlice.reducer;
