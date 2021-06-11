@@ -1,5 +1,6 @@
 // Externals
 import { createClient } from "contentful";
+import Logger from "@hack4impact/logger";
 
 // Internals
 import { Dict, writeData } from "./helpers";
@@ -52,7 +53,12 @@ const getAssets = async () => {
 };
 
 const getData = async (): Promise<void> => {
+  Logger.log("Fetching data...");
+
   await Promise.all([getContent(), getAssets()]);
+
+  Logger.success("Successfully fetched data!");
+  Logger.line();
 };
 
 export default getData;

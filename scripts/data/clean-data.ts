@@ -1,3 +1,6 @@
+// Externals
+import Logger from "@hack4impact/logger";
+
 // Internals
 import {
   RawArticle,
@@ -148,6 +151,8 @@ const cleanMain = async () => {
 };
 
 const cleanData = async (): Promise<void> => {
+  Logger.log("Cleaning data...");
+
   const [projects, articles] = await Promise.all([
     cleanProjects(),
     cleanArticles(),
@@ -156,6 +161,9 @@ const cleanData = async (): Promise<void> => {
 
   const experience = await cleanExperience(projects, articles);
   await cleanTags(experience, projects, articles);
+
+  Logger.success("Successfully cleaned data!");
+  Logger.line();
 };
 
 export default cleanData;
