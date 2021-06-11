@@ -97,7 +97,7 @@ export const sortExperience = (sort: ExperienceSort): Experience[] => {
       break;
     }
     case "Latest": {
-      sorted = toSort.sort((a, b) => sortByDate(a, b, 1));
+      sorted = toSort.sort((a, b) => sortByDate(a, b));
       break;
     }
     case "Earliest": {

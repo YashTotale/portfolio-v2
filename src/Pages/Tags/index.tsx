@@ -5,7 +5,7 @@ import Filters from "../../Components/Filters";
 import { ResolvedTag } from "../../Utils/types";
 import { getTag, useSortedTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
-import { getArticles } from "../../Utils/Content/articles";
+import { sortArticles } from "../../Utils/Content/articles";
 import {
   generateExperienceTitle,
   sortExperience,
@@ -55,7 +55,7 @@ const Tags: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const allProjects = sortProjects("Alphabetically");
-  const allArticles = getArticles();
+  const allArticles = sortArticles("Alphabetically");
   const allExperience = sortExperience("Alphabetically");
 
   const search = useSelector(getTagsSearch);

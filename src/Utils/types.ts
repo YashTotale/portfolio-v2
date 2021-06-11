@@ -62,6 +62,12 @@ export type Article = Omit<RawArticle, "image" | "tags" | "associated"> & {
   associated?: string;
 };
 
+export type ResolvedArticle = Omit<Article, "image" | "tags" | "associated"> & {
+  image: Asset["fields"];
+  tags: Tag[];
+  associated?: Experience;
+};
+
 export type Tag = Omit<RawTag, "darkIcon" | "lightIcon"> & {
   darkIcon: string;
   lightIcon: string;

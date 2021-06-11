@@ -78,7 +78,7 @@ export const sortProjects = (sort: ProjectsSort): Project[] => {
       break;
     }
     case "Newest": {
-      sorted = toSort.sort((a, b) => sortByDate(a, b, 1));
+      sorted = toSort.sort((a, b) => sortByDate(a, b));
       break;
     }
     case "Oldest": {

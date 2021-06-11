@@ -18,8 +18,10 @@ interface DateObject {
 export const sortByDate = (
   a: DateObject,
   b: DateObject,
-  multiplier: number
+  multiplier: 1 | -1 = 1
 ): number => {
+  const format = "MMMM YYYY";
+
   if (!a.end && b.end) {
     return 1 * multiplier;
   }
@@ -28,24 +30,26 @@ export const sortByDate = (
   }
 
   if (a.end && b.end) {
-    const firstEnd = moment(a.end, "MMMM YYYY");
-    const secondEnd = moment(b.end, "MMMM YYYY");
-
-    const areEqual = firstEnd.isSame(secondEnd);
-
-    if (!areEqual) {
-      const isBefore = firstEnd.isBefore(secondEnd);
-      return (isBefore ? 1 : -1) * multiplier;
-    }
+    const compare = compareDates(a.end, b.end, format, multiplier);
+    if (compare !== 0) return compare;
   }
 
-  const firstStart = moment(a.start, "MMMM YYYY");
-  const secondStart = moment(b.start, "MMMM YYYY");
+  return compareDates(a.start, b.start, format, multiplier);
+};
 
-  const areEqual = firstStart.isSame(secondStart);
+export const compareDates = (
+  a: string,
+  b: string,
+  format: string,
+  multiplier: 1 | -1 = 1
+): number => {
+  const first = moment(a, format);
+  const second = moment(b, format);
 
+  const areEqual = first.isSame(second);
   if (areEqual) return 0;
 
-  const isBefore = firstStart.isBefore(secondStart);
+  const isBefore = first.isBefore(second);
+
   return (isBefore ? 1 : -1) * multiplier;
 };
