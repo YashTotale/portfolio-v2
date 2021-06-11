@@ -82,10 +82,12 @@ export {
   getProjectsSearch,
   getProjectsSort,
   getProjectsTagFilter,
+  getProjectsExperienceFilter,
   // -> Actions
   setProjectsSearch,
   setProjectsSort,
   setProjectsTagFilter,
+  setProjectsExperienceFilter,
   // -> Reducer
   projectsReducer,
   // -> State

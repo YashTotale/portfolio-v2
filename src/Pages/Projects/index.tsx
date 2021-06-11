@@ -10,6 +10,7 @@ import { chunk } from "../../Utils/funcs";
 import { ResolvedProject } from "../../Utils/types";
 import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 import { sortTags } from "../../Utils/Content/tags";
+import { getExperience } from "../../Utils/Content/experience";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -19,6 +20,8 @@ import {
   setProjectsSearch,
   setProjectsSort,
   setProjectsTagFilter,
+  getProjectsExperienceFilter,
+  setProjectsExperienceFilter,
   getProjectsTagFilter,
 } from "../../Redux";
 import { ProjectsSort, PROJECTS_SORT } from "../../Redux/projects.slice";
@@ -80,10 +83,12 @@ const ProjectsPage: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const allTags = sortTags("Alphabetically");
+  const allExperience = getExperience();
 
   const search = useSelector(getProjectsSearch);
   const sort = useSelector(getProjectsSort);
   const tagFilter = useSelector(getProjectsTagFilter);
+  const experienceFilter = useSelector(getProjectsExperienceFilter);
 
   return (
     <Container>
@@ -103,6 +108,12 @@ const ProjectsPage: FC = () => {
             values: allTags.map((tag) => tag.title),
             value: tagFilter,
             onChange: (values) => dispatch(setProjectsTagFilter(values)),
+          },
+          {
+            label: "Experience",
+            values: allExperience.map((exp) => exp.title),
+            value: experienceFilter,
+            onChange: (values) => dispatch(setProjectsExperienceFilter(values)),
           },
         ]}
         className={classes.filters}
@@ -133,6 +144,16 @@ const Contents: FC = () => {
   const search = useSelector(getProjectsSearch);
   const normalizedSearch = search.toLowerCase();
   const tagFilter = useSelector(getProjectsTagFilter);
+  const experienceFilter = useSelector(getProjectsExperienceFilter);
+
+  const checkExperienceFilter = useCallback(
+    (p: ResolvedProject) => {
+      if (!experienceFilter.length) return true;
+
+      return experienceFilter.some((exp) => p.associated?.title === exp);
+    },
+    [experienceFilter]
+  );
 
   const checkTagFilter = useCallback(
     (p: ResolvedProject) => {
@@ -167,6 +188,9 @@ const Contents: FC = () => {
   const filteredProjects = useMemo(
     () =>
       projects.reduce((arr, project) => {
+        const experienceFiltered = checkExperienceFilter(project);
+        if (!experienceFiltered) return arr;
+
         const tagFiltered = checkTagFilter(project);
         if (!tagFiltered) return arr;
 
@@ -177,7 +201,13 @@ const Contents: FC = () => {
 
         return [...arr, project];
       }, [] as ResolvedProject[]),
-    [projects, normalizedSearch, getSearchMatch, checkTagFilter]
+    [
+      projects,
+      normalizedSearch,
+      checkExperienceFilter,
+      checkTagFilter,
+      getSearchMatch,
+    ]
   );
 
   if (!filteredProjects.length)

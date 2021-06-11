@@ -38,17 +38,15 @@ const useStyles = makeStyles((theme) => ({
     },
 
     [theme.breakpoints.only("sm")]: {
-      height: theme.spacing(5),
       width: "75%",
     },
 
     [theme.breakpoints.only("xs")]: {
-      height: theme.spacing(5),
       width: "100%",
     },
   },
   filterLabel: {
-    minWidth: 110,
+    minWidth: 155,
   },
   filterActions: {
     marginLeft: "auto",
