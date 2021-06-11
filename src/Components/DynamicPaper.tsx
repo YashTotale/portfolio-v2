@@ -1,20 +1,16 @@
 // React Imports
-import React, { forwardRef, ReactNode, useState } from "react";
-import clsx from "clsx";
+import React, { forwardRef, useState } from "react";
 
 // Material UI Imports
 import { Paper, PaperProps } from "@material-ui/core";
 
-interface DynamicPaperProps {
-  children?: ReactNode;
-  elevation?: PaperProps["elevation"];
+type DynamicPaperProps = {
   elevationOnHover?: PaperProps["elevation"];
-  className?: string;
-}
+} & PaperProps;
 
 const DynamicPaper = forwardRef<HTMLDivElement, DynamicPaperProps>(
   (props, ref) => {
-    const { children, elevation = 8, elevationOnHover = 16, className } = props;
+    const { elevation = 8, elevationOnHover = 16 } = props;
     const [hovering, setHovering] = useState(false);
 
     return (
@@ -22,11 +18,9 @@ const DynamicPaper = forwardRef<HTMLDivElement, DynamicPaperProps>(
         onMouseOver={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
         elevation={hovering ? elevationOnHover : elevation}
-        className={clsx(className)}
         ref={ref}
-      >
-        {children}
-      </Paper>
+        {...props}
+      />
     );
   }
 );

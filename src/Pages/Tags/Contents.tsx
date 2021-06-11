@@ -36,7 +36,6 @@ const Contents: FC = () => {
     (t: TagFields) => {
       const matches: boolean[] = [
         t.title.toLowerCase().includes(normalizedSearch),
-        t.link?.toLowerCase().includes(normalizedSearch) ?? false,
       ];
 
       return matches;
@@ -59,7 +58,12 @@ const Contents: FC = () => {
   return (
     <div className={classes.container}>
       {filteredTags.map((tag) => (
-        <TagPreview key={tag.id} id={tag.id} className={classes.preview} />
+        <TagPreview
+          key={tag.id}
+          id={tag.id}
+          search={search}
+          className={classes.preview}
+        />
       ))}
     </div>
   );
