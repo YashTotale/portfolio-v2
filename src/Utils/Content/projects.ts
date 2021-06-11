@@ -14,6 +14,7 @@ import projects from "../../Data/project.json";
 import { getRawExperience } from "./experience";
 
 const sortCache: Record<ProjectsSort, Project[] | null> = {
+  Alphabetically: null,
   Newest: null,
   Oldest: null,
 };
@@ -54,8 +55,12 @@ export const getRawProject = (id: string): Project | null => {
 };
 
 export const useSortedProjects = (): Project[] => {
-  const projects = getProjects();
   const sort = useSelector(getProjectsSort);
+  return sortProjects(sort);
+};
+
+export const sortProjects = (sort: ProjectsSort): Project[] => {
+  const projects = getProjects();
 
   if (sortCache[sort]) return sortCache[sort] as Project[];
 
@@ -63,6 +68,15 @@ export const useSortedProjects = (): Project[] => {
   let sorted = projects;
 
   switch (sort) {
+    case "Alphabetically": {
+      sorted = toSort.sort((a, b) => {
+        const aTitle = a.title.toLowerCase();
+        const bTitle = b.title.toLowerCase();
+
+        return aTitle.localeCompare(bTitle);
+      });
+      break;
+    }
     case "Newest": {
       sorted = toSort.sort((a, b) => sortByDate(a, b, 1));
       break;

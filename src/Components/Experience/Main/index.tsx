@@ -8,7 +8,10 @@ import DynamicImage from "../../DynamicImage";
 import MatchHighlight from "../../MatchHighlight";
 import VerticalDivider from "../../Divider/Vertical";
 import HorizontalDivider from "../../Divider/Horizontal";
-import { getSingleExperience } from "../../../Utils/Content/experience";
+import {
+  generateExperienceTitle,
+  getSingleExperience,
+} from "../../../Utils/Content/experience";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -112,7 +115,7 @@ const Main: FC<MainProps> = (props) => {
           toMatch={search}
           className={classes.title}
         >
-          {`${experience.role} @ ${experience.title}`}
+          {generateExperienceTitle(experience)}
         </StyledLink>
         <Typography variant="body1">
           <MatchHighlight toMatch={search}>

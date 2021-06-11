@@ -10,7 +10,10 @@ import { chunk } from "../../Utils/funcs";
 import { ResolvedProject } from "../../Utils/types";
 import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 import { sortTags } from "../../Utils/Content/tags";
-import { getExperience } from "../../Utils/Content/experience";
+import {
+  generateExperienceTitle,
+  sortExperience,
+} from "../../Utils/Content/experience";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -83,7 +86,7 @@ const ProjectsPage: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const allTags = sortTags("Alphabetically");
-  const allExperience = getExperience();
+  const allExperience = sortExperience("Alphabetically");
 
   const search = useSelector(getProjectsSearch);
   const sort = useSelector(getProjectsSort);
@@ -111,7 +114,7 @@ const ProjectsPage: FC = () => {
           },
           {
             label: "Experience",
-            values: allExperience.map((exp) => exp.title),
+            values: allExperience.map(generateExperienceTitle),
             value: experienceFilter,
             onChange: (values) => dispatch(setProjectsExperienceFilter(values)),
           },

@@ -7,7 +7,10 @@ import DynamicImage from "../DynamicImage";
 import StyledLink from "../StyledLink";
 import VerticalDivider from "../Divider/Vertical";
 import HorizontalDivider from "../Divider/Horizontal";
-import { getSingleExperience } from "../../Utils/Content/experience";
+import {
+  generateExperienceTitle,
+  getSingleExperience,
+} from "../../Utils/Content/experience";
 
 // Material UI Imports
 import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
@@ -99,7 +102,7 @@ const Associated: FC<AssociatedProps> = ({ id, className }) => {
           to={`/experience/${experience.id}`}
           className={classes.title}
         >
-          {`${experience.role} @ ${experience.title}`}
+          {generateExperienceTitle(experience)}
         </StyledLink>
         <HorizontalDivider />
         <div className={classes.description}>

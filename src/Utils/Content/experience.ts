@@ -23,6 +23,7 @@ import {
 import experience from "../../Data/experience.json";
 
 const sortCache: Record<ExperienceSort, Experience[] | null> = {
+  Alphabetically: null,
   Latest: null,
   Earliest: null,
 };
@@ -66,9 +67,19 @@ export const getRawExperience = (id: string): Experience | null => {
   return single;
 };
 
+export const generateExperienceTitle = (
+  exp: Experience | ResolvedExperience
+): string => {
+  return `${exp.role} @ ${exp.title}`;
+};
+
 export const useSortedExperience = (): Experience[] => {
-  const experience = getExperience();
   const sort = useSelector(getExperienceSort);
+  return sortExperience(sort);
+};
+
+export const sortExperience = (sort: ExperienceSort): Experience[] => {
+  const experience = getExperience();
 
   if (sortCache[sort]) return sortCache[sort] as Experience[];
 
@@ -76,6 +87,15 @@ export const useSortedExperience = (): Experience[] => {
   let sorted = experience;
 
   switch (sort) {
+    case "Alphabetically": {
+      sorted = toSort.sort((a, b) => {
+        const aTitle = generateExperienceTitle(a).toLowerCase();
+        const bTitle = generateExperienceTitle(b).toLowerCase();
+
+        return aTitle.localeCompare(bTitle);
+      });
+      break;
+    }
     case "Latest": {
       sorted = toSort.sort((a, b) => sortByDate(a, b, 1));
       break;

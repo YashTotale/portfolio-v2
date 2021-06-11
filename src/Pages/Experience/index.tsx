@@ -10,6 +10,7 @@ import {
   useSortedExperience,
 } from "../../Utils/Content/experience";
 import { sortTags } from "../../Utils/Content/tags";
+import { sortProjects } from "../../Utils/Content/projects";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -31,7 +32,6 @@ import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
-import { getProjects } from "../../Utils/Content/projects";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,7 +50,7 @@ const Experience: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const allTags = sortTags("Alphabetically");
-  const allProjects = getProjects();
+  const allProjects = sortProjects("Alphabetically");
 
   const search = useSelector(getExperienceSearch);
   const sort = useSelector(getExperienceSort);

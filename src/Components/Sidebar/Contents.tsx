@@ -2,7 +2,11 @@
 import React, { FC } from "react";
 import Category from "./Category";
 import Item from "./Item";
-import { useSortedExperience } from "../../Utils/Content/experience";
+import {
+  generateExperienceTitle,
+  getSingleExperience,
+  useSortedExperience,
+} from "../../Utils/Content/experience";
 import { useSortedProjects } from "../../Utils/Content/projects";
 import { useSortedTags } from "../../Utils/Content/tags";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
@@ -25,6 +29,7 @@ interface CategoryInfo {
   label: string;
   to: string;
   objects: (Experience | Project | Article | Tag)[];
+  createTitle?: (id: string) => string;
   onClick?: (id: string) => void;
 }
 
@@ -41,6 +46,11 @@ const Contents: FC = () => {
       label: "Experience",
       to: "experience",
       objects: experience,
+      createTitle: (id) => {
+        const exp = getSingleExperience(id);
+        if (!exp) return "";
+        return generateExperienceTitle(exp);
+      },
     },
     { label: "Projects", to: "projects", objects: projects },
     { label: "Articles", to: "articles", objects: Object.values(articles) },
@@ -56,14 +66,14 @@ const Contents: FC = () => {
       <List disablePadding className={classes.list}>
         <Category label="Home" to="/" />
         {categories.map((category, i) => {
-          const { label, to, objects, onClick } = category;
+          const { label, to, objects, createTitle, onClick } = category;
 
           return (
             <Category key={i} label={label} to={`/${to}`}>
               {objects.map((fields) => (
                 <Item
                   key={fields.id}
-                  label={fields.title}
+                  label={createTitle ? createTitle(fields.id) : fields.title}
                   to={`/${to}/${fields.id}`}
                   onClick={() => onClick?.(fields.id)}
                 />

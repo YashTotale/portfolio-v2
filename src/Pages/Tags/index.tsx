@@ -4,8 +4,11 @@ import TagPreview from "../../Components/Tag/Preview";
 import Filters from "../../Components/Filters";
 import { ResolvedTag } from "../../Utils/types";
 import { getTag, useSortedTags } from "../../Utils/Content/tags";
-import { getProjects } from "../../Utils/Content/projects";
-import { getExperience } from "../../Utils/Content/experience";
+import { sortProjects } from "../../Utils/Content/projects";
+import {
+  generateExperienceTitle,
+  sortExperience,
+} from "../../Utils/Content/experience";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -53,8 +56,8 @@ const useStyles = makeStyles((theme) => ({
 const Tags: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const allProjects = getProjects();
-  const allExperience = getExperience();
+  const allProjects = sortProjects("Alphabetically");
+  const allExperience = sortExperience("Alphabetically");
 
   const search = useSelector(getTagsSearch);
   const sort = useSelector(getTagsSort);
@@ -82,7 +85,7 @@ const Tags: FC = () => {
           },
           {
             label: "Experience",
-            values: allExperience.map((exp) => exp.title),
+            values: allExperience.map(generateExperienceTitle),
             value: experienceFilter,
             onChange: (values) => dispatch(setTagsExperienceFilter(values)),
           },
