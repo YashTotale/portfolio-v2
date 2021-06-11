@@ -1,7 +1,9 @@
 // React Imports
-import React, { FC } from "react";
-import Contents from "./Contents";
+import React, { FC, useCallback, useMemo } from "react";
+import TagPreview from "../../Components/Tag/Preview";
 import Filters from "../../Components/Filters";
+import { Tag as TagFields } from "../../Utils/types";
+import { useSortedTags } from "../../Utils/Content/tags";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -29,6 +31,17 @@ const useStyles = makeStyles((theme) => ({
   filters: {
     width: "95%",
   },
+  tags: {
+    display: "flex",
+    alignItems: "stretch",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    width: "95%",
+    marginLeft: theme.spacing(-2),
+  },
+  preview: {
+    margin: theme.spacing(2),
+  },
 }));
 
 const Tags: FC = () => {
@@ -38,7 +51,7 @@ const Tags: FC = () => {
   const sort = useSelector(getTagsSort);
 
   return (
-    <Container>
+    <div className={classes.container}>
       <Filters
         search={{
           defaultSearch: search,
@@ -52,14 +65,52 @@ const Tags: FC = () => {
         className={classes.filters}
       />
       <Contents />
-    </Container>
+    </div>
   );
 };
 
-const Container: FC = ({ children }) => {
+const Contents: FC = () => {
   const classes = useStyles();
+  const tags = useSortedTags();
 
-  return <div className={classes.container}>{children}</div>;
+  const search = useSelector(getTagsSearch);
+  const normalizedSearch = search.toLowerCase();
+
+  const getTagMatch = useCallback(
+    (t: TagFields) => {
+      const matches: boolean[] = [
+        t.title.toLowerCase().includes(normalizedSearch),
+      ];
+
+      return matches;
+    },
+    [normalizedSearch]
+  );
+
+  const filteredTags = useMemo(() => {
+    if (!normalizedSearch.length) return tags;
+
+    return tags.reduce((arr, tag) => {
+      const matches = getTagMatch(tag);
+
+      if (matches.some((bool) => bool)) return [...arr, tag];
+
+      return arr;
+    }, [] as TagFields[]);
+  }, [tags, normalizedSearch, getTagMatch]);
+
+  return (
+    <div className={classes.tags}>
+      {filteredTags.map((tag) => (
+        <TagPreview
+          key={tag.id}
+          id={tag.id}
+          search={search}
+          className={classes.preview}
+        />
+      ))}
+    </div>
+  );
 };
 
 export default Tags;
