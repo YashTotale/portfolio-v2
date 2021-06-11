@@ -5,13 +5,11 @@ export type ExperienceSort = "Latest" | "Earliest";
 export const EXPERIENCE_SORT: ExperienceSort[] = ["Latest", "Earliest"];
 
 export interface ExperienceState {
-  scroll: string | null;
   search: string;
   sort: ExperienceSort;
 }
 
 export const initialExperienceState: ExperienceState = {
-  scroll: null,
   search: "",
   sort: EXPERIENCE_SORT[0],
 };
@@ -20,13 +18,6 @@ const experienceSlice = createSlice({
   name: "experience",
   initialState: initialExperienceState,
   reducers: {
-    setExperienceScroll: (
-      state,
-      action: PayloadAction<ExperienceState["scroll"]>
-    ) => ({
-      ...state,
-      scroll: action.payload,
-    }),
     setExperienceSearch: (
       state,
       action: PayloadAction<ExperienceState["search"]>
@@ -43,16 +34,11 @@ const experienceSlice = createSlice({
 
 // Actions
 export const {
-  setExperienceScroll,
   setExperienceSearch,
   setExperienceSort,
 } = experienceSlice.actions;
 
 // Selectors
-export const getExperienceScroll = (
-  state: RootState
-): ExperienceState["scroll"] => state.experience.scroll;
-
 export const getExperienceSearch = (
   state: RootState
 ): ExperienceState["search"] => state.experience.search;

@@ -2,7 +2,7 @@
 import React, { FC, useEffect } from "react";
 import { Redirect, useLocation } from "react-router";
 
-const EXCLUDED = [/^\/experience\/.+$/];
+const EXCLUDED: RegExp[] = [];
 
 const ScrollToTop: FC = () => {
   const pathname = useLocation().pathname;

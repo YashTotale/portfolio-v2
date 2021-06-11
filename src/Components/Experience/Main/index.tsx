@@ -1,20 +1,18 @@
 // React Imports
 import React, { FC } from "react";
-import Container from "./Container";
 import Info from "./Info";
 import FloatingIcons from "./FloatingIcons";
 import StyledLink from "../../StyledLink";
+import DynamicPaper from "../../DynamicPaper";
 import DynamicImage from "../../DynamicImage";
 import MatchHighlight from "../../MatchHighlight";
 import VerticalDivider from "../../Divider/Vertical";
 import HorizontalDivider from "../../Divider/Horizontal";
-import { useLastPath } from "../../../Hooks";
 import { getSingleExperience } from "../../../Utils/Content/experience";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getExperienceSearch, setExperienceScroll } from "../../../Redux";
-import { useAppDispatch } from "../../../Store";
+import { getExperienceSearch } from "../../../Redux";
 
 // Material UI Imports
 import {
@@ -25,6 +23,14 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  container: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "stretch",
+    width: "95%",
+    margin: theme.spacing(2, 0),
+  },
   titleContainer: {
     display: "flex",
     flexDirection: "column",
@@ -82,14 +88,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface SingleExperienceProps {
+interface MainProps {
   id: string;
 }
 
-const SingleExperience: FC<SingleExperienceProps> = (props) => {
+const Main: FC<MainProps> = (props) => {
   const classes = useStyles();
-  const dispatch = useAppDispatch();
-  const lastPath = useLastPath();
   const search = useSelector(getExperienceSearch);
   const experience = getSingleExperience(props.id);
 
@@ -99,7 +103,7 @@ const SingleExperience: FC<SingleExperienceProps> = (props) => {
   if (!experience) return null;
 
   return (
-    <Container {...experience} lastPath={lastPath}>
+    <DynamicPaper className={classes.container}>
       <div className={classes.titleContainer}>
         <StyledLink
           to={`/experience/${experience.id}`}
@@ -107,10 +111,6 @@ const SingleExperience: FC<SingleExperienceProps> = (props) => {
           align="center"
           toMatch={search}
           className={classes.title}
-          onClick={() => {
-            if (lastPath === experience.id)
-              dispatch(setExperienceScroll(experience.id));
-          }}
         >
           {`${experience.role} @ ${experience.title}`}
         </StyledLink>
@@ -134,8 +134,8 @@ const SingleExperience: FC<SingleExperienceProps> = (props) => {
       </div>
       <HorizontalDivider />
       <FloatingIcons {...experience} />
-    </Container>
+    </DynamicPaper>
   );
 };
 
-export default SingleExperience;
+export default Main;

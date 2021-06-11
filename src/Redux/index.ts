@@ -56,11 +56,9 @@ export {
   // -> Slice
   default as experienceSlice,
   // -> Selectors
-  getExperienceScroll,
   getExperienceSearch,
   getExperienceSort,
   // -> Actions
-  setExperienceScroll,
   setExperienceSearch,
   setExperienceSort,
   // -> Reducer

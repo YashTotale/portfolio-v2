@@ -2,16 +2,11 @@
 import React, { FC } from "react";
 import Category from "./Category";
 import Item from "./Item";
-import { useLastPath } from "../../Hooks";
 import { useSortedExperience } from "../../Utils/Content/experience";
 import { useSortedProjects } from "../../Utils/Content/projects";
 import { useSortedTags } from "../../Utils/Content/tags";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
 import { Experience, Article, Project, Tag } from "../../Utils/types";
-
-// Redux Imports
-import { setExperienceScroll } from "../../Redux";
-import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
@@ -35,8 +30,6 @@ interface CategoryInfo {
 
 const Contents: FC = () => {
   const classes = useStyles();
-  const dispatch = useAppDispatch();
-  const lastPath = useLastPath();
 
   const experience = useSortedExperience();
   const projects = useSortedProjects();
@@ -48,9 +41,6 @@ const Contents: FC = () => {
       label: "Experience",
       to: "experience",
       objects: experience,
-      onClick: (id) => {
-        if (lastPath === id) dispatch(setExperienceScroll(id));
-      },
     },
     { label: "Projects", to: "projects", objects: projects },
     { label: "Articles", to: "articles", objects: Object.values(articles) },
