@@ -1,8 +1,8 @@
 // React Imports
 import React, { FC } from "react";
-import Overlay from "../../Components/Overlay";
-import { ResolvedProject } from "../../Utils/types";
-import { getAsset } from "../../Utils/Content/assets";
+import Overlay from "../../Overlay";
+import { ResolvedProject } from "../../../Utils/types";
+import { getAsset } from "../../../Utils/Content/assets";
 
 // Material UI Imports
 import { makeStyles, useTheme } from "@material-ui/core";

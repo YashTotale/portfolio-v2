@@ -1,9 +1,9 @@
 // React Imports
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
-import RichText from "../../Components/RichText";
-import HorizontalDivider from "../../Components/Divider/Horizontal";
-import { ResolvedProject } from "../../Utils/types";
+import RichText from "../../RichText";
+import HorizontalDivider from "../../Divider/Horizontal";
+import { ResolvedProject } from "../../../Utils/types";
 
 // Material UI Imports
 import {
