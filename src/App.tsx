@@ -31,6 +31,14 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: SIDEBAR_WIDTH,
     },
   },
+  layout: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "90%",
+    margin: "auto",
+  },
   spinner: {
     display: "flex",
     justifyContent: "center",
@@ -55,43 +63,45 @@ const Routes: FC = () => {
 
   return (
     <div className={classes.root}>
-      <Suspense
-        fallback={
-          <div className={classes.spinner}>
-            <CircularProgress />
-          </div>
-        }
-      >
-        <Switch>
-          <Route exact path="/experience">
-            <ExperiencePage />
-          </Route>
-          <Route exact path="/experience/:id">
-            <SingleExperiencePage />
-          </Route>
-          <Route exact path="/projects">
-            <ProjectsPage />
-          </Route>
-          <Route exact path="/projects/:id">
-            <ProjectPage />
-          </Route>
-          <Route exact path="/tags">
-            <TagsPage />
-          </Route>
-          <Route exact path="/tags/:id">
-            <TagPage />
-          </Route>
-          <Route exact path="/contact">
-            <Contact />
-          </Route>
-          <Route exact path="/">
-            <Home />
-          </Route>
-          <Route path="*">
-            <NotFound />
-          </Route>
-        </Switch>
-      </Suspense>
+      <div className={classes.layout}>
+        <Suspense
+          fallback={
+            <div className={classes.spinner}>
+              <CircularProgress />
+            </div>
+          }
+        >
+          <Switch>
+            <Route exact path="/experience">
+              <ExperiencePage />
+            </Route>
+            <Route exact path="/experience/:id">
+              <SingleExperiencePage />
+            </Route>
+            <Route exact path="/projects">
+              <ProjectsPage />
+            </Route>
+            <Route exact path="/projects/:id">
+              <ProjectPage />
+            </Route>
+            <Route exact path="/tags">
+              <TagsPage />
+            </Route>
+            <Route exact path="/tags/:id">
+              <TagPage />
+            </Route>
+            <Route exact path="/contact">
+              <Contact />
+            </Route>
+            <Route exact path="/">
+              <Home />
+            </Route>
+            <Route path="*">
+              <NotFound />
+            </Route>
+          </Switch>
+        </Suspense>
+      </div>
     </div>
   );
 };

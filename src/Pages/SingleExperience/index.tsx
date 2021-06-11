@@ -14,27 +14,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    margin: "auto",
-
-    [theme.breakpoints.only("xl")]: {
-      width: "75%",
-    },
-
-    [theme.breakpoints.only("lg")]: {
-      width: "85%",
-    },
-
-    [theme.breakpoints.only("md")]: {
-      width: "85%",
-    },
-
-    [theme.breakpoints.only("sm")]: {
-      width: "95%",
-    },
-
-    [theme.breakpoints.only("xs")]: {
-      width: "95%",
-    },
   },
 }));
 

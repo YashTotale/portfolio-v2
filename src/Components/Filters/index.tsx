@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => ({
   filters: {
     display: "flex",
     flexDirection: "column",
-    width: "95%",
+    width: "100%",
     border: `1px solid ${theme.palette.text.disabled}`,
     borderRadius: "10px",
     marginBottom: theme.spacing(1),

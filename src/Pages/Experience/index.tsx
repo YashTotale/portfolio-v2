@@ -38,11 +38,8 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "stretch",
+    justifyContent: "center",
     width: "100%",
-  },
-  filters: {
-    width: "95%",
   },
 }));
 
@@ -85,7 +82,6 @@ const Experience: FC = () => {
             onChange: (values) => dispatch(setExperienceProjectFilter(values)),
           },
         ]}
-        className={classes.filters}
       />
       <Contents />
     </div>

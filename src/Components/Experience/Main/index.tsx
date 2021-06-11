@@ -31,7 +31,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "stretch",
-    width: "95%",
     margin: theme.spacing(2, 0),
   },
   titleContainer: {

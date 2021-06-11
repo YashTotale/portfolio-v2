@@ -34,18 +34,12 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "stretch",
-    width: "100%",
-    padding: theme.spacing(0, 2),
-  },
-  filters: {
-    width: "95%",
   },
   tags: {
     display: "flex",
     alignItems: "stretch",
     justifyContent: "center",
     flexWrap: "wrap",
-    width: "95%",
     marginLeft: theme.spacing(-2),
   },
   preview: {
@@ -90,7 +84,6 @@ const Tags: FC = () => {
             onChange: (values) => dispatch(setTagsExperienceFilter(values)),
           },
         ]}
-        className={classes.filters}
       />
       <Contents />
     </div>
