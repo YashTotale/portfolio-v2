@@ -99,6 +99,31 @@ export {
 export type { ProjectsState } from "./projects.slice";
 
 /**
+ * Articles Slice
+ */
+
+export {
+  // -> Slice
+  default as articlesSlice,
+  // -> Selectors
+  getArticlesSearch,
+  getArticlesSort,
+  getArticlesTagFilter,
+  getArticlesExperienceFilter,
+  // -> Actions
+  setArticlesSearch,
+  setArticlesSort,
+  setArticlesTagFilter,
+  setArticlesExperienceFilter,
+  // -> Reducer
+  articlesReducer,
+  // -> State
+  initialArticlesState,
+} from "./articles.slice";
+
+export type { ArticlesState } from "./articles.slice";
+
+/**
  * Projects Slice
  */
 

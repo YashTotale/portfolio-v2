@@ -52,6 +52,7 @@ import { displayReducer, DisplayState } from "./Redux/display.slice";
 import { popupReducer, PopupState } from "./Redux/popup.slice";
 import { experienceReducer, ExperienceState } from "./Redux/experience.slice";
 import { projectsReducer, ProjectsState } from "./Redux/projects.slice";
+import { articlesReducer, ArticlesState } from "./Redux/articles.slice";
 import { tagsReducer, TagsState } from "./Redux/tags.slice";
 
 interface State {
@@ -59,6 +60,7 @@ interface State {
   popup: PopupState;
   experience: ExperienceState;
   projects: ProjectsState;
+  articles: ArticlesState;
   tags: TagsState;
   firebase: FirebaseReducer.Reducer<
     Record<string, unknown>,
@@ -72,6 +74,7 @@ const reducers = combineReducers<State>({
   popup: popupReducer,
   experience: experienceReducer,
   projects: projectsReducer,
+  articles: articlesReducer,
   tags: tagsReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
@@ -82,7 +85,7 @@ const persistedReducer = persistReducer<State>(
     version: 1,
     storage,
     key: "root",
-    blacklist: ["experience", "projects", "tags"],
+    blacklist: ["experience", "projects", "articles", "tags"],
   },
   reducers
 );
