@@ -37,12 +37,14 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "stretch",
+    width: "100%",
   },
   tags: {
     display: "flex",
     alignItems: "stretch",
     justifyContent: "center",
     flexWrap: "wrap",
+    width: "100%",
   },
   preview: {
     margin: theme.spacing(2),
