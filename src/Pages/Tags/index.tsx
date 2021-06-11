@@ -26,7 +26,7 @@ import {
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -40,7 +40,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "stretch",
     justifyContent: "center",
     flexWrap: "wrap",
-    marginLeft: theme.spacing(-2),
   },
   preview: {
     margin: theme.spacing(2),
@@ -72,16 +71,16 @@ const Tags: FC = () => {
         }}
         related={[
           {
-            label: "Projects",
-            values: allProjects.map((tag) => tag.title),
-            value: projectFilter,
-            onChange: (values) => dispatch(setTagsProjectFilter(values)),
-          },
-          {
             label: "Experience",
             values: allExperience.map(generateExperienceTitle),
             value: experienceFilter,
             onChange: (values) => dispatch(setTagsExperienceFilter(values)),
+          },
+          {
+            label: "Projects",
+            values: allProjects.map((tag) => tag.title),
+            value: projectFilter,
+            onChange: (values) => dispatch(setTagsProjectFilter(values)),
           },
         ]}
       />
@@ -110,7 +109,7 @@ const Contents: FC = () => {
       if (!experienceFilter.length) return true;
 
       return experienceFilter.some((experience) =>
-        t.experience.some((exp) => exp.title === experience)
+        t.experience.some((exp) => generateExperienceTitle(exp) === experience)
       );
     },
     [experienceFilter]
@@ -162,6 +161,13 @@ const Contents: FC = () => {
       getSearchMatch,
     ]
   );
+
+  if (!filteredTags.length)
+    return (
+      <div className={classes.tags}>
+        <Typography variant="h6">No tags found</Typography>
+      </div>
+    );
 
   return (
     <div className={classes.tags}>
