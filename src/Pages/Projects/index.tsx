@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "stretch",
+    width: "100%",
   },
   projects: {
     display: "flex",
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "stretch",
     flexWrap: "wrap",
-    margin: theme.spacing(0, -2),
+    width: "100%",
   },
 }));
 

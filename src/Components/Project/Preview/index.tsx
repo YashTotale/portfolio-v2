@@ -33,11 +33,12 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2),
     width: "45%",
 
-    [theme.breakpoints.only("sm")]: {
+    [theme.breakpoints.down("sm")]: {
       width: "80%",
     },
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("xs")]: {
       width: "100%",
+      margin: theme.spacing(2, 0),
     },
   },
   projectTop: {
