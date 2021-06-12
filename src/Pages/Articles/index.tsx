@@ -3,6 +3,7 @@ import React, { FC, useCallback, useMemo } from "react";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 import { Document } from "@contentful/rich-text-types";
 import Filters from "../../Components/Filters";
+import ArticlePreview from "../../Components/Article/Preview";
 import { ResolvedArticle } from "../../Utils/types";
 import { sortTags } from "../../Utils/Content/tags";
 import {
@@ -38,8 +39,16 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "stretch",
+    width: "100%",
   },
-  articles: {},
+  articles: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "stretch",
+    flexWrap: "wrap",
+    width: "100%",
+  },
 }));
 
 const Articles: FC = () => {
@@ -175,7 +184,7 @@ const Contents: FC = () => {
   return (
     <div className={classes.articles}>
       {filteredArticles.map((article) => (
-        <h1 key={article.id}>{article.title}</h1>
+        <ArticlePreview key={article.id} id={article.id} search={search} />
       ))}
     </div>
   );

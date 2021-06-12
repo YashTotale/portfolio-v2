@@ -1,4 +1,8 @@
+// External Imports
+import moment from "moment";
+
 // Internal Imports
+import { compareDates } from "../funcs";
 import { Article, ResolvedArticle, Tag } from "../types";
 import { getRawExperience } from "./experience";
 import { getRawTag } from "./tags";
@@ -7,11 +11,10 @@ import { getAsset } from "./assets";
 // Redux Imports
 import { useSelector } from "react-redux";
 import { getArticlesSort } from "../../Redux";
+import { ArticlesSort } from "../../Redux/articles.slice";
 
 // Data Imports
 import articles from "../../Data/article.json";
-import { ArticlesSort } from "../../Redux/articles.slice";
-import { compareDates } from "../funcs";
 
 const sortCache: Record<ArticlesSort, Article[] | null> = {
   Alphabetically: null,
@@ -46,6 +49,12 @@ export const getRawArticle = (id: string): Article | null => {
 
   if (!single) return null;
   return single;
+};
+
+export const generateArticlePublished = (
+  article: Article | ResolvedArticle
+): string => {
+  return moment(article.published, "YYYY-MM-DD").format("MMMM D, YYYY");
 };
 
 export const useSortedArticles = (): Article[] => {

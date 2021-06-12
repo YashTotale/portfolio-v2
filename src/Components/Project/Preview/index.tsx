@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   projectDescription: {
     flexGrow: 1,
     width: "100%",
-    padding: theme.spacing(2, 1),
+    padding: theme.spacing(2),
   },
   projectTags: {
     display: "flex",
