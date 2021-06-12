@@ -2,8 +2,9 @@
 import React, { FC } from "react";
 
 //Redux Imports
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { getIsDarkMode, toggleDarkMode } from "./Redux";
+import { useAppDispatch } from "./Store";
 
 //Material UI Imports
 import {
@@ -17,7 +18,7 @@ import { amber, lightBlue } from "@material-ui/core/colors";
 export const alternativeFont = "Arial, sans-serif";
 
 const Theme: FC = ({ children }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const isDarkMode = useSelector(getIsDarkMode);

@@ -23,7 +23,7 @@ export const getArticles = (): Article[] => {
   return (Object.values(articles) as unknown) as Article[];
 };
 
-export const getProject = (id: string): ResolvedArticle | null => {
+export const getArticle = (id: string): ResolvedArticle | null => {
   const single = getRawArticle(id);
   if (!single) return null;
 
@@ -54,12 +54,12 @@ export const useSortedArticles = (): Article[] => {
 };
 
 export const sortArticles = (sort: ArticlesSort): Article[] => {
-  const projects = getArticles();
+  const articles = getArticles();
 
   if (sortCache[sort]) return sortCache[sort] as Article[];
 
-  const toSort = [...projects];
-  let sorted = projects;
+  const toSort = [...articles];
+  let sorted = articles;
 
   switch (sort) {
     case "Alphabetically": {
