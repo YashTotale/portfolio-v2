@@ -4,7 +4,15 @@ import clsx from "clsx";
 import { Filter } from "./index";
 
 // Material UI Imports
-import { FormControl, makeStyles, MenuItem, Select } from "@material-ui/core";
+import {
+  FormControl,
+  makeStyles,
+  MenuItem,
+  Select,
+  useMediaQuery,
+  useTheme,
+  InputLabel,
+} from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,8 +29,11 @@ export interface RelatedProps {
   onClear?: () => void;
 }
 
-const Related: FC<RelatedProps> = ({ label, value, values, onChange }) => {
+const Related: FC<RelatedProps> = (props) => {
+  const { label, value, values, onChange } = props;
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const handleChange = (event: ChangeEvent<{ value: unknown }>) => {
     onChange([...(event.target.value as string[])]);
@@ -40,6 +51,7 @@ const Related: FC<RelatedProps> = ({ label, value, values, onChange }) => {
       ]}
     >
       <FormControl>
+        {isSizeXS && <InputLabel>Related {label}</InputLabel>}
         <Select multiple value={value} onChange={handleChange}>
           {values.map((v) => (
             <MenuItem

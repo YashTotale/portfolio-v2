@@ -4,7 +4,15 @@ import clsx from "clsx";
 import { Filter } from "./index";
 
 // Material UI Imports
-import { FormControl, makeStyles, MenuItem, Select } from "@material-ui/core";
+import {
+  FormControl,
+  makeStyles,
+  MenuItem,
+  Select,
+  InputLabel,
+  useTheme,
+  useMediaQuery,
+} from "@material-ui/core";
 import { Replay } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -21,6 +29,8 @@ export interface SorterProps {
 
 const Sorter: FC<SorterProps> = ({ value, values, onChange }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
     <Filter
@@ -34,6 +44,7 @@ const Sorter: FC<SorterProps> = ({ value, values, onChange }) => {
       ]}
     >
       <FormControl>
+        {isSizeXS && <InputLabel>Sort</InputLabel>}
         <Select
           value={value}
           onChange={(e) => onChange(e.target.value as string)}

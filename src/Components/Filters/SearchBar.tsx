@@ -4,7 +4,13 @@ import debounce from "lodash.debounce";
 import { Filter } from "./index";
 
 // Material UI Imports
-import { Input, makeStyles, Paper } from "@material-ui/core";
+import {
+  Input,
+  makeStyles,
+  Paper,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -29,6 +35,8 @@ export interface SearchBarProps {
 
 const SearchBar: FC<SearchBarProps> = ({ defaultSearch, onSearchChange }) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const [localSearch, setLocalSearch] = useState(defaultSearch);
 
   const handleChange = debounce((value: string) => {
@@ -60,6 +68,7 @@ const SearchBar: FC<SearchBarProps> = ({ defaultSearch, onSearchChange }) => {
             }}
             fullWidth
             className={classes.input}
+            placeholder={isSizeXS ? "Search" : undefined}
             disableUnderline
           />
         </div>

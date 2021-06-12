@@ -7,7 +7,14 @@ import Related, { RelatedProps } from "./Related";
 import HorizontalDivider from "../Divider/Horizontal";
 
 // Material UI Imports
-import { IconButton, makeStyles, Tooltip, Typography } from "@material-ui/core";
+import {
+  IconButton,
+  makeStyles,
+  Tooltip,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   filters: {
@@ -23,21 +30,21 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "flex-start",
     margin: theme.spacing(1, 2),
+
+    [theme.breakpoints.only("xs")]: {
+      margin: theme.spacing(1),
+    },
   },
   filterItem: {
-    [theme.breakpoints.only("xl")]: {
+    [theme.breakpoints.down("xl")]: {
       width: "40%",
     },
 
-    [theme.breakpoints.only("lg")]: {
-      width: "40%",
-    },
-
-    [theme.breakpoints.only("md")]: {
+    [theme.breakpoints.down("md")]: {
       width: "50%",
     },
 
-    [theme.breakpoints.only("sm")]: {
+    [theme.breakpoints.down("sm")]: {
       width: "75%",
     },
 
@@ -47,9 +54,17 @@ const useStyles = makeStyles((theme) => ({
   },
   filterLabel: {
     minWidth: 155,
+
+    [theme.breakpoints.only("xs")]: {
+      minWidth: 135,
+    },
   },
   filterActions: {
     marginLeft: "auto",
+
+    [theme.breakpoints.only("xs")]: {
+      marginLeft: theme.spacing(1),
+    },
   },
 }));
 
@@ -85,6 +100,9 @@ interface FilterProps {
 
 export const Filter: FC<FilterProps> = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+
   const filterItem = cloneElement(props.children, {
     className: classes.filterItem,
   });
@@ -92,9 +110,14 @@ export const Filter: FC<FilterProps> = (props) => {
   return (
     <>
       <div className={classes.filter}>
-        <Typography variant="subtitle1" className={classes.filterLabel}>
-          <strong>{props.label}</strong>
-        </Typography>
+        {!isSizeXS && (
+          <Typography
+            variant={isSizeXS ? "subtitle2" : "subtitle1"}
+            className={classes.filterLabel}
+          >
+            <strong>{props.label}</strong>
+          </Typography>
+        )}
         {filterItem}
         {props.actions && (
           <div className={classes.filterActions}>
@@ -116,9 +139,18 @@ interface FilterActionProps {
 }
 
 const FilterAction: FC<FilterActionProps> = (props) => {
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+
+  const actionIcon = cloneElement(props.icon, {
+    fontSize: isSizeXS ? "small" : "default",
+  });
+
   return (
     <Tooltip title={props.label}>
-      <IconButton onClick={props.action}>{props.icon}</IconButton>
+      <IconButton size={isSizeXS ? "small" : "medium"} onClick={props.action}>
+        {actionIcon}
+      </IconButton>
     </Tooltip>
   );
 };
