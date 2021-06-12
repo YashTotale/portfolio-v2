@@ -15,7 +15,13 @@ import {
 } from "../../../Utils/Content/articles";
 
 // Material UI Imports
-import { makeStyles, Paper, Typography } from "@material-ui/core";
+import {
+  makeStyles,
+  Paper,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   article: {
@@ -89,6 +95,8 @@ interface PreviewProps {
 
 const Preview: FC<PreviewProps> = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const article = getArticle(props.id);
 
   if (!article) return null;
@@ -102,10 +110,14 @@ const Preview: FC<PreviewProps> = (props) => {
           alt={article.image.title}
           className={classes.articleImage}
         />
-        <Title title={article.title} id={props.id} />
+        <Title title={article.title} id={props.id} search={props.search} />
       </Paper>
       <div className={classes.articleDescription}>
-        <RichText richText={article.description as Document} variant="body1" />
+        <RichText
+          richText={article.description as Document}
+          variant={isSizeXS ? "body2" : "body1"}
+          toMatch={props.search}
+        />
       </div>
       <HorizontalDivider />
       <div className={classes.articleTags}>
@@ -114,7 +126,10 @@ const Preview: FC<PreviewProps> = (props) => {
         ))}
       </div>
       <HorizontalDivider />
-      <Typography className={classes.articlePublished} variant="body1">
+      <Typography
+        className={classes.articlePublished}
+        variant={isSizeXS ? "body2" : "body1"}
+      >
         <MatchHighlight toMatch={props.search ?? ""}>
           {generateArticlePublished(article)}
         </MatchHighlight>
