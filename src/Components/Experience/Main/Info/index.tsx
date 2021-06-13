@@ -5,10 +5,6 @@ import Related from "./Related";
 import RichText from "../../../RichText";
 import { ResolvedExperience } from "../../../../Utils/types";
 
-// Redux Imports
-import { useSelector } from "react-redux";
-import { getExperienceSearch } from "../../../../Redux";
-
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
 
@@ -42,9 +38,12 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Info: FC<ResolvedExperience> = (props) => {
+type InfoProps = ResolvedExperience & {
+  search?: string;
+};
+
+const Info: FC<InfoProps> = (props) => {
   const classes = useStyles();
-  const search = useSelector(getExperienceSearch);
 
   return (
     <div className={classes.info}>
@@ -52,7 +51,10 @@ const Info: FC<ResolvedExperience> = (props) => {
         Description
       </Typography>
       <div className={classes.text}>
-        <RichText richText={props.description as Document} toMatch={search} />
+        <RichText
+          richText={props.description as Document}
+          toMatch={props.search}
+        />
       </div>
       <Typography variant="h5" className={classes.heading}>
         Responsibilities
@@ -60,10 +62,10 @@ const Info: FC<ResolvedExperience> = (props) => {
       <div className={classes.text}>
         <RichText
           richText={props.responsibilities as Document}
-          toMatch={search}
+          toMatch={props.search}
         />
       </div>
-      <Related {...props} />
+      <Related {...props} search={props.search} />
     </div>
   );
 };

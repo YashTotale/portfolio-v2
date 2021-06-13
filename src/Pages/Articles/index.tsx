@@ -141,7 +141,6 @@ const Contents: FC = () => {
         a.tags.some((tag) =>
           tag.title.toLowerCase().includes(normalizedSearch)
         ),
-        a.link?.toLowerCase().includes(normalizedSearch) ?? false,
       ];
 
       return matches;

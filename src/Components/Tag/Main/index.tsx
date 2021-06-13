@@ -7,10 +7,7 @@ import DynamicPaper from "../../DynamicPaper";
 import MatchHighlight from "../../MatchHighlight";
 import HorizontalDivider from "../../Divider/Horizontal";
 import VerticalDivider from "../../Divider/Vertical";
-
-// Redux Imports
-import { useSelector } from "react-redux";
-import { getTagsSearch } from "../../../Redux";
+import { getTag } from "../../../Utils/Content/tags";
 
 // Material UI Imports
 import {
@@ -21,7 +18,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import { getTag } from "../../../Utils/Content/tags";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -49,14 +45,13 @@ const useStyles = makeStyles((theme) => ({
 
 interface TagProps {
   id: string;
-  withSearch?: boolean;
+  search?: string;
   className?: string;
 }
 
 const Tag: FC<TagProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const search = useSelector(getTagsSearch);
   const tag = getTag(props.id);
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
@@ -74,11 +69,7 @@ const Tag: FC<TagProps> = (props) => {
             align="center"
             className={classes.heading}
           >
-            {props.withSearch ? (
-              <MatchHighlight toMatch={search}>{tag.title}</MatchHighlight>
-            ) : (
-              tag.title
-            )}
+            <MatchHighlight toMatch={props.search}>{tag.title}</MatchHighlight>
           </Link>
         </Tooltip>
       ) : (
@@ -87,11 +78,7 @@ const Tag: FC<TagProps> = (props) => {
           align="center"
           className={classes.heading}
         >
-          {props.withSearch ? (
-            <MatchHighlight toMatch={search}>{tag.title}</MatchHighlight>
-          ) : (
-            tag.title
-          )}
+          <MatchHighlight toMatch={props.search}>{tag.title}</MatchHighlight>
         </Typography>
       )}
       <HorizontalDivider />

@@ -2,11 +2,14 @@
 import React, { FC, Fragment } from "react";
 
 interface MatchHighlightProps {
-  toMatch: string;
+  toMatch?: string;
   children: string;
 }
 
-const MatchHighlight: FC<MatchHighlightProps> = ({ toMatch, children }) => {
+const MatchHighlight: FC<MatchHighlightProps> = ({
+  toMatch = "",
+  children,
+}) => {
   if (!toMatch.length) return <>{children}</>;
 
   const normalizedChildren = children.toLowerCase();

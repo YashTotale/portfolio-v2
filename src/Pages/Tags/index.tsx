@@ -13,8 +13,9 @@ import {
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getTagsSearch, getTagsSort } from "../../Redux";
 import {
+  getTagsSearch,
+  getTagsSort,
   getTagsArticleFilter,
   getTagsExperienceFilter,
   getTagsProjectFilter,
@@ -23,9 +24,8 @@ import {
   setTagsProjectFilter,
   setTagsSearch,
   setTagsSort,
-  TagsSort,
-  TAGS_SORT,
-} from "../../Redux/tags.slice";
+} from "../../Redux";
+import { TAGS_SORT, TagsSort } from "../../Redux/tags.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports

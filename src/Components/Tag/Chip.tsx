@@ -12,6 +12,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import MatchHighlight from "../MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   projectTag: {
@@ -24,6 +25,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface TagChipProps {
   id: string;
+  search?: string;
   className?: string;
 }
 
@@ -43,7 +45,9 @@ const TagChip: FC<TagChipProps> = (props) => {
     <Chip
       clickable
       size={isSizeXS ? "small" : "medium"}
-      label={tag.title}
+      label={
+        <MatchHighlight toMatch={props.search}>{tag.title}</MatchHighlight>
+      }
       className={clsx(classes.projectTag, props.className)}
       avatar={<Avatar src={`${icon.file.url}?w=30`} alt={icon.title} />}
       component={Link}

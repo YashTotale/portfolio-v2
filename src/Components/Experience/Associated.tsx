@@ -76,19 +76,20 @@ const useStyles = makeStyles((theme) => ({
 
 interface AssociatedProps {
   id: string;
+  search?: string;
   className?: string;
 }
 
-const Associated: FC<AssociatedProps> = ({ id, className }) => {
+const Associated: FC<AssociatedProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const experience = getSingleExperience(id);
+  const experience = getSingleExperience(props.id);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   if (!experience) return null;
 
   return (
-    <div className={clsx(classes.container, className)}>
+    <div className={clsx(classes.container, props.className)}>
       <DynamicImage
         src={`${experience.image.file.url}?w=175`}
         alt={experience.image.title}
@@ -101,12 +102,16 @@ const Associated: FC<AssociatedProps> = ({ id, className }) => {
           align="center"
           to={`/experience/${experience.id}`}
           className={classes.title}
+          toMatch={props.search}
         >
           {generateExperienceTitle(experience)}
         </StyledLink>
         <HorizontalDivider />
         <div className={classes.description}>
-          <RichText richText={experience.description as Document} />
+          <RichText
+            richText={experience.description as Document}
+            toMatch={props.search}
+          />
         </div>
       </div>
     </div>

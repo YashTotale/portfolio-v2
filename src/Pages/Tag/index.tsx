@@ -82,7 +82,7 @@ const Tag: FC = () => {
       {tagIndex !== 0 && (
         <Arrow up={true} to={`/tags/${sortedTags[tagIndex - 1].id}`} />
       )}
-      <TagMain {...tag} className={classes.tag} />
+      <TagMain id={tag.id} className={classes.tag} />
       {tagIndex !== sortedTags.length - 1 && (
         <Arrow to={`/tags/${sortedTags[tagIndex + 1].id}`} />
       )}

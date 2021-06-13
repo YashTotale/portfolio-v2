@@ -2,12 +2,12 @@
 import React, { FC } from "react";
 import Overlay from "../../../Overlay";
 import TagChip from "../../../Tag/Chip";
+import ProjectAssociated from "../../../Project/Associated";
 import { ResolvedExperience } from "../../../../Utils/types";
+import { getAsset } from "../../../../Utils/Content/assets";
 
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
-import { getAsset } from "../../../../Utils/Content/assets";
-import ProjectAssociated from "../../../Project/Associated";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -39,7 +39,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Related: FC<ResolvedExperience> = (props) => {
+type RelatedProps = ResolvedExperience & {
+  search?: string;
+};
+
+const Related: FC<RelatedProps> = (props) => {
   const classes = useStyles();
 
   return (

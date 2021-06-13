@@ -122,7 +122,7 @@ const Preview: FC<PreviewProps> = (props) => {
       <HorizontalDivider />
       <div className={classes.articleTags}>
         {article.tags.map((tag) => (
-          <TagChip key={tag.id} id={tag.id} />
+          <TagChip key={tag.id} id={tag.id} search={props.search} />
         ))}
       </div>
       <HorizontalDivider />
@@ -130,7 +130,7 @@ const Preview: FC<PreviewProps> = (props) => {
         className={classes.articlePublished}
         variant={isSizeXS ? "body2" : "body1"}
       >
-        <MatchHighlight toMatch={props.search ?? ""}>
+        <MatchHighlight toMatch={props.search}>
           {generateArticlePublished(article)}
         </MatchHighlight>
       </Typography>

@@ -2,10 +2,6 @@
 import React, { FC } from "react";
 import StyledLink from "../../StyledLink";
 
-// Redux Imports
-import { useSelector } from "react-redux";
-import { getProjectsSearch } from "../../../Redux";
-
 // Material UI Imports
 import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 
@@ -23,13 +19,13 @@ const useStyles = makeStyles((theme) => ({
 interface TitleProps {
   id: string;
   title: string;
+  search?: string;
 }
 
 const Title: FC<TitleProps> = (props) => {
   const { id, title } = props;
   const classes = useStyles();
   const theme = useTheme();
-  const search = useSelector(getProjectsSearch);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
@@ -37,7 +33,7 @@ const Title: FC<TitleProps> = (props) => {
       to={`/projects/${id}`}
       variant={isSizeXS ? "h5" : "h4"}
       className={classes.projectTitle}
-      toMatch={search}
+      toMatch={props.search}
     >
       {title}
     </StyledLink>

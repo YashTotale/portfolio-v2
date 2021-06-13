@@ -13,10 +13,6 @@ import {
   getSingleExperience,
 } from "../../../Utils/Content/experience";
 
-// Redux Imports
-import { useSelector } from "react-redux";
-import { getExperienceSearch } from "../../../Redux";
-
 // Material UI Imports
 import {
   makeStyles,
@@ -92,11 +88,11 @@ const useStyles = makeStyles((theme) => ({
 
 interface MainProps {
   id: string;
+  search?: string;
 }
 
 const Main: FC<MainProps> = (props) => {
   const classes = useStyles();
-  const search = useSelector(getExperienceSearch);
   const experience = getSingleExperience(props.id);
 
   const theme = useTheme();
@@ -111,13 +107,13 @@ const Main: FC<MainProps> = (props) => {
           to={`/experience/${experience.id}`}
           variant={isSizeSmall ? "h5" : "h4"}
           align="center"
-          toMatch={search}
+          toMatch={props.search}
           className={classes.title}
         >
           {generateExperienceTitle(experience)}
         </StyledLink>
         <Typography variant="body1">
-          <MatchHighlight toMatch={search}>
+          <MatchHighlight toMatch={props.search}>
             {`${experience.start} - ${experience.end ?? "Present"}`}
           </MatchHighlight>
         </Typography>
@@ -132,7 +128,7 @@ const Main: FC<MainProps> = (props) => {
           />
         </div>
         {!isSizeSmall && <VerticalDivider />}
-        <Info {...experience} />
+        <Info {...experience} search={props.search} />
       </div>
       <HorizontalDivider />
       <FloatingIcons {...experience} />

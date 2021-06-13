@@ -11,10 +11,6 @@ import DynamicPaper from "../../DynamicPaper";
 import HorizontalDivider from "../../Divider/Horizontal";
 import { getProject } from "../../../Utils/Content/projects";
 
-// Redux Imports
-import { useSelector } from "react-redux";
-import { getProjectsSearch } from "../../../Redux";
-
 //Material UI Imports
 import {
   makeStyles,
@@ -91,11 +87,11 @@ const useStyles = makeStyles((theme) => ({
 
 interface ProjectProps {
   id: string;
+  search?: string;
 }
 
 const Project: FC<ProjectProps> = (props) => {
   const classes = useStyles();
-  const search = useSelector(getProjectsSearch);
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -112,15 +108,18 @@ const Project: FC<ProjectProps> = (props) => {
           alt={project.image.title}
           className={classes.projectImage}
         />
-        <Title title={project.title} id={props.id} />
+        <Title title={project.title} id={props.id} search={props.search} />
       </Paper>
       <div className={classes.projectDescription}>
-        <RichText richText={project.description as Document} toMatch={search} />
+        <RichText
+          richText={project.description as Document}
+          toMatch={props.search}
+        />
       </div>
       <HorizontalDivider />
       <div className={classes.projectTags}>
         {project.tags.map((tag) => (
-          <TagChip key={tag.id} id={tag.id} />
+          <TagChip key={tag.id} id={tag.id} search={props.search} />
         ))}
       </div>
       <HorizontalDivider />
@@ -128,8 +127,9 @@ const Project: FC<ProjectProps> = (props) => {
         className={classes.projectTimeline}
         variant={isSizeXS ? "body2" : "body1"}
       >
-        <MatchHighlight toMatch={search}>{project.start}</MatchHighlight> -{" "}
-        <MatchHighlight toMatch={search}>
+        <MatchHighlight toMatch={props.search}>{project.start}</MatchHighlight>{" "}
+        -{" "}
+        <MatchHighlight toMatch={props.search}>
           {project.end ?? "Present"}
         </MatchHighlight>
       </Typography>

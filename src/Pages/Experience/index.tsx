@@ -175,7 +175,7 @@ const Contents: FC = () => {
   return (
     <>
       {filteredExperience.map((fields) => (
-        <ExperienceMain key={fields.id} id={fields.id} />
+        <ExperienceMain key={fields.id} id={fields.id} search={search} />
       ))}
     </>
   );

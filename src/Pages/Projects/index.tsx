@@ -182,7 +182,7 @@ const Contents: FC = () => {
   return (
     <div className={classes.projects}>
       {filteredProjects.map((project) => (
-        <ProjectPreview key={project.id} id={project.id} />
+        <ProjectPreview key={project.id} id={project.id} search={search} />
       ))}
     </div>
   );

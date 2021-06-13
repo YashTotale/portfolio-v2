@@ -80,7 +80,7 @@ const TagPreview: FC<TagPreviewProps> = (props) => {
             to={`/tags/${tag.id}`}
             variant="h5"
             className={classes.title}
-            toMatch={props.search ?? ""}
+            toMatch={props.search}
           >
             {tag.title}
           </StyledLink>
