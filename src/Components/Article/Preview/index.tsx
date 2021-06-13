@@ -7,6 +7,7 @@ import FloatingIcons from "./FloatingIcons";
 import DynamicPaper from "../../DynamicPaper";
 import RichText from "../../RichText";
 import MatchHighlight from "../../MatchHighlight";
+import ExperienceMini from "../../Experience/Mini";
 import HorizontalDivider from "../../Divider/Horizontal";
 import TagChip from "../../Tag/Chip";
 import {
@@ -75,6 +76,9 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "center",
   },
+  articleAssociated: {
+    margin: theme.spacing(1),
+  },
   articleTags: {
     display: "flex",
     alignItems: "center",
@@ -119,6 +123,16 @@ const Preview: FC<PreviewProps> = (props) => {
           toMatch={props.search}
         />
       </div>
+      {article.associated && (
+        <>
+          <HorizontalDivider />
+          <ExperienceMini
+            id={article.associated.id}
+            search={props.search}
+            className={classes.articleAssociated}
+          />
+        </>
+      )}
       <HorizontalDivider />
       <div className={classes.articleTags}>
         {article.tags.map((tag) => (

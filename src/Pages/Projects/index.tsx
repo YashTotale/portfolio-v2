@@ -136,10 +136,13 @@ const Contents: FC = () => {
         p.tags.some((tag) =>
           tag.title.toLowerCase().includes(normalizedSearch)
         ),
+        (p.associated &&
+          generateExperienceTitle(p.associated)
+            .toLowerCase()
+            .includes(normalizedSearch)) ??
+          false,
         p.start.toLowerCase().includes(normalizedSearch),
         p.end?.toLowerCase().includes(normalizedSearch) ?? false,
-        p.link?.toLowerCase().includes(normalizedSearch) ?? false,
-        p.github?.toLowerCase().includes(normalizedSearch) ?? false,
       ];
 
       return matches;

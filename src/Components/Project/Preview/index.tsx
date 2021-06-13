@@ -8,6 +8,7 @@ import RichText from "../../RichText";
 import MatchHighlight from "../../MatchHighlight";
 import DynamicImage from "../../DynamicImage";
 import DynamicPaper from "../../DynamicPaper";
+import ExperienceMini from "../../Experience/Mini";
 import HorizontalDivider from "../../Divider/Horizontal";
 import { getProject } from "../../../Utils/Content/projects";
 
@@ -73,6 +74,9 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     padding: theme.spacing(2),
   },
+  projectAssociated: {
+    margin: theme.spacing(1),
+  },
   projectTags: {
     display: "flex",
     alignItems: "center",
@@ -116,6 +120,16 @@ const Project: FC<ProjectProps> = (props) => {
           toMatch={props.search}
         />
       </div>
+      {project.associated && (
+        <>
+          <HorizontalDivider />
+          <ExperienceMini
+            id={project.associated.id}
+            search={props.search}
+            className={classes.projectAssociated}
+          />
+        </>
+      )}
       <HorizontalDivider />
       <div className={classes.projectTags}>
         {project.tags.map((tag) => (

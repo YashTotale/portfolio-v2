@@ -136,7 +136,11 @@ const Contents: FC = () => {
         documentToPlainTextString(a.description as Document)
           .toLowerCase()
           .includes(normalizedSearch),
-        a.associated?.title.toLowerCase().includes(normalizedSearch) ?? false,
+        (a.associated &&
+          generateExperienceTitle(a.associated)
+            .toLowerCase()
+            .includes(normalizedSearch)) ??
+          false,
         a.published.toLowerCase().includes(normalizedSearch),
         a.tags.some((tag) =>
           tag.title.toLowerCase().includes(normalizedSearch)
