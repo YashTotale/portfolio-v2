@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC, cloneElement, ReactElement } from "react";
+import React, { FC, cloneElement, ReactElement, useState } from "react";
 import clsx from "clsx";
 import SearchBar, { SearchBarProps } from "./SearchBar";
 import Sorter, { SorterProps } from "./Sorter";
@@ -8,15 +8,23 @@ import HorizontalDivider from "../Divider/Horizontal";
 
 // Material UI Imports
 import {
+  Button,
+  Collapse,
   IconButton,
   makeStyles,
+  Theme,
   Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import { ArrowDropDown } from "@material-ui/icons";
 
-const useStyles = makeStyles((theme) => ({
+interface StyleProps {
+  open: boolean;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   filters: {
     display: "flex",
     flexDirection: "column",
@@ -24,7 +32,64 @@ const useStyles = makeStyles((theme) => ({
     border: `1px solid ${theme.palette.text.disabled}`,
     borderRadius: "10px",
     marginBottom: theme.spacing(1),
+    overflow: "hidden",
   },
+  titleButton: {
+    borderRadius: 0,
+  },
+  title: {
+    textTransform: "none",
+    width: "100%",
+  },
+  titleIcon: {
+    marginRight: theme.spacing(1),
+    transition: theme.transitions.create("transform", {
+      duration: "0.4s",
+    }),
+    transform: ({ open }) => (open ? "rotate(0deg)" : "rotate(180deg)"),
+  },
+}));
+
+interface FiltersProps {
+  className?: string;
+  sort?: SorterProps;
+  search?: SearchBarProps;
+  related?: RelatedProps[];
+}
+
+const Filters: FC<FiltersProps> = (props) => {
+  const [open, setOpen] = useState(true);
+  const classes = useStyles({
+    open,
+  });
+
+  return (
+    <>
+      <div className={clsx(classes.filters, props.className)}>
+        <Button
+          className={classes.titleButton}
+          onClick={() => setOpen(!open)}
+          endIcon={<ArrowDropDown className={classes.titleIcon} />}
+        >
+          <Typography align="center" variant="h6" className={classes.title}>
+            Filters
+          </Typography>
+        </Button>
+        {open && <HorizontalDivider />}
+        <Collapse in={open} timeout="auto">
+          {props.search && <SearchBar {...props.search} />}
+          {props.sort && <Sorter {...props.sort} />}
+          {props.related &&
+            props.related.map((props) => (
+              <Related {...props} key={props.label} />
+            ))}
+        </Collapse>
+      </div>
+    </>
+  );
+};
+
+const useFilterStyles = makeStyles((theme) => ({
   filter: {
     display: "flex",
     alignItems: "center",
@@ -68,30 +133,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface FiltersProps {
-  className?: string;
-  sort?: SorterProps;
-  search?: SearchBarProps;
-  related?: RelatedProps[];
-}
-
-const Filters: FC<FiltersProps> = (props) => {
-  const classes = useStyles();
-
-  return (
-    <>
-      <div className={clsx(classes.filters, props.className)}>
-        {props.search && <SearchBar {...props.search} />}
-        {props.sort && <Sorter {...props.sort} />}
-        {props.related &&
-          props.related.map((props) => (
-            <Related {...props} key={props.label} />
-          ))}
-      </div>
-    </>
-  );
-};
-
 interface FilterProps {
   label: string;
   children: ReactElement;
@@ -99,7 +140,7 @@ interface FilterProps {
 }
 
 export const Filter: FC<FilterProps> = (props) => {
-  const classes = useStyles();
+  const classes = useFilterStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
