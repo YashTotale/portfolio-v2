@@ -1,13 +1,9 @@
 // React Imports
-import React, { cloneElement, FC } from "react";
+import React, { FC } from "react";
+import ResponsiveIcon from "./Responsive";
 
 // Material UI Imports
-import {
-  IconButton,
-  Tooltip,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { IconButton, Tooltip } from "@material-ui/core";
 
 interface LinkIconProps {
   label: string;
@@ -24,23 +20,18 @@ const LinkIcon: FC<LinkIconProps> = ({
   withResize = true,
   className,
 }) => {
-  const theme = useTheme();
-  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+  const props = {
+    component: "a",
+    target: "_blank",
+    rel: "noopener noreferrer",
+    children: icon,
+    href,
+    className,
+  };
 
   return (
     <Tooltip title={label}>
-      <IconButton
-        component="a"
-        target="_blank"
-        rel="noopener noreferrer"
-        href={href}
-        className={className}
-        size={isSizeXS && withResize ? "small" : "medium"}
-      >
-        {cloneElement(icon, {
-          fontSize: isSizeXS && withResize ? "small" : "default",
-        })}
-      </IconButton>
+      {withResize ? <ResponsiveIcon {...props} /> : <IconButton {...props} />}
     </Tooltip>
   );
 };

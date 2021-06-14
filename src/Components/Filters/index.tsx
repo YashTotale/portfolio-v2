@@ -5,12 +5,12 @@ import SearchBar, { SearchBarProps } from "./SearchBar";
 import Sorter, { SorterProps } from "./Sorter";
 import Related, { RelatedProps } from "./Related";
 import HorizontalDivider from "../Divider/Horizontal";
+import ResponsiveIcon from "../Icon/Responsive";
 
 // Material UI Imports
 import {
   Button,
   Collapse,
-  IconButton,
   makeStyles,
   Theme,
   Tooltip,
@@ -18,7 +18,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import { ArrowDropDown } from "@material-ui/icons";
+import { ExpandLess } from "@material-ui/icons";
 
 interface StyleProps {
   open: boolean;
@@ -36,17 +36,25 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
   titleButton: {
     borderRadius: 0,
+    position: "relative",
+    [theme.breakpoints.up("sm")]: {
+      minHeight: theme.spacing(7),
+    },
   },
   title: {
     textTransform: "none",
     width: "100%",
   },
   titleIcon: {
-    marginRight: theme.spacing(1),
+    position: "absolute",
+    right: theme.spacing(2),
     transition: theme.transitions.create("transform", {
       duration: "0.4s",
     }),
     transform: ({ open }) => (open ? "rotate(0deg)" : "rotate(180deg)"),
+    [theme.breakpoints.only("xs")]: {
+      right: theme.spacing(1),
+    },
   },
 }));
 
@@ -66,14 +74,15 @@ const Filters: FC<FiltersProps> = (props) => {
   return (
     <>
       <div className={clsx(classes.filters, props.className)}>
-        <Button
-          className={classes.titleButton}
-          onClick={() => setOpen(!open)}
-          endIcon={<ArrowDropDown className={classes.titleIcon} />}
-        >
+        <Button className={classes.titleButton} onClick={() => setOpen(!open)}>
           <Typography align="center" variant="h6" className={classes.title}>
             Filters
           </Typography>
+          <Tooltip title="Toggle Filters">
+            <ResponsiveIcon className={classes.titleIcon}>
+              <ExpandLess />
+            </ResponsiveIcon>
+          </Tooltip>
         </Button>
         {open && <HorizontalDivider />}
         <Collapse in={open} timeout="auto">
@@ -152,10 +161,7 @@ export const Filter: FC<FilterProps> = (props) => {
     <>
       <div className={classes.filter}>
         {!isSizeXS && (
-          <Typography
-            variant={isSizeXS ? "subtitle2" : "subtitle1"}
-            className={classes.filterLabel}
-          >
+          <Typography variant="subtitle1" className={classes.filterLabel}>
             <strong>{props.label}</strong>
           </Typography>
         )}
@@ -180,18 +186,9 @@ interface FilterActionProps {
 }
 
 const FilterAction: FC<FilterActionProps> = (props) => {
-  const theme = useTheme();
-  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
-
-  const actionIcon = cloneElement(props.icon, {
-    fontSize: isSizeXS ? "small" : "default",
-  });
-
   return (
     <Tooltip title={props.label}>
-      <IconButton size={isSizeXS ? "small" : "medium"} onClick={props.action}>
-        {actionIcon}
-      </IconButton>
+      <ResponsiveIcon onClick={props.action}>{props.icon}</ResponsiveIcon>
     </Tooltip>
   );
 };
