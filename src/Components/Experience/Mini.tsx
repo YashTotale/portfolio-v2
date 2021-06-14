@@ -2,43 +2,26 @@
 import React, { FC } from "react";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
+import MatchHighlight from "../MatchHighlight";
 import {
   generateExperienceTitle,
   getSingleExperience,
 } from "../../Utils/Content/experience";
 
 // Material UI Imports
-import {
-  darken,
-  lighten,
-  Avatar,
-  makeStyles,
-  Typography,
-} from "@material-ui/core";
-import MatchHighlight from "../MatchHighlight";
+import { Avatar, makeStyles, Typography, Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   link: {
-    display: "flex",
     color: theme.palette.text.primary,
     textDecoration: "none",
   },
-  container: {
+  button: {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    border: `2px solid ${theme.palette.divider}`,
-    borderRadius: "10px",
     padding: theme.spacing(1),
-    transition: theme.transitions.create("background-color", {
-      duration: "0.3s",
-    }),
-    "&:hover": {
-      backgroundColor: (theme.palette.type === "dark" ? lighten : darken)(
-        theme.palette.background.paper,
-        0.1
-      ),
-    },
+    textTransform: "none",
   },
   avatar: {
     padding: theme.spacing(0.5),
@@ -66,7 +49,7 @@ const Mini: FC<MiniProps> = (props) => {
       to={`/experience/${experience.id}`}
       className={clsx(classes.link, props.className)}
     >
-      <div className={classes.container}>
+      <Button className={classes.button} variant="outlined">
         <Avatar
           alt={experience.image.title}
           src={experience.image.file.url}
@@ -77,7 +60,7 @@ const Mini: FC<MiniProps> = (props) => {
             {generateExperienceTitle(experience)}
           </MatchHighlight>
         </Typography>
-      </div>
+      </Button>
     </Link>
   );
 };
