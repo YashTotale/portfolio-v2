@@ -1,3 +1,4 @@
+// React Imports
 import React, { ReactNode } from "react";
 import {
   useSnackbar,
@@ -5,6 +6,8 @@ import {
   SnackbarKey,
   ProviderContext,
 } from "notistack";
+
+// Material UI Imports
 import { IconButton } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 

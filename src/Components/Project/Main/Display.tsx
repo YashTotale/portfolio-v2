@@ -2,17 +2,10 @@
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import RichText from "../../RichText";
-import HorizontalDivider from "../../Divider/Horizontal";
 import { ResolvedProject } from "../../../Utils/types";
 
 // Material UI Imports
-import {
-  darken,
-  lighten,
-  makeStyles,
-  Typography,
-  useTheme,
-} from "@material-ui/core";
+import { Button, makeStyles, Typography } from "@material-ui/core";
 import { GitHub, Launch } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -64,10 +57,6 @@ const useStyles = makeStyles((theme) => ({
   projectLinks: {
     margin: theme.spacing(1),
     marginLeft: "auto",
-    borderRadius: "10px",
-    border: `2px solid ${
-      theme.palette.common[theme.palette.type === "dark" ? "white" : "black"]
-    }`,
     minWidth: "150px",
     overflow: "hidden",
 
@@ -76,27 +65,23 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   projectLink: {
+    textDecorationColor: theme.palette.text.primary,
+  },
+  projectLinkButton: {
     display: "flex",
     justifyContent: "space-between",
     alignItems: "center",
-    padding: theme.spacing(1),
     color: theme.palette.text.primary,
     textDecoration: "inherit",
-    transition: theme.transitions.create("background-color", {
-      duration: "0.3s",
-    }),
-    "&:hover": {
-      backgroundColor: (theme.palette.type === "dark" ? lighten : darken)(
-        theme.palette.background.paper,
-        0.2
-      ),
-    },
+    width: "100%",
+    textTransform: "none",
+    padding: theme.spacing(0.5, 1.5),
+    margin: theme.spacing(1, 0),
   },
 }));
 
 const Display: FC<ResolvedProject> = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
 
   return (
     <div className={classes.projectInfo}>
@@ -111,22 +96,29 @@ const Display: FC<ResolvedProject> = (props) => {
       {(props.link || props.github) && (
         <div className={classes.projectLinks}>
           {props.link && (
-            <a href={props.link} target="_blank" rel="noopener noreferrer">
-              <div className={classes.projectLink}>
+            <a
+              href={props.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={classes.projectLink}
+            >
+              <Button variant="outlined" className={classes.projectLinkButton}>
                 <Typography>View Website</Typography>
                 <Launch fontSize="small" />
-              </div>
+              </Button>
             </a>
           )}
-          {props.link && props.github && (
-            <HorizontalDivider color={theme.palette.text.primary} />
-          )}
           {props.github && (
-            <a href={props.github} target="_blank" rel="noopener noreferrer">
-              <div className={classes.projectLink}>
+            <a
+              href={props.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className={classes.projectLink}
+            >
+              <Button variant="outlined" className={classes.projectLinkButton}>
                 <Typography>View GitHub</Typography>
                 <GitHub fontSize="small" />
-              </div>
+              </Button>
             </a>
           )}
         </div>
