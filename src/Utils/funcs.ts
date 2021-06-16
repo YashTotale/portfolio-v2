@@ -23,10 +23,10 @@ export const sortByDate = (
   const format = "MMMM YYYY";
 
   if (!a.end && b.end) {
-    return 1 * multiplier;
+    return -1 * multiplier;
   }
   if (a.end && !b.end) {
-    return -1 * multiplier;
+    return 1 * multiplier;
   }
 
   if (a.end && b.end) {
