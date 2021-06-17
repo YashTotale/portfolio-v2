@@ -86,3 +86,18 @@ export type ResolvedTag = Omit<
   projects: Project[];
   articles: Article[];
 };
+
+export interface Book {
+  title: string;
+  link: string;
+  shelves: string[];
+  author: string;
+  authorLink: string;
+  datesRead?: string[];
+  rating?: number;
+  avgRating: number;
+  numRatings: number;
+  pages: number;
+  numReviews: number;
+  id: string;
+}
