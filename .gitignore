@@ -13,6 +13,7 @@
 
 # misc
 /src/Data
+/scripts/books/data
 
 .DS_Store
 .env
