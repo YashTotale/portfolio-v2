@@ -12,6 +12,14 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Setup Environment Variables
+        run: echo '${{ secrets.ENV_FILE }}' > .env
+
+      - name: Setup Node
+        uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 15.x
+
       - name: Setup Python
         uses: actions/setup-python@v2
         with:
@@ -22,6 +30,7 @@ jobs:
           python -m pip install --upgrade pip
           python -m pip install --user pipx
           python -m pipx ensurepath
+          npm ci
 
       - name: Get Books
         run: npm run books
