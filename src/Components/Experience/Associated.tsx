@@ -13,7 +13,13 @@ import {
 } from "../../Utils/Content/experience";
 
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import {
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
+import MatchHighlight from "../MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -72,6 +78,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1),
     textAlign: "center",
   },
+  timeline: {
+    margin: theme.spacing(1),
+  },
 }));
 
 interface AssociatedProps {
@@ -112,6 +121,14 @@ const Associated: FC<AssociatedProps> = (props) => {
             richText={experience.description as Document}
             toMatch={props.search}
           />
+        </div>
+        <HorizontalDivider />
+        <div className={classes.timeline}>
+          <Typography>
+            <MatchHighlight toMatch={props.search}>
+              {`${experience.start} - ${experience.end ?? "Present"}`}
+            </MatchHighlight>
+          </Typography>
         </div>
       </div>
     </div>

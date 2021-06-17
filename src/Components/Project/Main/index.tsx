@@ -111,7 +111,7 @@ const Main: FC<MainProps> = (props) => {
         align="center"
         className={classes.heading}
       >
-        Technologies Used
+        Related Tags
       </Typography>
       <Tags {...project} />
     </DynamicPaper>
