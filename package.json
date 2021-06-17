@@ -7,7 +7,8 @@
     "eject": "react-scripts eject",
     "start": "react-scripts start",
     "test": "react-scripts test --passWithNoTests",
-    "data": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node ./scripts/data/index.ts",
+    "data": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/data/index.ts",
+    "books": "sh scripts/books/get-books.sh",
     "postinstall": "husky install",
     "lint": "npx lint-check",
     "lint:staged": "lint-staged"
