@@ -81,6 +81,7 @@ const Contents: FC = () => {
             </Category>
           );
         })}
+        <Category label="Books" to="/books" />
         <Category label="Contact" to="/contact" />
       </List>
     </>
