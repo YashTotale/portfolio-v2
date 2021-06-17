@@ -6,8 +6,8 @@ import Logger from "@hack4impact/logger";
 import { Dict, writeData } from "./helpers";
 
 const client = createClient({
-  space: process.env.REACT_APP_CONTENTFUL_SPACE_ID ?? "",
-  accessToken: process.env.REACT_APP_CONTENTFUL_ACCESS_TOKEN ?? "",
+  space: process.env.CONTENTFUL_SPACE_ID ?? "",
+  accessToken: process.env.CONTENTFUL_ACCESS_TOKEN ?? "",
 });
 
 const getContent = () => {
