@@ -90,6 +90,10 @@ export type ResolvedTag = Omit<
 export interface Book {
   title: string;
   link: string;
+  image: string;
+  yearPublished?: string;
+  series?: string;
+  seriesLink?: string;
   shelves: string[];
   author: string;
   authorLink: string;

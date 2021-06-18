@@ -41,6 +41,7 @@ const uploadBook = async (env: Environment, id: string, data: BookData) => {
   const fields: Record<string, unknown> = {
     title: createField(data["book_title"]),
     link: createField(data["book_url"]),
+    image: createField(data["book_image"]),
     shelves: createField(data.shelves),
     author: createField(data.author),
     authorLink: createField(data["author_url"]),
@@ -49,9 +50,24 @@ const uploadBook = async (env: Environment, id: string, data: BookData) => {
     numRatings: createField(data["num_ratings"]),
     numReviews: createField(data["num_reviews"]),
   };
-  if (typeof data["num_pages"] === "number")
+  if (typeof data.rating === "number") {
+    fields.rating = createField(data.rating);
+  }
+  if (typeof data["book_series"] === "string") {
+    fields.series = createField(data["book_series"]);
+  }
+  if (typeof data["book_series_uri"] === "string") {
+    fields.seriesLink = createField(data["book_series_uri"]);
+  }
+  if (typeof data["book_series"] === "string") {
+    fields.series = createField(data["book_series"]);
+  }
+  if (typeof data["year_first_published"] === "string") {
+    fields.yearPublished = createField(data["year_first_published"]);
+  }
+  if (typeof data["num_pages"] === "number") {
     fields.pages = createField(data["num_pages"]);
-  if (typeof data.rating === "number") fields.rating = createField(data.rating);
+  }
 
   try {
     let entry = await env.getEntry(id);
