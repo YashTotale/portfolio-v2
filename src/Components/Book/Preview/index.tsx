@@ -4,11 +4,17 @@ import Info from "./Info";
 import DynamicPaper from "../../DynamicPaper";
 import HorizontalDivider from "../../Divider/Horizontal";
 import VerticalDivider from "../../Divider/Vertical";
+import { Book } from "../../../Utils/types";
 import { getRawBook } from "../../../Utils/Content/books";
 
 // Material UI Imports
-import { Link, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
-import { Rating } from "@material-ui/lab";
+import {
+  Link,
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -34,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     margin: theme.spacing(1, 0),
     width: "100%",
+  },
+  title: {
+    margin: theme.spacing(0.5, 1),
+    lineHeight: 1.3,
   },
   author: {
     color:
@@ -61,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
 
     [theme.breakpoints.down("sm")]: {
       width: "100%",
-      paddingBottom: 0,
+      padding: theme.spacing(1),
     },
   },
   image: {
@@ -106,34 +116,46 @@ const Preview: FC<PreviewProps> = (props) => {
   return (
     <DynamicPaper className={classes.container}>
       <div className={classes.titleContainer}>
-        <Link
-          href={book.link}
-          target="_blank"
-          rel="noopener noreferrer"
-          variant="h6"
-        >
-          {book.title}
-        </Link>
-        <Link
-          href={book.authorLink}
-          target="_blank"
-          rel="noopener noreferrer"
-          variant="subtitle1"
-          className={classes.author}
-        >
-          {book.author}
-        </Link>
-        {book.rating && <Rating value={book.rating} readOnly />}
+        <Title {...book} />
+        <Author {...book} />
       </div>
       <HorizontalDivider />
       <div className={classes.main}>
         <div className={classes.imageContainer}>
           <img src={book.image} alt={book.title} className={classes.image} />
         </div>
-        {!isSizeSmall && <VerticalDivider />}
+        {isSizeSmall ? <HorizontalDivider height={2} /> : <VerticalDivider />}
         <Info {...book} />
       </div>
     </DynamicPaper>
+  );
+};
+
+const Title: FC<Book> = (book) => {
+  const classes = useStyles();
+
+  return (
+    <Typography variant="h6" align="center" className={classes.title}>
+      <Link href={book.link} target="_blank" rel="noopener noreferrer">
+        {book.title}
+      </Link>
+    </Typography>
+  );
+};
+
+const Author: FC<Book> = (book) => {
+  const classes = useStyles();
+
+  return (
+    <Link
+      href={book.authorLink}
+      target="_blank"
+      rel="noopener noreferrer"
+      variant="subtitle1"
+      className={classes.author}
+    >
+      {book.author}
+    </Link>
   );
 };
 

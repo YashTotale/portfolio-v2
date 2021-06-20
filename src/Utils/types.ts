@@ -94,6 +94,7 @@ export interface Book {
   yearPublished?: string;
   series?: string;
   seriesLink?: string;
+  genres: string[];
   shelves: string[];
   author: string;
   authorLink: string;

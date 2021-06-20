@@ -43,6 +43,7 @@ const uploadBook = async (env: Environment, id: string, data: BookData) => {
     link: createField(data["book_url"]),
     image: createField(data["book_image"]),
     shelves: createField(data.shelves),
+    genres: createField(data.genres),
     author: createField(data.author),
     authorLink: createField(data["author_url"]),
     datesRead: createField(data["dates_read"]),
