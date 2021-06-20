@@ -1,7 +1,14 @@
 // React Imports
 import React, { FC } from "react";
+import Filters from "../../Components/Filters";
 import BookPreview from "../../Components/Book/Preview";
+import HorizontalDivider from "../../Components/Divider/Horizontal";
 import { getBooks } from "../../Utils/Content/books";
+
+// Redux Imports
+import { useSelector } from "react-redux";
+import { getBooksSearch, setBooksSearch } from "../../Redux";
+import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import {
@@ -10,7 +17,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import HorizontalDivider from "../../Components/Divider/Horizontal";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -52,9 +58,18 @@ const useStyles = makeStyles((theme) => ({
 
 const Books: FC = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
+
+  const search = useSelector(getBooksSearch);
 
   return (
     <div className={classes.container}>
+      <Filters
+        search={{
+          defaultSearch: search,
+          onSearchChange: (value) => dispatch(setBooksSearch(value)),
+        }}
+      />
       <Section shelf="currently-reading" label="Currently Reading" />
       <Section shelf="to-read" label="Want to Read" />
       <Section shelf="read" label="Read" />

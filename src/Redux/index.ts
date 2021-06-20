@@ -124,7 +124,7 @@ export {
 export type { ArticlesState } from "./articles.slice";
 
 /**
- * Projects Slice
+ * Tags Slice
  */
 
 export {
@@ -149,3 +149,22 @@ export {
 } from "./tags.slice";
 
 export type { TagsState } from "./tags.slice";
+
+/**
+ * Books Slice
+ */
+
+export {
+  // -> Slice
+  default as booksSlice,
+  // -> Selectors
+  getBooksSearch,
+  // -> Actions
+  setBooksSearch,
+  // -> Reducer
+  booksReducer,
+  // -> State
+  initialBooksState,
+} from "./books.slice";
+
+export type { BooksState } from "./books.slice";

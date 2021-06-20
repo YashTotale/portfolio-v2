@@ -54,6 +54,7 @@ import { experienceReducer, ExperienceState } from "./Redux/experience.slice";
 import { projectsReducer, ProjectsState } from "./Redux/projects.slice";
 import { articlesReducer, ArticlesState } from "./Redux/articles.slice";
 import { tagsReducer, TagsState } from "./Redux/tags.slice";
+import { booksReducer, BooksState } from "./Redux/books.slice";
 
 interface State {
   display: DisplayState;
@@ -62,6 +63,7 @@ interface State {
   projects: ProjectsState;
   articles: ArticlesState;
   tags: TagsState;
+  books: BooksState;
   firebase: FirebaseReducer.Reducer<
     Record<string, unknown>,
     Record<string, unknown>
@@ -76,6 +78,7 @@ const reducers = combineReducers<State>({
   projects: projectsReducer,
   articles: articlesReducer,
   tags: tagsReducer,
+  books: booksReducer,
   firebase: firebaseReducer,
   firestore: firestoreReducer,
 });
