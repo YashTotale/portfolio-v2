@@ -1,11 +1,8 @@
 // React Imports
-import React, { FC, useCallback, useMemo } from "react";
-import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
-import { Document } from "@contentful/rich-text-types";
+import React, { FC } from "react";
 import Filters from "../../Components/Filters";
 import ProjectPreview from "../../Components/Project/Preview";
-import { ResolvedProject } from "../../Utils/types";
-import { getProject, useSortedProjects } from "../../Utils/Content/projects";
+import { useFilteredProjects } from "../../Utils/Content/projects";
 import { sortTags } from "../../Utils/Content/tags";
 import {
   generateExperienceTitle,
@@ -93,87 +90,8 @@ const ProjectsPage: FC = () => {
 
 const Contents: FC = () => {
   const classes = useStyles();
-
-  const nonResolved = useSortedProjects();
-  const projects = nonResolved.reduce((arr, p) => {
-    const project = getProject(p.id);
-    if (project) arr.push(project);
-    return arr;
-  }, [] as ResolvedProject[]);
-
   const search = useSelector(getProjectsSearch);
-  const normalizedSearch = search.toLowerCase();
-  const tagFilter = useSelector(getProjectsTagFilter);
-  const experienceFilter = useSelector(getProjectsExperienceFilter);
-
-  const checkExperienceFilter = useCallback(
-    (p: ResolvedProject) => {
-      if (!experienceFilter.length) return true;
-
-      return experienceFilter.some(
-        (exp) => p.associated && generateExperienceTitle(p.associated) === exp
-      );
-    },
-    [experienceFilter]
-  );
-
-  const checkTagFilter = useCallback(
-    (p: ResolvedProject) => {
-      if (!tagFilter.length) return true;
-
-      return tagFilter.some((tag) => p.tags.some((t) => t.title === tag));
-    },
-    [tagFilter]
-  );
-
-  const getSearchMatch = useCallback(
-    (p: ResolvedProject) => {
-      const matches: boolean[] = [
-        p.title.toLowerCase().includes(normalizedSearch),
-        documentToPlainTextString(p.description as Document)
-          .toLowerCase()
-          .includes(normalizedSearch),
-        p.tags.some((tag) =>
-          tag.title.toLowerCase().includes(normalizedSearch)
-        ),
-        (p.associated &&
-          generateExperienceTitle(p.associated)
-            .toLowerCase()
-            .includes(normalizedSearch)) ??
-          false,
-        p.start.toLowerCase().includes(normalizedSearch),
-        p.end?.toLowerCase().includes(normalizedSearch) ?? false,
-      ];
-
-      return matches;
-    },
-    [normalizedSearch]
-  );
-
-  const filteredProjects = useMemo(
-    () =>
-      projects.reduce((arr, project) => {
-        const experienceFiltered = checkExperienceFilter(project);
-        if (!experienceFiltered) return arr;
-
-        const tagFiltered = checkTagFilter(project);
-        if (!tagFiltered) return arr;
-
-        if (normalizedSearch.length) {
-          const matches = getSearchMatch(project);
-          if (!matches.some((bool) => bool)) return arr;
-        }
-
-        return [...arr, project];
-      }, [] as ResolvedProject[]),
-    [
-      projects,
-      normalizedSearch,
-      checkExperienceFilter,
-      checkTagFilter,
-      getSearchMatch,
-    ]
-  );
+  const filteredProjects = useFilteredProjects();
 
   if (!filteredProjects.length)
     return (
