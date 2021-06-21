@@ -13,7 +13,12 @@ import { getAsset } from "./assets";
 // Redux Imports
 import { useSelector } from "react-redux";
 import { getArticlesSort } from "../../Redux";
-import { ArticlesSort } from "../../Redux/articles.slice";
+import {
+  ArticlesSort,
+  getArticlesExperienceFilter,
+  getArticlesSearch,
+  getArticlesTagFilter,
+} from "../../Redux/articles.slice";
 
 // Data Imports
 import articles from "../../Data/article.json";
@@ -67,11 +72,18 @@ export const checkExperience = (
 
 export const checkTags = (a: ResolvedArticle, tags: string[]): boolean => {
   if (!tags.length) return true;
-
   return tags.some((tag) => a.tags.some((t) => t.title === tag));
 };
 
+const searchCache: Record<string, Record<string, boolean>> = {};
+
 export const checkSearch = (a: ResolvedArticle, search: string): boolean => {
+  if (!search.length) return true;
+  if (!searchCache[a.id]) searchCache[a.id] = {};
+
+  const cache = searchCache[a.id][search];
+  if (typeof cache === "boolean") return cache;
+
   const matches: (boolean | undefined)[] = [
     a.title.toLowerCase().includes(search),
     documentToPlainTextString(a.description as Document)
@@ -83,13 +95,43 @@ export const checkSearch = (a: ResolvedArticle, search: string): boolean => {
     a.tags.some((tag) => tag.title.toLowerCase().includes(search)),
   ];
 
-  return matches.includes(true);
+  const result = matches.includes(true);
+  searchCache[a.id][search] = result;
+  return result;
 };
 
-export const useSortedArticles = (): Article[] => {
-  const sort = useSelector(getArticlesSort);
-  return sortArticles(sort);
+export const useFilteredArticles = (): ResolvedArticle[] => {
+  const articles = useSortedArticles(true);
+
+  const search = useSelector(getArticlesSearch);
+  const normalizedSearch = search.toLowerCase();
+  const tagFilter = useSelector(getArticlesTagFilter);
+  const experienceFilter = useSelector(getArticlesExperienceFilter);
+
+  return articles.filter((a) => {
+    if (!checkExperience(a, experienceFilter)) return false;
+    if (!checkTags(a, tagFilter)) return false;
+    if (!checkSearch(a, normalizedSearch)) return false;
+
+    return true;
+  });
 };
+
+export function useSortedArticles(resolve: true): ResolvedArticle[];
+export function useSortedArticles(resolve: false): Article[];
+export function useSortedArticles(): Article[];
+export function useSortedArticles(
+  resolve?: boolean
+): (ResolvedArticle | Article)[] {
+  const sort = useSelector(getArticlesSort);
+  const sorted = sortArticles(sort);
+  if (!resolve) return sorted;
+  return sorted.reduce((arr, a) => {
+    const article = getArticle(a.id);
+    if (article) arr.push(article);
+    return arr;
+  }, [] as ResolvedArticle[]);
+}
 
 export const sortArticles = createSorter<ArticlesSort, Article>(
   {

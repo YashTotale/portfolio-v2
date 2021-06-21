@@ -1,16 +1,13 @@
 // React Imports
-import React, { FC, useCallback, useMemo } from "react";
-import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
-import { Document } from "@contentful/rich-text-types";
+import React, { FC } from "react";
 import Filters from "../../Components/Filters";
 import ArticlePreview from "../../Components/Article/Preview";
-import { ResolvedArticle } from "../../Utils/types";
 import { sortTags } from "../../Utils/Content/tags";
 import {
   generateExperienceTitle,
   sortExperience,
 } from "../../Utils/Content/experience";
-import { getArticle, useSortedArticles } from "../../Utils/Content/articles";
+import { useFilteredArticles } from "../../Utils/Content/articles";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -96,86 +93,8 @@ const Articles: FC = () => {
 
 const Contents: FC = () => {
   const classes = useStyles();
-
-  const nonResolved = useSortedArticles();
-  const articles = nonResolved.reduce((arr, a) => {
-    const article = getArticle(a.id);
-    if (article) arr.push(article);
-    return arr;
-  }, [] as ResolvedArticle[]);
-
   const search = useSelector(getArticlesSearch);
-  const normalizedSearch = search.toLowerCase();
-  const tagFilter = useSelector(getArticlesTagFilter);
-  const experienceFilter = useSelector(getArticlesExperienceFilter);
-
-  const checkExperienceFilter = useCallback(
-    (a: ResolvedArticle) => {
-      if (!experienceFilter.length) return true;
-
-      return experienceFilter.some(
-        (exp) => a.associated && generateExperienceTitle(a.associated) === exp
-      );
-    },
-    [experienceFilter]
-  );
-
-  const checkTagFilter = useCallback(
-    (a: ResolvedArticle) => {
-      if (!tagFilter.length) return true;
-
-      return tagFilter.some((tag) => a.tags.some((t) => t.title === tag));
-    },
-    [tagFilter]
-  );
-
-  const getSearchMatch = useCallback(
-    (a: ResolvedArticle) => {
-      const matches: boolean[] = [
-        a.title.toLowerCase().includes(normalizedSearch),
-        documentToPlainTextString(a.description as Document)
-          .toLowerCase()
-          .includes(normalizedSearch),
-        (a.associated &&
-          generateExperienceTitle(a.associated)
-            .toLowerCase()
-            .includes(normalizedSearch)) ??
-          false,
-        a.published.toLowerCase().includes(normalizedSearch),
-        a.tags.some((tag) =>
-          tag.title.toLowerCase().includes(normalizedSearch)
-        ),
-      ];
-
-      return matches;
-    },
-    [normalizedSearch]
-  );
-
-  const filteredArticles = useMemo(
-    () =>
-      articles.reduce((arr, article) => {
-        const experienceFiltered = checkExperienceFilter(article);
-        if (!experienceFiltered) return arr;
-
-        const tagFiltered = checkTagFilter(article);
-        if (!tagFiltered) return arr;
-
-        if (normalizedSearch.length) {
-          const matches = getSearchMatch(article);
-          if (!matches.some((bool) => bool)) return arr;
-        }
-
-        return [...arr, article];
-      }, [] as ResolvedArticle[]),
-    [
-      articles,
-      normalizedSearch,
-      checkExperienceFilter,
-      checkTagFilter,
-      getSearchMatch,
-    ]
-  );
+  const filteredArticles = useFilteredArticles();
 
   if (!filteredArticles.length)
     return (
