@@ -1,6 +1,6 @@
 // Internal Imports
 import { Article, Experience, Project, ResolvedTag, Tag } from "../types";
-import { getRawExperience } from "./experience";
+import { generateExperienceTitle, getRawExperience } from "./experience";
 import { getRawProject } from "./projects";
 import { getRawArticle } from "./articles";
 import { getAsset } from "./assets";
@@ -8,7 +8,14 @@ import { createSorter } from "../funcs";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getTagsSort, TagsSort } from "../../Redux/tags.slice";
+import {
+  getTagsArticleFilter,
+  getTagsExperienceFilter,
+  getTagsProjectFilter,
+  getTagsSearch,
+  getTagsSort,
+  TagsSort,
+} from "../../Redux/tags.slice";
 
 // Data Imports
 import tags from "../../Data/tag.json";
@@ -53,10 +60,84 @@ export const getRawTag = (id: string): Tag | null => {
   return single;
 };
 
-export const useSortedTags = (): Tag[] => {
-  const sort = useSelector(getTagsSort);
-  return sortTags(sort);
+export const checkExperience = (
+  t: ResolvedTag,
+  experiences: string[]
+): boolean => {
+  if (!experiences.length) return true;
+
+  return experiences.some((experience) =>
+    t.experience.some((exp) => generateExperienceTitle(exp) === experience)
+  );
 };
+
+export const checkProjects = (t: ResolvedTag, projects: string[]): boolean => {
+  if (!projects.length) return true;
+
+  return projects.some((project) =>
+    t.projects.some((p) => p.title === project)
+  );
+};
+
+export const checkArticles = (t: ResolvedTag, articles: string[]): boolean => {
+  if (!articles.length) return true;
+
+  return articles.some((article) =>
+    t.articles.some((a) => a.title === article)
+  );
+};
+
+const searchCache: Record<string, Record<string, boolean>> = {};
+
+export const checkSearch = (t: ResolvedTag, search: string): boolean => {
+  if (!search.length) return true;
+  if (!searchCache[t.id]) searchCache[t.id] = {};
+
+  const cache = searchCache[t.id][search];
+  if (typeof cache === "boolean") return cache;
+
+  const matches: (boolean | undefined)[] = [
+    t.title.toLowerCase().includes(search),
+  ];
+
+  const result = matches.includes(true);
+  searchCache[t.id][search] = result;
+  return result;
+};
+
+export const useFilteredTags = (): ResolvedTag[] => {
+  const tags = useSortedTags(true);
+
+  const search = useSelector(getTagsSearch);
+  const normalizedSearch = search.toLowerCase();
+  const experienceFilter = useSelector(getTagsExperienceFilter);
+  const projectFilter = useSelector(getTagsProjectFilter);
+  const articleFilter = useSelector(getTagsArticleFilter);
+
+  return tags.filter((t) => {
+    if (!checkExperience(t, experienceFilter)) return false;
+    if (!checkProjects(t, projectFilter)) return false;
+    if (!checkArticles(t, articleFilter)) return false;
+    if (!checkSearch(t, normalizedSearch)) return false;
+
+    return true;
+  });
+};
+
+export function useSortedTags(resolve: true): ResolvedTag[];
+export function useSortedTags(resolve: false): Tag[];
+export function useSortedTags(): Tag[];
+export function useSortedTags(resolve?: boolean): (ResolvedTag | Tag)[] {
+  const sort = useSelector(getTagsSort);
+  const sorted = sortTags(sort);
+  if (!resolve) return sorted;
+
+  return sorted.reduce((arr, t) => {
+    const tag = getTag(t.id);
+    if (tag) arr.push(tag);
+    return arr;
+  }, [] as ResolvedTag[]);
+}
 
 export const sortTags = createSorter<TagsSort, Tag>(
   {

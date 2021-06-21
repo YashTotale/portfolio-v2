@@ -1,9 +1,8 @@
 // React Imports
-import React, { FC, useCallback, useMemo } from "react";
+import React, { FC } from "react";
 import TagPreview from "../../Components/Tag/Preview";
 import Filters from "../../Components/Filters";
-import { ResolvedTag } from "../../Utils/types";
-import { getTag, useSortedTags } from "../../Utils/Content/tags";
+import { useFilteredTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
 import { sortArticles } from "../../Utils/Content/articles";
 import {
@@ -104,92 +103,8 @@ const Tags: FC = () => {
 
 const Contents: FC = () => {
   const classes = useStyles();
-
-  const nonResolved = useSortedTags();
-  const tags = nonResolved.reduce((arr, t) => {
-    const project = getTag(t.id);
-    if (project) arr.push(project);
-    return arr;
-  }, [] as ResolvedTag[]);
-
   const search = useSelector(getTagsSearch);
-  const normalizedSearch = search.toLowerCase();
-  const projectFilter = useSelector(getTagsProjectFilter);
-  const articleFilter = useSelector(getTagsArticleFilter);
-  const experienceFilter = useSelector(getTagsExperienceFilter);
-
-  const checkExperienceFilter = useCallback(
-    (t: ResolvedTag) => {
-      if (!experienceFilter.length) return true;
-
-      return experienceFilter.some((experience) =>
-        t.experience.some((exp) => generateExperienceTitle(exp) === experience)
-      );
-    },
-    [experienceFilter]
-  );
-
-  const checkProjectFilter = useCallback(
-    (t: ResolvedTag) => {
-      if (!projectFilter.length) return true;
-
-      return projectFilter.some((project) =>
-        t.projects.some((p) => p.title === project)
-      );
-    },
-    [projectFilter]
-  );
-
-  const checkArticleFilter = useCallback(
-    (t: ResolvedTag) => {
-      if (!articleFilter.length) return true;
-
-      return articleFilter.some((article) =>
-        t.articles.some((a) => a.title === article)
-      );
-    },
-    [articleFilter]
-  );
-
-  const getSearchMatch = useCallback(
-    (t: ResolvedTag) => {
-      const matches: boolean[] = [
-        t.title.toLowerCase().includes(normalizedSearch),
-      ];
-
-      return matches;
-    },
-    [normalizedSearch]
-  );
-
-  const filteredTags = useMemo(
-    () =>
-      tags.reduce((arr, tag) => {
-        const experienceFiltered = checkExperienceFilter(tag);
-        if (!experienceFiltered) return arr;
-
-        const projectFiltered = checkProjectFilter(tag);
-        if (!projectFiltered) return arr;
-
-        const articleFiltered = checkArticleFilter(tag);
-        if (!articleFiltered) return arr;
-
-        if (normalizedSearch.length) {
-          const matches = getSearchMatch(tag);
-          if (!matches.some((bool) => bool)) return arr;
-        }
-
-        return [...arr, tag];
-      }, [] as ResolvedTag[]),
-    [
-      tags,
-      normalizedSearch,
-      checkExperienceFilter,
-      checkProjectFilter,
-      checkArticleFilter,
-      getSearchMatch,
-    ]
-  );
+  const filteredTags = useFilteredTags();
 
   if (!filteredTags.length)
     return (
