@@ -1,3 +1,7 @@
+// External Imports
+import { Document } from "@contentful/rich-text-types";
+import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
+
 // Internal Imports
 import { createSorter, sortByDate } from "../funcs";
 import {
@@ -16,7 +20,10 @@ import { getAsset } from "./assets";
 import { useSelector } from "react-redux";
 import {
   ExperienceSort,
+  getExperienceProjectFilter,
+  getExperienceSearch,
   getExperienceSort,
+  getExperienceTagFilter,
 } from "../../Redux/experience.slice";
 
 // Data Imports
@@ -67,10 +74,84 @@ export const generateExperienceTitle = (
   return `${exp.role} @ ${exp.title}`;
 };
 
-export const useSortedExperience = (): Experience[] => {
-  const sort = useSelector(getExperienceSort);
-  return sortExperience(sort);
+export const checkProjects = (
+  e: ResolvedExperience,
+  projects: string[]
+): boolean => {
+  if (!projects.length) return true;
+  return projects.some((project) =>
+    e.projects.some((p) => p.title === project)
+  );
 };
+
+export const checkTags = (e: ResolvedExperience, tags: string[]): boolean => {
+  if (!tags.length) return true;
+  return tags.some((tag) => e.tags.some((t) => t.title === tag));
+};
+
+const searchCache: Record<string, Record<string, boolean>> = {};
+
+export const checkSearch = (e: ResolvedExperience, search: string): boolean => {
+  if (!search.length) return true;
+  if (!searchCache[e.id]) searchCache[e.id] = {};
+
+  const cache = searchCache[e.id][search];
+  if (typeof cache === "boolean") return cache;
+
+  const matches: (boolean | undefined)[] = [
+    e.title.toLowerCase().includes(search),
+    documentToPlainTextString(e.description as Document)
+      .toLowerCase()
+      .includes(search),
+    documentToPlainTextString(e.responsibilities as Document)
+      .toLowerCase()
+      .includes(search),
+    e.type.toLowerCase().includes(search),
+    e.role.toLowerCase().includes(search),
+    e.start.toLowerCase().includes(search),
+    e.end?.toLowerCase().includes(search),
+    e.link?.toLowerCase().includes(search),
+    e.github?.toLowerCase().includes(search),
+  ];
+
+  const result = matches.includes(true);
+  searchCache[e.id][search] = result;
+  return result;
+};
+
+export const useFilteredExperience = (): ResolvedExperience[] => {
+  const experience = useSortedExperience(true);
+
+  const search = useSelector(getExperienceSearch);
+  const normalizedSearch = search.toLowerCase();
+  const projectFilter = useSelector(getExperienceProjectFilter);
+  const tagFilter = useSelector(getExperienceTagFilter);
+
+  return experience.filter((e) => {
+    if (!checkProjects(e, projectFilter)) return false;
+    if (!checkTags(e, tagFilter)) return false;
+    if (!checkSearch(e, normalizedSearch)) return false;
+
+    return true;
+  });
+};
+
+export function useSortedExperience(resolve: true): ResolvedExperience[];
+export function useSortedExperience(resolve: false): Experience[];
+export function useSortedExperience(): Experience[];
+export function useSortedExperience(
+  resolve?: boolean
+): (ResolvedExperience | Experience)[] {
+  const sort = useSelector(getExperienceSort);
+  const sorted = sortExperience(sort);
+  if (!resolve) return sorted;
+
+  return sorted.reduce((arr, a) => {
+    const exp = getSingleExperience(a.id);
+    if (exp) arr.push(exp);
+    return arr;
+  }, [] as ResolvedExperience[]);
+}
 
 export const sortExperience = createSorter<ExperienceSort, Experience>(
   {

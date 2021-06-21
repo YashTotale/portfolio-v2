@@ -126,6 +126,7 @@ export function useSortedArticles(
   const sort = useSelector(getArticlesSort);
   const sorted = sortArticles(sort);
   if (!resolve) return sorted;
+
   return sorted.reduce((arr, a) => {
     const article = getArticle(a.id);
     if (article) arr.push(article);
