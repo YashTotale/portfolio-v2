@@ -1,6 +1,7 @@
 // Internal Imports
-import { sortByDate } from "../funcs";
+import { createSorter, sortByDate } from "../funcs";
 import { Badge, Project, ResolvedProject, Tag } from "../types";
+import { getRawExperience } from "./experience";
 import { getAsset } from "./assets";
 import { getRawTag } from "./tags";
 import { getRawBadge } from "./badges";
@@ -11,13 +12,6 @@ import { getProjectsSort, ProjectsSort } from "../../Redux/projects.slice";
 
 // Data Imports
 import projects from "../../Data/project.json";
-import { getRawExperience } from "./experience";
-
-const sortCache: Record<ProjectsSort, Project[] | null> = {
-  Alphabetically: null,
-  Newest: null,
-  Oldest: null,
-};
 
 export const getProjects = (): Project[] => {
   return (Object.values(projects) as unknown) as Project[];
@@ -59,34 +53,16 @@ export const useSortedProjects = (): Project[] => {
   return sortProjects(sort);
 };
 
-export const sortProjects = (sort: ProjectsSort): Project[] => {
-  const projects = getProjects();
+export const sortProjects = createSorter<ProjectsSort, Project>(
+  {
+    Alphabetically: (a, b) => {
+      const aTitle = a.title.toLowerCase();
+      const bTitle = b.title.toLowerCase();
 
-  if (sortCache[sort]) return sortCache[sort] as Project[];
-
-  const toSort = [...projects];
-  let sorted = projects;
-
-  switch (sort) {
-    case "Alphabetically": {
-      sorted = toSort.sort((a, b) => {
-        const aTitle = a.title.toLowerCase();
-        const bTitle = b.title.toLowerCase();
-
-        return aTitle.localeCompare(bTitle);
-      });
-      break;
-    }
-    case "Newest": {
-      sorted = toSort.sort((a, b) => sortByDate(a, b));
-      break;
-    }
-    case "Oldest": {
-      sorted = toSort.sort((a, b) => sortByDate(a, b, -1));
-      break;
-    }
-  }
-
-  sortCache[sort] = sorted;
-  return sorted;
-};
+      return aTitle.localeCompare(bTitle);
+    },
+    Newest: (a, b) => sortByDate(a, b),
+    Oldest: (a, b) => sortByDate(a, b, -1),
+  },
+  getProjects
+);

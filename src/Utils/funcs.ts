@@ -53,3 +53,27 @@ export const compareDates = (
 
   return (isBefore ? 1 : -1) * multiplier;
 };
+
+type Sorter<T> = (a: T, b: T) => number;
+
+export const createSorter = <K extends string, T>(
+  sortFuncs: Record<K, Sorter<T>>,
+  getter: () => T[]
+): ((sort: K) => T[]) => {
+  // Initialize cache with null values
+  const sortCache = Object.keys(sortFuncs).reduce(
+    (clone, key) => ({ [key]: null, ...clone }),
+    {} as Record<K, null | T[]>
+  );
+
+  return (sort: K): T[] => {
+    const all = getter();
+
+    if (sortCache[sort]) return sortCache[sort] as T[];
+
+    const sorted = sortFuncs[sort] ? [...all].sort(sortFuncs[sort]) : all;
+    sortCache[sort] = sorted;
+
+    return sorted;
+  };
+};

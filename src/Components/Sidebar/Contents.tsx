@@ -8,13 +8,13 @@ import {
   useSortedExperience,
 } from "../../Utils/Content/experience";
 import { useSortedProjects } from "../../Utils/Content/projects";
+import { useSortedArticles } from "../../Utils/Content/articles";
 import { useSortedTags } from "../../Utils/Content/tags";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
 import { Experience, Article, Project, Tag } from "../../Utils/types";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
-import { getArticles } from "../../Utils/Content/articles";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -38,7 +38,7 @@ const Contents: FC = () => {
 
   const experience = useSortedExperience();
   const projects = useSortedProjects();
-  const articles = getArticles();
+  const articles = useSortedArticles();
   const tags = useSortedTags();
 
   const categories: CategoryInfo[] = [

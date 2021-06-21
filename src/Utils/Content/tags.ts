@@ -4,6 +4,7 @@ import { getRawExperience } from "./experience";
 import { getRawProject } from "./projects";
 import { getRawArticle } from "./articles";
 import { getAsset } from "./assets";
+import { createSorter } from "../funcs";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -52,53 +53,23 @@ export const getRawTag = (id: string): Tag | null => {
   return single;
 };
 
-const sortCache: Record<TagsSort, Tag[] | null> = {
-  Alphabetically: null,
-  "Most Related Experience": null,
-  "Most Related Projects": null,
-  "Most Related Articles": null,
-};
-
 export const useSortedTags = (): Tag[] => {
   const sort = useSelector(getTagsSort);
   return sortTags(sort);
 };
 
-export const sortTags = (sort: TagsSort): Tag[] => {
-  const tags = getTags();
+export const sortTags = createSorter<TagsSort, Tag>(
+  {
+    Alphabetically: (a, b) => {
+      const aTitle = a.title.toLowerCase();
+      const bTitle = b.title.toLowerCase();
 
-  if (sortCache[sort]) return sortCache[sort] as Tag[];
-
-  const toSort = [...tags];
-  let sorted = tags;
-
-  switch (sort) {
-    case "Alphabetically": {
-      sorted = toSort.sort((a, b) => {
-        const aTitle = a.title.toLowerCase();
-        const bTitle = b.title.toLowerCase();
-
-        return aTitle.localeCompare(bTitle);
-      });
-      break;
-    }
-
-    case "Most Related Experience": {
-      sorted = toSort.sort((a, b) => b.experience.length - a.experience.length);
-      break;
-    }
-
-    case "Most Related Projects": {
-      sorted = toSort.sort((a, b) => b.projects.length - a.projects.length);
-      break;
-    }
-
-    case "Most Related Articles": {
-      sorted = toSort.sort((a, b) => b.articles.length - a.articles.length);
-      break;
-    }
-  }
-
-  sortCache[sort] = sorted;
-  return sorted;
-};
+      return aTitle.localeCompare(bTitle);
+    },
+    "Most Related Experience": (a, b) =>
+      b.experience.length - a.experience.length,
+    "Most Related Projects": (a, b) => b.projects.length - a.projects.length,
+    "Most Related Articles": (a, b) => b.articles.length - a.articles.length,
+  },
+  getTags
+);

@@ -1,5 +1,5 @@
 // Internal Imports
-import { sortByDate } from "../funcs";
+import { createSorter, sortByDate } from "../funcs";
 import {
   Article,
   Experience,
@@ -21,12 +21,6 @@ import {
 
 // Data Imports
 import experience from "../../Data/experience.json";
-
-const sortCache: Record<ExperienceSort, Experience[] | null> = {
-  Alphabetically: null,
-  Latest: null,
-  Earliest: null,
-};
 
 export const getExperience = (): Experience[] => {
   return (Object.values(experience) as unknown) as Experience[];
@@ -78,34 +72,16 @@ export const useSortedExperience = (): Experience[] => {
   return sortExperience(sort);
 };
 
-export const sortExperience = (sort: ExperienceSort): Experience[] => {
-  const experience = getExperience();
+export const sortExperience = createSorter<ExperienceSort, Experience>(
+  {
+    Alphabetically: (a, b) => {
+      const aTitle = generateExperienceTitle(a).toLowerCase();
+      const bTitle = generateExperienceTitle(b).toLowerCase();
 
-  if (sortCache[sort]) return sortCache[sort] as Experience[];
-
-  const toSort = [...experience];
-  let sorted = experience;
-
-  switch (sort) {
-    case "Alphabetically": {
-      sorted = toSort.sort((a, b) => {
-        const aTitle = generateExperienceTitle(a).toLowerCase();
-        const bTitle = generateExperienceTitle(b).toLowerCase();
-
-        return aTitle.localeCompare(bTitle);
-      });
-      break;
-    }
-    case "Latest": {
-      sorted = toSort.sort((a, b) => sortByDate(a, b));
-      break;
-    }
-    case "Earliest": {
-      sorted = toSort.sort((a, b) => sortByDate(a, b, -1));
-      break;
-    }
-  }
-
-  sortCache[sort] = sorted;
-  return sorted;
-};
+      return aTitle.localeCompare(bTitle);
+    },
+    Latest: (a, b) => sortByDate(a, b),
+    Earliest: (a, b) => sortByDate(a, b, -1),
+  },
+  getExperience
+);
