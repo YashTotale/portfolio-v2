@@ -102,7 +102,7 @@ export interface Book {
   rating?: number;
   avgRating: number;
   numRatings: number;
-  pages: number;
+  pages?: number;
   numReviews: number;
   id: string;
 }

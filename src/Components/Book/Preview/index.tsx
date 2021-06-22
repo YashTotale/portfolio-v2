@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import Info from "./Info";
+import MatchHighlight from "../../MatchHighlight";
 import DynamicPaper from "../../DynamicPaper";
 import HorizontalDivider from "../../Divider/Horizontal";
 import VerticalDivider from "../../Divider/Vertical";
@@ -57,6 +58,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "100%",
     height: "100%",
+    overflow: "scroll",
 
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
@@ -86,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
     },
 
     [theme.breakpoints.only("md")]: {
-      width: 175,
+      width: 155,
     },
 
     [theme.breakpoints.only("sm")]: {
@@ -101,6 +103,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface PreviewProps {
   id: string;
+  search?: string;
   className?: string;
 }
 
@@ -116,8 +119,8 @@ const Preview: FC<PreviewProps> = (props) => {
   return (
     <DynamicPaper className={classes.container}>
       <div className={classes.titleContainer}>
-        <Title {...book} />
-        <Author {...book} />
+        <Title {...book} search={props.search} />
+        <Author {...book} search={props.search} />
       </div>
       <HorizontalDivider />
       <div className={classes.main}>
@@ -125,36 +128,44 @@ const Preview: FC<PreviewProps> = (props) => {
           <img src={book.image} alt={book.title} className={classes.image} />
         </div>
         {isSizeSmall ? <HorizontalDivider height={2} /> : <VerticalDivider />}
-        <Info {...book} />
+        <Info {...book} search={props.search} />
       </div>
     </DynamicPaper>
   );
 };
 
-const Title: FC<Book> = (book) => {
+type TitleProps = Book & {
+  search?: string;
+};
+
+const Title: FC<TitleProps> = (props) => {
   const classes = useStyles();
 
   return (
     <Typography variant="h6" align="center" className={classes.title}>
-      <Link href={book.link} target="_blank" rel="noopener noreferrer">
-        {book.title}
+      <Link href={props.link} target="_blank" rel="noopener noreferrer">
+        <MatchHighlight toMatch={props.search}>{props.title}</MatchHighlight>
       </Link>
     </Typography>
   );
 };
 
-const Author: FC<Book> = (book) => {
+type AuthorProps = Book & {
+  search?: string;
+};
+
+const Author: FC<AuthorProps> = (props) => {
   const classes = useStyles();
 
   return (
     <Link
-      href={book.authorLink}
+      href={props.authorLink}
       target="_blank"
       rel="noopener noreferrer"
       variant="subtitle1"
       className={classes.author}
     >
-      {book.author}
+      <MatchHighlight toMatch={props.search}>{props.author}</MatchHighlight>
     </Link>
   );
 };

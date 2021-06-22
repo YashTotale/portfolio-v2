@@ -6,6 +6,7 @@ import { Book } from "../../../Utils/types";
 // Material UI Imports
 import { Chip, Link, makeStyles, Typography } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
+import MatchHighlight from "../../MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   info: {
@@ -42,12 +43,17 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     flexWrap: "wrap",
   },
+  rating: {
+    marginRight: theme.spacing(0.25),
+  },
   genre: {
     margin: theme.spacing(0.25),
   },
 }));
 
-type InfoProps = Book;
+type InfoProps = Book & {
+  search?: string;
+};
 
 const Info: FC<InfoProps> = (props) => {
   const classes = useStyles();
@@ -58,25 +64,48 @@ const Info: FC<InfoProps> = (props) => {
         <Section>
           {typeof props.rating === "number" && (
             <Item label="My Rating">
-              <Rating value={props.rating} readOnly /> (
-              {props.rating.toLocaleString()}/5)
+              <Rating
+                value={props.rating}
+                readOnly
+                className={classes.rating}
+              />
+              (
+              <MatchHighlight toMatch={props.search}>
+                {props.rating.toLocaleString()}
+              </MatchHighlight>
+              /5)
             </Item>
           )}
           {props.datesRead && (
-            <Item label="Dates Read">{props.datesRead.join(" \u2022 ")}</Item>
+            <Item label="Dates Read">
+              {props.datesRead.map((date, i) => (
+                <>
+                  {i ? <> &bull; </> : null}
+                  <MatchHighlight key={i}>{date}</MatchHighlight>
+                </>
+              ))}
+            </Item>
           )}
         </Section>
       )}
       <Section>
-        <Item label="Pages">{props.pages}</Item>
+        {props.pages && (
+          <Item label="Pages" search={props.search}>
+            {props.pages.toLocaleString()}
+          </Item>
+        )}
         {props.yearPublished && (
-          <Item label="Year Published">{props.yearPublished}</Item>
+          <Item label="Year Published" search={props.search}>
+            {props.yearPublished}
+          </Item>
         )}
         <Item label="Genres">
           {props.genres.map((genre) => (
             <Chip
               key={genre}
-              label={genre}
+              label={
+                <MatchHighlight toMatch={props.search}>{genre}</MatchHighlight>
+              }
               size="small"
               className={classes.genre}
             />
@@ -86,12 +115,28 @@ const Info: FC<InfoProps> = (props) => {
       <Section last>
         <Item label="Avg Rating">
           <>
-            <Rating value={props.avgRating} readOnly /> (
-            {props.avgRating.toLocaleString()}/5)
+            <Rating
+              value={props.avgRating}
+              readOnly
+              className={classes.rating}
+            />
+            (
+            <MatchHighlight toMatch={props.search}>
+              {props.avgRating.toLocaleString()}
+            </MatchHighlight>
+            /5)
           </>
         </Item>
-        <Item label="# of Ratings">{props.numRatings.toLocaleString()}</Item>
-        <Item label="# of Reviews">{props.numReviews.toLocaleString()}</Item>
+        <Item label="# of Ratings">
+          <MatchHighlight toMatch={props.search}>
+            {props.numRatings.toLocaleString()}
+          </MatchHighlight>
+        </Item>
+        <Item label="# of Reviews">
+          <MatchHighlight toMatch={props.search}>
+            {props.numReviews.toLocaleString()}
+          </MatchHighlight>
+        </Item>
       </Section>
     </div>
   );
@@ -115,10 +160,15 @@ const Section: FC<SectionProps> = ({ children, last }) => {
 interface ItemProps {
   label: string;
   link?: string;
+  search?: string;
 }
 
-const Item: FC<ItemProps> = ({ label, children, link }) => {
+const Item: FC<ItemProps> = ({ label, children, link, search }) => {
   const classes = useStyles();
+
+  if (typeof children === "string" && search) {
+    children = <MatchHighlight toMatch={search}>{children}</MatchHighlight>;
+  }
 
   if (link) {
     children = (

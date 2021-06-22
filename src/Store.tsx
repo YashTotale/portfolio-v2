@@ -88,7 +88,7 @@ const persistedReducer = persistReducer<State>(
     version: 1,
     storage,
     key: "root",
-    blacklist: ["experience", "projects", "articles", "tags"],
+    blacklist: ["experience", "projects", "articles", "tags", "books"],
   },
   reducers
 );

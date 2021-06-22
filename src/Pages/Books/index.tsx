@@ -3,7 +3,8 @@ import React, { FC } from "react";
 import Filters from "../../Components/Filters";
 import BookPreview from "../../Components/Book/Preview";
 import HorizontalDivider from "../../Components/Divider/Horizontal";
-import { getBooks } from "../../Utils/Content/books";
+import { useFilteredBooks } from "../../Utils/Content/books";
+import { Book } from "../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -61,6 +62,7 @@ const Books: FC = () => {
   const dispatch = useAppDispatch();
 
   const search = useSelector(getBooksSearch);
+  const books = useFilteredBooks();
 
   return (
     <div className={classes.container}>
@@ -70,24 +72,35 @@ const Books: FC = () => {
           onSearchChange: (value) => dispatch(setBooksSearch(value)),
         }}
       />
-      <Section shelf="currently-reading" label="Currently Reading" />
-      <Section shelf="to-read" label="Want to Read" />
-      <Section shelf="read" label="Read" />
+      {books.length ? (
+        <>
+          <Section
+            books={books}
+            shelf="currently-reading"
+            label="Currently Reading"
+          />
+          <Section books={books} shelf="to-read" label="Want to Read" />
+          <Section books={books} shelf="read" label="Read" />{" "}
+        </>
+      ) : (
+        <Typography variant="h6">No books found</Typography>
+      )}
     </div>
   );
 };
 
 interface SectionProps {
+  books: Book[];
   shelf: string;
   label: string;
 }
 
-const Section: FC<SectionProps> = ({ shelf, label }) => {
+const Section: FC<SectionProps> = ({ books, shelf, label }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const books = getBooks();
+  const search = useSelector(getBooksSearch);
   const included = books.filter((book) => book.shelves.includes(shelf));
 
   if (!included.length) return null;
@@ -99,7 +112,7 @@ const Section: FC<SectionProps> = ({ shelf, label }) => {
         <Typography variant={isSizeXS ? "h5" : "h4"}>{label}</Typography>
         <div className={classes.books}>
           {included.map((book) => (
-            <BookPreview key={book.id} id={book.id} />
+            <BookPreview key={book.id} id={book.id} search={search} />
           ))}
         </div>
       </div>
