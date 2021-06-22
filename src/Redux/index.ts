@@ -159,8 +159,10 @@ export {
   default as booksSlice,
   // -> Selectors
   getBooksSearch,
+  getBooksGenreFilter,
   // -> Actions
   setBooksSearch,
+  setBooksGenreFilter,
   // -> Reducer
   booksReducer,
   // -> State

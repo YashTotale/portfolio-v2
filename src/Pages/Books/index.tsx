@@ -3,12 +3,17 @@ import React, { FC } from "react";
 import Filters from "../../Components/Filters";
 import BookPreview from "../../Components/Book/Preview";
 import HorizontalDivider from "../../Components/Divider/Horizontal";
-import { useFilteredBooks } from "../../Utils/Content/books";
+import { getBookGenres, useFilteredBooks } from "../../Utils/Content/books";
 import { Book } from "../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getBooksSearch, setBooksSearch } from "../../Redux";
+import {
+  getBooksGenreFilter,
+  getBooksSearch,
+  setBooksGenreFilter,
+  setBooksSearch,
+} from "../../Redux";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
@@ -61,8 +66,11 @@ const Books: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
-  const search = useSelector(getBooksSearch);
   const books = useFilteredBooks();
+  const genres = getBookGenres();
+
+  const search = useSelector(getBooksSearch);
+  const genreFilter = useSelector(getBooksGenreFilter);
 
   return (
     <div className={classes.container}>
@@ -71,6 +79,14 @@ const Books: FC = () => {
           defaultSearch: search,
           onSearchChange: (value) => dispatch(setBooksSearch(value)),
         }}
+        related={[
+          {
+            label: "Genres",
+            values: genres,
+            value: genreFilter,
+            onChange: (value) => dispatch(setBooksGenreFilter(value)),
+          },
+        ]}
       />
       {books.length ? (
         <>
