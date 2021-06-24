@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC } from "react";
+import { Link } from "react-router-dom";
 import Category from "./Category";
 import Item from "./Item";
 import {
@@ -60,7 +61,9 @@ const Contents: FC = () => {
   return (
     <>
       <Toolbar className={classes.toolbar}>
-        <img src="/logo192.png" alt="Website Logo" height={40} />
+        <Link to="/">
+          <img src="/logo192.png" alt="Website Logo" height={40} />
+        </Link>
       </Toolbar>
       <Divider />
       <List disablePadding className={classes.list}>
