@@ -2,11 +2,11 @@
 import React, { cloneElement, FC } from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
-import DynamicPaper from "../DynamicPaper";
-import DynamicImage from "../DynamicImage";
-import StyledLink from "../StyledLink";
-import HorizontalDivider from "../Divider/Horizontal";
-import { getTag } from "../../Utils/Content/tags";
+import DynamicPaper from "../../DynamicPaper";
+import DynamicImage from "../../DynamicImage";
+import StyledLink from "../../StyledLink";
+import HorizontalDivider from "../../Divider/Horizontal";
+import { getTag } from "../../../Utils/Content/tags";
 
 // Material UI Imports
 import { makeStyles, Typography, useTheme } from "@material-ui/core";
@@ -47,13 +47,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface TagPreviewProps {
+export interface PreviewProps {
   id: string;
   search?: string;
   className?: string;
 }
 
-const TagPreview: FC<TagPreviewProps> = (props) => {
+const Preview: FC<PreviewProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const tag = getTag(props.id);
@@ -145,4 +145,4 @@ const Related: FC<RelatedProps> = ({ value, label, icon }) => {
   );
 };
 
-export default TagPreview;
+export default Preview;
