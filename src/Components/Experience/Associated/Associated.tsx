@@ -2,15 +2,15 @@
 import React, { FC } from "react";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
-import RichText from "../RichText";
-import DynamicImage from "../DynamicImage";
-import StyledLink from "../StyledLink";
-import VerticalDivider from "../Divider/Vertical";
-import HorizontalDivider from "../Divider/Horizontal";
+import RichText from "../../RichText";
+import DynamicImage from "../../DynamicImage";
+import StyledLink from "../../StyledLink";
+import VerticalDivider from "../../Divider/Vertical";
+import HorizontalDivider from "../../Divider/Horizontal";
 import {
   generateExperienceTitle,
   getSingleExperience,
-} from "../../Utils/Content/experience";
+} from "../../../Utils/Content/experience";
 
 // Material UI Imports
 import {
@@ -19,7 +19,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import MatchHighlight from "../MatchHighlight";
+import MatchHighlight from "../../MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface AssociatedProps {
+export interface AssociatedProps {
   id: string;
   search?: string;
   className?: string;
