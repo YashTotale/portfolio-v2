@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
-import LinkIcon from "../../Icon/Link";
-import { ResolvedProject } from "../../../Utils/types";
+import LinkIcon from "../../../Icon/Link";
+import { ResolvedProject } from "../../../../Utils/types";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
