@@ -5,7 +5,6 @@ import { Environment } from "contentful-management/dist/typings/export-types";
 import Logger from "@hack4impact/logger";
 import { readdir, readFile } from "fs/promises";
 import { join, basename } from "path";
-import merge from "lodash.merge";
 
 config();
 
@@ -18,14 +17,15 @@ const client = createClient({
 const BOOKS_PATH = join(__dirname, "data", "books");
 const BOOKS: Record<string, BookData> = {};
 
-const readBooks = async () => {
+const fetchBooks = async () => {
   const files = await readdir(BOOKS_PATH);
 
   for await (const file of files) {
     const filePath = join(BOOKS_PATH, file);
     const data = await readFile(filePath, "utf-8");
     const parsed = JSON.parse(data);
-    BOOKS[file] = parsed;
+    const id = basename(file, ".json");
+    BOOKS[id] = parsed;
   }
 };
 
@@ -34,10 +34,29 @@ const getEnv = async () => {
   return space.getEnvironment("master");
 };
 
+const cleanUpBooks = async (env: Environment) => {
+  const books = await env.getEntries({
+    content_type: "book",
+  });
+  for (const book of books.items) {
+    const id = book.sys.id;
+
+    Logger.log(`Deleting ${id}...`);
+
+    if (book.isPublished()) {
+      await book.unpublish();
+    }
+    await book.delete();
+
+    Logger.coloredLog("FgYellow", `Deleted ${id}`);
+  }
+};
+
 const createField = (value: unknown) => ({ "en-US": value });
 
 const uploadBook = async (env: Environment, id: string, data: BookData) => {
   Logger.log(`Uploading ${id}...`);
+
   const fields: Record<string, unknown> = {
     title: createField(data["book_title"]),
     link: createField(data["book_url"]),
@@ -51,6 +70,7 @@ const uploadBook = async (env: Environment, id: string, data: BookData) => {
     numRatings: createField(data["num_ratings"]),
     numReviews: createField(data["num_reviews"]),
   };
+
   if (typeof data.rating === "number") {
     fields.rating = createField(data.rating);
   }
@@ -70,27 +90,23 @@ const uploadBook = async (env: Environment, id: string, data: BookData) => {
     fields.pages = createField(data["num_pages"]);
   }
 
-  try {
-    let entry = await env.getEntry(id);
-    entry.fields = merge(entry.fields, fields);
-    entry = await entry.update();
-    await entry.publish();
-    Logger.coloredLog("FgBlue", `Updated ${id}`);
-  } catch (e) {
-    const entry = await env.createEntryWithId("book", id, {
-      fields,
-    });
-    await entry.publish();
-    Logger.success(`Created ${id}`);
-  }
+  const entry = await env.createEntryWithId("book", id, {
+    fields,
+  });
+  await entry.publish();
+
+  Logger.success(`Created ${id}`);
 };
 
 const upload = async () => {
-  await readBooks();
+  await fetchBooks();
   const env = await getEnv();
+
+  await cleanUpBooks(env);
+  Logger.line();
+
   for (const book in BOOKS) {
-    const id = basename(book, ".json");
-    await uploadBook(env, id, BOOKS[book]);
+    await uploadBook(env, book, BOOKS[book]);
   }
 };
 
