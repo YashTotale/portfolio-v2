@@ -2,12 +2,12 @@
 import React, { FC } from "react";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
-import RichText from "../RichText";
-import DynamicImage from "../DynamicImage";
-import StyledLink from "../StyledLink";
-import VerticalDivider from "../Divider/Vertical";
-import HorizontalDivider from "../Divider/Horizontal";
-import { getProject } from "../../Utils/Content/projects";
+import RichText from "../../RichText";
+import DynamicImage from "../../DynamicImage";
+import StyledLink from "../../StyledLink";
+import VerticalDivider from "../../Divider/Vertical";
+import HorizontalDivider from "../../Divider/Horizontal";
+import { getProject } from "../../../Utils/Content/projects";
 
 // Material UI Imports
 import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
@@ -70,7 +70,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface AssociatedProps {
+export interface AssociatedProps {
   id: string;
   className?: string;
 }
