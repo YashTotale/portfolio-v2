@@ -5,7 +5,10 @@ import Tags from "./Tags";
 import DynamicPaper from "../../DynamicPaper";
 import HorizontalDivider from "../../Divider/Horizontal";
 import Associated from "../../Experience/Associated";
-import { getProject } from "../../../Utils/Content/projects";
+import {
+  generateProjectTimeline,
+  getProject,
+} from "../../../Utils/Content/projects";
 
 // Material UI Imports
 import {
@@ -67,7 +70,7 @@ const Main: FC<MainProps> = (props) => {
         {project.title}
       </Typography>
       <Typography align="center" className={classes.timeline}>
-        {project.start} - {project.end ?? "Present"}
+        {generateProjectTimeline(project)}
       </Typography>
       <HorizontalDivider height={2} className={classes.divider} />
       {project.badges && (

@@ -10,7 +10,10 @@ import DynamicImage from "../../DynamicImage";
 import DynamicPaper from "../../DynamicPaper";
 import ExperienceMini from "../../Experience/Mini";
 import HorizontalDivider from "../../Divider/Horizontal";
-import { getProject } from "../../../Utils/Content/projects";
+import {
+  generateProjectTimeline,
+  getProject,
+} from "../../../Utils/Content/projects";
 
 //Material UI Imports
 import {
@@ -141,10 +144,8 @@ const Project: FC<ProjectProps> = (props) => {
         className={classes.projectTimeline}
         variant={isSizeXS ? "body2" : "body1"}
       >
-        <MatchHighlight toMatch={props.search}>{project.start}</MatchHighlight>{" "}
-        -{" "}
         <MatchHighlight toMatch={props.search}>
-          {project.end ?? "Present"}
+          {generateProjectTimeline(project)}
         </MatchHighlight>
       </Typography>
     </DynamicPaper>

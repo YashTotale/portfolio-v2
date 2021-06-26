@@ -58,6 +58,18 @@ export const getRawProject = (id: string): Project | null => {
   return single;
 };
 
+export const generateProjectTimeline = (
+  project: Project | ResolvedProject
+): string => {
+  const start = project.start;
+  let end = project.end;
+
+  if (end === start) return start;
+
+  if (!end) end = "Present";
+  return `${start} - ${end}`;
+};
+
 export const checkExperience = (
   p: ResolvedProject,
   experiences: string[]
@@ -92,8 +104,7 @@ export const checkSearch = (p: ResolvedProject, search: string): boolean => {
     p.tags.some((tag) => tag.title.toLowerCase().includes(search)),
     p.associated &&
       generateExperienceTitle(p.associated).toLowerCase().includes(search),
-    p.start.toLowerCase().includes(search),
-    p.end?.toLowerCase().includes(search),
+    generateProjectTimeline(p).toLowerCase().includes(search),
   ];
 
   const result = matches.includes(true);
