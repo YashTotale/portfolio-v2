@@ -2,11 +2,11 @@
 import React, { FC } from "react";
 import clsx from "clsx";
 import { Link } from "react-router-dom";
-import MatchHighlight from "../MatchHighlight";
+import MatchHighlight from "../../MatchHighlight";
 import {
   generateExperienceTitle,
   getSingleExperience,
-} from "../../Utils/Content/experience";
+} from "../../../Utils/Content/experience";
 
 // Material UI Imports
 import { Avatar, makeStyles, Typography, Button } from "@material-ui/core";
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface MiniProps {
+export interface MiniProps {
   id: string;
   search?: string;
   className?: string;
