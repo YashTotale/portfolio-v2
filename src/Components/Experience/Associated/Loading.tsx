@@ -11,6 +11,7 @@ const useStyles = makeStyles((theme) => ({
     border: `2px solid ${theme.palette.divider}`,
     borderRadius: "5px",
     height: 200,
+    alignSelf: "stretch",
 
     [theme.breakpoints.down("sm")]: {
       height: 500,

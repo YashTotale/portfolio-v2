@@ -56,6 +56,18 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(0),
     },
   },
+  experience: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "flex-start",
+    justifyContent: "center",
+    marginLeft: theme.spacing(-2),
+
+    [theme.breakpoints.down("sm")]: {
+      alignItems: "center",
+      marginLeft: theme.spacing(0),
+    },
+  },
   associated: {
     margin: theme.spacing(1, 2),
   },
@@ -72,7 +84,7 @@ const Related: FC<ResolvedTag> = (props) => {
       {!!props.experience.length && (
         <div className={classes.container}>
           <Heading>Related Experience</Heading>
-          <div className={classes.related}>
+          <div className={classes.experience}>
             {props.experience.map((experience) => (
               <Associated
                 id={experience.id}
