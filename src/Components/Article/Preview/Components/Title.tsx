@@ -1,6 +1,6 @@
 //React Imports
 import React, { FC } from "react";
-import StyledLink from "../../StyledLink";
+import StyledLink from "../../../StyledLink";
 
 // Material UI Imports
 import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";

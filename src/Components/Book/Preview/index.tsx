@@ -7,7 +7,7 @@ const Component = lazy(() => import("./Preview"));
 
 const Preview: FC<PreviewProps> = (props) => {
   return (
-    <Suspense fallback={<Loading />}>
+    <Suspense fallback={<Loading className={props.className} />}>
       <Component {...props} />
     </Suspense>
   );
