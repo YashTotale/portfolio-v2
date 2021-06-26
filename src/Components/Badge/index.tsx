@@ -1,11 +1,11 @@
 // React Imports
 import React, { FC, lazy, Suspense } from "react";
-import { AssociatedProps } from "./Associated";
+import { BadgeProps } from "./Badge";
 import Loading from "./Loading";
 
-const Component = lazy(() => import("./Associated"));
+const Component = lazy(() => import("./Badge"));
 
-const Associated: FC<AssociatedProps> = (props) => {
+const Badge: FC<BadgeProps> = (props) => {
   return (
     <Suspense fallback={<Loading className={props.className} />}>
       <Component {...props} />
@@ -13,4 +13,4 @@ const Associated: FC<AssociatedProps> = (props) => {
   );
 };
 
-export default Associated;
+export default Badge;

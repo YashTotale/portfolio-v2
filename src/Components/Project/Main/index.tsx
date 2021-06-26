@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import Display from "./Display";
 import Tags from "./Tags";
 import DynamicPaper from "../../DynamicPaper";
+import Badge from "../../Badge";
 import HorizontalDivider from "../../Divider/Horizontal";
 import Associated from "../../Experience/Associated";
 import {
@@ -77,15 +78,7 @@ const Main: FC<MainProps> = (props) => {
         <>
           <div className={classes.badges}>
             {project.badges.map((badge) => (
-              <a
-                key={badge.id}
-                target="_blank"
-                rel="noopener noreferrer"
-                href={badge.url}
-                className={classes.badge}
-              >
-                <img src={badge.source} alt={badge.title} />
-              </a>
+              <Badge {...badge} key={badge.id} className={classes.badge} />
             ))}
           </div>
           <HorizontalDivider height={2} className={classes.divider} />
