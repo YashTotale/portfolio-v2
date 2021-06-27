@@ -27,8 +27,11 @@ export const getArticles = (): Article[] => {
   return (Object.values(articles) as unknown) as Article[];
 };
 
-export const getArticle = (id: string): ResolvedArticle | null => {
-  const single = getRawArticle(id);
+export const getArticle = (
+  id: string,
+  isSlug = false
+): ResolvedArticle | null => {
+  const single = getRawArticle(id, isSlug);
   if (!single) return null;
 
   const image = getAsset(single.image);
@@ -44,9 +47,14 @@ export const getArticle = (id: string): ResolvedArticle | null => {
   return { ...single, image, associated, tags };
 };
 
-export const getRawArticle = (id: string): Article | null => {
+export const getRawArticle = (
+  identifier: string,
+  isSlug = false
+): Article | null => {
   const all = (articles as unknown) as Record<string, Article>;
-  const single = all[id];
+  const single = !isSlug
+    ? all[identifier]
+    : Object.values(all).find((a) => a.slug === identifier);
 
   if (!single) return null;
   return single;

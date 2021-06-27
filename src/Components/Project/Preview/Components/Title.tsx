@@ -1,10 +1,10 @@
 //React Imports
 import React, { FC } from "react";
 import StyledLink from "../../../StyledLink";
+import { ResolvedProject } from "../../../../Utils/types";
 
 // Material UI Imports
 import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
-import { ResolvedProject } from "../../../../Utils/types";
 
 const useStyles = makeStyles((theme) => ({
   projectTitle: {

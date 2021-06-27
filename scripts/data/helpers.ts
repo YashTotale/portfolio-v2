@@ -45,6 +45,7 @@ export interface RawProject {
 export interface RawArticle {
   id: string;
   title: EntryFields.Text;
+  slug: EntryFields.Text;
   description: EntryFields.RichText;
   link: EntryFields.Text;
   published: EntryFields.Date;

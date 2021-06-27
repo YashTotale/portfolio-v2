@@ -65,7 +65,7 @@ const Contents: FC = () => {
             <Item
               key={article.id}
               label={article.title}
-              to={`/articles/${article.id}`}
+              to={`/articles/${article.slug}`}
             />
           ))}
         </Category>

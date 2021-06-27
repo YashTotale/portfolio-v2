@@ -74,7 +74,7 @@ const Related: FC<RelatedProps> = (props) => {
               <Overlay
                 label={article.title}
                 icon={getAsset(article.image)}
-                to={`/articles/${article.id}`}
+                to={`/articles/${article.slug}`}
                 key={article.id}
                 className={classes.overlay}
               />
