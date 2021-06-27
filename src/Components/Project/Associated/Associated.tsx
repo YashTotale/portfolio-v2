@@ -95,7 +95,7 @@ const Associated: FC<AssociatedProps> = ({ id, className }) => {
         <StyledLink
           variant="h6"
           align="center"
-          to={`/experience/${project.id}`}
+          to={`/projects/${project.slug}`}
           className={classes.title}
         >
           {project.title}

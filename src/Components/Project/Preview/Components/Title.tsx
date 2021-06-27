@@ -4,6 +4,7 @@ import StyledLink from "../../../StyledLink";
 
 // Material UI Imports
 import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { ResolvedProject } from "../../../../Utils/types";
 
 const useStyles = makeStyles((theme) => ({
   projectTitle: {
@@ -16,24 +17,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface TitleProps {
-  id: string;
-  title: string;
+type TitleProps = ResolvedProject & {
   search?: string;
-}
+};
 
 const Title: FC<TitleProps> = (props) => {
-  const { id, title } = props;
+  const { slug, title, search } = props;
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
     <StyledLink
-      to={`/projects/${id}`}
+      to={`/projects/${slug}`}
       variant={isSizeXS ? "h5" : "h4"}
       className={classes.projectTitle}
-      toMatch={props.search}
+      toMatch={search}
     >
       {title}
     </StyledLink>

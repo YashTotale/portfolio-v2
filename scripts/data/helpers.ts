@@ -31,6 +31,7 @@ export interface RawProject {
   id: string;
   title: EntryFields.Text;
   description: EntryFields.RichText;
+  slug: EntryFields.Text;
   image: RawLink;
   start: EntryFields.Text;
   end?: EntryFields.Text;

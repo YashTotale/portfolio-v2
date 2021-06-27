@@ -83,7 +83,7 @@ const Routes: FC = () => {
             <Route exact path="/projects">
               <ProjectsPage />
             </Route>
-            <Route exact path="/projects/:id">
+            <Route exact path="/projects/:slug">
               <ProjectPage />
             </Route>
             <Route exact path="/articles">

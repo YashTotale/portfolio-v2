@@ -115,7 +115,7 @@ const Preview: FC<PreviewProps> = (props) => {
           alt={project.image.title}
           className={classes.projectImage}
         />
-        <Title title={project.title} id={props.id} search={props.search} />
+        <Title {...project} search={props.search} />
       </Paper>
       <div className={classes.projectDescription}>
         <RichText

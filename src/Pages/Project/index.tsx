@@ -18,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Params {
-  id: string;
+  slug: string;
 }
 
 const Project: FC = () => {
-  const { id } = useParams<Params>();
+  const { slug } = useParams<Params>();
   const classes = useStyles();
-  const project = getProject(id);
+  const project = getProject(slug, true);
 
   if (!project)
     return (
@@ -37,7 +37,7 @@ const Project: FC = () => {
 
   return (
     <div className={classes.container}>
-      <ProjectMain id={id} />
+      <ProjectMain id={project.id} />
     </div>
   );
 };

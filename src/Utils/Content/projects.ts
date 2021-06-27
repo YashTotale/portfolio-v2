@@ -27,8 +27,11 @@ export const getProjects = (): Project[] => {
   return (Object.values(projects) as unknown) as Project[];
 };
 
-export const getProject = (id: string): ResolvedProject | null => {
-  const single = getRawProject(id);
+export const getProject = (
+  id: string,
+  isSlug = false
+): ResolvedProject | null => {
+  const single = getRawProject(id, isSlug);
   if (!single) return null;
 
   const image = getAsset(single.image);
@@ -50,9 +53,14 @@ export const getProject = (id: string): ResolvedProject | null => {
   return { ...single, image, associated, badges, tags };
 };
 
-export const getRawProject = (id: string): Project | null => {
+export const getRawProject = (
+  identifier: string,
+  isSlug = false
+): Project | null => {
   const all = (projects as unknown) as Record<string, Project>;
-  const single = all[id];
+  const single = !isSlug
+    ? all[identifier]
+    : Object.values(all).find((p) => p.slug === identifier);
 
   if (!single) return null;
   return single;

@@ -107,7 +107,7 @@ const Related: FC<ResolvedTag> = (props) => {
                 key={project.id}
                 icon={getAsset(project.image)}
                 label={project.title}
-                to={`/projects/${project.id}`}
+                to={`/projects/${project.slug}`}
                 className={classes.overlay}
               />
             ))}
@@ -125,7 +125,7 @@ const Related: FC<ResolvedTag> = (props) => {
                 key={article.id}
                 icon={getAsset(article.image)}
                 label={article.title}
-                to={`/projects/${article.id}`}
+                to={`/articles/${article.id}`}
                 className={classes.overlay}
               />
             ))}
