@@ -92,7 +92,7 @@ const Routes: FC = () => {
             <Route exact path="/tags">
               <TagsPage />
             </Route>
-            <Route exact path="/tags/:id">
+            <Route exact path="/tags/:slug">
               <TagPage />
             </Route>
             <Route exact path="/books">

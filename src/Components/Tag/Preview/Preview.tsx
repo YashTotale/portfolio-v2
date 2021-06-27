@@ -65,7 +65,7 @@ const Preview: FC<PreviewProps> = (props) => {
 
   return (
     <Link
-      to={`/tags/${tag.id}`}
+      to={`/tags/${tag.slug}`}
       className={clsx(classes.link, props.className)}
     >
       <DynamicPaper className={classes.container}>
@@ -77,7 +77,7 @@ const Preview: FC<PreviewProps> = (props) => {
             width={150}
           />
           <StyledLink
-            to={`/tags/${tag.id}`}
+            to={`/tags/${tag.slug}`}
             variant="h5"
             className={classes.title}
             toMatch={props.search}

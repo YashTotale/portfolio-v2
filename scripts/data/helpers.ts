@@ -58,6 +58,7 @@ export interface RawArticle {
 export interface RawTag {
   id: string;
   title: EntryFields.Text;
+  slug: EntryFields.Text;
   darkIcon: RawLink;
   lightIcon: RawLink;
   link?: EntryFields.Text;

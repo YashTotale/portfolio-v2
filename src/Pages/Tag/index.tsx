@@ -63,13 +63,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Params {
-  id: string;
+  slug: string;
 }
 
 const Tag: FC = () => {
-  const { id } = useParams<Params>();
+  const { slug } = useParams<Params>();
   const classes = useStyles();
-  const tag = getTag(id);
+  const tag = getTag(slug, true);
   const sortedTags = useSortedTags();
 
   if (!tag)

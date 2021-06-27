@@ -24,8 +24,8 @@ export const getTags = (): Tag[] => {
   return (Object.values(tags) as unknown) as Tag[];
 };
 
-export const getTag = (id: string): ResolvedTag | null => {
-  const single = getRawTag(id);
+export const getTag = (id: string, isSlug = false): ResolvedTag | null => {
+  const single = getRawTag(id, isSlug);
   if (!single) return null;
 
   const darkIcon = getAsset(single.darkIcon);
@@ -52,9 +52,11 @@ export const getTag = (id: string): ResolvedTag | null => {
   return { ...single, darkIcon, lightIcon, experience, projects, articles };
 };
 
-export const getRawTag = (id: string): Tag | null => {
+export const getRawTag = (identifier: string, isSlug = false): Tag | null => {
   const all = (tags as unknown) as Record<string, Tag>;
-  const single = all[id];
+  const single = !isSlug
+    ? all[identifier]
+    : Object.values(all).find((p) => p.slug === identifier);
 
   if (!single) return null;
   return single;
