@@ -77,7 +77,7 @@ const Routes: FC = () => {
             <Route exact path="/experience">
               <ExperiencePage />
             </Route>
-            <Route exact path="/experience/:id">
+            <Route exact path="/experience/:slug">
               <SingleExperiencePage />
             </Route>
             <Route exact path="/projects">

@@ -17,6 +17,7 @@ export interface RawExperience {
   title: EntryFields.Text;
   role: EntryFields.Text;
   type: "Organization" | "Company" | "Club";
+  slug: EntryFields.Text;
   description: EntryFields.RichText;
   responsibilities: EntryFields.RichText;
   image: RawLink;

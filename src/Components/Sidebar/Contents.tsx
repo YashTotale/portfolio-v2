@@ -47,7 +47,7 @@ const Contents: FC = () => {
             <Item
               key={exp.id}
               label={generateExperienceTitle(exp)}
-              to={`/experience/${exp.id}`}
+              to={`/experience/${exp.slug}`}
             />
           ))}
         </Category>

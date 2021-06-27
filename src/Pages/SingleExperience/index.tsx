@@ -18,13 +18,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Params {
-  id: string;
+  slug: string;
 }
 
 const SingleExperience: FC = () => {
-  const { id } = useParams<Params>();
+  const { slug } = useParams<Params>();
   const classes = useStyles();
-  const experience = getSingleExperience(id);
+  const experience = getSingleExperience(slug, true);
 
   if (!experience)
     return (
@@ -37,7 +37,7 @@ const SingleExperience: FC = () => {
 
   return (
     <div className={classes.container}>
-      <ExperienceMain id={id} />
+      <ExperienceMain id={experience.id} />
     </div>
   );
 };

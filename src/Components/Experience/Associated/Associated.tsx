@@ -109,7 +109,7 @@ const Associated: FC<AssociatedProps> = (props) => {
         <StyledLink
           variant="h6"
           align="center"
-          to={`/experience/${experience.id}`}
+          to={`/experience/${experience.slug}`}
           className={classes.title}
           toMatch={props.search}
         >

@@ -46,7 +46,7 @@ const Mini: FC<MiniProps> = (props) => {
 
   return (
     <Link
-      to={`/experience/${experience.id}`}
+      to={`/experience/${experience.slug}`}
       className={clsx(classes.link, props.className)}
     >
       <Button className={classes.button} variant="outlined">

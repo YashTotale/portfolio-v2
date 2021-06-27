@@ -104,7 +104,7 @@ const Main: FC<MainProps> = (props) => {
     <DynamicPaper className={classes.container}>
       <div className={classes.titleContainer}>
         <StyledLink
-          to={`/experience/${experience.id}`}
+          to={`/experience/${experience.slug}`}
           variant={isSizeSmall ? "h5" : "h4"}
           align="center"
           toMatch={props.search}

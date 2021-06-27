@@ -33,8 +33,11 @@ export const getExperience = (): Experience[] => {
   return (Object.values(experience) as unknown) as Experience[];
 };
 
-export const getSingleExperience = (id: string): ResolvedExperience | null => {
-  const single = getRawExperience(id);
+export const getSingleExperience = (
+  id: string,
+  isSlug = false
+): ResolvedExperience | null => {
+  const single = getRawExperience(id, isSlug);
   if (!single) return null;
 
   const image = getAsset(single.image);
@@ -60,9 +63,14 @@ export const getSingleExperience = (id: string): ResolvedExperience | null => {
   return { ...single, image, projects, articles, tags };
 };
 
-export const getRawExperience = (id: string): Experience | null => {
+export const getRawExperience = (
+  identifier: string,
+  isSlug = false
+): Experience | null => {
   const all = (experience as unknown) as Record<string, Experience>;
-  const single = all[id];
+  const single = !isSlug
+    ? all[identifier]
+    : Object.values(all).find((e) => e.slug === identifier);
 
   if (!single) return null;
   return single;
