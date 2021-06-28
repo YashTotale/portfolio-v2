@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "stretch",
-    margin: theme.spacing(1, 0),
     width: "100%",
   },
   main: {
@@ -41,7 +40,7 @@ const Tag: FC<TagProps> = (props) => {
   if (!tag) return null;
 
   return (
-    <Paper elevation={16} className={clsx(classes.root, props.className)}>
+    <Paper elevation={12} className={clsx(classes.root, props.className)}>
       <Title {...tag} search={props.search} />
       <Icon {...tag} />
       <HorizontalDivider />
