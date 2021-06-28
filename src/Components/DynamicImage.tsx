@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
       duration: "0.4s",
     }),
     "&:hover": {
-      transform: "rotate(0.01turn) scale(1.05)",
+      transform: "scale(1.05)",
     },
   },
 }));

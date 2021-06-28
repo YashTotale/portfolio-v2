@@ -145,8 +145,11 @@ firebase.initializeApp(firebaseConfig);
 
 firebase.firestore();
 firebase.performance();
+
+export let analytics: firebase.analytics.Analytics | null = null;
+
 firebase.analytics.isSupported().then((supported) => {
-  if (supported) firebase.analytics();
+  if (supported) analytics = firebase.analytics();
 });
 
 const ReduxStore: FC = ({ children }) => {

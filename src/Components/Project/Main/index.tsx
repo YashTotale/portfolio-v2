@@ -2,7 +2,6 @@
 import React, { FC } from "react";
 import Display from "./Display";
 import Tags from "./Tags";
-import DynamicPaper from "../../DynamicPaper";
 import Badge from "../../Badge";
 import HorizontalDivider from "../../Divider/Horizontal";
 import Associated from "../../Experience/Associated";
@@ -17,6 +16,8 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
+  Paper,
+  darken,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,9 +29,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(1, 0),
     margin: theme.spacing(1, 0),
     width: "100%",
-  },
-  timeline: {
-    marginTop: theme.spacing(1),
   },
   divider: {
     margin: theme.spacing(1, 0),
@@ -45,11 +43,34 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   badge: {
-    margin: theme.spacing(0.5),
+    margin: theme.spacing(1, 0.5),
     marginBottom: 0,
+  },
+  main: {
+    padding: theme.spacing(0, 2),
+  },
+  associatedContainer: {
+    borderRadius: "4px",
+    border: `1px solid ${theme.palette.text.disabled}`,
+    backgroundColor:
+      theme.palette.type === "dark"
+        ? darken(theme.palette.grey[800], 0.3)
+        : theme.palette.grey[200],
+    margin: theme.spacing(2, 0),
+    padding: theme.spacing(1),
   },
   associated: {
     margin: theme.spacing(1, 2),
+  },
+  tagsContainer: {
+    borderRadius: "4px",
+    border: `1px solid ${theme.palette.text.disabled}`,
+    backgroundColor:
+      theme.palette.type === "dark"
+        ? darken(theme.palette.grey[800], 0.3)
+        : theme.palette.grey[200],
+    margin: theme.spacing(2, 0),
+    padding: theme.spacing(1),
   },
 }));
 
@@ -66,14 +87,13 @@ const Main: FC<MainProps> = (props) => {
   if (!project) return null;
 
   return (
-    <DynamicPaper className={classes.project}>
+    <Paper elevation={16} className={classes.project}>
       <Typography variant={isSizeSmall ? "h4" : "h3"} align="center">
         {project.title}
       </Typography>
-      <Typography align="center" className={classes.timeline}>
+      <Typography align="center" variant="subtitle1">
         {generateProjectTimeline(project)}
       </Typography>
-      <HorizontalDivider height={2} className={classes.divider} />
       {project.badges && (
         <>
           <div className={classes.badges}>
@@ -81,36 +101,38 @@ const Main: FC<MainProps> = (props) => {
               <Badge {...badge} key={badge.id} className={classes.badge} />
             ))}
           </div>
-          <HorizontalDivider height={2} className={classes.divider} />
         </>
       )}
-      <Display {...project} />
       <HorizontalDivider height={2} className={classes.divider} />
-      {project.associated && (
-        <>
+      <div className={classes.main}>
+        <Display {...project} />
+        {project.associated && (
+          <div className={classes.associatedContainer}>
+            <Typography
+              variant={isSizeSmall ? "h5" : "h4"}
+              align="center"
+              className={classes.heading}
+            >
+              Associated With
+            </Typography>
+            <Associated
+              id={project.associated.id}
+              className={classes.associated}
+            />
+          </div>
+        )}
+        <div className={classes.tagsContainer}>
           <Typography
             variant={isSizeSmall ? "h5" : "h4"}
             align="center"
             className={classes.heading}
           >
-            Associated With
+            Related Tags
           </Typography>
-          <Associated
-            id={project.associated.id}
-            className={classes.associated}
-          />
-          <HorizontalDivider height={2} className={classes.divider} />
-        </>
-      )}
-      <Typography
-        variant={isSizeSmall ? "h5" : "h4"}
-        align="center"
-        className={classes.heading}
-      >
-        Related Tags
-      </Typography>
-      <Tags {...project} />
-    </DynamicPaper>
+          <Tags {...project} />
+        </div>
+      </div>
+    </Paper>
   );
 };
 
