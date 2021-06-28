@@ -1,11 +1,10 @@
 // React Imports
 import React, { FC } from "react";
-import Overlay from "../../Overlay";
+import Associated from "../../Tag/Associated";
 import { ResolvedProject } from "../../../Utils/types";
-import { getAsset } from "../../../Utils/Content/assets";
 
 // Material UI Imports
-import { makeStyles, useTheme } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   projectTags: {
@@ -33,21 +32,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Tags: FC<ResolvedProject> = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
-
-  const isDark = theme.palette.type === "dark";
 
   return (
     <div className={classes.projectTags}>
       <div className={classes.tagsContainer}>
         {props.tags.map((tag) => (
-          <Overlay
-            to={`/tags/${tag.id}`}
-            icon={getAsset(isDark ? tag.darkIcon : tag.lightIcon)}
-            label={tag.title}
-            className={classes.tag}
-            key={tag.id}
-          />
+          <Associated key={tag.id} id={tag.id} className={classes.tag} />
         ))}
       </div>
     </div>
