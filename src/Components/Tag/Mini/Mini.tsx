@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
-import { getTag } from "../../Utils/Content/tags";
+import { getTag } from "../../../Utils/Content/tags";
 
 //Material UI Imports
 import {
@@ -12,7 +12,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import MatchHighlight from "../MatchHighlight";
+import MatchHighlight from "../../MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   projectTag: {
@@ -23,13 +23,13 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-interface TagChipProps {
+export interface MiniProps {
   id: string;
   search?: string;
   className?: string;
 }
 
-const TagChip: FC<TagChipProps> = (props) => {
+const Mini: FC<MiniProps> = (props) => {
   const theme = useTheme();
   const classes = useStyles();
   const tag = getTag(props.id);
@@ -58,4 +58,4 @@ const TagChip: FC<TagChipProps> = (props) => {
   );
 };
 
-export default TagChip;
+export default Mini;

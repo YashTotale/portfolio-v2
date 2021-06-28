@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import Overlay from "../../../Overlay";
-import TagChip from "../../../Tag/Chip";
+import TagChip from "../../../Tag/Mini";
 import ProjectAssociated from "../../../Project/Associated";
 import { ResolvedExperience } from "../../../../Utils/types";
 import { getAsset } from "../../../../Utils/Content/assets";

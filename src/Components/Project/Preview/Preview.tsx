@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "./Components/FloatingIcons";
-import TagChip from "../../Tag/Chip";
+import TagChip from "../../Tag/Mini";
 import Title from "./Components/Title";
 import RichText from "../../RichText";
 import MatchHighlight from "../../MatchHighlight";

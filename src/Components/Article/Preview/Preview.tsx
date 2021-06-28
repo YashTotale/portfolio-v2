@@ -9,7 +9,7 @@ import RichText from "../../RichText";
 import MatchHighlight from "../../MatchHighlight";
 import ExperienceMini from "../../Experience/Mini";
 import HorizontalDivider from "../../Divider/Horizontal";
-import TagChip from "../../Tag/Chip";
+import TagChip from "../../Tag/Mini";
 import {
   generateArticlePublished,
   getArticle,
