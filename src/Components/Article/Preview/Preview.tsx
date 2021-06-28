@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => ({
   articleImage: {
     margin: theme.spacing(2, 0),
     maxWidth: "65%",
-    objectFit: "cover",
+    objectFit: "contain",
 
     [theme.breakpoints.only("xl")]: {
       height: 200,

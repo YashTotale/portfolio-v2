@@ -97,7 +97,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   icon: {
     width: "100%",
     height: "100%",
-    objectFit: "cover",
+    objectFit: "contain",
   },
   titleXS: {
     width: 100,

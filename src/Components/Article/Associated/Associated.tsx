@@ -5,12 +5,21 @@ import { Document } from "@contentful/rich-text-types";
 import RichText from "../../RichText";
 import DynamicImage from "../../DynamicImage";
 import StyledLink from "../../StyledLink";
+import MatchHighlight from "../../MatchHighlight";
 import VerticalDivider from "../../Divider/Vertical";
 import HorizontalDivider from "../../Divider/Horizontal";
-import { getProject } from "../../../Utils/Content/projects";
+import {
+  generateArticlePublished,
+  getArticle,
+} from "../../../Utils/Content/articles";
 
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import {
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -25,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     margin: theme.spacing(2),
+    objectFit: "contain",
 
     [theme.breakpoints.only("xl")]: {
       width: 175,
@@ -68,27 +78,33 @@ const useStyles = makeStyles((theme) => ({
   description: {
     padding: theme.spacing(1),
     width: "100%",
+    textAlign: "center",
+    flex: 1,
+  },
+  timeline: {
+    margin: theme.spacing(1),
   },
 }));
 
 export interface AssociatedProps {
   id: string;
   className?: string;
+  search?: string;
 }
 
-const Associated: FC<AssociatedProps> = ({ id, className }) => {
+const Associated: FC<AssociatedProps> = ({ id, search, className }) => {
   const classes = useStyles();
   const theme = useTheme();
-  const project = getProject(id);
+  const article = getArticle(id);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  if (!project) return null;
+  if (!article) return null;
 
   return (
     <div className={clsx(classes.container, className)}>
       <DynamicImage
-        src={`${project.image.file.url}?w=175`}
-        alt={project.image.title}
+        src={`${article.image.file.url}?w=175`}
+        alt={article.image.title}
         className={classes.image}
       />
       {!isSizeXS && <VerticalDivider />}
@@ -96,14 +112,22 @@ const Associated: FC<AssociatedProps> = ({ id, className }) => {
         <StyledLink
           variant="h6"
           align="center"
-          to={`/projects/${project.slug}`}
+          to={`/articles/${article.slug}`}
           className={classes.title}
         >
-          {project.title}
+          {article.title}
         </StyledLink>
         <HorizontalDivider />
         <div className={classes.description}>
-          <RichText richText={project.description as Document} />
+          <RichText richText={article.description as Document} />
+        </div>
+        <HorizontalDivider />
+        <div className={classes.timeline}>
+          <Typography>
+            <MatchHighlight toMatch={search}>
+              {generateArticlePublished(article)}
+            </MatchHighlight>
+          </Typography>
         </div>
       </div>
     </div>
