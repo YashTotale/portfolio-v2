@@ -7,7 +7,10 @@ import {
 import { BLOCKS, Document, INLINES } from "@contentful/rich-text-types";
 import MatchHighlight from "./MatchHighlight";
 import StyledLink from "./StyledLink";
-import { getTags } from "../Utils/Content/tags";
+import { getTag, getTags } from "../Utils/Content/tags";
+import { getProject } from "../Utils/Content/projects";
+import { getSingleExperience } from "../Utils/Content/experience";
+import { getArticle } from "../Utils/Content/articles";
 
 // Material UI Imports
 import {
@@ -68,6 +71,37 @@ const RichText: FC<RichTextProps> = ({
           {children}
         </Link>
       ),
+      [INLINES.ENTRY_HYPERLINK]: (node, children) => {
+        const entry = node.data.target;
+        const id: string = entry.sys.id;
+
+        const getLink = (): string => {
+          const project = getProject(id);
+          if (project) return `/projects/${project.slug}`;
+
+          const experience = getSingleExperience(id);
+          if (experience) return `/experience/${experience.slug}`;
+
+          const tag = getTag(id);
+          if (tag) return `/tags/${tag.slug}`;
+
+          const article = getArticle(id);
+          if (article) return `/articles/${article.slug}`;
+
+          return "";
+        };
+
+        return (
+          <Link
+            variant={variant}
+            href={getLink()}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {children}
+          </Link>
+        );
+      },
       [INLINES.EMBEDDED_ENTRY]: (node) => {
         const entry = node.data.target;
         const id = entry.sys.id;
@@ -138,7 +172,11 @@ const TextRenderer: FC<TextRendererProps> = ({
       }
 
       parsed.push(
-        <StyledLink to={`/tags/${tag.id}`} variant={variant} toMatch={toMatch}>
+        <StyledLink
+          to={`/tags/${tag.slug}`}
+          variant={variant}
+          toMatch={toMatch}
+        >
           {children.substring(i, i + tag.title.length)}
         </StyledLink>
       );
