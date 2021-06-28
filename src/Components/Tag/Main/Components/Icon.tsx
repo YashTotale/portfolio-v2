@@ -1,26 +1,12 @@
 // React Imports
 import React, { FC } from "react";
-import DynamicImage from "../../DynamicImage";
-import { ResolvedTag } from "../../../Utils/types";
+import DynamicImage from "../../../DynamicImage";
+import { ResolvedTag } from "../../../../Utils/types";
 
 // Material UI Imports
 import { makeStyles, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  iconContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: theme.spacing(2),
-    width: "30%",
-
-    [theme.breakpoints.down("sm")]: {
-      width: "100%",
-      padding: theme.spacing(1),
-      paddingBottom: theme.spacing(0),
-    },
-  },
   icon: {
     margin: theme.spacing(2),
 
@@ -46,7 +32,9 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Icon: FC<ResolvedTag> = (props) => {
+type IconProps = ResolvedTag;
+
+const Icon: FC<IconProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
@@ -54,13 +42,11 @@ const Icon: FC<ResolvedTag> = (props) => {
   const icon = isDark ? props.darkIcon : props.lightIcon;
 
   return (
-    <div className={classes.iconContainer}>
-      <DynamicImage
-        src={`${icon.file.url}?w=175`}
-        alt={icon.title}
-        className={classes.icon}
-      />
-    </div>
+    <DynamicImage
+      src={`${icon.file.url}?w=175`}
+      alt={icon.title}
+      className={classes.icon}
+    />
   );
 };
 

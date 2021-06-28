@@ -1,45 +1,30 @@
 // React Imports
 import React, { FC } from "react";
 import clsx from "clsx";
-import Related from "./Related";
-import Icon from "./Icon";
-import DynamicPaper from "../../DynamicPaper";
-import MatchHighlight from "../../MatchHighlight";
+import Title from "./Components/Title";
+import Icon from "./Components/Icon";
+import Related from "./Components/Related";
 import HorizontalDivider from "../../Divider/Horizontal";
-import VerticalDivider from "../../Divider/Vertical";
+import ExperienceAssociated from "../../Experience/Associated";
+import ProjectAssociated from "../../Project/Associated";
+import ArticleAssociated from "../../Article/Associated";
 import { getTag } from "../../../Utils/Content/tags";
 
 // Material UI Imports
-import {
-  Link,
-  makeStyles,
-  Tooltip,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { makeStyles, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
+  root: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "stretch",
-    margin: theme.spacing(2, 0),
-  },
-  heading: {
     margin: theme.spacing(1, 0),
+    width: "100%",
   },
   main: {
-    display: "flex",
-    alignItems: "stretch",
-    justifyContent: "center",
+    padding: theme.spacing(0, 2),
     width: "100%",
-
-    [theme.breakpoints.down("sm")]: {
-      flexDirection: "column",
-      alignItems: "center",
-    },
   },
 }));
 
@@ -51,43 +36,43 @@ interface TagProps {
 
 const Tag: FC<TagProps> = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const tag = getTag(props.id);
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const tag = getTag(props.id);
   if (!tag) return null;
 
   return (
-    <DynamicPaper className={clsx(classes.container, props.className)}>
-      {tag.link ? (
-        <Tooltip title="View Website">
-          <Link
-            href={tag.link}
-            target="_blank"
-            rel="noopener noreferrer"
-            variant={isSizeSmall ? "h5" : "h4"}
-            align="center"
-            className={classes.heading}
-          >
-            <MatchHighlight toMatch={props.search}>{tag.title}</MatchHighlight>
-          </Link>
-        </Tooltip>
-      ) : (
-        <Typography
-          variant={isSizeSmall ? "h5" : "h4"}
-          align="center"
-          className={classes.heading}
-        >
-          <MatchHighlight toMatch={props.search}>{tag.title}</MatchHighlight>
-        </Typography>
-      )}
+    <Paper elevation={16} className={clsx(classes.root, props.className)}>
+      <Title {...tag} search={props.search} />
+      <Icon {...tag} />
       <HorizontalDivider />
       <div className={classes.main}>
-        <Icon {...tag} />
-        {!isSizeSmall && <VerticalDivider />}
-        <Related {...tag} />
+        {!!tag.experience.length && (
+          <Related label="Related Experience">
+            {tag.experience.map((exp) => (
+              <ExperienceAssociated
+                key={exp.id}
+                id={exp.id}
+                search={props.search}
+              />
+            ))}
+          </Related>
+        )}
+        {!!tag.projects.length && (
+          <Related label="Related Projects">
+            {tag.projects.map((project) => (
+              <ProjectAssociated key={project.id} id={project.id} />
+            ))}
+          </Related>
+        )}
+        {!!tag.articles.length && (
+          <Related label="Related Articles">
+            {tag.articles.map((article) => (
+              <ArticleAssociated key={article.id} id={article.id} />
+            ))}
+          </Related>
+        )}
       </div>
-    </DynamicPaper>
+    </Paper>
   );
 };
 
