@@ -6,7 +6,7 @@ import DynamicImage from "../../DynamicImage";
 import { ResolvedProject } from "../../../Utils/types";
 
 // Material UI Imports
-import { Button, darken, makeStyles, Typography } from "@material-ui/core";
+import { Button, makeStyles, Typography } from "@material-ui/core";
 import { GitHub, Launch } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -15,15 +15,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
-    padding: theme.spacing(2),
-    margin: theme.spacing(2, 0),
-
-    borderRadius: "4px",
-    border: `1px solid ${theme.palette.text.disabled}`,
-    backgroundColor:
-      theme.palette.type === "dark"
-        ? darken(theme.palette.grey[800], 0.3)
-        : theme.palette.grey[200],
 
     [theme.breakpoints.only("xs")]: {
       flexDirection: "column",

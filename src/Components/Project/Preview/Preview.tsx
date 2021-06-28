@@ -18,7 +18,6 @@ import {
 //Material UI Imports
 import {
   makeStyles,
-  Paper,
   Typography,
   useMediaQuery,
   useTheme,
@@ -48,6 +47,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "100%",
     position: "relative",
+    borderBottom: `1px solid ${theme.palette.text.disabled}`,
   },
   projectImage: {
     margin: theme.spacing(2, 0),
@@ -108,7 +108,7 @@ const Preview: FC<PreviewProps> = (props) => {
 
   return (
     <DynamicPaper className={classes.project}>
-      <Paper className={classes.projectTop} elevation={3}>
+      <div className={classes.projectTop}>
         <FloatingIcons {...project} />
         <DynamicImage
           src={`${project.image.file.url}?w=200`}
@@ -116,7 +116,7 @@ const Preview: FC<PreviewProps> = (props) => {
           className={classes.projectImage}
         />
         <Title {...project} search={props.search} />
-      </Paper>
+      </div>
       <div className={classes.projectDescription}>
         <RichText
           richText={project.description as Document}
