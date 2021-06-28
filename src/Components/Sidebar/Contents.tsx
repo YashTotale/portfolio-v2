@@ -71,7 +71,7 @@ const Contents: FC = () => {
         </Category>
         <Category label="Tags" to="/tags">
           {tags.map((tag) => (
-            <Item key={tag.id} label={tag.title} to={`/tags/${tag.id}`} />
+            <Item key={tag.id} label={tag.title} to={`/tags/${tag.slug}`} />
           ))}
         </Category>
         <Category label="Books" to="/books" />

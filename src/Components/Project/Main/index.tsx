@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(1, 0),
   },
   heading: {
-    margin: theme.spacing(0, 1, 1),
+    margin: theme.spacing(0, 1),
   },
   badges: {
     display: "flex",
