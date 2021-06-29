@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import { useParams } from "react-router";
 import NotFound from "../NotFound";
-import ProjectMain from "../../Components/Project/Main";
+import ProjectMain from "../../Components/Content/Project/Main";
 import NavButton from "../../Components/NavButton";
 import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 

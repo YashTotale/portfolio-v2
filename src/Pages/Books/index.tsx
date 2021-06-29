@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import Filters from "../../Components/Filters";
-import BookPreview from "../../Components/Book/Preview";
+import BookPreview from "../../Components/Content/Book/Preview";
 import HorizontalDivider from "../../Components/Divider/Horizontal";
 import { getBookGenres, useFilteredBooks } from "../../Utils/Content/books";
 import { Book } from "../../Utils/types";

@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import Filters from "../../Components/Filters";
-import ProjectPreview from "../../Components/Project/Preview";
+import ProjectPreview from "../../Components/Content/Project/Preview";
 import { useFilteredProjects } from "../../Utils/Content/projects";
 import { sortTags } from "../../Utils/Content/tags";
 import {

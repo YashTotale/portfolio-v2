@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import Filters from "../../Components/Filters";
-import ArticlePreview from "../../Components/Article/Preview";
+import ArticlePreview from "../../Components/Content/Article/Preview";
 import { sortTags } from "../../Utils/Content/tags";
 import {
   generateExperienceTitle,

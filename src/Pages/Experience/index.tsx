@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import Filters from "../../Components/Filters";
-import ExperienceMain from "../../Components/Experience/Main";
+import ExperienceMain from "../../Components/Content/Experience/Main";
 import { useFilteredExperience } from "../../Utils/Content/experience";
 import { sortTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";

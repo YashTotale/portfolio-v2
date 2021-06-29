@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import { useParams } from "react-router";
 import NotFound from "../NotFound";
-import ArticleMain from "../../Components/Article/Main";
+import ArticleMain from "../../Components/Content/Article/Main";
 import NavButton from "../../Components/NavButton";
 import { getArticle, useSortedArticles } from "../../Utils/Content/articles";
 

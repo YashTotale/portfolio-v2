@@ -6,7 +6,7 @@ import NotFound from "../NotFound";
 import { makeStyles } from "@material-ui/core";
 import { useParams } from "react-router-dom";
 import { getSingleExperience } from "../../Utils/Content/experience";
-import ExperienceMain from "../../Components/Experience/Main";
+import ExperienceMain from "../../Components/Content/Experience/Main";
 
 const useStyles = makeStyles((theme) => ({
   container: {
