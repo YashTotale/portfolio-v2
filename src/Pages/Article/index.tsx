@@ -19,6 +19,17 @@ const useStyles = makeStyles((theme) => ({
   article: {
     margin: theme.spacing(1, 0),
   },
+  topButtons: {
+    display: "flex",
+    width: "100%",
+  },
+  allArticles: {
+    maxWidth: "25%",
+
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "45%",
+    },
+  },
   buttons: {
     display: "flex",
     width: "100%",
@@ -51,6 +62,15 @@ const Article: FC = () => {
 
   return (
     <div className={classes.container}>
+      <div className={classes.topButtons}>
+        <NavButton
+          to="/articles"
+          label="All Articles"
+          type="next"
+          typeLabel=""
+          className={classes.allArticles}
+        />
+      </div>
       <ArticleMain id={article.id} className={classes.article} />
       <div className={classes.buttons}>
         {prevArticle && (

@@ -19,6 +19,17 @@ const useStyles = makeStyles((theme) => ({
   tag: {
     margin: theme.spacing(1, 0),
   },
+  topButtons: {
+    display: "flex",
+    width: "100%",
+  },
+  allTags: {
+    maxWidth: "25%",
+
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "45%",
+    },
+  },
   buttons: {
     display: "flex",
     width: "100%",
@@ -45,6 +56,15 @@ const Tag: FC = () => {
 
   return (
     <div className={classes.container}>
+      <div className={classes.topButtons}>
+        <NavButton
+          to="/tags"
+          label="All Tags"
+          type="next"
+          typeLabel=""
+          className={classes.allTags}
+        />
+      </div>
       <TagMain id={tag.id} className={classes.tag} />
       <div className={classes.buttons}>
         {prevTag && (

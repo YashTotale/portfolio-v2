@@ -12,6 +12,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import clsx from "clsx";
 
 type BtnType = "previous" | "next";
 
@@ -60,6 +61,7 @@ interface NavButtonProps {
   to: string;
   type: BtnType;
   typeLabel?: string;
+  className?: string;
 }
 
 const NavButton: FC<NavButtonProps> = (props) => {
@@ -71,14 +73,14 @@ const NavButton: FC<NavButtonProps> = (props) => {
     props.type === "previous" ? `« ${props.label}` : `${props.label} »`;
 
   return (
-    <Link to={props.to} className={classes.link}>
+    <Link to={props.to} className={clsx(classes.link, props.className)}>
       <Button variant="outlined" className={classes.button}>
         <div className={classes.label}>
           <Typography
             color="textSecondary"
             variant={isSizeXS ? "caption" : "body1"}
           >
-            {props.typeLabel ? props.typeLabel : capitalize(props.type)}
+            {props.typeLabel ?? capitalize(props.type)}
           </Typography>
           <Typography
             color="primary"

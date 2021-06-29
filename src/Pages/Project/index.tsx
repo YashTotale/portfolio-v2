@@ -19,6 +19,17 @@ const useStyles = makeStyles((theme) => ({
   project: {
     margin: theme.spacing(1, 0),
   },
+  topButtons: {
+    display: "flex",
+    width: "100%",
+  },
+  allProjects: {
+    maxWidth: "25%",
+
+    [theme.breakpoints.down("sm")]: {
+      maxWidth: "45%",
+    },
+  },
   buttons: {
     display: "flex",
     width: "100%",
@@ -51,6 +62,15 @@ const Project: FC = () => {
 
   return (
     <div className={classes.container}>
+      <div className={classes.topButtons}>
+        <NavButton
+          to="/projects"
+          label="All Projects"
+          type="next"
+          typeLabel=""
+          className={classes.allProjects}
+        />
+      </div>
       <ProjectMain id={project.id} className={classes.project} />
       <div className={classes.buttons}>
         {prevProject && (
