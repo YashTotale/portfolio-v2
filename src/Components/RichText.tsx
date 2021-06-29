@@ -104,7 +104,7 @@ const RichText: FC<RichTextProps> = ({
               },
             }}
           >
-            {children?.toString() ?? ""}
+            {children}
           </StyledLink>
         );
       },

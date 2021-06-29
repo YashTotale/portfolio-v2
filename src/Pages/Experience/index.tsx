@@ -1,8 +1,10 @@
 // React Imports
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import Filters from "../../Components/Filters";
 import ExperienceMain from "../../Components/Content/Experience/Main";
+import { generatePageTitle } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { useFilteredExperience } from "../../Utils/Content/experience";
 import { sortTags } from "../../Utils/Content/tags";
@@ -57,36 +59,42 @@ const Experience: FC = () => {
   });
 
   return (
-    <div className={classes.container}>
-      <Filters
-        search={{
-          defaultSearch: search,
-          onSearchChange: (value) => dispatch(setExperienceSearch(value)),
-        }}
-        sort={{
-          value: sort,
-          values: EXPERIENCE_SORT,
-          onChange: (value) =>
-            dispatch(setExperienceSort(value as ExperienceSort)),
-        }}
-        related={[
-          {
-            label: "Tags",
-            values: allTags.map((tag) => tag.title),
-            value: tagFilter,
-            onChange: (values) => dispatch(setExperienceTagFilter(values)),
-          },
+    <>
+      <Helmet>
+        <title>{generatePageTitle("Experience")}</title>
+      </Helmet>
+      <div className={classes.container}>
+        <Filters
+          search={{
+            defaultSearch: search,
+            onSearchChange: (value) => dispatch(setExperienceSearch(value)),
+          }}
+          sort={{
+            value: sort,
+            values: EXPERIENCE_SORT,
+            onChange: (value) =>
+              dispatch(setExperienceSort(value as ExperienceSort)),
+          }}
+          related={[
+            {
+              label: "Tags",
+              values: allTags.map((tag) => tag.title),
+              value: tagFilter,
+              onChange: (values) => dispatch(setExperienceTagFilter(values)),
+            },
 
-          {
-            label: "Projects",
-            values: allProjects.map((project) => project.title),
-            value: projectFilter,
-            onChange: (values) => dispatch(setExperienceProjectFilter(values)),
-          },
-        ]}
-      />
-      <Contents />
-    </div>
+            {
+              label: "Projects",
+              values: allProjects.map((project) => project.title),
+              value: projectFilter,
+              onChange: (values) =>
+                dispatch(setExperienceProjectFilter(values)),
+            },
+          ]}
+        />
+        <Contents />
+      </div>
+    </>
   );
 };
 

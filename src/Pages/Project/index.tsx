@@ -1,9 +1,11 @@
 // React Imports
 import React, { FC } from "react";
 import { useLocation, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
 import ProjectMain from "../../Components/Content/Project/Main";
 import NavButton from "../../Components/NavButton";
+import { generatePageTitle } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 
@@ -68,54 +70,59 @@ const Project: FC = () => {
   const nextProject = sortedProjects[projectIndex + 1];
 
   return (
-    <div className={classes.container}>
-      <div className={classes.topButtons}>
-        <NavButton
-          to={{
-            pathname: "/projects",
-            state: {
-              from_path: location.pathname,
-              from_type: "top_nav_button",
-            },
-          }}
-          label="All Projects"
-          type="next"
-          typeLabel=""
-          className={classes.allProjects}
-        />
-      </div>
-      <ProjectMain id={project.id} className={classes.project} />
-      <div className={classes.buttons}>
-        {prevProject && (
+    <>
+      <Helmet>
+        <title>{generatePageTitle(project.title)}</title>
+      </Helmet>
+      <div className={classes.container}>
+        <div className={classes.topButtons}>
           <NavButton
             to={{
-              pathname: `/projects/${prevProject.slug}`,
+              pathname: "/projects",
               state: {
                 from_path: location.pathname,
-                from_type: "prev_nav_button",
+                from_type: "top_nav_button",
               },
             }}
-            label={prevProject.title}
-            type="previous"
-            typeLabel="Previous Project"
-          />
-        )}
-        {nextProject && (
-          <NavButton
-            to={{
-              pathname: `/projects/${nextProject.slug}`,
-              state: {
-                from_path: location.pathname,
-                from_type: "next_nav_button",
-              },
-            }}
-            label={nextProject.title}
+            label="All Projects"
             type="next"
-            typeLabel="Next Project"
+            typeLabel=""
+            className={classes.allProjects}
           />
-        )}
+        </div>
+        <ProjectMain id={project.id} className={classes.project} />
+        <div className={classes.buttons}>
+          {prevProject && (
+            <NavButton
+              to={{
+                pathname: `/projects/${prevProject.slug}`,
+                state: {
+                  from_path: location.pathname,
+                  from_type: "prev_nav_button",
+                },
+              }}
+              label={prevProject.title}
+              type="previous"
+              typeLabel="Previous Project"
+            />
+          )}
+          {nextProject && (
+            <NavButton
+              to={{
+                pathname: `/projects/${nextProject.slug}`,
+                state: {
+                  from_path: location.pathname,
+                  from_type: "next_nav_button",
+                },
+              }}
+              label={nextProject.title}
+              type="next"
+              typeLabel="Next Project"
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

@@ -1,8 +1,10 @@
 // React Imports
 import React, { FC } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
 import ExperienceMain from "../../Components/Content/Experience/Main";
+import { generatePageTitle } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import {
   generateExperienceTitle,
@@ -46,9 +48,14 @@ const SingleExperience: FC = () => {
   });
 
   return (
-    <div className={classes.container}>
-      <ExperienceMain id={experience.id} />
-    </div>
+    <>
+      <Helmet>
+        <title>{generatePageTitle(experience.title)}</title>
+      </Helmet>
+      <div className={classes.container}>
+        <ExperienceMain id={experience.id} />
+      </div>
+    </>
   );
 };
 

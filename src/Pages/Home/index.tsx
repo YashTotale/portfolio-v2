@@ -3,7 +3,9 @@ import React, { FC, useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { Document } from "@contentful/rich-text-types";
 import Typist from "react-typist";
+import { Helmet } from "react-helmet";
 import RichText from "../../Components/RichText";
+import { generatePageTitle } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 
 // Data Imports
@@ -32,11 +34,16 @@ const Home: FC = () => {
   });
 
   return (
-    <div className={classes.home}>
-      <Typography variant="h1">Yash Totale</Typography>
-      <Typer />
-      <RichText richText={main.description as Document} variant="body1" />
-    </div>
+    <>
+      <Helmet>
+        <title>{generatePageTitle("Home")}</title>
+      </Helmet>
+      <div className={classes.home}>
+        <Typography variant="h1">Yash Totale</Typography>
+        <Typer />
+        <RichText richText={main.description as Document} variant="body1" />
+      </div>
+    </>
   );
 };
 

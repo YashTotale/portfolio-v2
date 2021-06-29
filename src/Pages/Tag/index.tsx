@@ -1,9 +1,11 @@
 // React Imports
 import React, { FC } from "react";
 import { useParams, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
 import TagMain from "../../Components/Content/Tag/Main";
 import NavButton from "../../Components/NavButton";
+import { generatePageTitle } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { getTag, useSortedTags } from "../../Utils/Content/tags";
 
@@ -62,54 +64,59 @@ const Tag: FC = () => {
   const nextTag = sortedTags[tagIndex + 1];
 
   return (
-    <div className={classes.container}>
-      <div className={classes.topButtons}>
-        <NavButton
-          to={{
-            pathname: "/tags",
-            state: {
-              from_path: location.pathname,
-              from_type: "top_nav_button",
-            },
-          }}
-          label="All Tags"
-          type="next"
-          typeLabel=""
-          className={classes.allTags}
-        />
-      </div>
-      <TagMain id={tag.id} className={classes.tag} />
-      <div className={classes.buttons}>
-        {prevTag && (
+    <>
+      <Helmet>
+        <title>{generatePageTitle(tag.title)}</title>
+      </Helmet>
+      <div className={classes.container}>
+        <div className={classes.topButtons}>
           <NavButton
             to={{
-              pathname: `/tags/${prevTag.slug}`,
+              pathname: "/tags",
               state: {
                 from_path: location.pathname,
-                from_type: "prev_nav_button",
+                from_type: "top_nav_button",
               },
             }}
-            label={prevTag.title}
-            type="previous"
-            typeLabel="Previous Tag"
-          />
-        )}
-        {nextTag && (
-          <NavButton
-            to={{
-              pathname: `/tags/${nextTag.slug}`,
-              state: {
-                from_path: location.pathname,
-                from_type: "next_nav_button",
-              },
-            }}
-            label={nextTag.title}
+            label="All Tags"
             type="next"
-            typeLabel="Next Tag"
+            typeLabel=""
+            className={classes.allTags}
           />
-        )}
+        </div>
+        <TagMain id={tag.id} className={classes.tag} />
+        <div className={classes.buttons}>
+          {prevTag && (
+            <NavButton
+              to={{
+                pathname: `/tags/${prevTag.slug}`,
+                state: {
+                  from_path: location.pathname,
+                  from_type: "prev_nav_button",
+                },
+              }}
+              label={prevTag.title}
+              type="previous"
+              typeLabel="Previous Tag"
+            />
+          )}
+          {nextTag && (
+            <NavButton
+              to={{
+                pathname: `/tags/${nextTag.slug}`,
+                state: {
+                  from_path: location.pathname,
+                  from_type: "next_nav_button",
+                },
+              }}
+              label={nextTag.title}
+              type="next"
+              typeLabel="Next Tag"
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

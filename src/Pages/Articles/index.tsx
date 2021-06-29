@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import Filters from "../../Components/Filters";
 import ArticlePreview from "../../Components/Content/Article/Preview";
+import { generatePageTitle } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { sortTags } from "../../Utils/Content/tags";
 import {
@@ -31,6 +32,7 @@ import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
+import { Helmet } from "react-helmet";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -68,34 +70,41 @@ const Articles: FC = () => {
   });
 
   return (
-    <div className={classes.container}>
-      <Filters
-        search={{
-          defaultSearch: search,
-          onSearchChange: (value) => dispatch(setArticlesSearch(value)),
-        }}
-        sort={{
-          value: sort,
-          values: ARTICLES_SORT,
-          onChange: (value) => dispatch(setArticlesSort(value as ArticlesSort)),
-        }}
-        related={[
-          {
-            label: "Tags",
-            values: allTags.map((tag) => tag.title),
-            value: tagFilter,
-            onChange: (values) => dispatch(setArticlesTagFilter(values)),
-          },
-          {
-            label: "Experience",
-            values: allExperience.map(generateExperienceTitle),
-            value: experienceFilter,
-            onChange: (values) => dispatch(setArticlesExperienceFilter(values)),
-          },
-        ]}
-      />
-      <Contents />
-    </div>
+    <>
+      <Helmet>
+        <title>{generatePageTitle("Articles")}</title>
+      </Helmet>
+      <div className={classes.container}>
+        <Filters
+          search={{
+            defaultSearch: search,
+            onSearchChange: (value) => dispatch(setArticlesSearch(value)),
+          }}
+          sort={{
+            value: sort,
+            values: ARTICLES_SORT,
+            onChange: (value) =>
+              dispatch(setArticlesSort(value as ArticlesSort)),
+          }}
+          related={[
+            {
+              label: "Tags",
+              values: allTags.map((tag) => tag.title),
+              value: tagFilter,
+              onChange: (values) => dispatch(setArticlesTagFilter(values)),
+            },
+            {
+              label: "Experience",
+              values: allExperience.map(generateExperienceTitle),
+              value: experienceFilter,
+              onChange: (values) =>
+                dispatch(setArticlesExperienceFilter(values)),
+            },
+          ]}
+        />
+        <Contents />
+      </div>
+    </>
   );
 };
 

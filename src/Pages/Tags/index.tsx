@@ -1,8 +1,10 @@
 // React Imports
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import TagPreview from "../../Components/Content/Tag/Preview";
 import Filters from "../../Components/Filters";
+import { generatePageTitle } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { useFilteredTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
@@ -72,40 +74,45 @@ const Tags: FC = () => {
   });
 
   return (
-    <div className={classes.container}>
-      <Filters
-        search={{
-          defaultSearch: search,
-          onSearchChange: (value) => dispatch(setTagsSearch(value)),
-        }}
-        sort={{
-          value: sort,
-          values: TAGS_SORT,
-          onChange: (value) => dispatch(setTagsSort(value as TagsSort)),
-        }}
-        related={[
-          {
-            label: "Experience",
-            values: allExperience.map(generateExperienceTitle),
-            value: experienceFilter,
-            onChange: (values) => dispatch(setTagsExperienceFilter(values)),
-          },
-          {
-            label: "Projects",
-            values: allProjects.map((project) => project.title),
-            value: projectFilter,
-            onChange: (values) => dispatch(setTagsProjectFilter(values)),
-          },
-          {
-            label: "Articles",
-            values: allArticles.map((article) => article.title),
-            value: articleFilter,
-            onChange: (values) => dispatch(setTagsArticleFilter(values)),
-          },
-        ]}
-      />
-      <Contents />
-    </div>
+    <>
+      <Helmet>
+        <title>{generatePageTitle("Tags")}</title>
+      </Helmet>
+      <div className={classes.container}>
+        <Filters
+          search={{
+            defaultSearch: search,
+            onSearchChange: (value) => dispatch(setTagsSearch(value)),
+          }}
+          sort={{
+            value: sort,
+            values: TAGS_SORT,
+            onChange: (value) => dispatch(setTagsSort(value as TagsSort)),
+          }}
+          related={[
+            {
+              label: "Experience",
+              values: allExperience.map(generateExperienceTitle),
+              value: experienceFilter,
+              onChange: (values) => dispatch(setTagsExperienceFilter(values)),
+            },
+            {
+              label: "Projects",
+              values: allProjects.map((project) => project.title),
+              value: projectFilter,
+              onChange: (values) => dispatch(setTagsProjectFilter(values)),
+            },
+            {
+              label: "Articles",
+              values: allArticles.map((article) => article.title),
+              value: articleFilter,
+              onChange: (values) => dispatch(setTagsArticleFilter(values)),
+            },
+          ]}
+        />
+        <Contents />
+      </div>
+    </>
   );
 };
 

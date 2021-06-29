@@ -1,8 +1,10 @@
 // React Imports
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import Filters from "../../Components/Filters";
 import ProjectPreview from "../../Components/Content/Project/Preview";
+import { generatePageTitle } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { useFilteredProjects } from "../../Utils/Content/projects";
 import { sortTags } from "../../Utils/Content/tags";
@@ -65,34 +67,41 @@ const ProjectsPage: FC = () => {
   });
 
   return (
-    <div className={classes.container}>
-      <Filters
-        search={{
-          defaultSearch: search,
-          onSearchChange: (value) => dispatch(setProjectsSearch(value)),
-        }}
-        sort={{
-          value: sort,
-          values: PROJECTS_SORT,
-          onChange: (value) => dispatch(setProjectsSort(value as ProjectsSort)),
-        }}
-        related={[
-          {
-            label: "Tags",
-            values: allTags.map((tag) => tag.title),
-            value: tagFilter,
-            onChange: (values) => dispatch(setProjectsTagFilter(values)),
-          },
-          {
-            label: "Experience",
-            values: allExperience.map(generateExperienceTitle),
-            value: experienceFilter,
-            onChange: (values) => dispatch(setProjectsExperienceFilter(values)),
-          },
-        ]}
-      />
-      <Contents />
-    </div>
+    <>
+      <Helmet>
+        <title>{generatePageTitle("Projects")}</title>
+      </Helmet>
+      <div className={classes.container}>
+        <Filters
+          search={{
+            defaultSearch: search,
+            onSearchChange: (value) => dispatch(setProjectsSearch(value)),
+          }}
+          sort={{
+            value: sort,
+            values: PROJECTS_SORT,
+            onChange: (value) =>
+              dispatch(setProjectsSort(value as ProjectsSort)),
+          }}
+          related={[
+            {
+              label: "Tags",
+              values: allTags.map((tag) => tag.title),
+              value: tagFilter,
+              onChange: (values) => dispatch(setProjectsTagFilter(values)),
+            },
+            {
+              label: "Experience",
+              values: allExperience.map(generateExperienceTitle),
+              value: experienceFilter,
+              onChange: (values) =>
+                dispatch(setProjectsExperienceFilter(values)),
+            },
+          ]}
+        />
+        <Contents />
+      </div>
+    </>
   );
 };
 

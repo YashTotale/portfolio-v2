@@ -77,3 +77,5 @@ export const createSorter = <K extends string, T>(
     return sorted;
   };
 };
+
+export const generatePageTitle = (t: string): string => `${t} — Yash Totale`;

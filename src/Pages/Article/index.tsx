@@ -1,9 +1,11 @@
 // React Imports
 import React, { FC } from "react";
 import { useLocation, useParams } from "react-router-dom";
+import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
 import ArticleMain from "../../Components/Content/Article/Main";
 import NavButton from "../../Components/NavButton";
+import { generatePageTitle } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { getArticle, useSortedArticles } from "../../Utils/Content/articles";
 
@@ -68,54 +70,59 @@ const Article: FC = () => {
   const nextArticle = sortedArticles[articleIndex + 1];
 
   return (
-    <div className={classes.container}>
-      <div className={classes.topButtons}>
-        <NavButton
-          to={{
-            pathname: "/articles",
-            state: {
-              from_path: location.pathname,
-              from_type: "top_nav_button",
-            },
-          }}
-          label="All Articles"
-          type="next"
-          typeLabel=""
-          className={classes.allArticles}
-        />
-      </div>
-      <ArticleMain id={article.id} className={classes.article} />
-      <div className={classes.buttons}>
-        {prevArticle && (
+    <>
+      <Helmet>
+        <title>{generatePageTitle(article.title)}</title>
+      </Helmet>
+      <div className={classes.container}>
+        <div className={classes.topButtons}>
           <NavButton
             to={{
-              pathname: `/articles/${prevArticle.slug}`,
+              pathname: "/articles",
               state: {
                 from_path: location.pathname,
-                from_type: "prev_nav_button",
+                from_type: "top_nav_button",
               },
             }}
-            label={prevArticle.title}
-            type="previous"
-            typeLabel="Previous Article"
-          />
-        )}
-        {nextArticle && (
-          <NavButton
-            to={{
-              pathname: `/articles/${nextArticle.slug}`,
-              state: {
-                from_path: location.pathname,
-                from_type: "next_nav_button",
-              },
-            }}
-            label={nextArticle.title}
+            label="All Articles"
             type="next"
-            typeLabel="Next Article"
+            typeLabel=""
+            className={classes.allArticles}
           />
-        )}
+        </div>
+        <ArticleMain id={article.id} className={classes.article} />
+        <div className={classes.buttons}>
+          {prevArticle && (
+            <NavButton
+              to={{
+                pathname: `/articles/${prevArticle.slug}`,
+                state: {
+                  from_path: location.pathname,
+                  from_type: "prev_nav_button",
+                },
+              }}
+              label={prevArticle.title}
+              type="previous"
+              typeLabel="Previous Article"
+            />
+          )}
+          {nextArticle && (
+            <NavButton
+              to={{
+                pathname: `/articles/${nextArticle.slug}`,
+                state: {
+                  from_path: location.pathname,
+                  from_type: "next_nav_button",
+                },
+              }}
+              label={nextArticle.title}
+              type="next"
+              typeLabel="Next Article"
+            />
+          )}
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 

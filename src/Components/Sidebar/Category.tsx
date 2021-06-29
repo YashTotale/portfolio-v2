@@ -45,10 +45,9 @@ interface CategoryProps {
 
 const Category: FC<CategoryProps> = ({ label, to, children }) => {
   const pathname = useLocation().pathname;
-  const open = pathname.includes(
-    typeof to === "string" ? to : to.pathname ?? ""
-  );
-  const classes = useStyles({ open, isActive: pathname === to });
+  const curr = typeof to === "string" ? to : to.pathname ?? "";
+  const open = pathname.includes(curr);
+  const classes = useStyles({ open, isActive: pathname === curr });
   const history = useHistory();
 
   return (
@@ -57,7 +56,7 @@ const Category: FC<CategoryProps> = ({ label, to, children }) => {
         button
         className={classes.listItem}
         onClick={() => {
-          if (pathname === to && children) history.push("/");
+          if (pathname === curr && children) history.push("/");
           else history.push(to);
         }}
       >

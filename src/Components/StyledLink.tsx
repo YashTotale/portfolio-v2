@@ -9,7 +9,6 @@ import { Link, LinkProps } from "@material-ui/core";
 
 interface StyledLinkProps {
   to: LocationDescriptor;
-  children: string;
   onClick?: LinkProps["onClick"];
   variant?: LinkProps["variant"];
   align?: LinkProps["align"];
@@ -36,7 +35,11 @@ const StyledLink: FC<StyledLinkProps> = ({
       align={align}
       onClick={onClick}
     >
-      <MatchHighlight toMatch={toMatch}>{children}</MatchHighlight>
+      {typeof children === "string" ? (
+        <MatchHighlight toMatch={toMatch}>{children}</MatchHighlight>
+      ) : (
+        children
+      )}
     </Link>
   );
 };
