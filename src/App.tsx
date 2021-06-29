@@ -20,6 +20,7 @@ const SingleExperiencePage = lazy(() => import("./Pages/SingleExperience"));
 const ProjectsPage = lazy(() => import("./Pages/Projects"));
 const ProjectPage = lazy(() => import("./Pages/Project"));
 const ArticlesPage = lazy(() => import("./Pages/Articles"));
+const ArticlePage = lazy(() => import("./Pages/Article"));
 const TagsPage = lazy(() => import("./Pages/Tags"));
 const TagPage = lazy(() => import("./Pages/Tag"));
 const Contact = lazy(() => import("./Pages/Contact"));
@@ -88,6 +89,9 @@ const Routes: FC = () => {
             </Route>
             <Route exact path="/articles">
               <ArticlesPage />
+            </Route>
+            <Route exact path="/articles/:slug">
+              <ArticlePage />
             </Route>
             <Route exact path="/tags">
               <TagsPage />

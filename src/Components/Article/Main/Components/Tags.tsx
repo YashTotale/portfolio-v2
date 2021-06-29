@@ -1,13 +1,13 @@
 // React Imports
 import React, { FC } from "react";
-import Associated from "../../Tag/Associated";
-import { ResolvedProject } from "../../../Utils/types";
+import Associated from "../../../Tag/Associated";
+import { ResolvedArticle } from "../../../../Utils/types";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  projectTags: {
+  articleTags: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -26,11 +26,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Tags: FC<ResolvedProject> = (props) => {
+const Tags: FC<ResolvedArticle> = (props) => {
   const classes = useStyles();
 
   return (
-    <div className={classes.projectTags}>
+    <div className={classes.articleTags}>
       <div className={classes.tagsContainer}>
         {props.tags.map((tag) => (
           <Associated key={tag.id} id={tag.id} className={classes.tag} />

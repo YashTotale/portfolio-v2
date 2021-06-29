@@ -3,7 +3,8 @@ import React, { FC } from "react";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
-import FloatingIcons from "./Components/FloatingIcons";
+import FloatingIcons from "../Shared/FloatingIcons";
+import DynamicImage from "../../DynamicImage";
 import DynamicPaper from "../../DynamicPaper";
 import RichText from "../../RichText";
 import MatchHighlight from "../../MatchHighlight";
@@ -109,7 +110,7 @@ const Preview: FC<PreviewProps> = (props) => {
     <DynamicPaper className={clsx(classes.article, props.className)}>
       <Paper className={classes.articleTop}>
         <FloatingIcons {...article} />
-        <img
+        <DynamicImage
           src={`${article.image.file.url}?w=300`}
           alt={article.image.title}
           className={classes.articleImage}

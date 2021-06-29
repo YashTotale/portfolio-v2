@@ -92,7 +92,7 @@ const Main: FC<MainProps> = (props) => {
   if (!project) return null;
 
   return (
-    <Paper elevation={16} className={clsx(classes.project, props.className)}>
+    <Paper elevation={8} className={clsx(classes.project, props.className)}>
       <Title {...project} />
       <Typography align="center" variant="subtitle1">
         {generateProjectTimeline(project)}
