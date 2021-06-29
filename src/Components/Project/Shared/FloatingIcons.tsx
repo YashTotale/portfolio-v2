@@ -1,20 +1,27 @@
 // React Imports
 import React, { FC } from "react";
-import LinkIcon from "../../../Icon/Link";
-import { ResolvedProject } from "../../../../Utils/types";
+import LinkIcon from "../../Icon/Link";
+import { ResolvedProject } from "../../../Utils/types";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, Theme } from "@material-ui/core";
 import { GitHub, Launch } from "@material-ui/icons";
 
-const useStyles = makeStyles((theme) => ({
+type Direction = "row" | "column";
+
+interface StyleProps {
+  direction: Direction;
+  top: number;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   floatingIcons: {
     display: "flex",
-    flexDirection: "column",
+    flexDirection: ({ direction }) => direction,
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    top: theme.spacing(1),
+    top: ({ top }) => theme.spacing(top),
     right: theme.spacing(1),
   },
   iconButton: {
@@ -24,23 +31,31 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const FloatingIcons: FC<ResolvedProject> = ({ link, github }) => {
-  const classes = useStyles();
+type FloatingIconsProps = ResolvedProject & {
+  direction?: Direction;
+  top?: number;
+};
+
+const FloatingIcons: FC<FloatingIconsProps> = (props) => {
+  const classes = useStyles({
+    direction: props.direction ?? "column",
+    top: props.top ?? 1,
+  });
 
   return (
     <div className={classes.floatingIcons}>
-      {link && (
+      {props.link && (
         <LinkIcon
           label="View Website"
-          href={link}
+          href={props.link}
           icon={<Launch />}
           className={classes.iconButton}
         />
       )}
-      {github && (
+      {props.github && (
         <LinkIcon
           label="View GitHub"
-          href={github}
+          href={props.github}
           icon={<GitHub />}
           className={classes.iconButton}
         />

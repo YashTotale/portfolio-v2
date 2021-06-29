@@ -1,7 +1,7 @@
 //React Imports
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
-import FloatingIcons from "./Components/FloatingIcons";
+import FloatingIcons from "../Shared/FloatingIcons";
 import TagChip from "../../Tag/Mini";
 import Title from "./Components/Title";
 import RichText from "../../RichText";

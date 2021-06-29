@@ -6,7 +6,13 @@ import DynamicImage from "../../DynamicImage";
 import { ResolvedProject } from "../../../Utils/types";
 
 // Material UI Imports
-import { Button, makeStyles, Typography } from "@material-ui/core";
+import {
+  Button,
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import { GitHub, Launch } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -14,15 +20,17 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    width: "100%",
+    margin: theme.spacing(1),
+
+    [theme.breakpoints.down("sm")]: {
+      justifyContent: "space-between",
+    },
 
     [theme.breakpoints.only("xs")]: {
       flexDirection: "column",
     },
   },
   projectImage: {
-    marginLeft: theme.spacing(1),
-
     [theme.breakpoints.only("xl")]: {
       width: 225,
     },
@@ -46,6 +54,7 @@ const useStyles = makeStyles((theme) => ({
   projectDescription: {
     display: "flex",
     flexDirection: "column",
+    alignSelf: "flex-start",
     alignItems: "flex-start",
     justifyContent: "flex-start",
     marginRight: theme.spacing(2),
@@ -56,12 +65,11 @@ const useStyles = makeStyles((theme) => ({
   },
   projectLinks: {
     margin: theme.spacing(1),
-    marginLeft: "auto",
-    minWidth: "150px",
+    minWidth: "140px",
     overflow: "hidden",
 
-    [theme.breakpoints.down("sm")]: {
-      marginLeft: theme.spacing(1),
+    [theme.breakpoints.only("xs")]: {
+      margin: theme.spacing(0, 1),
     },
   },
   projectLink: {
@@ -78,10 +86,15 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0.5, 1.5),
     margin: theme.spacing(1, 0),
   },
+  projectLinkText: {
+    marginRight: theme.spacing(0.5),
+  },
 }));
 
 const Display: FC<ResolvedProject> = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   return (
     <div className={classes.projectInfo}>
@@ -93,7 +106,7 @@ const Display: FC<ResolvedProject> = (props) => {
       <div className={classes.projectDescription}>
         <RichText richText={props.description as Document} />
       </div>
-      {(props.link || props.github) && (
+      {(props.link || props.github) && isSizeSmall && (
         <div className={classes.projectLinks}>
           {props.link && (
             <a
@@ -103,7 +116,9 @@ const Display: FC<ResolvedProject> = (props) => {
               className={classes.projectLink}
             >
               <Button variant="outlined" className={classes.projectLinkButton}>
-                <Typography>View Website</Typography>
+                <Typography variant="body2" className={classes.projectLinkText}>
+                  View Website
+                </Typography>
                 <Launch fontSize="small" />
               </Button>
             </a>
@@ -116,7 +131,7 @@ const Display: FC<ResolvedProject> = (props) => {
               className={classes.projectLink}
             >
               <Button variant="outlined" className={classes.projectLinkButton}>
-                <Typography>View GitHub</Typography>
+                <Typography variant="body2">View GitHub</Typography>
                 <GitHub fontSize="small" />
               </Button>
             </a>

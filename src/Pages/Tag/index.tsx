@@ -3,11 +3,11 @@ import React, { FC } from "react";
 import { useParams } from "react-router";
 import NotFound from "../NotFound";
 import TagMain from "../../Components/Tag/Main";
+import NavButton from "../../Components/NavButton";
 import { getTag, useSortedTags } from "../../Utils/Content/tags";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
-import NavButton from "../../Components/NavButton";
 
 const useStyles = makeStyles((theme) => ({
   container: {

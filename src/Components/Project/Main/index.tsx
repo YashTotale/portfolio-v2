@@ -1,7 +1,9 @@
 // React Imports
 import React, { FC } from "react";
+import clsx from "clsx";
 import Display from "./Display";
 import Tags from "./Tags";
+import Title from "./Components/Title";
 import Badge from "../../Badge";
 import Associated from "../../Experience/Associated";
 import {
@@ -26,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "stretch",
     justifyContent: "center",
     padding: theme.spacing(1, 0),
-    margin: theme.spacing(1, 0),
     width: "100%",
   },
   divider: {
@@ -75,6 +76,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface MainProps {
   id: string;
+  className?: string;
 }
 
 const Main: FC<MainProps> = (props) => {
@@ -86,10 +88,8 @@ const Main: FC<MainProps> = (props) => {
   if (!project) return null;
 
   return (
-    <Paper elevation={16} className={classes.project}>
-      <Typography variant={isSizeSmall ? "h4" : "h3"} align="center">
-        {project.title}
-      </Typography>
+    <Paper elevation={16} className={clsx(classes.project, props.className)}>
+      <Title {...project} />
       <Typography align="center" variant="subtitle1">
         {generateProjectTimeline(project)}
       </Typography>

@@ -40,7 +40,7 @@ const Tag: FC<TagProps> = (props) => {
   if (!tag) return null;
 
   return (
-    <Paper elevation={12} className={clsx(classes.root, props.className)}>
+    <Paper elevation={8} className={clsx(classes.root, props.className)}>
       <Title {...tag} search={props.search} />
       <Icon {...tag} />
       <HorizontalDivider />
