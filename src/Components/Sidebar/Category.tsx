@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import { useHistory, useLocation } from "react-router";
+import { LocationDescriptor } from "history";
 
 // Material UI Imports
 import {
@@ -38,13 +39,15 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 }));
 
 interface CategoryProps {
-  to: string;
+  to: LocationDescriptor;
   label: string;
 }
 
 const Category: FC<CategoryProps> = ({ label, to, children }) => {
   const pathname = useLocation().pathname;
-  const open = pathname.includes(to);
+  const open = pathname.includes(
+    typeof to === "string" ? to : to.pathname ?? ""
+  );
   const classes = useStyles({ open, isActive: pathname === to });
   const history = useHistory();
 

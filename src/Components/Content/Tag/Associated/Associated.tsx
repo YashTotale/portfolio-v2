@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC } from "react";
+import { useLocation } from "react-router-dom";
 import Overlay from "../../../Overlay";
 import { getTag } from "../../../../Utils/Content/tags";
 
@@ -13,6 +14,7 @@ export interface AssociatedProps {
 
 const Associated: FC<AssociatedProps> = (props) => {
   const theme = useTheme();
+  const location = useLocation();
   const isDark = theme.palette.type === "dark";
 
   const tag = getTag(props.id);
@@ -22,7 +24,13 @@ const Associated: FC<AssociatedProps> = (props) => {
 
   return (
     <Overlay
-      to={`/tags/${tag.slug}`}
+      to={{
+        pathname: `/tags/${tag.slug}`,
+        state: {
+          from_path: location.pathname,
+          from_type: "associated",
+        },
+      }}
       icon={icon}
       label={tag.title}
       className={props.className}

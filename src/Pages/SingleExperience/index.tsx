@@ -1,12 +1,16 @@
 // React Imports
 import React, { FC } from "react";
+import { useParams, useLocation } from "react-router-dom";
 import NotFound from "../NotFound";
+import ExperienceMain from "../../Components/Content/Experience/Main";
+import { analytics } from "../../Utils/Config/firebase";
+import {
+  generateExperienceTitle,
+  getSingleExperience,
+} from "../../Utils/Content/experience";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
-import { useParams } from "react-router-dom";
-import { getSingleExperience } from "../../Utils/Content/experience";
-import ExperienceMain from "../../Components/Content/Experience/Main";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -24,6 +28,7 @@ interface Params {
 const SingleExperience: FC = () => {
   const { slug } = useParams<Params>();
   const classes = useStyles();
+  const location = useLocation();
   const experience = getSingleExperience(slug, true);
 
   if (!experience)
@@ -34,6 +39,11 @@ const SingleExperience: FC = () => {
         redirectName="Experience Page"
       />
     );
+
+  analytics.logEvent("page_view", {
+    page_title: generateExperienceTitle(experience),
+    ...(location.state as Record<string, unknown>),
+  });
 
   return (
     <div className={classes.container}>

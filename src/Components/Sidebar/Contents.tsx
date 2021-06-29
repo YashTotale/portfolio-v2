@@ -32,22 +32,36 @@ const Contents: FC = () => {
   const articles = useSortedArticles();
   const tags = useSortedTags();
 
+  const generatePath = (p: string) => ({
+    pathname: p,
+    state: {
+      from_type: "sidebar",
+    },
+  });
+
   return (
     <>
       <Toolbar className={classes.toolbar}>
-        <Link to="/">
+        <Link
+          to={{
+            pathname: "/",
+            state: {
+              from_type: "sidebar_icon",
+            },
+          }}
+        >
           <img src="/logo192.png" alt="Website Logo" height={40} />
         </Link>
       </Toolbar>
       <Divider />
       <List disablePadding className={classes.list}>
-        <Category label="Home" to="/" />
-        <Category label="Experience" to="/experience">
+        <Category label="Home" to={generatePath("/")} />
+        <Category label="Experience" to={generatePath("/experience")}>
           {experience.map((exp) => (
             <Item
               key={exp.id}
               label={generateExperienceTitle(exp)}
-              to={`/experience/${exp.slug}`}
+              to={generatePath(`/experience/${exp.slug}`)}
             />
           ))}
         </Category>
@@ -56,7 +70,7 @@ const Contents: FC = () => {
             <Item
               key={project.id}
               label={project.title}
-              to={`/projects/${project.slug}`}
+              to={generatePath(`/projects/${project.slug}`)}
             />
           ))}
         </Category>
@@ -65,17 +79,21 @@ const Contents: FC = () => {
             <Item
               key={article.id}
               label={article.title}
-              to={`/articles/${article.slug}`}
+              to={generatePath(`/articles/${article.slug}`)}
             />
           ))}
         </Category>
         <Category label="Tags" to="/tags">
           {tags.map((tag) => (
-            <Item key={tag.id} label={tag.title} to={`/tags/${tag.slug}`} />
+            <Item
+              key={tag.id}
+              label={tag.title}
+              to={generatePath(`/tags/${tag.slug}`)}
+            />
           ))}
         </Category>
-        <Category label="Books" to="/books" />
-        <Category label="Contact" to="/contact" />
+        <Category label="Books" to={generatePath("/books")} />
+        <Category label="Contact" to={generatePath("/contact")} />
       </List>
     </>
   );

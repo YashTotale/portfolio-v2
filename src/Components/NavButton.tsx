@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC } from "react";
+import { LocationDescriptor } from "history";
 
 // Material UI Imports
 import {
@@ -58,7 +59,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 
 interface NavButtonProps {
   label: string;
-  to: string;
+  to: LocationDescriptor;
   type: BtnType;
   typeLabel?: string;
   className?: string;

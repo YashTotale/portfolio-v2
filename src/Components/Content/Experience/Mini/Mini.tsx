@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import MatchHighlight from "../../../MatchHighlight";
 import {
   generateExperienceTitle,
@@ -40,13 +40,20 @@ export interface MiniProps {
 
 const Mini: FC<MiniProps> = (props) => {
   const classes = useStyles();
+  const location = useLocation();
   const experience = getSingleExperience(props.id);
 
   if (!experience) return null;
 
   return (
     <Link
-      to={`/experience/${experience.slug}`}
+      to={{
+        pathname: `/experience/${experience.slug}`,
+        state: {
+          from_path: location.pathname,
+          from_type: "mini",
+        },
+      }}
       className={clsx(classes.link, props.className)}
     >
       <Button className={classes.button} variant="outlined">

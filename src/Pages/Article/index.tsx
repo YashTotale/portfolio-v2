@@ -1,9 +1,10 @@
 // React Imports
 import React, { FC } from "react";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 import ArticleMain from "../../Components/Content/Article/Main";
 import NavButton from "../../Components/NavButton";
+import { analytics } from "../../Utils/Config/firebase";
 import { getArticle, useSortedArticles } from "../../Utils/Content/articles";
 
 // Material UI Imports
@@ -44,6 +45,7 @@ interface Params {
 const Article: FC = () => {
   const { slug } = useParams<Params>();
   const classes = useStyles();
+  const location = useLocation();
   const article = getArticle(slug, true);
   const sortedArticles = useSortedArticles();
 
@@ -56,6 +58,11 @@ const Article: FC = () => {
       />
     );
 
+  analytics.logEvent("page_view", {
+    page_title: article.title,
+    ...(location.state as Record<string, unknown>),
+  });
+
   const articleIndex = sortedArticles.findIndex((p) => p.id === article.id);
   const prevArticle = sortedArticles[articleIndex - 1];
   const nextArticle = sortedArticles[articleIndex + 1];
@@ -64,7 +71,13 @@ const Article: FC = () => {
     <div className={classes.container}>
       <div className={classes.topButtons}>
         <NavButton
-          to="/articles"
+          to={{
+            pathname: "/articles",
+            state: {
+              from_path: location.pathname,
+              from_type: "top_nav_button",
+            },
+          }}
           label="All Articles"
           type="next"
           typeLabel=""
@@ -75,7 +88,13 @@ const Article: FC = () => {
       <div className={classes.buttons}>
         {prevArticle && (
           <NavButton
-            to={`/articles/${prevArticle.slug}`}
+            to={{
+              pathname: `/articles/${prevArticle.slug}`,
+              state: {
+                from_path: location.pathname,
+                from_type: "prev_nav_button",
+              },
+            }}
             label={prevArticle.title}
             type="previous"
             typeLabel="Previous Article"
@@ -83,7 +102,13 @@ const Article: FC = () => {
         )}
         {nextArticle && (
           <NavButton
-            to={`/articles/${nextArticle.slug}`}
+            to={{
+              pathname: `/articles/${nextArticle.slug}`,
+              state: {
+                from_path: location.pathname,
+                from_type: "next_nav_button",
+              },
+            }}
             label={nextArticle.title}
             type="next"
             typeLabel="Next Article"

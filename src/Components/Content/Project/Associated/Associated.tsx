@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC } from "react";
+import { useLocation } from "react-router-dom";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import RichText from "../../../RichText";
@@ -79,6 +80,7 @@ export interface AssociatedProps {
 const Associated: FC<AssociatedProps> = ({ id, className }) => {
   const classes = useStyles();
   const theme = useTheme();
+  const location = useLocation();
   const project = getProject(id);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
@@ -96,7 +98,13 @@ const Associated: FC<AssociatedProps> = ({ id, className }) => {
         <StyledLink
           variant="h6"
           align="center"
-          to={`/projects/${project.slug}`}
+          to={{
+            pathname: `/projects/${project.slug}`,
+            state: {
+              from_path: location.pathname,
+              from_type: "associated",
+            },
+          }}
           className={classes.title}
         >
           {project.title}

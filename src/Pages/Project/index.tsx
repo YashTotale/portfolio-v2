@@ -1,9 +1,10 @@
 // React Imports
 import React, { FC } from "react";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router-dom";
 import NotFound from "../NotFound";
 import ProjectMain from "../../Components/Content/Project/Main";
 import NavButton from "../../Components/NavButton";
+import { analytics } from "../../Utils/Config/firebase";
 import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 
 // Material UI Imports
@@ -44,6 +45,7 @@ interface Params {
 const Project: FC = () => {
   const { slug } = useParams<Params>();
   const classes = useStyles();
+  const location = useLocation();
   const project = getProject(slug, true);
   const sortedProjects = useSortedProjects();
 
@@ -56,6 +58,11 @@ const Project: FC = () => {
       />
     );
 
+  analytics.logEvent("page_view", {
+    page_title: project.title,
+    ...(location.state as Record<string, unknown>),
+  });
+
   const projectIndex = sortedProjects.findIndex((p) => p.id === project.id);
   const prevProject = sortedProjects[projectIndex - 1];
   const nextProject = sortedProjects[projectIndex + 1];
@@ -64,7 +71,13 @@ const Project: FC = () => {
     <div className={classes.container}>
       <div className={classes.topButtons}>
         <NavButton
-          to="/projects"
+          to={{
+            pathname: "/projects",
+            state: {
+              from_path: location.pathname,
+              from_type: "top_nav_button",
+            },
+          }}
           label="All Projects"
           type="next"
           typeLabel=""
@@ -75,7 +88,13 @@ const Project: FC = () => {
       <div className={classes.buttons}>
         {prevProject && (
           <NavButton
-            to={`/projects/${prevProject.slug}`}
+            to={{
+              pathname: `/projects/${prevProject.slug}`,
+              state: {
+                from_path: location.pathname,
+                from_type: "prev_nav_button",
+              },
+            }}
             label={prevProject.title}
             type="previous"
             typeLabel="Previous Project"
@@ -83,7 +102,13 @@ const Project: FC = () => {
         )}
         {nextProject && (
           <NavButton
-            to={`/projects/${nextProject.slug}`}
+            to={{
+              pathname: `/projects/${nextProject.slug}`,
+              state: {
+                from_path: location.pathname,
+                from_type: "next_nav_button",
+              },
+            }}
             label={nextProject.title}
             type="next"
             typeLabel="Next Project"

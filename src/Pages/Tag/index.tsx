@@ -1,9 +1,10 @@
 // React Imports
 import React, { FC } from "react";
-import { useParams } from "react-router";
+import { useParams, useLocation } from "react-router-dom";
 import NotFound from "../NotFound";
 import TagMain from "../../Components/Content/Tag/Main";
 import NavButton from "../../Components/NavButton";
+import { analytics } from "../../Utils/Config/firebase";
 import { getTag, useSortedTags } from "../../Utils/Content/tags";
 
 // Material UI Imports
@@ -44,11 +45,17 @@ interface Params {
 const Tag: FC = () => {
   const { slug } = useParams<Params>();
   const classes = useStyles();
+  const location = useLocation();
   const tag = getTag(slug, true);
   const sortedTags = useSortedTags();
 
   if (!tag)
     return <NotFound name="tag" redirect="/tags" redirectName="Tags Page" />;
+
+  analytics.logEvent("page_view", {
+    page_title: tag.title,
+    ...(location.state as Record<string, unknown>),
+  });
 
   const tagIndex = sortedTags.findIndex((t) => t.id === tag.id);
   const prevTag = sortedTags[tagIndex - 1];
@@ -58,7 +65,13 @@ const Tag: FC = () => {
     <div className={classes.container}>
       <div className={classes.topButtons}>
         <NavButton
-          to="/tags"
+          to={{
+            pathname: "/tags",
+            state: {
+              from_path: location.pathname,
+              from_type: "top_nav_button",
+            },
+          }}
           label="All Tags"
           type="next"
           typeLabel=""
@@ -69,7 +82,13 @@ const Tag: FC = () => {
       <div className={classes.buttons}>
         {prevTag && (
           <NavButton
-            to={`/tags/${prevTag.slug}`}
+            to={{
+              pathname: `/tags/${prevTag.slug}`,
+              state: {
+                from_path: location.pathname,
+                from_type: "prev_nav_button",
+              },
+            }}
             label={prevTag.title}
             type="previous"
             typeLabel="Previous Tag"
@@ -77,7 +96,13 @@ const Tag: FC = () => {
         )}
         {nextTag && (
           <NavButton
-            to={`/tags/${nextTag.slug}`}
+            to={{
+              pathname: `/tags/${nextTag.slug}`,
+              state: {
+                from_path: location.pathname,
+                from_type: "next_nav_button",
+              },
+            }}
             label={nextTag.title}
             type="next"
             typeLabel="Next Tag"

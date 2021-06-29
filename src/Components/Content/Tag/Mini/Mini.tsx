@@ -1,7 +1,8 @@
 //React Imports
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
+import MatchHighlight from "../../../MatchHighlight";
 import { getTag } from "../../../../Utils/Content/tags";
 
 //Material UI Imports
@@ -12,7 +13,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import MatchHighlight from "../../../MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   projectTag: {
@@ -32,6 +32,7 @@ export interface MiniProps {
 const Mini: FC<MiniProps> = (props) => {
   const theme = useTheme();
   const classes = useStyles();
+  const location = useLocation();
   const tag = getTag(props.id);
 
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -51,7 +52,13 @@ const Mini: FC<MiniProps> = (props) => {
       className={clsx(classes.projectTag, props.className)}
       avatar={<Avatar src={`${icon.file.url}?w=30`} alt={icon.title} />}
       component={Link}
-      to={`/tags/${tag.slug}`}
+      to={{
+        pathname: `/tags/${tag.slug}`,
+        state: {
+          from_path: location.pathname,
+          from_type: "mini",
+        },
+      }}
       color="secondary"
       variant="outlined"
     />

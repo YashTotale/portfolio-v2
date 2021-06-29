@@ -20,6 +20,7 @@ import {
   useTheme,
 } from "@material-ui/core";
 import MatchHighlight from "../../../MatchHighlight";
+import { useLocation } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -92,6 +93,7 @@ export interface AssociatedProps {
 const Associated: FC<AssociatedProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const location = useLocation();
   const experience = getSingleExperience(props.id);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
@@ -109,7 +111,13 @@ const Associated: FC<AssociatedProps> = (props) => {
         <StyledLink
           variant="h6"
           align="center"
-          to={`/experience/${experience.slug}`}
+          to={{
+            pathname: `/experience/${experience.slug}`,
+            state: {
+              from_path: location.pathname,
+              from_type: "associated",
+            },
+          }}
           className={classes.title}
           toMatch={props.search}
         >

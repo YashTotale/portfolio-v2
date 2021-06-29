@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC, Fragment } from "react";
+import { useLocation } from "react-router-dom";
 import {
   documentToReactComponents,
   Options,
@@ -47,6 +48,7 @@ const RichText: FC<RichTextProps> = ({
   variant = "body2",
 }) => {
   const classes = useStyles();
+  const location = useLocation();
 
   const options: Options = {
     renderText: (text) => (
@@ -92,34 +94,17 @@ const RichText: FC<RichTextProps> = ({
         };
 
         return (
-          <Link
+          <StyledLink
             variant={variant}
-            href={getLink()}
-            target="_blank"
-            rel="noopener noreferrer"
+            to={{
+              pathname: getLink(),
+              state: {
+                from_path: location.pathname,
+                from_type: "entry_hyperlink",
+              },
+            }}
           >
-            {children}
-          </Link>
-        );
-      },
-      [INLINES.EMBEDDED_ENTRY]: (node) => {
-        const entry = node.data.target;
-        const id = entry.sys.id;
-        const type = entry.sys.contentType.sys.id;
-
-        let to = "";
-        let label = "";
-
-        switch (type) {
-          case "project": {
-            to = `/projects/${id}`;
-            label = entry.fields.title;
-          }
-        }
-
-        return (
-          <StyledLink to={to} variant={variant} toMatch={toMatch}>
-            {label}
+            {children?.toString() ?? ""}
           </StyledLink>
         );
       },
@@ -142,6 +127,7 @@ const TextRenderer: FC<TextRendererProps> = ({
 }) => {
   const tags = getTags();
   const classes = useStyles();
+  const location = useLocation();
 
   const parsed: (JSX.Element | string)[] = [];
 
@@ -173,7 +159,13 @@ const TextRenderer: FC<TextRendererProps> = ({
 
       parsed.push(
         <StyledLink
-          to={`/tags/${tag.slug}`}
+          to={{
+            pathname: `/tags/${tag.slug}`,
+            state: {
+              from_path: location.pathname,
+              from_type: "rich_text",
+            },
+          }}
           variant={variant}
           toMatch={toMatch}
         >

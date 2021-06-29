@@ -12,12 +12,7 @@ import {
 import { Provider, useDispatch } from "react-redux";
 
 // Firebase Imports
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/analytics";
-import "firebase/performance";
-import "firebase/firestore";
-import { firebaseConfig } from "./Utils/config";
+import firebase from "./Utils/Config/firebase";
 import {
   getFirebase,
   actionTypes as rrfActionTypes,
@@ -140,17 +135,6 @@ export type AppThunk = ThunkAction<
 export const getState = store.getState;
 
 const persistor = persistStore(store);
-
-firebase.initializeApp(firebaseConfig);
-
-firebase.firestore();
-firebase.performance();
-
-export let analytics: firebase.analytics.Analytics | null = null;
-
-firebase.analytics.isSupported().then((supported) => {
-  if (supported) analytics = firebase.analytics();
-});
 
 const ReduxStore: FC = ({ children }) => {
   return (

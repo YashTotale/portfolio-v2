@@ -1,8 +1,10 @@
 // React Imports
 import React, { FC, useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
 import { Document } from "@contentful/rich-text-types";
 import Typist from "react-typist";
 import RichText from "../../Components/RichText";
+import { analytics } from "../../Utils/Config/firebase";
 
 // Data Imports
 import main from "../../Data/main.json";
@@ -22,6 +24,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Home: FC = () => {
   const classes = useStyles();
+  const location = useLocation();
+
+  analytics.logEvent("page_view", {
+    page_title: "Home",
+    ...(location.state as Record<string, unknown>),
+  });
 
   return (
     <div className={classes.home}>

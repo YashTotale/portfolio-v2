@@ -1,6 +1,6 @@
 // React Imports
 import React, { cloneElement, FC } from "react";
-import { Link } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import clsx from "clsx";
 import DynamicPaper from "../../../DynamicPaper";
 import DynamicImage from "../../../DynamicImage";
@@ -13,18 +13,13 @@ import { makeStyles, Typography, useTheme } from "@material-ui/core";
 import { Build, Description, Work } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
-  link: {
-    flex: 1,
-    textDecoration: "none",
-    minWidth: 200,
-    maxWidth: 250,
-  },
   container: {
+    flex: 1,
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "100%",
-    height: "100%",
+    minWidth: 200,
+    maxWidth: 250,
   },
   display: {
     display: "flex",
@@ -56,6 +51,7 @@ export interface PreviewProps {
 const Preview: FC<PreviewProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const location = useLocation();
   const tag = getTag(props.id);
 
   if (!tag) return null;
@@ -64,47 +60,44 @@ const Preview: FC<PreviewProps> = (props) => {
   const icon = isDark ? tag.darkIcon : tag.lightIcon;
 
   return (
-    <Link
-      to={`/tags/${tag.slug}`}
-      className={clsx(classes.link, props.className)}
-    >
-      <DynamicPaper className={classes.container}>
-        <div className={classes.display}>
-          <DynamicImage
-            src={`${icon.file.url}?w=200`}
-            alt={icon.title}
-            className={classes.icon}
-            width={150}
-          />
-          <StyledLink
-            to={`/tags/${tag.slug}`}
-            variant="h5"
-            className={classes.title}
-            toMatch={props.search}
-          >
-            {tag.title}
-          </StyledLink>
-        </div>
-        <HorizontalDivider flexItem />
-        <div className={classes.info}>
-          <Related
-            value={tag.experience.length}
-            label="experience"
-            icon={<Work />}
-          />
-          <Related
-            value={tag.projects.length}
-            label="project"
-            icon={<Build />}
-          />
-          <Related
-            value={tag.articles.length}
-            label="article"
-            icon={<Description />}
-          />
-        </div>
-      </DynamicPaper>
-    </Link>
+    <DynamicPaper className={clsx(classes.container, props.className)}>
+      <div className={classes.display}>
+        <DynamicImage
+          src={`${icon.file.url}?w=200`}
+          alt={icon.title}
+          className={classes.icon}
+          width={150}
+        />
+        <StyledLink
+          to={{
+            pathname: `/tags/${tag.slug}`,
+            state: {
+              from_path: location.pathname,
+              from_type: "preview_title",
+            },
+          }}
+          variant="h5"
+          className={classes.title}
+          toMatch={props.search}
+        >
+          {tag.title}
+        </StyledLink>
+      </div>
+      <HorizontalDivider flexItem />
+      <div className={classes.info}>
+        <Related
+          value={tag.experience.length}
+          label="experience"
+          icon={<Work />}
+        />
+        <Related value={tag.projects.length} label="project" icon={<Build />} />
+        <Related
+          value={tag.articles.length}
+          label="article"
+          icon={<Description />}
+        />
+      </div>
+    </DynamicPaper>
   );
 };
 

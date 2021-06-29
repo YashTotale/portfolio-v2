@@ -1,7 +1,9 @@
 // React Imports
 import React, { FC } from "react";
+import { useLocation } from "react-router-dom";
 import TagPreview from "../../Components/Content/Tag/Preview";
 import Filters from "../../Components/Filters";
+import { analytics } from "../../Utils/Config/firebase";
 import { useFilteredTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
 import { sortArticles } from "../../Utils/Content/articles";
@@ -53,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
 const Tags: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const allProjects = sortProjects("Alphabetically");
   const allArticles = sortArticles("Alphabetically");
   const allExperience = sortExperience("Alphabetically");
@@ -62,6 +65,11 @@ const Tags: FC = () => {
   const projectFilter = useSelector(getTagsProjectFilter);
   const articleFilter = useSelector(getTagsArticleFilter);
   const experienceFilter = useSelector(getTagsExperienceFilter);
+
+  analytics.logEvent("page_view", {
+    page_title: "Tags",
+    ...(location.state as Record<string, unknown>),
+  });
 
   return (
     <div className={classes.container}>

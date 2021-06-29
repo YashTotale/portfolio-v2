@@ -1,8 +1,10 @@
 // React Imports
 import React, { FC } from "react";
+import { useLocation } from "react-router-dom";
 import Filters from "../../Components/Filters";
 import BookPreview from "../../Components/Content/Book/Preview";
 import HorizontalDivider from "../../Components/Divider/Horizontal";
+import { analytics } from "../../Utils/Config/firebase";
 import { getBookGenres, useFilteredBooks } from "../../Utils/Content/books";
 import { Book } from "../../Utils/types";
 
@@ -65,12 +67,18 @@ const useStyles = makeStyles((theme) => ({
 const Books: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const location = useLocation();
 
   const books = useFilteredBooks();
   const genres = getBookGenres();
 
   const search = useSelector(getBooksSearch);
   const genreFilter = useSelector(getBooksGenreFilter);
+
+  analytics.logEvent("page_view", {
+    page_title: "Books",
+    ...(location.state as Record<string, unknown>),
+  });
 
   return (
     <div className={classes.container}>

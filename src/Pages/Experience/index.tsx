@@ -1,7 +1,9 @@
 // React Imports
 import React, { FC } from "react";
+import { useLocation } from "react-router-dom";
 import Filters from "../../Components/Filters";
 import ExperienceMain from "../../Components/Content/Experience/Main";
+import { analytics } from "../../Utils/Config/firebase";
 import { useFilteredExperience } from "../../Utils/Content/experience";
 import { sortTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
@@ -40,6 +42,7 @@ const useStyles = makeStyles((theme) => ({
 const Experience: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const location = useLocation();
   const allTags = sortTags("Alphabetically");
   const allProjects = sortProjects("Alphabetically");
 
@@ -47,6 +50,11 @@ const Experience: FC = () => {
   const sort = useSelector(getExperienceSort);
   const tagFilter = useSelector(getExperienceTagFilter);
   const projectFilter = useSelector(getExperienceProjectFilter);
+
+  analytics.logEvent("page_view", {
+    page_title: "Experience",
+    ...(location.state as Record<string, unknown>),
+  });
 
   return (
     <div className={classes.container}>
