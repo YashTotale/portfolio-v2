@@ -27,10 +27,9 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 interface ItemProps {
   label: string;
   to: string;
-  onClick?: () => void;
 }
 
-const Item: FC<ItemProps> = ({ label, to, onClick }) => {
+const Item: FC<ItemProps> = ({ label, to }) => {
   const pathname = useLocation().pathname;
   const history = useHistory();
   const classes = useStyles({
@@ -43,7 +42,6 @@ const Item: FC<ItemProps> = ({ label, to, onClick }) => {
       className={classes.listItem}
       onClick={() => {
         history.push(to);
-        onClick?.();
       }}
     >
       <ListItemText

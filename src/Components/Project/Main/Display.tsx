@@ -31,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   projectImage: {
+    margin: theme.spacing(1),
+
     [theme.breakpoints.only("xl")]: {
       width: 225,
     },
@@ -57,11 +59,6 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "flex-start",
     alignItems: "flex-start",
     justifyContent: "flex-start",
-    marginRight: theme.spacing(2),
-
-    [theme.breakpoints.down("sm")]: {
-      marginRight: 0,
-    },
   },
   projectLinks: {
     margin: theme.spacing(1),
@@ -104,7 +101,10 @@ const Display: FC<ResolvedProject> = (props) => {
         className={classes.projectImage}
       />
       <div className={classes.projectDescription}>
-        <RichText richText={props.description as Document} />
+        <RichText
+          variant={isSizeSmall ? "body2" : "body1"}
+          richText={props.description as Document}
+        />
       </div>
       {(props.link || props.github) && isSizeSmall && (
         <div className={classes.projectLinks}>

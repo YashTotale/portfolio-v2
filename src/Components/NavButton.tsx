@@ -8,6 +8,8 @@ import {
   makeStyles,
   Theme,
   Typography,
+  useMediaQuery,
+  useTheme,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
 
@@ -40,9 +42,16 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   label: {
     display: "flex",
     flexDirection: "column",
+    width: "100%",
     alignItems: ({ type }) => (type === "previous" ? "flex-start" : "flex-end"),
     marginRight: ({ type }) => (type === "previous" ? "auto" : 0),
     marginLeft: ({ type }) => (type === "next" ? "auto" : 0),
+  },
+  labelText: {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    maxWidth: "100%",
   },
 }));
 
@@ -55,6 +64,8 @@ interface NavButtonProps {
 
 const NavButton: FC<NavButtonProps> = (props) => {
   const classes = useStyles({ type: props.type });
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const label =
     props.type === "previous" ? `« ${props.label}` : `${props.label} »`;
@@ -63,10 +74,17 @@ const NavButton: FC<NavButtonProps> = (props) => {
     <Link to={props.to} className={classes.link}>
       <Button variant="outlined" className={classes.button}>
         <div className={classes.label}>
-          <Typography color="textSecondary" variant="body2">
+          <Typography
+            color="textSecondary"
+            variant={isSizeXS ? "caption" : "body1"}
+          >
             {props.typeLabel ? props.typeLabel : capitalize(props.type)}
           </Typography>
-          <Typography color="primary" variant="h6">
+          <Typography
+            color="primary"
+            variant={isSizeXS ? "body1" : "h6"}
+            className={classes.labelText}
+          >
             {label}
           </Typography>
         </div>

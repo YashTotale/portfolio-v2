@@ -45,6 +45,10 @@ const useStyles = makeStyles((theme) => ({
   badge: {
     margin: theme.spacing(1, 0.5),
     marginBottom: 0,
+
+    [theme.breakpoints.only("xs")]: {
+      margin: theme.spacing(0, 0.5),
+    },
   },
   main: {
     padding: theme.spacing(0, 2),

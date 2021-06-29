@@ -23,7 +23,10 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     alignItems: "center",
     position: "relative",
     width: "100%",
-    padding: ({ icons }) => theme.spacing(0, 6 * icons.length),
+
+    [theme.breakpoints.up("md")]: {
+      padding: ({ icons }) => theme.spacing(0, 6 * icons.length),
+    },
   },
 }));
 

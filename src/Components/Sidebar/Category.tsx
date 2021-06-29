@@ -54,7 +54,7 @@ const Category: FC<CategoryProps> = ({ label, to, children }) => {
         button
         className={classes.listItem}
         onClick={() => {
-          if (open && children) history.push("/");
+          if (pathname === to && children) history.push("/");
           else history.push(to);
         }}
       >

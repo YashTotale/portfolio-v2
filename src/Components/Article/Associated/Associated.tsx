@@ -37,27 +37,22 @@ const useStyles = makeStyles((theme) => ({
     objectFit: "contain",
 
     [theme.breakpoints.only("xl")]: {
-      width: 175,
       height: 175,
     },
 
     [theme.breakpoints.only("lg")]: {
-      width: 150,
       height: 150,
     },
 
     [theme.breakpoints.only("md")]: {
-      width: 150,
       height: 150,
     },
 
     [theme.breakpoints.only("sm")]: {
-      width: 125,
       height: 125,
     },
 
     [theme.breakpoints.only("xs")]: {
-      width: 100,
       height: 100,
     },
   },
@@ -103,7 +98,7 @@ const Associated: FC<AssociatedProps> = ({ id, search, className }) => {
   return (
     <div className={clsx(classes.container, className)}>
       <DynamicImage
-        src={`${article.image.file.url}?w=175`}
+        src={`${article.image.file.url}?h=175`}
         alt={article.image.title}
         className={classes.image}
       />
