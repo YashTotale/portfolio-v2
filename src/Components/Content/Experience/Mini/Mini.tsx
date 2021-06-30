@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import clsx from "clsx";
 import { Link, useLocation } from "react-router-dom";
 import MatchHighlight from "../../../MatchHighlight";
+import { generateSearch } from "../../../../Utils/funcs";
 import {
   generateExperienceTitle,
   getSingleExperience,
@@ -49,10 +50,10 @@ const Mini: FC<MiniProps> = (props) => {
     <Link
       to={{
         pathname: `/experience/${experience.slug}`,
-        state: {
+        search: generateSearch({
           from_path: location.pathname,
           from_type: "mini",
-        },
+        }),
       }}
       className={clsx(classes.link, props.className)}
     >

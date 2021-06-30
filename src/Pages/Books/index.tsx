@@ -5,7 +5,7 @@ import { Helmet } from "react-helmet";
 import Filters from "../../Components/Filters";
 import BookPreview from "../../Components/Content/Book/Preview";
 import HorizontalDivider from "../../Components/Divider/Horizontal";
-import { generatePageTitle } from "../../Utils/funcs";
+import { generatePageTitle, getSearch } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { getBookGenres, useFilteredBooks } from "../../Utils/Content/books";
 import { Book } from "../../Utils/types";
@@ -69,7 +69,9 @@ const useStyles = makeStyles((theme) => ({
 const Books: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+
   const location = useLocation();
+  const searchParams = getSearch(location.search);
 
   const books = useFilteredBooks();
   const genres = getBookGenres();
@@ -79,7 +81,7 @@ const Books: FC = () => {
 
   analytics.logEvent("page_view", {
     page_title: "Books",
-    ...(location.state as Record<string, unknown>),
+    ...searchParams,
   });
 
   return (

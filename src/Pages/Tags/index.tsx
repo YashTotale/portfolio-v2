@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import TagPreview from "../../Components/Content/Tag/Preview";
 import Filters from "../../Components/Filters";
-import { generatePageTitle } from "../../Utils/funcs";
+import { generatePageTitle, getSearch } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { useFilteredTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
@@ -57,7 +57,10 @@ const useStyles = makeStyles((theme) => ({
 const Tags: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+
   const location = useLocation();
+  const searchParams = getSearch(location.search);
+
   const allProjects = sortProjects("Alphabetically");
   const allArticles = sortArticles("Alphabetically");
   const allExperience = sortExperience("Alphabetically");
@@ -70,7 +73,7 @@ const Tags: FC = () => {
 
   analytics.logEvent("page_view", {
     page_title: "Tags",
-    ...(location.state as Record<string, unknown>),
+    ...searchParams,
   });
 
   return (

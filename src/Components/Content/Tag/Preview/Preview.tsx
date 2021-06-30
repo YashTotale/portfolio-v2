@@ -6,6 +6,7 @@ import DynamicPaper from "../../../DynamicPaper";
 import DynamicImage from "../../../DynamicImage";
 import StyledLink from "../../../StyledLink";
 import HorizontalDivider from "../../../Divider/Horizontal";
+import { generateSearch } from "../../../../Utils/funcs";
 import { getTag } from "../../../../Utils/Content/tags";
 
 // Material UI Imports
@@ -71,10 +72,10 @@ const Preview: FC<PreviewProps> = (props) => {
         <StyledLink
           to={{
             pathname: `/tags/${tag.slug}`,
-            state: {
+            search: generateSearch({
               from_path: location.pathname,
               from_type: "preview_title",
-            },
+            }),
           }}
           variant="h5"
           className={classes.title}

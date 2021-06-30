@@ -6,7 +6,11 @@ import NotFound from "../NotFound";
 import ProjectMain from "../../Components/Content/Project/Main";
 import BackButton from "../../Components/BackButton";
 import NavButton from "../../Components/NavButton";
-import { generatePageTitle } from "../../Utils/funcs";
+import {
+  generatePageTitle,
+  generateSearch,
+  getSearch,
+} from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 
@@ -48,7 +52,10 @@ interface Params {
 const Project: FC = () => {
   const { slug } = useParams<Params>();
   const classes = useStyles();
+
   const location = useLocation();
+  const search = getSearch(location.search);
+
   const project = getProject(slug, true);
   const sortedProjects = useSortedProjects();
 
@@ -63,7 +70,7 @@ const Project: FC = () => {
 
   analytics.logEvent("page_view", {
     page_title: project.title,
-    ...(location.state as Record<string, unknown>),
+    ...search,
   });
 
   const projectIndex = sortedProjects.findIndex((p) => p.id === project.id);
@@ -81,10 +88,10 @@ const Project: FC = () => {
           <NavButton
             to={{
               pathname: "/projects",
-              state: {
+              search: generateSearch({
                 from_path: location.pathname,
                 from_type: "top_nav_button",
-              },
+              }),
             }}
             label="All Projects"
             type="next"
@@ -98,10 +105,10 @@ const Project: FC = () => {
             <NavButton
               to={{
                 pathname: `/projects/${prevProject.slug}`,
-                state: {
+                search: generateSearch({
                   from_path: location.pathname,
                   from_type: "prev_nav_button",
-                },
+                }),
               }}
               label={prevProject.title}
               type="previous"
@@ -112,10 +119,10 @@ const Project: FC = () => {
             <NavButton
               to={{
                 pathname: `/projects/${nextProject.slug}`,
-                state: {
+                search: generateSearch({
                   from_path: location.pathname,
                   from_type: "next_nav_button",
-                },
+                }),
               }}
               label={nextProject.title}
               type="next"

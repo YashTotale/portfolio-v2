@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import Filters from "../../Components/Filters";
 import ArticlePreview from "../../Components/Content/Article/Preview";
-import { generatePageTitle } from "../../Utils/funcs";
+import { generatePageTitle, getSearch } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { sortTags } from "../../Utils/Content/tags";
 import {
@@ -55,7 +55,10 @@ const useStyles = makeStyles((theme) => ({
 const Articles: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+
   const location = useLocation();
+  const searchParams = getSearch(location.search);
+
   const allTags = sortTags("Alphabetically");
   const allExperience = sortExperience("Alphabetically");
 
@@ -66,7 +69,7 @@ const Articles: FC = () => {
 
   analytics.logEvent("page_view", {
     page_title: "Articles",
-    ...(location.state as Record<string, unknown>),
+    ...searchParams,
   });
 
   return (

@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import Overlay from "../../../Overlay";
+import { generateSearch } from "../../../../Utils/funcs";
 import { getTag } from "../../../../Utils/Content/tags";
 
 // Material UI Imports
@@ -26,10 +27,10 @@ const Associated: FC<AssociatedProps> = (props) => {
     <Overlay
       to={{
         pathname: `/tags/${tag.slug}`,
-        state: {
+        search: generateSearch({
           from_path: location.pathname,
           from_type: "associated",
-        },
+        }),
       }}
       icon={icon}
       label={tag.title}

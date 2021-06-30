@@ -7,6 +7,7 @@ import DynamicImage from "../../../DynamicImage";
 import StyledLink from "../../../StyledLink";
 import VerticalDivider from "../../../Divider/Vertical";
 import HorizontalDivider from "../../../Divider/Horizontal";
+import { generateSearch } from "../../../../Utils/funcs";
 import {
   generateExperienceTitle,
   getSingleExperience,
@@ -113,10 +114,10 @@ const Associated: FC<AssociatedProps> = (props) => {
           align="center"
           to={{
             pathname: `/experience/${experience.slug}`,
-            state: {
+            search: generateSearch({
               from_path: location.pathname,
               from_type: "associated",
-            },
+            }),
           }}
           className={classes.title}
           toMatch={props.search}

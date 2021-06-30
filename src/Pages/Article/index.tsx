@@ -6,7 +6,11 @@ import NotFound from "../NotFound";
 import ArticleMain from "../../Components/Content/Article/Main";
 import BackButton from "../../Components/BackButton";
 import NavButton from "../../Components/NavButton";
-import { generatePageTitle } from "../../Utils/funcs";
+import {
+  generatePageTitle,
+  generateSearch,
+  getSearch,
+} from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { getArticle, useSortedArticles } from "../../Utils/Content/articles";
 
@@ -48,7 +52,10 @@ interface Params {
 const Article: FC = () => {
   const { slug } = useParams<Params>();
   const classes = useStyles();
+
   const location = useLocation();
+  const search = getSearch(location.search);
+
   const article = getArticle(slug, true);
   const sortedArticles = useSortedArticles();
 
@@ -63,7 +70,7 @@ const Article: FC = () => {
 
   analytics.logEvent("page_view", {
     page_title: article.title,
-    ...(location.state as Record<string, unknown>),
+    ...search,
   });
 
   const articleIndex = sortedArticles.findIndex((p) => p.id === article.id);
@@ -81,10 +88,10 @@ const Article: FC = () => {
           <NavButton
             to={{
               pathname: "/articles",
-              state: {
+              search: generateSearch({
                 from_path: location.pathname,
                 from_type: "top_nav_button",
-              },
+              }),
             }}
             label="All Articles"
             type="next"
@@ -98,10 +105,10 @@ const Article: FC = () => {
             <NavButton
               to={{
                 pathname: `/articles/${prevArticle.slug}`,
-                state: {
+                search: generateSearch({
                   from_path: location.pathname,
                   from_type: "prev_nav_button",
-                },
+                }),
               }}
               label={prevArticle.title}
               type="previous"
@@ -112,10 +119,10 @@ const Article: FC = () => {
             <NavButton
               to={{
                 pathname: `/articles/${nextArticle.slug}`,
-                state: {
+                search: generateSearch({
                   from_path: location.pathname,
                   from_type: "next_nav_button",
-                },
+                }),
               }}
               label={nextArticle.title}
               type="next"

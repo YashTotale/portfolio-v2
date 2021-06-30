@@ -8,6 +8,7 @@ import {
 import { BLOCKS, Document, INLINES } from "@contentful/rich-text-types";
 import MatchHighlight from "./MatchHighlight";
 import StyledLink from "./StyledLink";
+import { generateSearch } from "../Utils/funcs";
 import { getTag, getTags } from "../Utils/Content/tags";
 import { getProject } from "../Utils/Content/projects";
 import { getSingleExperience } from "../Utils/Content/experience";
@@ -98,10 +99,10 @@ const RichText: FC<RichTextProps> = ({
             variant={variant}
             to={{
               pathname: getLink(),
-              state: {
+              search: generateSearch({
                 from_path: location.pathname,
                 from_type: "entry_hyperlink",
-              },
+              }),
             }}
           >
             {children}
@@ -161,10 +162,10 @@ const TextRenderer: FC<TextRendererProps> = ({
         <StyledLink
           to={{
             pathname: `/tags/${tag.slug}`,
-            state: {
+            search: generateSearch({
               from_path: location.pathname,
               from_type: "rich_text",
-            },
+            }),
           }}
           variant={variant}
           toMatch={toMatch}

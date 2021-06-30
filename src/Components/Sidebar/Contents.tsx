@@ -1,8 +1,10 @@
 // React Imports
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
+import { LocationDescriptor } from "history";
 import Category from "./Category";
 import Item from "./Item";
+import { generateSearch } from "../../Utils/funcs";
 import {
   generateExperienceTitle,
   useSortedExperience,
@@ -24,6 +26,16 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+export const generateSidebarPath = (p: string): LocationDescriptor => ({
+  pathname: p,
+  search: generateSearch(
+    {
+      from_type: "sidebar",
+    },
+    false
+  ),
+});
+
 const Contents: FC = () => {
   const classes = useStyles();
 
@@ -32,22 +44,18 @@ const Contents: FC = () => {
   const articles = useSortedArticles();
   const tags = useSortedTags();
 
-  const generatePath = (p: string) => ({
-    pathname: p,
-    state: {
-      from_type: "sidebar",
-    },
-  });
-
   return (
     <>
       <Toolbar className={classes.toolbar}>
         <Link
           to={{
             pathname: "/",
-            state: {
-              from_type: "sidebar_icon",
-            },
+            search: generateSearch(
+              {
+                from_type: "sidebar_icon",
+              },
+              false
+            ),
           }}
         >
           <img src="/logo192.png" alt="Website Logo" height={40} />
@@ -55,13 +63,13 @@ const Contents: FC = () => {
       </Toolbar>
       <Divider />
       <List disablePadding className={classes.list}>
-        <Category label="Home" to={generatePath("/")} />
-        <Category label="Experience" to={generatePath("/experience")}>
+        <Category label="Home" to={generateSidebarPath("/")} />
+        <Category label="Experience" to={generateSidebarPath("/experience")}>
           {experience.map((exp) => (
             <Item
               key={exp.id}
               label={generateExperienceTitle(exp)}
-              to={generatePath(`/experience/${exp.slug}`)}
+              to={generateSidebarPath(`/experience/${exp.slug}`)}
             />
           ))}
         </Category>
@@ -70,7 +78,7 @@ const Contents: FC = () => {
             <Item
               key={project.id}
               label={project.title}
-              to={generatePath(`/projects/${project.slug}`)}
+              to={generateSidebarPath(`/projects/${project.slug}`)}
             />
           ))}
         </Category>
@@ -79,7 +87,7 @@ const Contents: FC = () => {
             <Item
               key={article.id}
               label={article.title}
-              to={generatePath(`/articles/${article.slug}`)}
+              to={generateSidebarPath(`/articles/${article.slug}`)}
             />
           ))}
         </Category>
@@ -88,12 +96,12 @@ const Contents: FC = () => {
             <Item
               key={tag.id}
               label={tag.title}
-              to={generatePath(`/tags/${tag.slug}`)}
+              to={generateSidebarPath(`/tags/${tag.slug}`)}
             />
           ))}
         </Category>
-        <Category label="Books" to={generatePath("/books")} />
-        <Category label="Contact" to={generatePath("/contact")} />
+        <Category label="Books" to={generateSidebarPath("/books")} />
+        <Category label="Contact" to={generateSidebarPath("/contact")} />
       </List>
     </>
   );

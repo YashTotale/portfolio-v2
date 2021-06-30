@@ -78,6 +78,26 @@ export const createSorter = <K extends string, T>(
   };
 };
 
+export const generateSearch = (
+  obj: Record<string, string>,
+  withTitle = true
+): string => {
+  const params = new URLSearchParams(obj);
+  if (withTitle) params.set("from_title", getPageTitle());
+  return params.toString();
+};
+
+export const getSearch = (s: string): Record<string, string> => {
+  const params = new URLSearchParams(s);
+  const obj: Record<string, string> = {};
+
+  params.forEach((value, key) => {
+    obj[key] = value;
+  });
+
+  return obj;
+};
+
 const toAppend = " — Yash Totale";
 
 export const generatePageTitle = (t: string): string => `${t}${toAppend}`;

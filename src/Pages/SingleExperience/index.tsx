@@ -4,7 +4,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
 import ExperienceMain from "../../Components/Content/Experience/Main";
-import { generatePageTitle } from "../../Utils/funcs";
+import { generatePageTitle, getSearch } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import {
   generateExperienceTitle,
@@ -30,7 +30,10 @@ interface Params {
 const SingleExperience: FC = () => {
   const { slug } = useParams<Params>();
   const classes = useStyles();
+
   const location = useLocation();
+  const search = getSearch(location.search);
+
   const experience = getSingleExperience(slug, true);
 
   if (!experience)
@@ -44,7 +47,7 @@ const SingleExperience: FC = () => {
 
   analytics.logEvent("page_view", {
     page_title: generateExperienceTitle(experience),
-    ...(location.state as Record<string, unknown>),
+    ...search,
   });
 
   return (

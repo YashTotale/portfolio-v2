@@ -8,6 +8,7 @@ import DynamicImage from "../../../DynamicImage";
 import StyledLink from "../../../StyledLink";
 import VerticalDivider from "../../../Divider/Vertical";
 import HorizontalDivider from "../../../Divider/Horizontal";
+import { generateSearch } from "../../../../Utils/funcs";
 import { getProject } from "../../../../Utils/Content/projects";
 
 // Material UI Imports
@@ -100,10 +101,10 @@ const Associated: FC<AssociatedProps> = ({ id, className }) => {
           align="center"
           to={{
             pathname: `/projects/${project.slug}`,
-            state: {
+            search: generateSearch({
               from_path: location.pathname,
               from_type: "associated",
-            },
+            }),
           }}
           className={classes.title}
         >

@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
+import { generateSearch, getSearch } from "../Utils/funcs";
 import NavButton from "./NavButton";
 
 interface BackButtonProps {
@@ -9,10 +10,10 @@ interface BackButtonProps {
 
 const BackButton: FC<BackButtonProps> = (props) => {
   const location = useLocation();
+  const search = getSearch(location.search);
 
-  const state = location.state as Record<string, unknown>;
-  const fromPath = state["from_path"] as string;
-  const fromTitle = state["from_title"] as string;
+  const fromPath = search["from_path"];
+  const fromTitle = search["from_title"];
 
   if (fromPath && fromTitle) {
     return (
@@ -20,10 +21,10 @@ const BackButton: FC<BackButtonProps> = (props) => {
         label={fromTitle}
         to={{
           pathname: fromPath,
-          state: {
+          search: generateSearch({
             from_path: location.pathname,
             from_type: "back_nav_button",
-          },
+          }),
         }}
         type="previous"
         typeLabel="Back"

@@ -9,6 +9,7 @@ import StyledLink from "../../../StyledLink";
 import MatchHighlight from "../../../MatchHighlight";
 import VerticalDivider from "../../../Divider/Vertical";
 import HorizontalDivider from "../../../Divider/Horizontal";
+import { generateSearch } from "../../../../Utils/funcs";
 import {
   generateArticlePublished,
   getArticle,
@@ -111,10 +112,10 @@ const Associated: FC<AssociatedProps> = ({ id, search, className }) => {
           align="center"
           to={{
             pathname: `/articles/${article.slug}`,
-            state: {
+            search: generateSearch({
               from_path: location.pathname,
               from_type: "associated",
-            },
+            }),
           }}
           className={classes.title}
         >

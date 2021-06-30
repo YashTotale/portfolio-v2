@@ -5,7 +5,7 @@ import { Document } from "@contentful/rich-text-types";
 import Typist from "react-typist";
 import { Helmet } from "react-helmet";
 import RichText from "../../Components/RichText";
-import { generatePageTitle } from "../../Utils/funcs";
+import { generatePageTitle, getSearch } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 
 // Data Imports
@@ -27,10 +27,11 @@ const useStyles = makeStyles((theme) => ({
 const Home: FC = () => {
   const classes = useStyles();
   const location = useLocation();
+  const search = getSearch(location.search);
 
   analytics.logEvent("page_view", {
     page_title: "Home",
-    ...(location.state as Record<string, unknown>),
+    ...search,
   });
 
   return (

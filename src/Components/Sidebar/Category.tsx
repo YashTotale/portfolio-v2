@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import { useHistory, useLocation } from "react-router";
 import { LocationDescriptor } from "history";
+import { generateSidebarPath } from "./Contents";
 
 // Material UI Imports
 import {
@@ -56,7 +57,8 @@ const Category: FC<CategoryProps> = ({ label, to, children }) => {
         button
         className={classes.listItem}
         onClick={() => {
-          if (pathname === curr && children) history.push("/");
+          if (pathname === curr && children)
+            history.push(generateSidebarPath("/"));
           else history.push(to);
         }}
       >

@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import MatchHighlight from "../../../MatchHighlight";
+import { generateSearch } from "../../../../Utils/funcs";
 import { getTag } from "../../../../Utils/Content/tags";
 
 //Material UI Imports
@@ -54,10 +55,10 @@ const Mini: FC<MiniProps> = (props) => {
       component={Link}
       to={{
         pathname: `/tags/${tag.slug}`,
-        state: {
+        search: generateSearch({
           from_path: location.pathname,
           from_type: "mini",
-        },
+        }),
       }}
       color="secondary"
       variant="outlined"
