@@ -4,6 +4,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
 import TagMain from "../../Components/Content/Tag/Main";
+import BackButton from "../../Components/BackButton";
 import NavButton from "../../Components/NavButton";
 import { generatePageTitle } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
@@ -70,6 +71,7 @@ const Tag: FC = () => {
       </Helmet>
       <div className={classes.container}>
         <div className={classes.topButtons}>
+          <BackButton />
           <NavButton
             to={{
               pathname: "/tags",

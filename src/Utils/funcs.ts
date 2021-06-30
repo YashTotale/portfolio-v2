@@ -78,4 +78,11 @@ export const createSorter = <K extends string, T>(
   };
 };
 
-export const generatePageTitle = (t: string): string => `${t} — Yash Totale`;
+const toAppend = " — Yash Totale";
+
+export const generatePageTitle = (t: string): string => `${t}${toAppend}`;
+
+export const getPageTitle = (): string => {
+  const rawTitle = document.title;
+  return rawTitle.replace(toAppend, "");
+};

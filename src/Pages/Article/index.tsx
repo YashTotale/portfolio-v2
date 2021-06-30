@@ -4,6 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
 import ArticleMain from "../../Components/Content/Article/Main";
+import BackButton from "../../Components/BackButton";
 import NavButton from "../../Components/NavButton";
 import { generatePageTitle } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
@@ -76,6 +77,7 @@ const Article: FC = () => {
       </Helmet>
       <div className={classes.container}>
         <div className={classes.topButtons}>
+          <BackButton />
           <NavButton
             to={{
               pathname: "/articles",
