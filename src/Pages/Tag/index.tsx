@@ -6,6 +6,7 @@ import NotFound from "../NotFound";
 import TagMain from "../../Components/Content/Tag/Main";
 import BackButton from "../../Components/BackButton";
 import NavButton from "../../Components/NavButton";
+import { useTitle } from "../../Context/HeadContext";
 import {
   generatePageTitle,
   generateSearch,
@@ -54,6 +55,7 @@ const Tag: FC = () => {
   const classes = useStyles();
 
   const location = useLocation();
+  const title = useTitle();
   const search = getSearch(location.search);
 
   const tag = getTag(slug, true);
@@ -82,10 +84,13 @@ const Tag: FC = () => {
           <NavButton
             to={{
               pathname: "/tags",
-              search: generateSearch({
-                from_path: location.pathname,
-                from_type: "top_nav_button",
-              }),
+              search: generateSearch(
+                {
+                  from_path: location.pathname,
+                  from_type: "top_nav_button",
+                },
+                title
+              ),
             }}
             label="All Tags"
             type="next"
@@ -99,10 +104,13 @@ const Tag: FC = () => {
             <NavButton
               to={{
                 pathname: `/tags/${prevTag.slug}`,
-                search: generateSearch({
-                  from_path: location.pathname,
-                  from_type: "prev_nav_button",
-                }),
+                search: generateSearch(
+                  {
+                    from_path: location.pathname,
+                    from_type: "prev_nav_button",
+                  },
+                  title
+                ),
               }}
               label={prevTag.title}
               type="previous"
@@ -113,10 +121,13 @@ const Tag: FC = () => {
             <NavButton
               to={{
                 pathname: `/tags/${nextTag.slug}`,
-                search: generateSearch({
-                  from_path: location.pathname,
-                  from_type: "next_nav_button",
-                }),
+                search: generateSearch(
+                  {
+                    from_path: location.pathname,
+                    from_type: "next_nav_button",
+                  },
+                  title
+                ),
               }}
               label={nextTag.title}
               type="next"

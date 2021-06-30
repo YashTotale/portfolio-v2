@@ -22,6 +22,7 @@ import {
 } from "@material-ui/core";
 import MatchHighlight from "../../../MatchHighlight";
 import { useLocation } from "react-router-dom";
+import { useTitle } from "../../../../Context/HeadContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -94,7 +95,10 @@ export interface AssociatedProps {
 const Associated: FC<AssociatedProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+
   const location = useLocation();
+  const title = useTitle();
+
   const experience = getSingleExperience(props.id);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
@@ -114,10 +118,13 @@ const Associated: FC<AssociatedProps> = (props) => {
           align="center"
           to={{
             pathname: `/experience/${experience.slug}`,
-            search: generateSearch({
-              from_path: location.pathname,
-              from_type: "associated",
-            }),
+            search: generateSearch(
+              {
+                from_path: location.pathname,
+                from_type: "associated",
+              },
+              title
+            ),
           }}
           className={classes.title}
           toMatch={props.search}

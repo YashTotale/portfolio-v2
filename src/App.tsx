@@ -5,6 +5,7 @@ import { Switch, Route } from "react-router-dom";
 import { SIDEBAR_WIDTH } from "./Utils/constants";
 
 // Components
+import { HeadProvider } from "./Context/HeadContext";
 import Popup from "./Components/Popup";
 import Navbar from "./Components/Navbar";
 import Sidebar from "./Components/Sidebar";
@@ -51,13 +52,13 @@ const useStyles = makeStyles((theme) => ({
 
 const App: FC = () => {
   return (
-    <>
+    <HeadProvider>
       <ScrollToTop />
       <Popup />
       <Navbar />
       <Sidebar />
       <Routes />
-    </>
+    </HeadProvider>
   );
 };
 

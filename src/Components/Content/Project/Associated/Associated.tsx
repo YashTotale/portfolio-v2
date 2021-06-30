@@ -8,6 +8,7 @@ import DynamicImage from "../../../DynamicImage";
 import StyledLink from "../../../StyledLink";
 import VerticalDivider from "../../../Divider/Vertical";
 import HorizontalDivider from "../../../Divider/Horizontal";
+import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
 import { getProject } from "../../../../Utils/Content/projects";
 
@@ -81,7 +82,10 @@ export interface AssociatedProps {
 const Associated: FC<AssociatedProps> = ({ id, className }) => {
   const classes = useStyles();
   const theme = useTheme();
+
   const location = useLocation();
+  const title = useTitle();
+
   const project = getProject(id);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
@@ -101,10 +105,13 @@ const Associated: FC<AssociatedProps> = ({ id, className }) => {
           align="center"
           to={{
             pathname: `/projects/${project.slug}`,
-            search: generateSearch({
-              from_path: location.pathname,
-              from_type: "associated",
-            }),
+            search: generateSearch(
+              {
+                from_path: location.pathname,
+                from_type: "associated",
+              },
+              title
+            ),
           }}
           className={classes.title}
         >

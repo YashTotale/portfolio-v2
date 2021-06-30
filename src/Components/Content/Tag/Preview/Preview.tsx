@@ -6,6 +6,7 @@ import DynamicPaper from "../../../DynamicPaper";
 import DynamicImage from "../../../DynamicImage";
 import StyledLink from "../../../StyledLink";
 import HorizontalDivider from "../../../Divider/Horizontal";
+import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
 import { getTag } from "../../../../Utils/Content/tags";
 
@@ -52,8 +53,10 @@ export interface PreviewProps {
 const Preview: FC<PreviewProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const location = useLocation();
   const tag = getTag(props.id);
+
+  const location = useLocation();
+  const title = useTitle();
 
   if (!tag) return null;
 
@@ -72,10 +75,13 @@ const Preview: FC<PreviewProps> = (props) => {
         <StyledLink
           to={{
             pathname: `/tags/${tag.slug}`,
-            search: generateSearch({
-              from_path: location.pathname,
-              from_type: "preview_title",
-            }),
+            search: generateSearch(
+              {
+                from_path: location.pathname,
+                from_type: "preview_title",
+              },
+              title
+            ),
           }}
           variant="h5"
           className={classes.title}

@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
+import { useTitle } from "../Context/HeadContext";
 import { generateSearch, getSearch } from "../Utils/funcs";
 import NavButton from "./NavButton";
 
@@ -11,6 +12,7 @@ interface BackButtonProps {
 const BackButton: FC<BackButtonProps> = (props) => {
   const location = useLocation();
   const search = getSearch(location.search);
+  const title = useTitle();
 
   const fromPath = search["from_path"];
   const fromTitle = search["from_title"];
@@ -21,10 +23,13 @@ const BackButton: FC<BackButtonProps> = (props) => {
         label={fromTitle}
         to={{
           pathname: fromPath,
-          search: generateSearch({
-            from_path: location.pathname,
-            from_type: "back_nav_button",
-          }),
+          search: generateSearch(
+            {
+              from_path: location.pathname,
+              from_type: "back_nav_button",
+            },
+            title
+          ),
         }}
         type="previous"
         typeLabel="Back"

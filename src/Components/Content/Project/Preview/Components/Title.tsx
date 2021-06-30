@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import StyledLink from "../../../../StyledLink";
+import { useTitle } from "../../../../../Context/HeadContext";
 import { ResolvedProject } from "../../../../../Utils/types";
 import { generateSearch } from "../../../../../Utils/funcs";
 
@@ -26,18 +27,24 @@ type TitleProps = ResolvedProject & {
 const Title: FC<TitleProps> = (props) => {
   const { slug, title, search } = props;
   const classes = useStyles();
+
   const theme = useTheme();
-  const location = useLocation();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+
+  const location = useLocation();
+  const pageTitle = useTitle();
 
   return (
     <StyledLink
       to={{
         pathname: `/projects/${slug}`,
-        search: generateSearch({
-          from_path: location.pathname,
-          from_type: "preview_title",
-        }),
+        search: generateSearch(
+          {
+            from_path: location.pathname,
+            from_type: "preview_title",
+          },
+          pageTitle
+        ),
       }}
       variant={isSizeXS ? "h5" : "h4"}
       className={classes.projectTitle}

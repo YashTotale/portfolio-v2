@@ -6,6 +6,7 @@ import NotFound from "../NotFound";
 import ProjectMain from "../../Components/Content/Project/Main";
 import BackButton from "../../Components/BackButton";
 import NavButton from "../../Components/NavButton";
+import { useTitle } from "../../Context/HeadContext";
 import {
   generatePageTitle,
   generateSearch,
@@ -54,6 +55,7 @@ const Project: FC = () => {
   const classes = useStyles();
 
   const location = useLocation();
+  const title = useTitle();
   const search = getSearch(location.search);
 
   const project = getProject(slug, true);
@@ -88,10 +90,13 @@ const Project: FC = () => {
           <NavButton
             to={{
               pathname: "/projects",
-              search: generateSearch({
-                from_path: location.pathname,
-                from_type: "top_nav_button",
-              }),
+              search: generateSearch(
+                {
+                  from_path: location.pathname,
+                  from_type: "top_nav_button",
+                },
+                title
+              ),
             }}
             label="All Projects"
             type="next"
@@ -105,10 +110,13 @@ const Project: FC = () => {
             <NavButton
               to={{
                 pathname: `/projects/${prevProject.slug}`,
-                search: generateSearch({
-                  from_path: location.pathname,
-                  from_type: "prev_nav_button",
-                }),
+                search: generateSearch(
+                  {
+                    from_path: location.pathname,
+                    from_type: "prev_nav_button",
+                  },
+                  title
+                ),
               }}
               label={prevProject.title}
               type="previous"
@@ -119,10 +127,13 @@ const Project: FC = () => {
             <NavButton
               to={{
                 pathname: `/projects/${nextProject.slug}`,
-                search: generateSearch({
-                  from_path: location.pathname,
-                  from_type: "next_nav_button",
-                }),
+                search: generateSearch(
+                  {
+                    from_path: location.pathname,
+                    from_type: "next_nav_button",
+                  },
+                  title
+                ),
               }}
               label={nextProject.title}
               type="next"

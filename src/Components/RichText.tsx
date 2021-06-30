@@ -8,6 +8,7 @@ import {
 import { BLOCKS, Document, INLINES } from "@contentful/rich-text-types";
 import MatchHighlight from "./MatchHighlight";
 import StyledLink from "./StyledLink";
+import { useTitle } from "../Context/HeadContext";
 import { generateSearch } from "../Utils/funcs";
 import { getTag, getTags } from "../Utils/Content/tags";
 import { getProject } from "../Utils/Content/projects";
@@ -50,6 +51,7 @@ const RichText: FC<RichTextProps> = ({
 }) => {
   const classes = useStyles();
   const location = useLocation();
+  const title = useTitle();
 
   const options: Options = {
     renderText: (text) => (
@@ -99,10 +101,13 @@ const RichText: FC<RichTextProps> = ({
             variant={variant}
             to={{
               pathname: getLink(),
-              search: generateSearch({
-                from_path: location.pathname,
-                from_type: "entry_hyperlink",
-              }),
+              search: generateSearch(
+                {
+                  from_path: location.pathname,
+                  from_type: "entry_hyperlink",
+                },
+                title
+              ),
             }}
           >
             {children}
@@ -129,6 +134,7 @@ const TextRenderer: FC<TextRendererProps> = ({
   const tags = getTags();
   const classes = useStyles();
   const location = useLocation();
+  const title = useTitle();
 
   const parsed: (JSX.Element | string)[] = [];
 
@@ -162,10 +168,13 @@ const TextRenderer: FC<TextRendererProps> = ({
         <StyledLink
           to={{
             pathname: `/tags/${tag.slug}`,
-            search: generateSearch({
-              from_path: location.pathname,
-              from_type: "rich_text",
-            }),
+            search: generateSearch(
+              {
+                from_path: location.pathname,
+                from_type: "rich_text",
+              },
+              title
+            ),
           }}
           variant={variant}
           toMatch={toMatch}

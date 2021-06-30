@@ -9,6 +9,7 @@ import StyledLink from "../../../StyledLink";
 import MatchHighlight from "../../../MatchHighlight";
 import VerticalDivider from "../../../Divider/Vertical";
 import HorizontalDivider from "../../../Divider/Horizontal";
+import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
 import {
   generateArticlePublished,
@@ -92,7 +93,10 @@ export interface AssociatedProps {
 const Associated: FC<AssociatedProps> = ({ id, search, className }) => {
   const classes = useStyles();
   const theme = useTheme();
+
   const location = useLocation();
+  const title = useTitle();
+
   const article = getArticle(id);
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
@@ -112,10 +116,13 @@ const Associated: FC<AssociatedProps> = ({ id, search, className }) => {
           align="center"
           to={{
             pathname: `/articles/${article.slug}`,
-            search: generateSearch({
-              from_path: location.pathname,
-              from_type: "associated",
-            }),
+            search: generateSearch(
+              {
+                from_path: location.pathname,
+                from_type: "associated",
+              },
+              title
+            ),
           }}
           className={classes.title}
         >

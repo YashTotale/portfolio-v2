@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import MatchHighlight from "../../../MatchHighlight";
+import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
 import { getTag } from "../../../../Utils/Content/tags";
 
@@ -31,13 +32,15 @@ export interface MiniProps {
 }
 
 const Mini: FC<MiniProps> = (props) => {
-  const theme = useTheme();
   const classes = useStyles();
-  const location = useLocation();
   const tag = getTag(props.id);
 
+  const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const isDark = theme.palette.type === "dark";
+
+  const location = useLocation();
+  const title = useTitle();
 
   if (!tag) return null;
 
@@ -55,10 +58,13 @@ const Mini: FC<MiniProps> = (props) => {
       component={Link}
       to={{
         pathname: `/tags/${tag.slug}`,
-        search: generateSearch({
-          from_path: location.pathname,
-          from_type: "mini",
-        }),
+        search: generateSearch(
+          {
+            from_path: location.pathname,
+            from_type: "mini",
+          },
+          title
+        ),
       }}
       color="secondary"
       variant="outlined"

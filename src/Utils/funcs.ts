@@ -80,10 +80,10 @@ export const createSorter = <K extends string, T>(
 
 export const generateSearch = (
   obj: Record<string, string>,
-  withTitle = true
+  title: string | null
 ): string => {
   const params = new URLSearchParams(obj);
-  if (withTitle) params.set("from_title", getPageTitle());
+  if (title) params.set("from_title", getPageTitle(title));
   return params.toString();
 };
 
@@ -102,7 +102,6 @@ const toAppend = " — Yash Totale";
 
 export const generatePageTitle = (t: string): string => `${t}${toAppend}`;
 
-export const getPageTitle = (): string => {
-  const rawTitle = document.title;
+export const getPageTitle = (rawTitle: string): string => {
   return rawTitle.replace(toAppend, "");
 };

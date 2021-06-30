@@ -32,7 +32,7 @@ export const generateSidebarPath = (p: string): LocationDescriptor => ({
     {
       from_type: "sidebar",
     },
-    false
+    null
   ),
 });
 
@@ -54,7 +54,7 @@ const Contents: FC = () => {
               {
                 from_type: "sidebar_icon",
               },
-              false
+              null
             ),
           }}
         >
