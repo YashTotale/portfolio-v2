@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme) => ({
   },
   topButtons: {
     display: "flex",
+    alignItems: "center",
     width: "100%",
   },
   allTags: {
