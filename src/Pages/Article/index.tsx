@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => ({
   buttons: {
     display: "flex",
     width: "100%",
-    margin: theme.spacing(2, 0, 4),
+    marginTop: theme.spacing(2),
   },
 }));
 

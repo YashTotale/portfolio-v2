@@ -11,26 +11,30 @@ interface StyledLinkProps {
   to: LocationDescriptor;
   onClick?: LinkProps["onClick"];
   variant?: LinkProps["variant"];
+  color?: LinkProps["color"];
   align?: LinkProps["align"];
   toMatch?: string;
   className?: string;
 }
 
-const StyledLink: FC<StyledLinkProps> = ({
-  to,
-  children,
-  onClick,
-  variant,
-  align,
-  toMatch = "",
-  className,
-}) => {
+const StyledLink: FC<StyledLinkProps> = (props) => {
+  const {
+    to,
+    children,
+    onClick,
+    variant,
+    color = "primary",
+    align,
+    toMatch = "",
+    className,
+  } = props;
+
   return (
     <Link
       component={RouterLink}
       to={to}
       className={className}
-      color="primary"
+      color={color}
       variant={variant}
       align={align}
       onClick={onClick}

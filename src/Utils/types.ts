@@ -12,6 +12,7 @@ import {
 export interface Main {
   description: EntryFields.RichText;
 }
+
 export interface Badge {
   title: string;
   source: string;

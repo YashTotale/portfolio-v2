@@ -6,10 +6,8 @@ import Typist from "react-typist";
 import { Helmet } from "react-helmet";
 import RichText from "../../Components/RichText";
 import { generatePageTitle, getSearch } from "../../Utils/funcs";
+import { getDescription } from "../../Utils/Content/main";
 import { analytics } from "../../Utils/Config/firebase";
-
-// Data Imports
-import main from "../../Data/main.json";
 
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
@@ -28,6 +26,7 @@ const Home: FC = () => {
   const classes = useStyles();
   const location = useLocation();
   const search = getSearch(location.search);
+  const description = getDescription();
 
   analytics.logEvent("page_view", {
     page_title: "Home",
@@ -42,7 +41,7 @@ const Home: FC = () => {
       <div className={classes.home}>
         <Typography variant="h1">Yash Totale</Typography>
         <Typer />
-        <RichText richText={main.description as Document} variant="body1" />
+        <RichText richText={description as Document} variant="body1" />
       </div>
     </>
   );

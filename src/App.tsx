@@ -8,6 +8,7 @@ import { SIDEBAR_WIDTH } from "./Utils/constants";
 import { HeadProvider } from "./Context/HeadContext";
 import Popup from "./Components/Popup";
 import Navbar from "./Components/Navbar";
+import Footer from "./Components/Footer";
 import Sidebar from "./Components/Sidebar";
 import ScrollToTop from "./Components/ScrollToTop";
 
@@ -114,6 +115,7 @@ const Routes: FC = () => {
             </Route>
           </Switch>
         </Suspense>
+        <Footer />
       </div>
     </div>
   );
