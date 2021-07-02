@@ -154,5 +154,5 @@ export const sortTags = createSorter<TagsSort, Tag>(
     "Most Related Projects": (a, b) => b.projects.length - a.projects.length,
     "Most Related Articles": (a, b) => b.articles.length - a.articles.length,
   },
-  getTags
+  getTags()
 );

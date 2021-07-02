@@ -12,6 +12,11 @@ export interface RawLink {
   sys: Sys;
 }
 
+export interface RawMain {
+  description: EntryFields.RichText;
+  sortedExperience: RawLink[];
+}
+
 export interface RawExperience {
   id: string;
   title: EntryFields.Text;

@@ -11,6 +11,7 @@ import {
   ResolvedExperience,
   Tag,
 } from "../types";
+import { getDefaultSortedExperience } from "./main";
 import { getRawProject } from "./projects";
 import { getRawArticle } from "./articles";
 import { getRawTag } from "./tags";
@@ -173,6 +174,13 @@ export function useSortedExperience(
 
 export const sortExperience = createSorter<ExperienceSort, Experience>(
   {
+    Default: (a, b) => {
+      const sorted = getDefaultSortedExperience();
+      const aIndex = sorted.indexOf(a.id);
+      const bIndex = sorted.indexOf(b.id);
+
+      return aIndex - bIndex;
+    },
     Alphabetically: (a, b) => {
       const aTitle = generateExperienceTitle(a).toLowerCase();
       const bTitle = generateExperienceTitle(b).toLowerCase();
@@ -182,5 +190,5 @@ export const sortExperience = createSorter<ExperienceSort, Experience>(
     Latest: (a, b) => sortByDate(a, b),
     Earliest: (a, b) => sortByDate(a, b, -1),
   },
-  getExperience
+  getExperience()
 );

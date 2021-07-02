@@ -1,8 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
-export type ExperienceSort = "Alphabetically" | "Latest" | "Earliest";
+export type ExperienceSort =
+  | "Default"
+  | "Alphabetically"
+  | "Latest"
+  | "Earliest";
 export const EXPERIENCE_SORT: ExperienceSort[] = [
+  "Default",
   "Alphabetically",
   "Latest",
   "Earliest",

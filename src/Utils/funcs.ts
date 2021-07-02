@@ -58,7 +58,7 @@ type Sorter<T> = (a: T, b: T) => number;
 
 export const createSorter = <K extends string, T>(
   sortFuncs: Record<K, Sorter<T>>,
-  getter: () => T[]
+  all: T[]
 ): ((sort: K) => T[]) => {
   // Initialize cache with null values
   const sortCache = Object.keys(sortFuncs).reduce(
@@ -67,8 +67,6 @@ export const createSorter = <K extends string, T>(
   );
 
   return (sort: K): T[] => {
-    const all = getter();
-
     if (sortCache[sort]) return sortCache[sort] as T[];
 
     const sorted = sortFuncs[sort] ? [...all].sort(sortFuncs[sort]) : all;

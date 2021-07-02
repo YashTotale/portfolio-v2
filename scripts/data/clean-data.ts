@@ -11,6 +11,7 @@ import {
   readData,
   writeData,
   RawTag,
+  RawMain,
 } from "./helpers";
 import { Project, Article, Experience, Tag, Main } from "../../src/Utils/types";
 
@@ -145,8 +146,14 @@ const cleanTags = async (
 };
 
 const cleanMain = async () => {
-  const main = await readData<Main>("main");
-  const parsed = Object.values(main)[0];
+  const main = await readData<RawMain>("main");
+  const single = Object.values(main)[0];
+
+  const parsed: Main = {
+    ...single,
+    sortedExperience: single.sortedExperience.map(getId),
+  };
+
   await writeData(parsed, "main");
 };
 

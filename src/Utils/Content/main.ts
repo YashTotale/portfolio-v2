@@ -12,3 +12,8 @@ export const getDescription = (): Main["description"] => {
   const main = getMain();
   return main.description;
 };
+
+export const getDefaultSortedExperience = (): Main["sortedExperience"] => {
+  const main = getMain();
+  return main.sortedExperience;
+};

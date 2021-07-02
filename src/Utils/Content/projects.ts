@@ -165,5 +165,5 @@ export const sortProjects = createSorter<ProjectsSort, Project>(
     Newest: (a, b) => sortByDate(a, b),
     Oldest: (a, b) => sortByDate(a, b, -1),
   },
-  getProjects
+  getProjects()
 );

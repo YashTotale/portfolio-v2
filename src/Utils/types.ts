@@ -1,5 +1,5 @@
 // Externals
-import { Asset, EntryFields } from "contentful";
+import { Asset } from "contentful";
 
 // Internals
 import {
@@ -7,11 +7,12 @@ import {
   RawProject,
   RawTag,
   RawArticle,
+  RawMain,
 } from "../../scripts/data/helpers";
 
-export interface Main {
-  description: EntryFields.RichText;
-}
+export type Main = Omit<RawMain, "sortedExperience"> & {
+  sortedExperience: string[];
+};
 
 export interface Badge {
   title: string;
