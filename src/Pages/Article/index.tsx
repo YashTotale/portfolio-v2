@@ -1,14 +1,13 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
 import { useAnalytics } from "../../Hooks";
 import ArticleMain from "../../Components/Content/Article/Main";
-import NavButton from "../../Components/NavButton";
-import TopNav from "../../Components/TopNav";
-import { useTitle } from "../../Context/HeadContext";
-import { generatePageTitle, generateSearch } from "../../Utils/funcs";
+import TopNav from "../../Components/Navigation/TopNav";
+import BottomNav from "../../Components/Navigation/BottomNav";
+import { generatePageTitle } from "../../Utils/funcs";
 import { getArticle, useSortedArticles } from "../../Utils/Content/articles";
 
 // Material UI Imports
@@ -24,11 +23,6 @@ const useStyles = makeStyles((theme) => ({
   article: {
     margin: theme.spacing(1, 0),
   },
-  buttons: {
-    display: "flex",
-    width: "100%",
-    marginTop: theme.spacing(2),
-  },
 }));
 
 interface Params {
@@ -38,9 +32,6 @@ interface Params {
 const Article: FC = () => {
   const { slug } = useParams<Params>();
   const classes = useStyles();
-
-  const location = useLocation();
-  const title = useTitle();
 
   const article = getArticle(slug, true);
   const sortedArticles = useSortedArticles();
@@ -68,42 +59,12 @@ const Article: FC = () => {
       <div className={classes.container}>
         <TopNav allPath="articles" allLabel="Articles" />
         <ArticleMain id={article.id} className={classes.article} />
-        <div className={classes.buttons}>
-          {prevArticle && (
-            <NavButton
-              to={{
-                pathname: `/articles/${prevArticle.slug}`,
-                search: generateSearch(
-                  {
-                    from_path: location.pathname,
-                    from_type: "prev_nav_button",
-                  },
-                  title
-                ),
-              }}
-              label={prevArticle.title}
-              type="previous"
-              typeLabel="Previous Article"
-            />
-          )}
-          {nextArticle && (
-            <NavButton
-              to={{
-                pathname: `/articles/${nextArticle.slug}`,
-                search: generateSearch(
-                  {
-                    from_path: location.pathname,
-                    from_type: "next_nav_button",
-                  },
-                  title
-                ),
-              }}
-              label={nextArticle.title}
-              type="next"
-              typeLabel="Next Article"
-            />
-          )}
-        </div>
+        <BottomNav
+          basePath="articles"
+          label="Article"
+          prevContent={prevArticle}
+          nextContent={nextArticle}
+        />
       </div>
     </>
   );

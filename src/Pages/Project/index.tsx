@@ -1,14 +1,13 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
 import NotFound from "../NotFound";
 import ProjectMain from "../../Components/Content/Project/Main";
-import TopNav from "../../Components/TopNav";
-import NavButton from "../../Components/NavButton";
-import { useTitle } from "../../Context/HeadContext";
-import { generatePageTitle, generateSearch } from "../../Utils/funcs";
+import TopNav from "../../Components/Navigation/TopNav";
+import BottomNav from "../../Components/Navigation/BottomNav";
+import { generatePageTitle } from "../../Utils/funcs";
 import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 
 // Material UI Imports
@@ -24,11 +23,6 @@ const useStyles = makeStyles((theme) => ({
   project: {
     margin: theme.spacing(1, 0),
   },
-  buttons: {
-    display: "flex",
-    width: "100%",
-    marginTop: theme.spacing(2),
-  },
 }));
 
 interface Params {
@@ -38,9 +32,6 @@ interface Params {
 const Project: FC = () => {
   const { slug } = useParams<Params>();
   const classes = useStyles();
-
-  const location = useLocation();
-  const title = useTitle();
 
   const project = getProject(slug, true);
   const sortedProjects = useSortedProjects();
@@ -68,42 +59,12 @@ const Project: FC = () => {
       <div className={classes.container}>
         <TopNav allPath="projects" allLabel="Projects" />
         <ProjectMain id={project.id} className={classes.project} />
-        <div className={classes.buttons}>
-          {prevProject && (
-            <NavButton
-              to={{
-                pathname: `/projects/${prevProject.slug}`,
-                search: generateSearch(
-                  {
-                    from_path: location.pathname,
-                    from_type: "prev_nav_button",
-                  },
-                  title
-                ),
-              }}
-              label={prevProject.title}
-              type="previous"
-              typeLabel="Previous Project"
-            />
-          )}
-          {nextProject && (
-            <NavButton
-              to={{
-                pathname: `/projects/${nextProject.slug}`,
-                search: generateSearch(
-                  {
-                    from_path: location.pathname,
-                    from_type: "next_nav_button",
-                  },
-                  title
-                ),
-              }}
-              label={nextProject.title}
-              type="next"
-              typeLabel="Next Project"
-            />
-          )}
-        </div>
+        <BottomNav
+          basePath="projects"
+          label="Project"
+          prevContent={prevProject}
+          nextContent={nextProject}
+        />
       </div>
     </>
   );
