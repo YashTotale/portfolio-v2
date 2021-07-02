@@ -17,18 +17,21 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
   },
   button: {
-    display: "flex",
-    justifyContent: "flex-start",
-    alignItems: "center",
     padding: theme.spacing(1),
     textTransform: "none",
     width: "100%",
   },
+  label: {
+    position: "relative",
+    minHeight: theme.spacing(5),
+  },
   avatar: {
+    position: "absolute",
+    left: theme.spacing(0.5),
     padding: theme.spacing(0.5),
   },
   title: {
-    marginLeft: theme.spacing(0.5),
+    margin: theme.spacing(0, 6),
     lineHeight: 1.4,
     whiteSpace: "nowrap",
     overflow: "hidden",
@@ -72,7 +75,13 @@ const Mini: FC<MiniProps> = (props) => {
       }}
       className={clsx(classes.link, props.className)}
     >
-      <Button className={classes.button} variant="outlined">
+      <Button
+        className={classes.button}
+        classes={{
+          label: classes.label,
+        }}
+        variant="outlined"
+      >
         <Avatar
           alt={props.content.image.title}
           src={props.content.image.file.url}
