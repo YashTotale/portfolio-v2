@@ -40,21 +40,23 @@ const TopNav: FC<TopNavProps> = (props) => {
 
   return (
     <div className={classes.topNav}>
-      <NavButton
-        label={fromTitle}
-        to={{
-          pathname: fromPath,
-          search: generateSearch(
-            {
-              from_path: location.pathname,
-              from_type: "back_nav_button",
-            },
-            title
-          ),
-        }}
-        type="previous"
-        typeLabel="Back"
-      />
+      {fromPath && fromTitle && (
+        <NavButton
+          label={fromTitle}
+          to={{
+            pathname: fromPath,
+            search: generateSearch(
+              {
+                from_path: location.pathname,
+                from_type: "back_nav_button",
+              },
+              title
+            ),
+          }}
+          type="previous"
+          typeLabel="Back"
+        />
+      )}
       <NavButton
         to={{
           pathname: `/${props.allPath}`,
