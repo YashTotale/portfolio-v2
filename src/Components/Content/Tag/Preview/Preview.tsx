@@ -129,7 +129,12 @@ const Related: FC<RelatedProps> = ({ value, label, icon }) => {
   const classes = useRelatedStyles();
 
   const plural = value !== 1;
-  const text = `${value} related ${label}${plural ? "s" : ""}`;
+  const text = (
+    <>
+      <strong>{value}</strong> related {label}
+      {plural ? "s" : ""}
+    </>
+  );
 
   const iconToRender = cloneElement(icon, {
     className: classes.icon,

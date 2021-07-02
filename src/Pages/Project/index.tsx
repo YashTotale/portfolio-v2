@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  project: {
-    margin: theme.spacing(1, 0),
-  },
 }));
 
 interface Params {
@@ -58,7 +55,7 @@ const Project: FC = () => {
       </Helmet>
       <div className={classes.container}>
         <TopNav allPath="projects" allLabel="Projects" />
-        <ProjectMain id={project.id} className={classes.project} />
+        <ProjectMain id={project.id} />
         <BottomNav
           basePath="projects"
           label="Project"

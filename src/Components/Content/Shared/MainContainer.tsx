@@ -26,7 +26,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
       theme.palette.type === "dark"
         ? darken(theme.palette.grey[800], 0.3)
         : theme.palette.grey[200],
-    margin: theme.spacing(4, 0),
+    margin: theme.spacing(2, 0, 4),
     padding: theme.spacing(1, 2),
     boxShadow: theme.shadows[3],
   },

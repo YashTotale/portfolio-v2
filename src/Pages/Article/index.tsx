@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  article: {
-    margin: theme.spacing(1, 0),
-  },
 }));
 
 interface Params {
@@ -58,7 +55,7 @@ const Article: FC = () => {
       </Helmet>
       <div className={classes.container}>
         <TopNav allPath="articles" allLabel="Articles" />
-        <ArticleMain id={article.id} className={classes.article} />
+        <ArticleMain id={article.id} />
         <BottomNav
           basePath="articles"
           label="Article"

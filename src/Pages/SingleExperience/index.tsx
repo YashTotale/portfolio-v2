@@ -4,11 +4,13 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
 import NotFound from "../NotFound";
+import TopNav from "../../Components/Navigation/TopNav";
+import BottomNav from "../../Components/Navigation/BottomNav";
 import ExperienceMain from "../../Components/Content/Experience/Main";
 import { generatePageTitle } from "../../Utils/funcs";
 import {
-  generateExperienceTitle,
   getSingleExperience,
+  useSortedExperience,
 } from "../../Utils/Content/experience";
 
 // Material UI Imports
@@ -32,8 +34,9 @@ const SingleExperience: FC = () => {
   const classes = useStyles();
 
   const experience = getSingleExperience(slug, true);
+  const sortedExperience = useSortedExperience();
 
-  useAnalytics(experience && generateExperienceTitle(experience));
+  useAnalytics(experience?.title);
 
   if (!experience)
     return (
@@ -44,13 +47,26 @@ const SingleExperience: FC = () => {
       />
     );
 
+  const experienceIndex = sortedExperience.findIndex(
+    (p) => p.id === experience.id
+  );
+  const prevExperience = sortedExperience[experienceIndex - 1];
+  const nextExperience = sortedExperience[experienceIndex + 1];
+
   return (
     <>
       <Helmet>
         <title>{generatePageTitle(experience.title)}</title>
       </Helmet>
       <div className={classes.container}>
+        <TopNav allPath="experience" allLabel="Experience" />
         <ExperienceMain id={experience.id} />
+        <BottomNav
+          basePath="experience"
+          label="Experience"
+          prevContent={prevExperience}
+          nextContent={nextExperience}
+        />
       </div>
     </>
   );

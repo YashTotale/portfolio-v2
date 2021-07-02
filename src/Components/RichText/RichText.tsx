@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC, Fragment } from "react";
 import { useLocation } from "react-router-dom";
+import clsx from "clsx";
 import {
   documentToReactComponents,
   Options,
@@ -33,14 +34,12 @@ const useStyles = makeStyles((theme) => ({
 export interface RichTextProps {
   richText: Document;
   variant?: TypographyProps["variant"];
+  ulClass?: string;
   toMatch?: string;
 }
 
-const RichText: FC<RichTextProps> = ({
-  richText,
-  toMatch,
-  variant = "body2",
-}) => {
+const RichText: FC<RichTextProps> = (props) => {
+  const { richText, toMatch, variant = "body2", ulClass } = props;
   const classes = useStyles();
   const location = useLocation();
   const title = useTitle();
@@ -56,7 +55,7 @@ const RichText: FC<RichTextProps> = ({
         <p className={classes.paragraph}>{children}</p>
       ),
       [BLOCKS.UL_LIST]: (node, children) => (
-        <ul className={classes.unorderedList}>{children}</ul>
+        <ul className={clsx(classes.unorderedList, ulClass)}>{children}</ul>
       ),
       [INLINES.HYPERLINK]: (node, children) => (
         <Link

@@ -1,142 +1,177 @@
 // React Imports
 import React, { FC } from "react";
-import Info from "./Info";
-import FloatingIcons from "../../Shared/FloatingIcons";
-import StyledLink from "../../../StyledLink";
-import DynamicPaper from "../../../DynamicPaper";
+import clsx from "clsx";
+import { Document } from "@contentful/rich-text-types";
+import Title from "./Components/Title";
+import MainContainer from "../../Shared/MainContainer";
+import Associated from "../../Shared/Associated";
+import TagAssociated from "../../Tag/Associated";
 import DynamicImage from "../../../DynamicImage";
-import MatchHighlight from "../../../MatchHighlight";
-import VerticalDivider from "../../../Divider/Vertical";
-import HorizontalDivider from "../../../Divider/Horizontal";
+import RichText from "../../../RichText";
 import {
-  generateExperienceTitle,
+  generateExperienceTimeline,
   getSingleExperience,
 } from "../../../../Utils/Content/experience";
+import {
+  generateProjectTimeline,
+  getProject,
+} from "../../../../Utils/Content/projects";
+import {
+  generateArticlePublished,
+  getArticle,
+} from "../../../../Utils/Content/articles";
 
 // Material UI Imports
 import {
   makeStyles,
+  Paper,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  container: {
+  experience: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
-    justifyContent: "stretch",
-    margin: theme.spacing(2, 0),
-  },
-  titleContainer: {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: theme.spacing(1, 0),
-    width: "100%",
-  },
-  title: {
-    margin: theme.spacing(1),
-  },
-  main: {
-    display: "flex",
     alignItems: "stretch",
     justifyContent: "center",
+    padding: theme.spacing(1, 0),
     width: "100%",
+  },
+  main: {
+    padding: theme.spacing(0, 2),
+  },
+  info: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    margin: theme.spacing(1, 0),
 
     [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
-      alignItems: "center",
-    },
-  },
-  imageContainer: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "center",
-    width: "30%",
-    padding: theme.spacing(2),
-
-    [theme.breakpoints.down("sm")]: {
-      width: "100%",
-      paddingBottom: 0,
     },
   },
   image: {
+    margin: theme.spacing(2),
+
     [theme.breakpoints.only("xl")]: {
-      width: 225,
+      height: 225,
     },
 
     [theme.breakpoints.only("lg")]: {
-      width: 200,
+      height: 200,
     },
 
     [theme.breakpoints.only("md")]: {
-      width: 175,
+      height: 175,
     },
 
     [theme.breakpoints.only("sm")]: {
-      width: 150,
+      height: 150,
     },
 
     [theme.breakpoints.only("xs")]: {
-      width: 125,
+      height: 125,
     },
+  },
+  description: {
+    display: "flex",
+    flexDirection: "column",
+    alignSelf: "flex-start",
+    alignItems: "flex-start",
+    justifyContent: "flex-start",
+    marginLeft: theme.spacing(1),
+    flex: 1,
+
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
+  },
+  responsibilities: {
+    paddingInlineStart: "15px",
+  },
+  associated: {
+    margin: theme.spacing(2, 0),
+    width: "100%",
+  },
+  tag: {
+    margin: theme.spacing(1, 2),
   },
 }));
 
 interface MainProps {
   id: string;
-  search?: string;
+  className?: string;
 }
 
 const Main: FC<MainProps> = (props) => {
   const classes = useStyles();
-  const experience = getSingleExperience(props.id);
-
   const theme = useTheme();
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const experience = getSingleExperience(props.id);
   if (!experience) return null;
 
   return (
-    <DynamicPaper className={classes.container}>
-      <div className={classes.titleContainer}>
-        <StyledLink
-          to={`/experience/${experience.slug}`}
-          variant={isSizeSmall ? "h5" : "h4"}
-          align="center"
-          toMatch={props.search}
-          className={classes.title}
-        >
-          {generateExperienceTitle(experience)}
-        </StyledLink>
-        <Typography variant="body1">
-          <MatchHighlight toMatch={props.search}>
-            {`${experience.start} - ${experience.end ?? "Present"}`}
-          </MatchHighlight>
-        </Typography>
-      </div>
-      <HorizontalDivider />
+    <Paper elevation={8} className={clsx(classes.experience, props.className)}>
+      <Title {...experience} />
+      <Typography align="center" variant="subtitle1">
+        {generateExperienceTimeline(experience)}
+      </Typography>
       <div className={classes.main}>
-        <div className={classes.imageContainer}>
+        <div className={classes.info}>
           <DynamicImage
-            src={`${experience.image.file.url}?w=225`}
+            src={`${experience.image.file.url}?h=225`}
             alt={experience.image.title}
             className={classes.image}
           />
+
+          <div className={classes.description}>
+            <RichText
+              variant={isSizeSmall ? "body2" : "body1"}
+              richText={experience.description as Document}
+            />
+            <RichText
+              variant={isSizeSmall ? "body2" : "body1"}
+              richText={experience.responsibilities as Document}
+              ulClass={classes.responsibilities}
+            />
+          </div>
         </div>
-        {!isSizeSmall && <VerticalDivider />}
-        <Info {...experience} search={props.search} />
+        {!!experience.projects.length && (
+          <MainContainer title="Related Projects">
+            {experience.projects.map((project) => (
+              <Associated
+                key={project.id}
+                content={getProject(project.id)}
+                basePath="projects"
+                timelineFunc={generateProjectTimeline}
+                className={classes.associated}
+              />
+            ))}
+          </MainContainer>
+        )}
+        {!!experience.articles.length && (
+          <MainContainer title="Related Articles">
+            {experience.articles.map((article) => (
+              <Associated
+                key={article.id}
+                content={getArticle(article.id)}
+                basePath="articles"
+                timelineFunc={generateArticlePublished}
+                className={classes.associated}
+              />
+            ))}
+          </MainContainer>
+        )}
+        <MainContainer title="Related Tags">
+          {experience.tags.map((tag) => (
+            <TagAssociated key={tag.id} id={tag.id} className={classes.tag} />
+          ))}
+        </MainContainer>
       </div>
-      <HorizontalDivider />
-      <FloatingIcons
-        link={experience.link}
-        linkLabel="Website"
-        github={experience.github}
-      />
-    </DynamicPaper>
+    </Paper>
   );
 };
 
