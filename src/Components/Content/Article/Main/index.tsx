@@ -122,7 +122,7 @@ const Main: FC<MainProps> = (props) => {
           </div>
         </div>
         {article.associated && (
-          <MainContainer title="Associated With">
+          <MainContainer title="Associated With" direction="column">
             <Associated
               content={getSingleExperience(article.associated.id)}
               basePath="experience"

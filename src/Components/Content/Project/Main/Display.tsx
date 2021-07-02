@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
-    margin: theme.spacing(1),
+    marginTop: theme.spacing(1),
 
     [theme.breakpoints.down("sm")]: {
       justifyContent: "space-between",

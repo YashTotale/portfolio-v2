@@ -89,7 +89,7 @@ const Main: FC<MainProps> = (props) => {
       <div className={classes.main}>
         <Display {...project} />
         {project.associated && (
-          <MainContainer title="Associated With">
+          <MainContainer title="Associated With" direction="column">
             <Associated
               content={getSingleExperience(project.associated.id)}
               basePath="experience"
