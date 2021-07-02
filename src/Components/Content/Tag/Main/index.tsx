@@ -23,6 +23,7 @@ import {
 
 // Material UI Imports
 import { makeStyles, Paper } from "@material-ui/core";
+
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -30,6 +31,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "stretch",
     width: "100%",
+    padding: theme.spacing(1, 0),
   },
   main: {
     padding: theme.spacing(0, 2),
