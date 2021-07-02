@@ -20,11 +20,13 @@ export {
   getIsSidebarOpen,
   getColors,
   getShades,
+  getIsDefaultColors,
   // -> Actions
   toggleDarkMode,
   toggleSidebar,
   changeColor,
   changeShade,
+  resetColors,
   // -> Reducer
   displayReducer,
   // -> State

@@ -127,6 +127,11 @@ const displaySlice = createSlice({
         ...action.payload,
       },
     }),
+    resetColors: (state) => ({
+      ...state,
+      colors: initialDisplayState.colors,
+      shades: initialDisplayState.shades,
+    }),
   },
 });
 
@@ -136,6 +141,7 @@ export const {
   toggleSidebar,
   changeColor,
   changeShade,
+  resetColors,
 } = displaySlice.actions;
 
 // Selectors
@@ -151,6 +157,20 @@ export const getColors = (state: RootState): DisplayState["colors"] =>
 
 export const getShades = (state: RootState): DisplayState["shades"] =>
   state.display.shades;
+
+export const getIsDefaultColors = (state: RootState): boolean => {
+  const colors = getColors(state);
+  const shades = getShades(state);
+
+  const sameColors = SCHEMES.every(
+    (scheme) => initialDisplayState.colors[scheme] === colors[scheme]
+  );
+  const sameShades = SCHEMES.every(
+    (scheme) => initialDisplayState.shades[scheme] === shades[scheme]
+  );
+
+  return sameColors && sameShades;
+};
 
 // Reducer
 export const displayReducer = displaySlice.reducer;

@@ -3,12 +3,20 @@ import React, { FC, useState } from "react";
 import { Helmet } from "react-helmet";
 import throttle from "lodash.throttle";
 import startCase from "lodash.startcase";
+import { useClosableSnackbar } from "../../Hooks";
 import { generatePageTitle } from "../../Utils/funcs";
 import { getTextColor } from "../../Utils/colors";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getColors, getShades, changeColor, changeShade } from "../../Redux";
+import {
+  getColors,
+  getShades,
+  resetColors,
+  changeColor,
+  getIsDefaultColors,
+  changeShade,
+} from "../../Redux";
 import {
   Color,
   COLORS,
@@ -21,6 +29,7 @@ import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import {
+  Button,
   capitalize,
   makeStyles,
   Radio,
@@ -46,7 +55,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   scheme: {
-    margin: "0px 20px",
+    margin: theme.spacing(0, 2),
     width: "220px",
   },
   schemeTitle: {
@@ -54,16 +63,16 @@ const useStyles = makeStyles((theme) => ({
   },
   sliderDiv: {
     display: "flex",
-    marginTop: "10px",
+    marginTop: theme.spacing(1),
   },
   slider: {
-    margin: "0px 10px",
+    margin: theme.spacing(0, 1),
   },
   colorPicker: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
-    margin: "20px 0px",
+    margin: theme.spacing(2, 0),
   },
 }));
 
@@ -81,8 +90,58 @@ const Colors: FC = (props) => {
             <ColorScheme key={scheme} scheme={scheme} />
           ))}
         </div>
+        <Reset />
       </div>
     </>
+  );
+};
+
+const useResetStyles = makeStyles((theme) => ({
+  resetDiv: {
+    display: "flex",
+    justifyContent: "center",
+    width: "100%",
+    marginTop: theme.spacing(1),
+  },
+  reset: {
+    textTransform: "none",
+    fontWeight: theme.typography.fontWeightMedium,
+  },
+}));
+
+const Reset: FC = () => {
+  const isDefault = useSelector(getIsDefaultColors);
+  const classes = useResetStyles();
+  const dispatch = useAppDispatch();
+  const { enqueueSnackbar } = useClosableSnackbar();
+
+  const reset = () => {
+    dispatch(resetColors());
+    enqueueSnackbar("Reset Colors", {
+      variant: "success",
+    });
+  };
+
+  return (
+    <div className={classes.resetDiv}>
+      <Button
+        onClick={reset}
+        variant="contained"
+        color="primary"
+        className={classes.reset}
+        disabled={isDefault}
+        style={
+          isDefault
+            ? {
+                cursor: "not-allowed",
+                pointerEvents: "auto",
+              }
+            : undefined
+        }
+      >
+        Reset Default Colors
+      </Button>
+    </div>
   );
 };
 
