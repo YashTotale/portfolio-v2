@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
-import FloatingIcons from "../Shared/FloatingIcons";
+import FloatingIcons from "../../Shared/FloatingIcons";
 import DynamicImage from "../../../DynamicImage";
 import DynamicPaper from "../../../DynamicPaper";
 import RichText from "../../../RichText";
@@ -83,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
   articleAssociated: {
     margin: theme.spacing(1),
+    width: "90%",
   },
   articleTags: {
     display: "flex",
@@ -113,7 +114,7 @@ const Preview: FC<PreviewProps> = (props) => {
   return (
     <DynamicPaper className={clsx(classes.article, props.className)}>
       <div className={classes.articleTop}>
-        <FloatingIcons {...article} />
+        <FloatingIcons link={article.link} linkLabel="Article" />
         <DynamicImage
           src={`${article.image.file.url}?w=300`}
           alt={article.image.title}

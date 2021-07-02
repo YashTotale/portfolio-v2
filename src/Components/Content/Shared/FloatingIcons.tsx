@@ -1,7 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import LinkIcon from "../../../Icon/Link";
-import { ResolvedProject } from "../../../../Utils/types";
+import LinkIcon from "../../Icon/Link";
 
 // Material UI Imports
 import { makeStyles, Theme } from "@material-ui/core";
@@ -31,10 +30,13 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-type FloatingIconsProps = ResolvedProject & {
+interface FloatingIconsProps {
+  linkLabel?: string;
+  link?: string;
+  github?: string;
   direction?: Direction;
   top?: number;
-};
+}
 
 const FloatingIcons: FC<FloatingIconsProps> = (props) => {
   const classes = useStyles({
@@ -46,7 +48,7 @@ const FloatingIcons: FC<FloatingIconsProps> = (props) => {
     <div className={classes.floatingIcons}>
       {props.link && (
         <LinkIcon
-          label="View Website"
+          label={`View ${props.linkLabel}`}
           href={props.link}
           icon={<Launch />}
           className={classes.iconButton}

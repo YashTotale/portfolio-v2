@@ -1,7 +1,7 @@
 //React Imports
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
-import FloatingIcons from "../Shared/FloatingIcons";
+import FloatingIcons from "../../Shared/FloatingIcons";
 import TagChip from "../../Tag/Mini";
 import Title from "./Components/Title";
 import RichText from "../../../RichText";
@@ -83,6 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
   projectAssociated: {
     margin: theme.spacing(1),
+    width: "90%",
   },
   projectTags: {
     display: "flex",
@@ -113,7 +114,11 @@ const Preview: FC<PreviewProps> = (props) => {
   return (
     <DynamicPaper className={classes.project}>
       <div className={classes.projectTop}>
-        <FloatingIcons {...project} />
+        <FloatingIcons
+          link={project.link}
+          linkLabel="Project"
+          github={project.github}
+        />
         <DynamicImage
           src={`${project.image.file.url}?w=200`}
           alt={project.image.title}

@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import Info from "./Info";
-import FloatingIcons from "./FloatingIcons";
+import FloatingIcons from "../../Shared/FloatingIcons";
 import StyledLink from "../../../StyledLink";
 import DynamicPaper from "../../../DynamicPaper";
 import DynamicImage from "../../../DynamicImage";
@@ -131,7 +131,11 @@ const Main: FC<MainProps> = (props) => {
         <Info {...experience} search={props.search} />
       </div>
       <HorizontalDivider />
-      <FloatingIcons {...experience} />
+      <FloatingIcons
+        link={experience.link}
+        linkLabel="Website"
+        github={experience.github}
+      />
     </DynamicPaper>
   );
 };

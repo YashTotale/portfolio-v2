@@ -82,6 +82,18 @@ export const generateExperienceTitle = (
   return `${exp.role} @ ${exp.title}`;
 };
 
+export const generateExperienceTimeline = (
+  exp: Experience | ResolvedExperience
+): string => {
+  const start = exp.start;
+  let end = exp.end;
+
+  if (end === start) return start;
+
+  if (!end) end = "Present";
+  return `${start} - ${end}`;
+};
+
 export const checkProjects = (
   e: ResolvedExperience,
   projects: string[]
@@ -116,8 +128,7 @@ export const checkSearch = (e: ResolvedExperience, search: string): boolean => {
       .includes(search),
     e.type.toLowerCase().includes(search),
     e.role.toLowerCase().includes(search),
-    e.start.toLowerCase().includes(search),
-    e.end?.toLowerCase().includes(search),
+    generateExperienceTimeline(e).toLowerCase().includes(search),
     e.link?.toLowerCase().includes(search),
     e.github?.toLowerCase().includes(search),
   ];

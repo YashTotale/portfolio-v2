@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import FloatingIcons from "../../Shared/FloatingIcons";
+import FloatingIcons from "../../../Shared/FloatingIcons";
 import { ResolvedArticle } from "../../../../../Utils/types";
 
 // Material UI Imports
@@ -34,7 +34,12 @@ const Title: FC<TitleProps> = (props) => {
       <Typography variant={isSizeSmall ? "h4" : "h3"} align="center">
         {props.title}
       </Typography>
-      <FloatingIcons {...props} direction="row" top={0} />
+      <FloatingIcons
+        link={props.link}
+        linkLabel="Article"
+        direction="row"
+        top={0}
+      />
     </div>
   );
 };
