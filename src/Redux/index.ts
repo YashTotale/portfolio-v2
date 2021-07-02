@@ -18,9 +18,13 @@ export {
   // -> Selectors
   getIsDarkMode,
   getIsSidebarOpen,
+  getColors,
+  getShades,
   // -> Actions
   toggleDarkMode,
   toggleSidebar,
+  changeColor,
+  changeShade,
   // -> Reducer
   displayReducer,
   // -> State

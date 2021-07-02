@@ -1,14 +1,98 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
+export type Scheme = "primary" | "secondary";
+
+export const SCHEMES: Scheme[] = ["primary", "secondary"];
+
+export type Color =
+  | "red"
+  | "pink"
+  | "purple"
+  | "deepPurple"
+  | "indigo"
+  | "blue"
+  | "lightBlue"
+  | "cyan"
+  | "teal"
+  | "green"
+  | "lightGreen"
+  | "lime"
+  | "yellow"
+  | "amber"
+  | "orange"
+  | "deepOrange";
+
+export const COLORS: Color[] = [
+  "red",
+  "pink",
+  "purple",
+  "deepPurple",
+  "indigo",
+  "blue",
+  "lightBlue",
+  "cyan",
+  "teal",
+  "green",
+  "lightGreen",
+  "lime",
+  "yellow",
+  "amber",
+  "orange",
+  "deepOrange",
+];
+
+export type Shade =
+  | "50"
+  | "100"
+  | "200"
+  | "300"
+  | "400"
+  | "500"
+  | "600"
+  | "700"
+  | "800"
+  | "900"
+  | "A100"
+  | "A200"
+  | "A400"
+  | "A700";
+
+export const SHADES: Shade[] = [
+  "50",
+  "100",
+  "200",
+  "300",
+  "400",
+  "500",
+  "600",
+  "700",
+  "800",
+  "900",
+  "A100",
+  "A200",
+  "A400",
+  "A700",
+];
+
 export interface DisplayState {
   isDarkMode: boolean | null;
   isSidebarOpen: boolean;
+  colors: Record<Scheme, Color>;
+  shades: Record<Scheme, Shade>;
 }
 
 export const initialDisplayState: DisplayState = {
   isDarkMode: null,
   isSidebarOpen: false,
+  colors: {
+    primary: "lightBlue",
+    secondary: "amber",
+  },
+  shades: {
+    primary: "500",
+    secondary: "700",
+  },
 };
 
 const displaySlice = createSlice({
@@ -23,11 +107,36 @@ const displaySlice = createSlice({
       ...state,
       isSidebarOpen: action.payload ?? !state.isSidebarOpen,
     }),
+    changeColor: (
+      state,
+      action: PayloadAction<Partial<DisplayState["colors"]>>
+    ) => ({
+      ...state,
+      colors: {
+        ...state.colors,
+        ...action.payload,
+      },
+    }),
+    changeShade: (
+      state,
+      action: PayloadAction<Partial<DisplayState["shades"]>>
+    ) => ({
+      ...state,
+      shades: {
+        ...state.shades,
+        ...action.payload,
+      },
+    }),
   },
 });
 
 // Actions
-export const { toggleDarkMode, toggleSidebar } = displaySlice.actions;
+export const {
+  toggleDarkMode,
+  toggleSidebar,
+  changeColor,
+  changeShade,
+} = displaySlice.actions;
 
 // Selectors
 export const getIsDarkMode = (state: RootState): DisplayState["isDarkMode"] =>
@@ -36,6 +145,12 @@ export const getIsDarkMode = (state: RootState): DisplayState["isDarkMode"] =>
 export const getIsSidebarOpen = (
   state: RootState
 ): DisplayState["isSidebarOpen"] => state.display.isSidebarOpen;
+
+export const getColors = (state: RootState): DisplayState["colors"] =>
+  state.display.colors;
+
+export const getShades = (state: RootState): DisplayState["shades"] =>
+  state.display.shades;
 
 // Reducer
 export const displayReducer = displaySlice.reducer;

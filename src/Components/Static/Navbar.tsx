@@ -1,6 +1,8 @@
 // React Imports
 import React, { FC } from "react";
+import { Link } from "react-router-dom";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
+import { generateSearch } from "../../Utils/funcs";
 
 // Redux Imports
 import { toggleDarkMode, toggleSidebar } from "../../Redux";
@@ -20,6 +22,7 @@ import {
   Brightness7,
   Brightness4,
   Menu as MenuButton,
+  Palette,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -57,6 +60,22 @@ const Navbar: FC = () => {
           )}
         </div>
         <div className={classes.rightIcons}>
+          <Tooltip title="Customize Colors">
+            <IconButton
+              component={Link}
+              to={{
+                pathname: "/colors",
+                search: generateSearch(
+                  {
+                    from_type: "navbar",
+                  },
+                  null
+                ),
+              }}
+            >
+              <Palette />
+            </IconButton>
+          </Tooltip>
           <Tooltip title={`Toggle ${isDarkMode ? "Light" : "Dark"} Mode`}>
             <IconButton
               onClick={() => {

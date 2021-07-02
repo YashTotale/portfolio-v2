@@ -25,8 +25,9 @@ const ArticlesPage = lazy(() => import("./Pages/Articles"));
 const ArticlePage = lazy(() => import("./Pages/Article"));
 const TagsPage = lazy(() => import("./Pages/Tags"));
 const TagPage = lazy(() => import("./Pages/Tag"));
-const Contact = lazy(() => import("./Pages/Contact"));
 const BooksPage = lazy(() => import("./Pages/Books"));
+const Contact = lazy(() => import("./Pages/Contact"));
+const Colors = lazy(() => import("./Pages/Colors"));
 const NotFound = lazy(() => import("./Pages/NotFound"));
 
 const useStyles = makeStyles((theme) => ({
@@ -106,6 +107,9 @@ const Routes: FC = () => {
             </Route>
             <Route exact path="/contact">
               <Contact />
+            </Route>
+            <Route exact path="/colors">
+              <Colors />
             </Route>
             <Route exact path="/">
               <Home />

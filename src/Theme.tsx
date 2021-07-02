@@ -3,7 +3,7 @@ import React, { FC } from "react";
 
 //Redux Imports
 import { useSelector } from "react-redux";
-import { getIsDarkMode, toggleDarkMode } from "./Redux";
+import { getColors, getIsDarkMode, getShades, toggleDarkMode } from "./Redux";
 import { useAppDispatch } from "./Store";
 
 //Material UI Imports
@@ -13,12 +13,14 @@ import {
   useMediaQuery,
   CssBaseline,
 } from "@material-ui/core";
-import { amber, lightBlue } from "@material-ui/core/colors";
+import * as muiColors from "@material-ui/core/colors";
 
 export const alternativeFont = "Arial, sans-serif";
 
 const Theme: FC = ({ children }) => {
   const dispatch = useAppDispatch();
+  const colors = useSelector(getColors);
+  const shades = useSelector(getShades);
 
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const isDarkMode = useSelector(getIsDarkMode);
@@ -47,9 +49,11 @@ const Theme: FC = ({ children }) => {
     },
     palette: {
       type: isDarkMode ? "dark" : "light",
-      primary: lightBlue,
+      primary: {
+        main: muiColors[colors.primary][shades.primary],
+      },
       secondary: {
-        main: amber[700],
+        main: muiColors[colors.secondary][shades.secondary],
       },
     },
   });
