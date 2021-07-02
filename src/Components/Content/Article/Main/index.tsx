@@ -6,11 +6,16 @@ import Title from "./Components/Title";
 import Tags from "./Components/Tags";
 import DynamicImage from "../../../DynamicImage";
 import RichText from "../../../RichText";
-import Associated from "../../Experience/Associated";
+import Associated from "../../Shared/Associated";
 import {
   generateArticlePublished,
   getArticle,
 } from "../../../../Utils/Content/articles";
+import {
+  generateExperienceTimeline,
+  generateExperienceTitle,
+  getSingleExperience,
+} from "../../../../Utils/Content/experience";
 
 // Material UI Imports
 import {
@@ -137,7 +142,10 @@ const Main: FC<MainProps> = (props) => {
               Associated With
             </Typography>
             <Associated
-              id={article.associated.id}
+              content={getSingleExperience(article.associated.id)}
+              basePath="experience"
+              timelineFunc={generateExperienceTimeline}
+              titleFunc={generateExperienceTitle}
               className={classes.associated}
             />
           </div>

@@ -2,9 +2,13 @@
 import React, { FC } from "react";
 import Overlay from "../../../../Overlay";
 import TagChip from "../../../Tag/Mini";
-import ProjectAssociated from "../../../Project/Associated";
+import Associated from "../../../Shared/Associated";
 import { ResolvedExperience } from "../../../../../Utils/types";
 import { getAsset } from "../../../../../Utils/Content/assets";
+import {
+  generateProjectTimeline,
+  getProject,
+} from "../../../../../Utils/Content/projects";
 
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
@@ -55,9 +59,11 @@ const Related: FC<RelatedProps> = (props) => {
           </Typography>
           <div className={classes.container}>
             {props.projects.map((project) => (
-              <ProjectAssociated
-                id={project.id}
+              <Associated
                 key={project.id}
+                content={getProject(project.id)}
+                basePath="projects"
+                timelineFunc={generateProjectTimeline}
                 className={classes.associated}
               />
             ))}

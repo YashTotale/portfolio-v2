@@ -5,11 +5,16 @@ import Display from "./Display";
 import Tags from "./Tags";
 import Title from "./Components/Title";
 import Badge from "../../Badge";
-import Associated from "../../Experience/Associated";
+import Associated from "../../Shared/Associated";
 import {
   generateProjectTimeline,
   getProject,
 } from "../../../../Utils/Content/projects";
+import {
+  generateExperienceTimeline,
+  generateExperienceTitle,
+  getSingleExperience,
+} from "../../../../Utils/Content/experience";
 
 // Material UI Imports
 import {
@@ -118,7 +123,10 @@ const Main: FC<MainProps> = (props) => {
               Associated With
             </Typography>
             <Associated
-              id={project.associated.id}
+              content={getSingleExperience(project.associated.id)}
+              basePath="experience"
+              timelineFunc={generateExperienceTimeline}
+              titleFunc={generateExperienceTitle}
               className={classes.associated}
             />
           </div>

@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC } from "react";
+import { Asset, EntryFields } from "contentful";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import RichText from "../../../RichText";
@@ -8,14 +9,11 @@ import StyledLink from "../../../StyledLink";
 import VerticalDivider from "../../../Divider/Vertical";
 import HorizontalDivider from "../../../Divider/Horizontal";
 import { generateSearch } from "../../../../Utils/funcs";
-import {
-  generateExperienceTitle,
-  getSingleExperience,
-} from "../../../../Utils/Content/experience";
 
 // Material UI Imports
 import {
   makeStyles,
+  Theme,
   Typography,
   useMediaQuery,
   useTheme,
@@ -24,7 +22,11 @@ import MatchHighlight from "../../../MatchHighlight";
 import { useLocation } from "react-router-dom";
 import { useTitle } from "../../../../Context/HeadContext";
 
-const useStyles = makeStyles((theme) => ({
+interface StyleProps {
+  basePath: string;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   container: {
     display: "flex",
     alignItems: "center",
@@ -36,30 +38,25 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   image: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
 
     [theme.breakpoints.only("xl")]: {
-      width: 175,
       height: 175,
     },
 
     [theme.breakpoints.only("lg")]: {
-      width: 150,
       height: 150,
     },
 
     [theme.breakpoints.only("md")]: {
-      width: 150,
       height: 150,
     },
 
     [theme.breakpoints.only("sm")]: {
-      width: 125,
       height: 125,
     },
 
     [theme.breakpoints.only("xs")]: {
-      width: 100,
       height: 100,
     },
   },
@@ -78,37 +75,46 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   description: {
-    margin: theme.spacing(1),
-    textAlign: "center",
+    width: "100%",
+    padding: theme.spacing(1),
+    textAlign: ({ basePath }) => (basePath === "projects" ? "start" : "center"),
   },
   timeline: {
     margin: theme.spacing(1),
   },
 }));
 
+interface Content {
+  title: string;
+  slug: string;
+  description: EntryFields.RichText;
+  image: Asset["fields"];
+}
+
 export interface AssociatedProps {
-  id: string;
+  content: Content | null;
+  basePath: string;
+  timelineFunc: (content: any) => string;
+  titleFunc?: (content: any) => string;
   search?: string;
   className?: string;
 }
 
 const Associated: FC<AssociatedProps> = (props) => {
-  const classes = useStyles();
+  const classes = useStyles({ basePath: props.basePath });
   const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const location = useLocation();
   const title = useTitle();
 
-  const experience = getSingleExperience(props.id);
-  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
-
-  if (!experience) return null;
+  if (!props.content) return null;
 
   return (
     <div className={clsx(classes.container, props.className)}>
       <DynamicImage
-        src={`${experience.image.file.url}?w=175`}
-        alt={experience.image.title}
+        src={`${props.content.image.file.url}?h=175`}
+        alt={props.content.image.title}
         className={classes.image}
       />
       {!isSizeXS && <VerticalDivider />}
@@ -117,7 +123,7 @@ const Associated: FC<AssociatedProps> = (props) => {
           variant="h6"
           align="center"
           to={{
-            pathname: `/experience/${experience.slug}`,
+            pathname: `/${props.basePath}/${props.content.slug}`,
             search: generateSearch(
               {
                 from_path: location.pathname,
@@ -129,12 +135,14 @@ const Associated: FC<AssociatedProps> = (props) => {
           className={classes.title}
           toMatch={props.search}
         >
-          {generateExperienceTitle(experience)}
+          {props.titleFunc
+            ? props.titleFunc(props.content)
+            : props.content.title}
         </StyledLink>
         <HorizontalDivider />
         <div className={classes.description}>
           <RichText
-            richText={experience.description as Document}
+            richText={props.content.description as Document}
             toMatch={props.search}
           />
         </div>
@@ -142,7 +150,7 @@ const Associated: FC<AssociatedProps> = (props) => {
         <div className={classes.timeline}>
           <Typography>
             <MatchHighlight toMatch={props.search}>
-              {`${experience.start} - ${experience.end ?? "Present"}`}
+              {props.timelineFunc(props.content)}
             </MatchHighlight>
           </Typography>
         </div>
