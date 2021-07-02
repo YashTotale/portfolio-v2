@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     margin: theme.spacing(1, 0),
 
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
     },
   },
@@ -80,6 +80,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     marginLeft: theme.spacing(1),
     flex: 1,
+
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
   },
   associated: {
     margin: theme.spacing(2, 0),

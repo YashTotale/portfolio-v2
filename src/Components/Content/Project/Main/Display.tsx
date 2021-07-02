@@ -26,7 +26,7 @@ const useStyles = makeStyles((theme) => ({
       justifyContent: "space-between",
     },
 
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.down("sm")]: {
       flexDirection: "column",
     },
   },
@@ -60,6 +60,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     flex: 1,
+
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+    },
   },
   projectLinks: {
     margin: theme.spacing(1),

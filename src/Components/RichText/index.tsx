@@ -5,7 +5,7 @@ import Loading from "./Loading";
 
 const Component = lazy(() => import("./RichText"));
 
-const Badge: FC<RichTextProps> = (props) => {
+const RichText: FC<RichTextProps> = (props) => {
   return (
     <Suspense fallback={<Loading variant={props.variant} />}>
       <Component {...props} />
@@ -13,4 +13,4 @@ const Badge: FC<RichTextProps> = (props) => {
   );
 };
 
-export default Badge;
+export default RichText;
