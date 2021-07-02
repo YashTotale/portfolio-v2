@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import clsx from "clsx";
 import { NavButtonProps } from "./NavButton";
 
-// Material UI Lab
+// Material UI Imports
 import { makeStyles, Theme } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 

@@ -75,7 +75,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   description: {
+    width: "100%",
     textAlign: "center",
+  },
+  responsibilities: {
+    width: "100%",
   },
   minis: {
     display: "flex",
@@ -137,7 +141,7 @@ const Preview: FC<PreviewProps> = (props) => {
             variant={isSizeXS ? "body2" : "body1"}
           />
         </div>
-        <div>
+        <div className={classes.responsibilities}>
           <RichText
             richText={experience.responsibilities as Document}
             toMatch={props.search}

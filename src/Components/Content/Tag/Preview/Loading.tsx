@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import clsx from "clsx";
 
-// Material UI Lab
+// Material UI Imports
 import { makeStyles } from "@material-ui/core";
 import { Skeleton } from "@material-ui/lab";
 
