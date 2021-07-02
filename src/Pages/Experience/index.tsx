@@ -36,6 +36,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "100%",
   },
+  experience: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+  },
 }));
 
 const Experience: FC = () => {
@@ -99,6 +106,7 @@ const Experience: FC = () => {
 };
 
 const Contents: FC = () => {
+  const classes = useStyles();
   const search = useSelector(getExperienceSearch);
   const filteredExperience = useFilteredExperience();
 
@@ -106,11 +114,11 @@ const Contents: FC = () => {
     return <Typography variant="h6">No experience found</Typography>;
 
   return (
-    <>
+    <div className={classes.experience}>
       {filteredExperience.map((fields) => (
         <Preview key={fields.id} id={fields.id} search={search} />
       ))}
-    </>
+    </div>
   );
 };
 

@@ -119,18 +119,17 @@ export const checkSearch = (e: ResolvedExperience, search: string): boolean => {
   if (typeof cache === "boolean") return cache;
 
   const matches: (boolean | undefined)[] = [
-    e.title.toLowerCase().includes(search),
+    generateExperienceTitle(e).toLowerCase().includes(search),
     documentToPlainTextString(e.description as Document)
       .toLowerCase()
       .includes(search),
     documentToPlainTextString(e.responsibilities as Document)
       .toLowerCase()
       .includes(search),
-    e.type.toLowerCase().includes(search),
-    e.role.toLowerCase().includes(search),
     generateExperienceTimeline(e).toLowerCase().includes(search),
-    e.link?.toLowerCase().includes(search),
-    e.github?.toLowerCase().includes(search),
+    e.projects.some((project) => project.title.toLowerCase().includes(search)),
+    e.articles.some((article) => article.title.toLowerCase().includes(search)),
+    e.tags.some((tag) => tag.title.toLowerCase().includes(search)),
   ];
 
   const result = matches.includes(true);

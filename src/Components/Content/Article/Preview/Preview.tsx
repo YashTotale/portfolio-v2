@@ -83,7 +83,7 @@ const useStyles = makeStyles((theme) => ({
   },
   articleAssociated: {
     margin: theme.spacing(1),
-    width: "90%",
+    minWidth: "90%",
   },
   articleTags: {
     display: "flex",
