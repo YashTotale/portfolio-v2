@@ -27,7 +27,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     padding: ({ hasLink }) => (hasLink ? theme.spacing(0, 6) : 0),
   },
   title: {
-    margin: theme.spacing(1, 0),
+    marginBottom: theme.spacing(1),
   },
 }));
 

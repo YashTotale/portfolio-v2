@@ -3,9 +3,9 @@ import React, { FC } from "react";
 import clsx from "clsx";
 import Title from "./Components/Title";
 import Icon from "./Components/Icon";
-import Related from "./Components/Related";
 import HorizontalDivider from "../../../Divider/Horizontal";
 import Associated from "../../Shared/Associated";
+import MainContainer from "../../Shared/MainContainer";
 import { getTag } from "../../../../Utils/Content/tags";
 import {
   generateExperienceTimeline,
@@ -37,6 +37,10 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 2),
     width: "100%",
   },
+  associated: {
+    margin: theme.spacing(2, 0),
+    width: "100%",
+  },
 }));
 
 interface TagProps {
@@ -58,7 +62,7 @@ const Tag: FC<TagProps> = (props) => {
       <HorizontalDivider />
       <div className={classes.main}>
         {!!tag.experience.length && (
-          <Related label="Related Experience">
+          <MainContainer title="Related Experience" direction="column">
             {tag.experience.map((exp) => (
               <Associated
                 key={exp.id}
@@ -67,33 +71,36 @@ const Tag: FC<TagProps> = (props) => {
                 timelineFunc={generateExperienceTimeline}
                 titleFunc={generateExperienceTitle}
                 search={props.search}
+                className={classes.associated}
               />
             ))}
-          </Related>
+          </MainContainer>
         )}
         {!!tag.projects.length && (
-          <Related label="Related Projects">
+          <MainContainer title="Related Projects" direction="column">
             {tag.projects.map((project) => (
               <Associated
                 key={project.id}
                 content={getProject(project.id)}
                 basePath="projects"
                 timelineFunc={generateProjectTimeline}
+                className={classes.associated}
               />
             ))}
-          </Related>
+          </MainContainer>
         )}
         {!!tag.articles.length && (
-          <Related label="Related Articles">
+          <MainContainer title="Related Articles" direction="column">
             {tag.articles.map((article) => (
               <Associated
                 key={article.id}
                 content={getArticle(article.id)}
                 basePath="articles"
                 timelineFunc={generateArticlePublished}
+                className={classes.associated}
               />
             ))}
-          </Related>
+          </MainContainer>
         )}
       </div>
     </Paper>

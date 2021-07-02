@@ -58,6 +58,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 
     [theme.breakpoints.only("xs")]: {
       height: 100,
+      marginBottom: 0,
     },
   },
   info: {
@@ -78,6 +79,11 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     width: "100%",
     padding: theme.spacing(1),
     textAlign: ({ basePath }) => (basePath === "projects" ? "start" : "center"),
+    flex: 1,
+
+    [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(0, 1),
+    },
   },
   timeline: {
     margin: theme.spacing(1),
@@ -139,16 +145,17 @@ const Associated: FC<AssociatedProps> = (props) => {
             ? props.titleFunc(props.content)
             : props.content.title}
         </StyledLink>
-        <HorizontalDivider />
+        {!isSizeXS && <HorizontalDivider />}
         <div className={classes.description}>
           <RichText
             richText={props.content.description as Document}
+            variant={isSizeXS ? "body2" : "body1"}
             toMatch={props.search}
           />
         </div>
-        <HorizontalDivider />
+        {!isSizeXS && <HorizontalDivider />}
         <div className={classes.timeline}>
-          <Typography>
+          <Typography variant={isSizeXS ? "body2" : "body1"}>
             <MatchHighlight toMatch={props.search}>
               {props.timelineFunc(props.content)}
             </MatchHighlight>

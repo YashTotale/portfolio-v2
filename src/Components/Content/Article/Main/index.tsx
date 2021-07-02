@@ -3,10 +3,11 @@ import React, { FC } from "react";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
-import Tags from "./Components/Tags";
 import DynamicImage from "../../../DynamicImage";
 import RichText from "../../../RichText";
 import Associated from "../../Shared/Associated";
+import MainContainer from "../../Shared/MainContainer";
+import TagAssociated from "../../Tag/Associated";
 import {
   generateArticlePublished,
   getArticle,
@@ -21,7 +22,6 @@ import {
 import {
   makeStyles,
   Paper,
-  darken,
   useTheme,
   useMediaQuery,
   Typography,
@@ -80,21 +80,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     marginLeft: theme.spacing(1),
   },
-  heading: {
-    margin: theme.spacing(0, 1),
-  },
-  container: {
-    borderRadius: "4px",
-    border: `1px solid ${theme.palette.text.disabled}`,
-    backgroundColor:
-      theme.palette.type === "dark"
-        ? darken(theme.palette.grey[800], 0.3)
-        : theme.palette.grey[200],
-    margin: theme.spacing(2, 0),
-    padding: theme.spacing(1),
-  },
-
   associated: {
+    margin: theme.spacing(1, 2),
+  },
+  tag: {
     margin: theme.spacing(1, 2),
   },
 }));
@@ -133,14 +122,7 @@ const Main: FC<MainProps> = (props) => {
           </div>
         </div>
         {article.associated && (
-          <div className={classes.container}>
-            <Typography
-              variant={isSizeSmall ? "h5" : "h4"}
-              align="center"
-              className={classes.heading}
-            >
-              Associated With
-            </Typography>
+          <MainContainer title="Associated With">
             <Associated
               content={getSingleExperience(article.associated.id)}
               basePath="experience"
@@ -148,18 +130,13 @@ const Main: FC<MainProps> = (props) => {
               titleFunc={generateExperienceTitle}
               className={classes.associated}
             />
-          </div>
+          </MainContainer>
         )}
-        <div className={classes.container}>
-          <Typography
-            variant={isSizeSmall ? "h5" : "h4"}
-            align="center"
-            className={classes.heading}
-          >
-            Related Tags
-          </Typography>
-          <Tags {...article} />
-        </div>
+        <MainContainer title="Related Tags">
+          {article.tags.map((tag) => (
+            <TagAssociated key={tag.id} id={tag.id} className={classes.tag} />
+          ))}
+        </MainContainer>
       </div>
     </Paper>
   );
