@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import { useHistory, useLocation } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 import { LocationDescriptor } from "history";
 import { generateSidebarPath } from "./Contents";
 
@@ -21,6 +21,10 @@ interface StyleProps {
 }
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
+  link: {
+    color: theme.palette.text.primary,
+    textDecoration: "none",
+  },
   listItemContainer: {
     padding: theme.spacing(0),
   },
@@ -49,27 +53,23 @@ const Category: FC<CategoryProps> = ({ label, to, children }) => {
   const curr = typeof to === "string" ? to : to.pathname ?? "";
   const open = pathname.includes(curr);
   const classes = useStyles({ open, isActive: pathname === curr });
-  const history = useHistory();
 
   return (
     <li className={classes.listItemContainer}>
-      <ListItem
-        button
-        className={classes.listItem}
-        onClick={() => {
-          if (pathname === curr && children)
-            history.push(generateSidebarPath("/"));
-          else history.push(to);
-        }}
+      <Link
+        to={pathname === curr && children ? generateSidebarPath("/") : to}
+        className={classes.link}
       >
-        <ListItemText
-          primary={label}
-          classes={{
-            primary: classes.listItemText,
-          }}
-        />
-        {children && <ExpandLess className={classes.arrow} />}
-      </ListItem>
+        <ListItem button className={classes.listItem}>
+          <ListItemText
+            primary={label}
+            classes={{
+              primary: classes.listItemText,
+            }}
+          />
+          {children && <ExpandLess className={classes.arrow} />}
+        </ListItem>
+      </Link>
       {children && (
         <Collapse in={open} timeout="auto">
           <List component="div" disablePadding>

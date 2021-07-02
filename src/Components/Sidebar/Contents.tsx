@@ -73,7 +73,7 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
-        <Category label="Projects" to="/projects">
+        <Category label="Projects" to={generateSidebarPath("/projects")}>
           {projects.map((project) => (
             <Item
               key={project.id}
@@ -82,7 +82,7 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
-        <Category label="Articles" to="/articles">
+        <Category label="Articles" to={generateSidebarPath("/articles")}>
           {articles.map((article) => (
             <Item
               key={article.id}
@@ -91,7 +91,7 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
-        <Category label="Tags" to="/tags">
+        <Category label="Tags" to={generateSidebarPath("/tags")}>
           {tags.map((tag) => (
             <Item
               key={tag.id}

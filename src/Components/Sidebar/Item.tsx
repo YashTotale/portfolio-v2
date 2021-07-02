@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import { useHistory, useLocation } from "react-router";
+import { Link, useLocation } from "react-router-dom";
 import { LocationDescriptor } from "history";
 
 // Material UI Imports
@@ -11,6 +11,10 @@ interface StyleProps {
 }
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
+  link: {
+    color: theme.palette.text.primary,
+    textDecoration: "none",
+  },
   listItem: {
     padding: theme.spacing(0.75, 1),
     paddingLeft: theme.spacing(5),
@@ -32,26 +36,21 @@ interface ItemProps {
 
 const Item: FC<ItemProps> = ({ label, to }) => {
   const pathname = useLocation().pathname;
-  const history = useHistory();
   const classes = useStyles({
     isActive: pathname === (typeof to === "string" ? to : to.pathname),
   });
 
   return (
-    <ListItem
-      button
-      className={classes.listItem}
-      onClick={() => {
-        history.push(to);
-      }}
-    >
-      <ListItemText
-        primary={label}
-        classes={{
-          primary: classes.listItemText,
-        }}
-      />
-    </ListItem>
+    <Link to={to} className={classes.link}>
+      <ListItem button className={classes.listItem}>
+        <ListItemText
+          primary={label}
+          classes={{
+            primary: classes.listItemText,
+          }}
+        />
+      </ListItem>
+    </Link>
   );
 };
 
