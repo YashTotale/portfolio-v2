@@ -5,6 +5,7 @@ import { documentToPlainTextString } from "@contentful/rich-text-plain-text-rend
 // Internal Imports
 import { createSorter, sortByDate } from "../funcs";
 import { Badge, Experience, Project, ResolvedProject, Tag } from "../types";
+import { getDefaultSortedProjects } from "./main";
 import { generateExperienceTitle, getRawExperience } from "./experience";
 import { getAsset } from "./assets";
 import { getRawTag } from "./tags";
@@ -156,6 +157,13 @@ export function useSortedProjects(
 
 export const sortProjects = createSorter<ProjectsSort, Project>(
   {
+    Default: (a, b) => {
+      const sorted = getDefaultSortedProjects();
+      const aIndex = sorted.indexOf(a.id);
+      const bIndex = sorted.indexOf(b.id);
+
+      return aIndex - bIndex;
+    },
     Alphabetically: (a, b) => {
       const aTitle = a.title.toLowerCase();
       const bTitle = b.title.toLowerCase();

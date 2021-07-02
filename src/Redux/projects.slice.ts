@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
-export type ProjectsSort = "Alphabetically" | "Newest" | "Oldest";
+export type ProjectsSort = "Default" | "Alphabetically" | "Newest" | "Oldest";
 export const PROJECTS_SORT: ProjectsSort[] = [
+  "Default",
   "Alphabetically",
   "Newest",
   "Oldest",

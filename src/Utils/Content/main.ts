@@ -17,3 +17,8 @@ export const getDefaultSortedExperience = (): Main["sortedExperience"] => {
   const main = getMain();
   return main.sortedExperience;
 };
+
+export const getDefaultSortedProjects = (): Main["sortedProjects"] => {
+  const main = getMain();
+  return main.sortedProjects;
+};
