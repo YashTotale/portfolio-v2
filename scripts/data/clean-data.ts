@@ -153,6 +153,7 @@ const cleanMain = async () => {
     ...single,
     sortedExperience: single.sortedExperience.map(getId),
     sortedProjects: single.sortedProjects.map(getId),
+    sortedArticles: single.sortedArticles.map(getId),
   };
 
   await writeData(parsed, "main");

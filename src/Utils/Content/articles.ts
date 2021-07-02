@@ -6,6 +6,7 @@ import { documentToPlainTextString } from "@contentful/rich-text-plain-text-rend
 // Internal Imports
 import { compareDates, createSorter } from "../funcs";
 import { Article, Experience, ResolvedArticle, Tag } from "../types";
+import { getDefaultSortedArticles } from "./main";
 import { generateExperienceTitle, getRawExperience } from "./experience";
 import { getRawTag } from "./tags";
 import { getAsset } from "./assets";
@@ -144,6 +145,13 @@ export function useSortedArticles(
 
 export const sortArticles = createSorter<ArticlesSort, Article>(
   {
+    Default: (a, b) => {
+      const sorted = getDefaultSortedArticles();
+      const aIndex = sorted.indexOf(a.id);
+      const bIndex = sorted.indexOf(b.id);
+
+      return aIndex - bIndex;
+    },
     Alphabetically: (a, b) => {
       const aTitle = a.title.toLowerCase();
       const bTitle = b.title.toLowerCase();

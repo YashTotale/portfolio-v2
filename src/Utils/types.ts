@@ -10,9 +10,13 @@ import {
   RawMain,
 } from "../../scripts/data/helpers";
 
-export type Main = Omit<RawMain, "sortedExperience" | "sortedProjects"> & {
+export type Main = Omit<
+  RawMain,
+  "sortedExperience" | "sortedProjects" | "sortedArticles"
+> & {
   sortedExperience: string[];
   sortedProjects: string[];
+  sortedArticles: string[];
 };
 
 export interface Badge {

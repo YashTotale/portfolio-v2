@@ -22,3 +22,8 @@ export const getDefaultSortedProjects = (): Main["sortedProjects"] => {
   const main = getMain();
   return main.sortedProjects;
 };
+
+export const getDefaultSortedArticles = (): Main["sortedArticles"] => {
+  const main = getMain();
+  return main.sortedArticles;
+};

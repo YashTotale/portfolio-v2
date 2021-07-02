@@ -16,6 +16,7 @@ export interface RawMain {
   description: EntryFields.RichText;
   sortedExperience: RawLink[];
   sortedProjects: RawLink[];
+  sortedArticles: RawLink[];
 }
 
 export interface RawExperience {
