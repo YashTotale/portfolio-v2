@@ -3,16 +3,12 @@ import React, { FC } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
+import { useAnalytics } from "../../Hooks";
 import ArticleMain from "../../Components/Content/Article/Main";
 import NavButton from "../../Components/NavButton";
 import TopNav from "../../Components/TopNav";
 import { useTitle } from "../../Context/HeadContext";
-import {
-  generatePageTitle,
-  generateSearch,
-  getSearch,
-} from "../../Utils/funcs";
-import { analytics } from "../../Utils/Config/firebase";
+import { generatePageTitle, generateSearch } from "../../Utils/funcs";
 import { getArticle, useSortedArticles } from "../../Utils/Content/articles";
 
 // Material UI Imports
@@ -45,10 +41,11 @@ const Article: FC = () => {
 
   const location = useLocation();
   const title = useTitle();
-  const search = getSearch(location.search);
 
   const article = getArticle(slug, true);
   const sortedArticles = useSortedArticles();
+
+  useAnalytics(article?.title);
 
   if (!article)
     return (
@@ -58,11 +55,6 @@ const Article: FC = () => {
         redirectName="Articles Page"
       />
     );
-
-  analytics.logEvent("page_view", {
-    page_title: article.title,
-    ...search,
-  });
 
   const articleIndex = sortedArticles.findIndex((p) => p.id === article.id);
   const prevArticle = sortedArticles[articleIndex - 1];

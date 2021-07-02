@@ -1,12 +1,11 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Filters";
 import BookPreview from "../../Components/Content/Book/Preview";
 import HorizontalDivider from "../../Components/Divider/Horizontal";
-import { generatePageTitle, getSearch } from "../../Utils/funcs";
-import { analytics } from "../../Utils/Config/firebase";
+import { generatePageTitle } from "../../Utils/funcs";
 import { getBookGenres, useFilteredBooks } from "../../Utils/Content/books";
 import { Book } from "../../Utils/types";
 
@@ -70,19 +69,13 @@ const Books: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
-  const location = useLocation();
-  const searchParams = getSearch(location.search);
-
   const books = useFilteredBooks();
   const genres = getBookGenres();
 
   const search = useSelector(getBooksSearch);
   const genreFilter = useSelector(getBooksGenreFilter);
 
-  analytics.logEvent("page_view", {
-    page_title: "Books",
-    ...searchParams,
-  });
+  useAnalytics("Books");
 
   return (
     <>

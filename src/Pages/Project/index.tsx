@@ -2,17 +2,13 @@
 import React, { FC } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { useAnalytics } from "../../Hooks";
 import NotFound from "../NotFound";
 import ProjectMain from "../../Components/Content/Project/Main";
 import TopNav from "../../Components/TopNav";
 import NavButton from "../../Components/NavButton";
 import { useTitle } from "../../Context/HeadContext";
-import {
-  generatePageTitle,
-  generateSearch,
-  getSearch,
-} from "../../Utils/funcs";
-import { analytics } from "../../Utils/Config/firebase";
+import { generatePageTitle, generateSearch } from "../../Utils/funcs";
 import { getProject, useSortedProjects } from "../../Utils/Content/projects";
 
 // Material UI Imports
@@ -45,10 +41,11 @@ const Project: FC = () => {
 
   const location = useLocation();
   const title = useTitle();
-  const search = getSearch(location.search);
 
   const project = getProject(slug, true);
   const sortedProjects = useSortedProjects();
+
+  useAnalytics(project?.title);
 
   if (!project)
     return (
@@ -58,11 +55,6 @@ const Project: FC = () => {
         redirectName="Projects Page"
       />
     );
-
-  analytics.logEvent("page_view", {
-    page_title: project.title,
-    ...search,
-  });
 
   const projectIndex = sortedProjects.findIndex((p) => p.id === project.id);
   const prevProject = sortedProjects[projectIndex - 1];

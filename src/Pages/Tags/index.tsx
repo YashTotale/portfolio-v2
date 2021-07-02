@@ -1,11 +1,10 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { useAnalytics } from "../../Hooks";
 import TagPreview from "../../Components/Content/Tag/Preview";
 import Filters from "../../Components/Filters";
-import { generatePageTitle, getSearch } from "../../Utils/funcs";
-import { analytics } from "../../Utils/Config/firebase";
+import { generatePageTitle } from "../../Utils/funcs";
 import { useFilteredTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
 import { sortArticles } from "../../Utils/Content/articles";
@@ -58,9 +57,6 @@ const Tags: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
-  const location = useLocation();
-  const searchParams = getSearch(location.search);
-
   const allProjects = sortProjects("Alphabetically");
   const allArticles = sortArticles("Alphabetically");
   const allExperience = sortExperience("Alphabetically");
@@ -71,10 +67,7 @@ const Tags: FC = () => {
   const articleFilter = useSelector(getTagsArticleFilter);
   const experienceFilter = useSelector(getTagsExperienceFilter);
 
-  analytics.logEvent("page_view", {
-    page_title: "Tags",
-    ...searchParams,
-  });
+  useAnalytics("Tags");
 
   return (
     <>

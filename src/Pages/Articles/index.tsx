@@ -1,10 +1,10 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Filters";
 import ArticlePreview from "../../Components/Content/Article/Preview";
-import { generatePageTitle, getSearch } from "../../Utils/funcs";
-import { analytics } from "../../Utils/Config/firebase";
+import { generatePageTitle } from "../../Utils/funcs";
 import { sortTags } from "../../Utils/Content/tags";
 import {
   generateExperienceTitle,
@@ -32,7 +32,6 @@ import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
-import { Helmet } from "react-helmet";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -56,9 +55,6 @@ const Articles: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
-  const location = useLocation();
-  const searchParams = getSearch(location.search);
-
   const allTags = sortTags("Alphabetically");
   const allExperience = sortExperience("Alphabetically");
 
@@ -67,10 +63,7 @@ const Articles: FC = () => {
   const tagFilter = useSelector(getArticlesTagFilter);
   const experienceFilter = useSelector(getArticlesExperienceFilter);
 
-  analytics.logEvent("page_view", {
-    page_title: "Articles",
-    ...searchParams,
-  });
+  useAnalytics("Articles");
 
   return (
     <>

@@ -3,9 +3,9 @@
   "private": true,
   "scripts": {
     "make": "bash ./scripts/make.sh",
-    "build": "react-scripts build",
+    "build": "NODE_ENV=production react-scripts build",
     "eject": "react-scripts eject",
-    "start": "react-scripts start",
+    "start": "NODE_ENV=development react-scripts start",
     "test": "react-scripts test --passWithNoTests",
     "data": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/data/index.ts",
     "books": "npm run books:get && npm run books:upload",

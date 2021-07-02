@@ -2,17 +2,13 @@
 import React, { FC } from "react";
 import { useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
+import { useAnalytics } from "../../Hooks";
 import NotFound from "../NotFound";
 import TagMain from "../../Components/Content/Tag/Main";
 import TopNav from "../../Components/TopNav";
 import NavButton from "../../Components/NavButton";
 import { useTitle } from "../../Context/HeadContext";
-import {
-  generatePageTitle,
-  generateSearch,
-  getSearch,
-} from "../../Utils/funcs";
-import { analytics } from "../../Utils/Config/firebase";
+import { generatePageTitle, generateSearch } from "../../Utils/funcs";
 import { getTag, useSortedTags } from "../../Utils/Content/tags";
 
 // Material UI Imports
@@ -45,18 +41,14 @@ const Tag: FC = () => {
 
   const location = useLocation();
   const title = useTitle();
-  const search = getSearch(location.search);
 
   const tag = getTag(slug, true);
   const sortedTags = useSortedTags();
 
+  useAnalytics(tag?.title);
+
   if (!tag)
     return <NotFound name="tag" redirect="/tags" redirectName="Tags Page" />;
-
-  analytics.logEvent("page_view", {
-    page_title: tag.title,
-    ...search,
-  });
 
   const tagIndex = sortedTags.findIndex((t) => t.id === tag.id);
   const prevTag = sortedTags[tagIndex - 1];
