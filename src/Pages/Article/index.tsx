@@ -4,8 +4,8 @@ import { useLocation, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
 import ArticleMain from "../../Components/Content/Article/Main";
-import BackButton from "../../Components/BackButton";
 import NavButton from "../../Components/NavButton";
+import TopNav from "../../Components/TopNav";
 import { useTitle } from "../../Context/HeadContext";
 import {
   generatePageTitle,
@@ -27,18 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
   article: {
     margin: theme.spacing(1, 0),
-  },
-  topButtons: {
-    display: "flex",
-    alignItems: "center",
-    width: "100%",
-  },
-  allArticles: {
-    maxWidth: "25%",
-
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "45%",
-    },
   },
   buttons: {
     display: "flex",
@@ -86,25 +74,7 @@ const Article: FC = () => {
         <title>{generatePageTitle(article.title)}</title>
       </Helmet>
       <div className={classes.container}>
-        <div className={classes.topButtons}>
-          <BackButton />
-          <NavButton
-            to={{
-              pathname: "/articles",
-              search: generateSearch(
-                {
-                  from_path: location.pathname,
-                  from_type: "top_nav_button",
-                },
-                title
-              ),
-            }}
-            label="All Articles"
-            type="next"
-            typeLabel=""
-            className={classes.allArticles}
-          />
-        </div>
+        <TopNav allPath="articles" allLabel="Articles" />
         <ArticleMain id={article.id} className={classes.article} />
         <div className={classes.buttons}>
           {prevArticle && (

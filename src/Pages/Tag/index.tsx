@@ -4,7 +4,7 @@ import { useParams, useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
 import TagMain from "../../Components/Content/Tag/Main";
-import BackButton from "../../Components/BackButton";
+import TopNav from "../../Components/TopNav";
 import NavButton from "../../Components/NavButton";
 import { useTitle } from "../../Context/HeadContext";
 import {
@@ -27,18 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
   tag: {
     margin: theme.spacing(1, 0),
-  },
-  topButtons: {
-    display: "flex",
-    alignItems: "center",
-    width: "100%",
-  },
-  allTags: {
-    maxWidth: "25%",
-
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "45%",
-    },
   },
   buttons: {
     display: "flex",
@@ -80,25 +68,7 @@ const Tag: FC = () => {
         <title>{generatePageTitle(tag.title)}</title>
       </Helmet>
       <div className={classes.container}>
-        <div className={classes.topButtons}>
-          <BackButton />
-          <NavButton
-            to={{
-              pathname: "/tags",
-              search: generateSearch(
-                {
-                  from_path: location.pathname,
-                  from_type: "top_nav_button",
-                },
-                title
-              ),
-            }}
-            label="All Tags"
-            type="next"
-            typeLabel=""
-            className={classes.allTags}
-          />
-        </div>
+        <TopNav allPath="tags" allLabel="Tags" />
         <TagMain id={tag.id} className={classes.tag} />
         <div className={classes.buttons}>
           {prevTag && (

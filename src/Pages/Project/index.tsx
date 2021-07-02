@@ -4,7 +4,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import NotFound from "../NotFound";
 import ProjectMain from "../../Components/Content/Project/Main";
-import BackButton from "../../Components/BackButton";
+import TopNav from "../../Components/TopNav";
 import NavButton from "../../Components/NavButton";
 import { useTitle } from "../../Context/HeadContext";
 import {
@@ -27,18 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
   project: {
     margin: theme.spacing(1, 0),
-  },
-  topButtons: {
-    display: "flex",
-    alignItems: "center",
-    width: "100%",
-  },
-  allProjects: {
-    maxWidth: "25%",
-
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "45%",
-    },
   },
   buttons: {
     display: "flex",
@@ -86,25 +74,7 @@ const Project: FC = () => {
         <title>{generatePageTitle(project.title)}</title>
       </Helmet>
       <div className={classes.container}>
-        <div className={classes.topButtons}>
-          <BackButton />
-          <NavButton
-            to={{
-              pathname: "/projects",
-              search: generateSearch(
-                {
-                  from_path: location.pathname,
-                  from_type: "top_nav_button",
-                },
-                title
-              ),
-            }}
-            label="All Projects"
-            type="next"
-            typeLabel=""
-            className={classes.allProjects}
-          />
-        </div>
+        <TopNav allPath="projects" allLabel="Projects" />
         <ProjectMain id={project.id} className={classes.project} />
         <div className={classes.buttons}>
           {prevProject && (
