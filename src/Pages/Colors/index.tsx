@@ -40,6 +40,7 @@ import {
 } from "@material-ui/core";
 import * as muiColors from "@material-ui/core/colors";
 import { Check } from "@material-ui/icons";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -179,7 +180,13 @@ interface ShadeSliderProps {
 const ShadeSlider: FC<ShadeSliderProps> = (props) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const isDefault = useSelector(getIsDefaultColors);
   const [shade, setShade] = useState(props.defaultShade);
+
+  useEffect(() => {
+    setShade(props.defaultShade);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isDefault]);
 
   const onShadeChange = throttle((newShade: Shade) => {
     dispatch(
