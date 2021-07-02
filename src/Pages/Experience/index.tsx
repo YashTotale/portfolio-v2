@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import Filters from "../../Components/Filters";
-import ExperienceMain from "../../Components/Content/Experience/Main";
+import Preview from "../../Components/Content/Experience/Preview";
 import { generatePageTitle, getSearch } from "../../Utils/funcs";
 import { analytics } from "../../Utils/Config/firebase";
 import { useFilteredExperience } from "../../Utils/Content/experience";
@@ -17,15 +17,12 @@ import {
   getExperienceSort,
   setExperienceSearch,
   setExperienceSort,
+  getExperienceProjectFilter,
+  setExperienceProjectFilter,
   getExperienceTagFilter,
   setExperienceTagFilter,
 } from "../../Redux";
-import {
-  ExperienceSort,
-  EXPERIENCE_SORT,
-  getExperienceProjectFilter,
-  setExperienceProjectFilter,
-} from "../../Redux/experience.slice";
+import { ExperienceSort, EXPERIENCE_SORT } from "../../Redux/experience.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
@@ -111,7 +108,7 @@ const Contents: FC = () => {
   return (
     <>
       {filteredExperience.map((fields) => (
-        <ExperienceMain key={fields.id} id={fields.id} search={search} />
+        <Preview key={fields.id} id={fields.id} search={search} />
       ))}
     </>
   );

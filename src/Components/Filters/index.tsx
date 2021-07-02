@@ -44,6 +44,9 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   title: {
     textTransform: "none",
     width: "100%",
+    [theme.breakpoints.only("xs")]: {
+      fontSize: "1.1rem",
+    },
   },
   titleIcon: {
     position: "absolute",

@@ -25,7 +25,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
   iconButton: {
     [theme.breakpoints.only("xs")]: {
-      margin: theme.spacing(1, 0),
+      margin: theme.spacing(1),
     },
   },
 }));
