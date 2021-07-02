@@ -79,6 +79,8 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
   },
   responsibilities: {
+    display: "flex",
+    justifyContent: "center",
     width: "100%",
   },
   minis: {
