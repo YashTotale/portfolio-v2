@@ -1,5 +1,7 @@
 // React Imports
 import React, { FC } from "react";
+import { Link } from "react-router-dom";
+import clsx from "clsx";
 import { LocationDescriptor } from "history";
 
 // Material UI Imports
@@ -12,13 +14,12 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import { Link } from "react-router-dom";
-import clsx from "clsx";
 
 type BtnType = "previous" | "next";
 
 interface StyleProps {
   type: BtnType;
+  maxWidth: string;
 }
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
@@ -26,7 +27,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     color: theme.palette.text.primary,
     textDecoration: "none",
     flex: 1,
-    maxWidth: "50%",
+    maxWidth: ({ maxWidth }) => maxWidth,
     marginRight: ({ type }) => (type === "previous" ? "auto" : 0),
     marginLeft: ({ type }) => (type === "next" ? "auto" : 0),
     paddingRight: ({ type }) => (type === "previous" ? theme.spacing(1) : 0),
@@ -57,16 +58,20 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-interface NavButtonProps {
+export interface NavButtonProps {
   label: string;
   to: LocationDescriptor;
   type: BtnType;
+  maxWidth?: string;
   typeLabel?: string;
   className?: string;
 }
 
 const NavButton: FC<NavButtonProps> = (props) => {
-  const classes = useStyles({ type: props.type });
+  const classes = useStyles({
+    type: props.type,
+    maxWidth: props.maxWidth ?? "50%",
+  });
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 

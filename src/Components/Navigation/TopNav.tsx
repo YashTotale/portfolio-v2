@@ -6,20 +6,13 @@ import { useTitle } from "../../Context/HeadContext";
 import { generateSearch, getSearch } from "../../Utils/funcs";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
+import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   topNav: {
     display: "flex",
     alignItems: "center",
     width: "100%",
-  },
-  allButton: {
-    maxWidth: "25%",
-
-    [theme.breakpoints.down("sm")]: {
-      maxWidth: "45%",
-    },
   },
 }));
 
@@ -30,6 +23,8 @@ interface TopNavProps {
 
 const TopNav: FC<TopNavProps> = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
   const location = useLocation();
   const search = getSearch(location.search);
@@ -71,7 +66,7 @@ const TopNav: FC<TopNavProps> = (props) => {
         label={`All ${props.allLabel}`}
         type="next"
         typeLabel=""
-        className={classes.allButton}
+        maxWidth={isSizeSmall ? "45%" : "25%"}
       />
     </div>
   );
