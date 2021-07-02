@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   projectImage: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
 
     [theme.breakpoints.only("xl")]: {
       width: 225,
@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "flex-start",
     alignItems: "flex-start",
     justifyContent: "flex-start",
+    flex: 1,
   },
   projectLinks: {
     margin: theme.spacing(1),

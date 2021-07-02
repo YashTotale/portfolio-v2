@@ -53,7 +53,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 2),
   },
   associated: {
-    margin: theme.spacing(1, 2),
+    margin: theme.spacing(2, 0),
+    width: "100%",
   },
   tag: {
     margin: theme.spacing(1, 2),

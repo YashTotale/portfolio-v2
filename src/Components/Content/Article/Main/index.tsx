@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   image: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(2),
 
     [theme.breakpoints.only("xl")]: {
       height: 225,
@@ -79,9 +79,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "flex-start",
     justifyContent: "flex-start",
     marginLeft: theme.spacing(1),
+    flex: 1,
   },
   associated: {
-    margin: theme.spacing(1, 2),
+    margin: theme.spacing(2, 0),
+    width: "100%",
   },
   tag: {
     margin: theme.spacing(1, 2),
