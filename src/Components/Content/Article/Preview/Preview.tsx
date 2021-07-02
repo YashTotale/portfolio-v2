@@ -8,9 +8,13 @@ import DynamicImage from "../../../DynamicImage";
 import DynamicPaper from "../../../DynamicPaper";
 import RichText from "../../../RichText";
 import MatchHighlight from "../../../MatchHighlight";
-import ExperienceMini from "../../Experience/Mini";
 import HorizontalDivider from "../../../Divider/Horizontal";
+import Mini from "../../Shared/Mini";
 import TagChip from "../../Tag/Mini";
+import {
+  generateExperienceTitle,
+  getSingleExperience,
+} from "../../../../Utils/Content/experience";
 import {
   generateArticlePublished,
   getArticle,
@@ -19,7 +23,6 @@ import {
 // Material UI Imports
 import {
   makeStyles,
-  Paper,
   Typography,
   useMediaQuery,
   useTheme,
@@ -49,6 +52,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "100%",
     position: "relative",
+    borderBottom: `1px solid ${theme.palette.text.disabled}`,
   },
   articleImage: {
     margin: theme.spacing(2, 0),
@@ -108,7 +112,7 @@ const Preview: FC<PreviewProps> = (props) => {
 
   return (
     <DynamicPaper className={clsx(classes.article, props.className)}>
-      <Paper className={classes.articleTop}>
+      <div className={classes.articleTop}>
         <FloatingIcons {...article} />
         <DynamicImage
           src={`${article.image.file.url}?w=300`}
@@ -116,7 +120,7 @@ const Preview: FC<PreviewProps> = (props) => {
           className={classes.articleImage}
         />
         <Title {...article} search={props.search} />
-      </Paper>
+      </div>
       <div className={classes.articleDescription}>
         <RichText
           richText={article.description as Document}
@@ -127,8 +131,10 @@ const Preview: FC<PreviewProps> = (props) => {
       {article.associated && (
         <>
           <HorizontalDivider />
-          <ExperienceMini
-            id={article.associated.id}
+          <Mini
+            content={getSingleExperience(article.associated.id)}
+            basePath="experience"
+            titleFunc={generateExperienceTitle}
             search={props.search}
             className={classes.articleAssociated}
           />

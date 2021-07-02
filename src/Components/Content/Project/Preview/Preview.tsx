@@ -8,8 +8,12 @@ import RichText from "../../../RichText";
 import MatchHighlight from "../../../MatchHighlight";
 import DynamicImage from "../../../DynamicImage";
 import DynamicPaper from "../../../DynamicPaper";
-import ExperienceMini from "../../Experience/Mini";
+import Mini from "../../Shared/Mini";
 import HorizontalDivider from "../../../Divider/Horizontal";
+import {
+  generateExperienceTitle,
+  getSingleExperience,
+} from "../../../../Utils/Content/experience";
 import {
   generateProjectTimeline,
   getProject,
@@ -126,8 +130,10 @@ const Preview: FC<PreviewProps> = (props) => {
       {project.associated && (
         <>
           <HorizontalDivider />
-          <ExperienceMini
-            id={project.associated.id}
+          <Mini
+            content={getSingleExperience(project.associated.id)}
+            basePath="experience"
+            titleFunc={generateExperienceTitle}
             search={props.search}
             className={classes.projectAssociated}
           />

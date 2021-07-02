@@ -8,8 +8,8 @@ import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   skeleton: {
-    height: 50,
-    alignSelf: "stretch",
+    height: 58,
+    width: 250,
   },
 }));
 

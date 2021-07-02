@@ -1,14 +1,11 @@
 // React Imports
 import React, { FC } from "react";
+import { Asset } from "contentful";
 import clsx from "clsx";
 import { Link, useLocation } from "react-router-dom";
 import MatchHighlight from "../../../MatchHighlight";
 import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
-import {
-  generateExperienceTitle,
-  getSingleExperience,
-} from "../../../../Utils/Content/experience";
 
 // Material UI Imports
 import { Avatar, makeStyles, Typography, Button } from "@material-ui/core";
@@ -17,13 +14,15 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: theme.palette.text.primary,
     textDecoration: "none",
+    width: 250,
   },
   button: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "flex-start",
     alignItems: "center",
     padding: theme.spacing(1),
     textTransform: "none",
+    width: "100%",
   },
   avatar: {
     padding: theme.spacing(0.5),
@@ -31,11 +30,22 @@ const useStyles = makeStyles((theme) => ({
   title: {
     marginLeft: theme.spacing(0.5),
     lineHeight: 1.4,
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
   },
 }));
 
+interface Content {
+  title: string;
+  slug: string;
+  image: Asset["fields"];
+}
+
 export interface MiniProps {
-  id: string;
+  content: Content | null;
+  basePath: string;
+  titleFunc?: (content: any) => string;
   search?: string;
   className?: string;
 }
@@ -46,14 +56,12 @@ const Mini: FC<MiniProps> = (props) => {
   const location = useLocation();
   const title = useTitle();
 
-  const experience = getSingleExperience(props.id);
-
-  if (!experience) return null;
+  if (!props.content) return null;
 
   return (
     <Link
       to={{
-        pathname: `/experience/${experience.slug}`,
+        pathname: `/${props.basePath}/${props.content.slug}`,
         search: generateSearch(
           {
             from_path: location.pathname,
@@ -66,13 +74,15 @@ const Mini: FC<MiniProps> = (props) => {
     >
       <Button className={classes.button} variant="outlined">
         <Avatar
-          alt={experience.image.title}
-          src={experience.image.file.url}
+          alt={props.content.image.title}
+          src={props.content.image.file.url}
           className={classes.avatar}
         />
         <Typography variant="subtitle1" className={classes.title}>
           <MatchHighlight toMatch={props.search}>
-            {generateExperienceTitle(experience)}
+            {props.titleFunc
+              ? props.titleFunc(props.content)
+              : props.content.title}
           </MatchHighlight>
         </Typography>
       </Button>
