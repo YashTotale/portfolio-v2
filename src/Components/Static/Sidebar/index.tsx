@@ -1,12 +1,12 @@
 // React Imports
 import React, { FC } from "react";
 import Contents from "./Contents";
-import { SIDEBAR_WIDTH } from "../../Utils/constants";
+import { SIDEBAR_WIDTH } from "../../../Utils/constants";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getIsSidebarOpen, toggleSidebar } from "../../Redux";
-import { useAppDispatch } from "../../Store";
+import { getIsSidebarOpen, toggleSidebar } from "../../../Redux";
+import { useAppDispatch } from "../../../Store";
 
 // Material UI Imports
 import { Drawer, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";

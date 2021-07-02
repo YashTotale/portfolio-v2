@@ -4,15 +4,15 @@ import { Link } from "react-router-dom";
 import { LocationDescriptor } from "history";
 import Category from "./Category";
 import Item from "./Item";
-import { generateSearch } from "../../Utils/funcs";
+import { generateSearch } from "../../../Utils/funcs";
 import {
   generateExperienceTitle,
   useSortedExperience,
-} from "../../Utils/Content/experience";
-import { useSortedProjects } from "../../Utils/Content/projects";
-import { useSortedArticles } from "../../Utils/Content/articles";
-import { useSortedTags } from "../../Utils/Content/tags";
-import { SIDEBAR_WIDTH } from "../../Utils/constants";
+} from "../../../Utils/Content/experience";
+import { useSortedProjects } from "../../../Utils/Content/projects";
+import { useSortedArticles } from "../../../Utils/Content/articles";
+import { useSortedTags } from "../../../Utils/Content/tags";
+import { SIDEBAR_WIDTH } from "../../../Utils/constants";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";

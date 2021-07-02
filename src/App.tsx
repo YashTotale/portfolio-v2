@@ -6,11 +6,11 @@ import { SIDEBAR_WIDTH } from "./Utils/constants";
 
 // Components
 import { HeadProvider } from "./Context/HeadContext";
-import Popup from "./Components/Popup";
-import Navbar from "./Components/Navbar";
-import Footer from "./Components/Footer";
-import Sidebar from "./Components/Sidebar";
-import ScrollToTop from "./Components/ScrollToTop";
+import Popup from "./Components/Static/Popup";
+import Navbar from "./Components/Static/Navbar";
+import Footer from "./Components/Static/Footer";
+import Sidebar from "./Components/Static/Sidebar";
+import NavController from "./Components/Static/NavController";
 
 // Material UI Imports
 import { CircularProgress, makeStyles } from "@material-ui/core";
@@ -54,7 +54,7 @@ const useStyles = makeStyles((theme) => ({
 const App: FC = () => {
   return (
     <HeadProvider>
-      <ScrollToTop />
+      <NavController />
       <Popup />
       <Navbar />
       <Sidebar />

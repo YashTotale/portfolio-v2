@@ -1,10 +1,10 @@
 // React Imports
 import React, { FC } from "react";
-import { SIDEBAR_WIDTH } from "../Utils/constants";
+import { SIDEBAR_WIDTH } from "../../Utils/constants";
 
 // Redux Imports
-import { toggleDarkMode, toggleSidebar } from "../Redux";
-import { useAppDispatch } from "../Store";
+import { toggleDarkMode, toggleSidebar } from "../../Redux";
+import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import {
