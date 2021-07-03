@@ -64,6 +64,8 @@ const useStyles = makeStyles((theme) => ({
   },
   sliderDiv: {
     display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     marginTop: theme.spacing(1),
   },
   slider: {
@@ -101,6 +103,7 @@ const useResetStyles = makeStyles((theme) => ({
   resetDiv: {
     display: "flex",
     justifyContent: "center",
+    alignItems: "center",
     width: "100%",
     marginTop: theme.spacing(1),
   },
@@ -194,13 +197,15 @@ const ShadeSlider: FC<ShadeSliderProps> = (props) => {
         [props.scheme]: newShade,
       })
     );
-  }, 500);
+  }, 1000);
 
   const handleSlide = (e: React.ChangeEvent<any>, index: number | number[]) => {
     const i = typeof index === "number" ? index : index[0];
     const newShade = SHADES[i];
-    setShade(newShade);
-    onShadeChange(newShade);
+    if (newShade !== shade) {
+      setShade(newShade);
+      onShadeChange(newShade);
+    }
   };
 
   return (
@@ -302,6 +307,7 @@ const ColorBtn: React.FC<ColorBtnProps> = ({
   currentColor,
 }) => {
   const dispatch = useAppDispatch();
+  const { enqueueSnackbar } = useClosableSnackbar();
 
   const colorHex = muiColors[color][shade];
   const classes = useColorBtnStyles({
@@ -309,16 +315,21 @@ const ColorBtn: React.FC<ColorBtnProps> = ({
     isCurrentColor: color === currentColor,
   });
 
+  const readableColor = startCase(color);
+
   const handleClick = (event: React.ChangeEvent<HTMLInputElement>): void => {
     dispatch(
       changeColor({
         [scheme]: color,
       })
     );
+    enqueueSnackbar(`${capitalize(scheme)} Color set to ${readableColor}`, {
+      variant: "success",
+    });
   };
 
   return (
-    <Tooltip title={startCase(color)}>
+    <Tooltip title={readableColor}>
       <Radio
         className={classes.radio}
         color="default"

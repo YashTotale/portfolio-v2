@@ -24,6 +24,7 @@ import {
   Menu as MenuButton,
   Palette,
 } from "@material-ui/icons";
+import { useClosableSnackbar } from "../../Hooks";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -44,6 +45,7 @@ const Navbar: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const theme = useTheme();
+  const { enqueueSnackbar } = useClosableSnackbar();
 
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
   const isDarkMode = theme.palette.type === "dark";
@@ -81,6 +83,12 @@ const Navbar: FC = () => {
             <IconButton
               onClick={() => {
                 dispatch(toggleDarkMode());
+                enqueueSnackbar(
+                  `Toggled ${isDarkMode ? "Light" : "Dark"} Mode`,
+                  {
+                    variant: "success",
+                  }
+                );
               }}
             >
               {isDarkMode ? <Brightness7 /> : <Brightness4 />}
