@@ -17,11 +17,8 @@ import {
 } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
-  projectTag: {
+  mini: {
     margin: theme.spacing(0.3),
-    "& .MuiChip-avatarColorSecondary": {
-      backgroundColor: "inherit",
-    },
   },
 }));
 
@@ -53,8 +50,16 @@ const Mini: FC<MiniProps> = (props) => {
       label={
         <MatchHighlight toMatch={props.search}>{tag.title}</MatchHighlight>
       }
-      className={clsx(classes.projectTag, props.className)}
-      avatar={<Avatar src={`${icon.file.url}?w=30`} alt={icon.title} />}
+      className={clsx(classes.mini, props.className)}
+      avatar={
+        <Avatar
+          src={`${icon.file.url}?w=30`}
+          alt={icon.title}
+          style={{
+            backgroundColor: "inherit",
+          }}
+        />
+      }
       component={Link}
       to={{
         pathname: `/tags/${tag.slug}`,
