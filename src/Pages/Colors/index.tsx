@@ -266,7 +266,11 @@ const useColorBtnStyles = makeStyles<Theme, ColorBtnStyleProps>((theme) => {
       width: 48,
       height: 48,
       backgroundColor: ({ color }) => color,
-      border: `1px solid ${theme.palette.text.disabled}`,
+      border: `1px solid ${
+        theme.palette.text[
+          theme.palette.type === "dark" ? "primary" : "disabled"
+        ]
+      }`,
     },
     radioIconSelected: {
       border: ({ isCurrentColor }) =>

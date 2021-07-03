@@ -1,6 +1,8 @@
 // React Imports
 import React, { FC } from "react";
 import LinkIcon from "../Icon/Link";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faNpm, faHackerrank } from "@fortawesome/free-brands-svg-icons";
 
 // Material UI Imports
 import { Box, Container, makeStyles, Typography } from "@material-ui/core";
@@ -25,6 +27,11 @@ interface Social {
 
 const socials: Social[] = [
   {
+    label: "NPM",
+    url: "https://www.npmjs.com/~yasht/",
+    icon: <FontAwesomeIcon icon={faNpm} />,
+  },
+  {
     label: "LinkedIn",
     url: "https://www.linkedin.com/in/yash-totale/",
     icon: <LinkedIn />,
@@ -38,6 +45,11 @@ const socials: Social[] = [
     label: "Mail",
     url: "mailto:totaleyash@gmail.com",
     icon: <Mail />,
+  },
+  {
+    label: "HackerRank",
+    url: "https://www.hackerrank.com/yashtotale/",
+    icon: <FontAwesomeIcon icon={faHackerrank} />,
   },
 ];
 
