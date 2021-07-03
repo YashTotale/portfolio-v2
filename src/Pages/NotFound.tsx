@@ -1,10 +1,13 @@
 // React Imports
-import React, { FC, useState } from "react";
-import { Redirect } from "react-router-dom";
+import React, { FC } from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet";
+import { useAnalytics } from "../Hooks";
+import { useTitle } from "../Context/HeadContext";
+import { generatePageTitle, generateSearch } from "../Utils/funcs";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core/styles";
-import { Button, Typography } from "@material-ui/core";
+import { makeStyles, Button, Typography, capitalize } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   notFound: {
@@ -39,7 +42,10 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.common[theme.palette.type === "dark" ? "black" : "white"]
     }`,
   },
-  homeBtn: {
+  link: {
+    textDecoration: "none",
+  },
+  button: {
     margin: theme.spacing(2, 0),
   },
 }));
@@ -56,32 +62,53 @@ const NotFound: FC<NotFoundProps> = ({
   redirect = "/",
 }) => {
   const classes = useStyles();
-  const [shouldRedirect, setRedirect] = useState<string | null>(null);
 
-  if (shouldRedirect !== null) return <Redirect to={redirect} />;
+  const location = useLocation();
+  const title = useTitle();
+
+  const pageTitle = `${capitalize(name)} Not Found`;
+  useAnalytics(pageTitle);
 
   return (
-    <div className={classes.notFound}>
-      <Typography align="center" variant="h3" className={classes.heading}>
-        Oops! {name} not found
-      </Typography>
-      <Typography align="center" variant="h1" className={classes["404"]}>
-        <Number>4</Number>
-        <Number>0</Number>
-        <Number>4</Number>
-      </Typography>
-      <Typography variant="h2" align="center" className={classes.subheading}>
-        The {name} you requested was not found
-      </Typography>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => setRedirect(redirect)}
-        className={classes.homeBtn}
-      >
-        Go to {redirectName}
-      </Button>
-    </div>
+    <>
+      <Helmet>
+        <title>{generatePageTitle(pageTitle)}</title>
+      </Helmet>
+      <div className={classes.notFound}>
+        <Typography align="center" variant="h3" className={classes.heading}>
+          Oops! {name} not found
+        </Typography>
+        <Typography align="center" variant="h1" className={classes["404"]}>
+          <Number>4</Number>
+          <Number>0</Number>
+          <Number>4</Number>
+        </Typography>
+        <Typography variant="h2" align="center" className={classes.subheading}>
+          The {name} you requested was not found
+        </Typography>
+        <Link
+          to={{
+            pathname: redirect,
+            search: generateSearch(
+              {
+                from_path: location.pathname,
+                from_type: "not_found_button",
+              },
+              title
+            ),
+          }}
+          className={classes.link}
+        >
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+          >
+            Go to {redirectName}
+          </Button>
+        </Link>
+      </div>
+    </>
   );
 };
 
