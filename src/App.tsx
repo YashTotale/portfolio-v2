@@ -4,8 +4,11 @@ import React, { FC, lazy, Suspense } from "react";
 import { Switch, Route } from "react-router-dom";
 import { SIDEBAR_WIDTH } from "./Utils/constants";
 
-// Components
+// Context
 import { HeadProvider } from "./Context/HeadContext";
+import { ClassnameProvider } from "./Context/ClassnameContext";
+
+// Components
 import Popup from "./Components/Static/Popup";
 import Navbar from "./Components/Static/Navbar";
 import Footer from "./Components/Static/Footer";
@@ -55,11 +58,13 @@ const useStyles = makeStyles((theme) => ({
 const App: FC = () => {
   return (
     <HeadProvider>
-      <NavController />
-      <Popup />
-      <Navbar />
-      <Sidebar />
-      <Routes />
+      <ClassnameProvider>
+        <NavController />
+        <Popup />
+        <Navbar />
+        <Sidebar />
+        <Routes />
+      </ClassnameProvider>
     </HeadProvider>
   );
 };
