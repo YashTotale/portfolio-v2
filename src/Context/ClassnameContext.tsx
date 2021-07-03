@@ -10,7 +10,7 @@ const generateClassName: StylesOptions["generateClassName"] = (rule, sheet) => {
     Math.random().toString(36).substring(2, 4) +
     Math.random().toString(36).substring(2, 4);
 
-  return `jss-${randomStr}-${counter++}`;
+  return `jss-${counter++}-${randomStr}`;
 };
 
 export const ClassnameProvider: FC = ({ children }) => {
