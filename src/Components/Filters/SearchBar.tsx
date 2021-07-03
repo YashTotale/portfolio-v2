@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC, useState } from "react";
-import debounce from "lodash.debounce";
+import throttle from "lodash.throttle";
 import { Filter } from "./index";
 
 // Material UI Imports
@@ -39,7 +39,7 @@ const SearchBar: FC<SearchBarProps> = ({ defaultSearch, onSearchChange }) => {
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const [localSearch, setLocalSearch] = useState(defaultSearch);
 
-  const handleChange = debounce((value: string) => {
+  const handleChange = throttle((value: string) => {
     onSearchChange(value);
   }, 500);
 

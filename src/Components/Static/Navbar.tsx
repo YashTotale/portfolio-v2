@@ -27,6 +27,7 @@ import {
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
+    margin: 0,
     [theme.breakpoints.up("lg")]: {
       marginLeft: SIDEBAR_WIDTH,
     },

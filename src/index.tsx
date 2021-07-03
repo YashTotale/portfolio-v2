@@ -1,6 +1,6 @@
 //React Imports
-import React from "react";
-import ReactDOM from "react-dom";
+import React, { FC } from "react";
+import { hydrate, render } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 import { SnackbarProvider } from "notistack";
 import App from "./App";
@@ -14,8 +14,8 @@ import Theme from "./Theme";
 // Misc Imports
 import reportWebVitals from "./reportWebVitals";
 
-ReactDOM.render(
-  <React.StrictMode>
+const Root: FC = (props) => (
+  <React.StrictMode {...props}>
     <ReduxStore>
       <Router>
         <Theme>
@@ -25,9 +25,15 @@ ReactDOM.render(
         </Theme>
       </Router>
     </ReduxStore>
-  </React.StrictMode>,
-  document.getElementById("root")
+  </React.StrictMode>
 );
+
+const rootElement = document.getElementById("root");
+if (rootElement?.hasChildNodes()) {
+  hydrate(<Root />, rootElement);
+} else {
+  render(<Root />, rootElement);
+}
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
