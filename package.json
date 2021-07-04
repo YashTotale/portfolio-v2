@@ -43,6 +43,7 @@
     "react-redux-firebase": "^3.10.0",
     "react-router-dom": "^5.2.0",
     "react-typist": "^2.0.5",
+    "react-waypoint": "^10.1.0",
     "redux-firestore": "^0.15.0",
     "redux-persist": "^6.0.0"
   },
