@@ -17,7 +17,11 @@ import { SIDEBAR_WIDTH } from "../../../Utils/constants";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getExperienceViewable, getProjectsViewable } from "../../../Redux";
+import {
+  getArticlesViewable,
+  getExperienceViewable,
+  getProjectsViewable,
+} from "../../../Redux";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
@@ -52,6 +56,8 @@ const Contents: FC = () => {
   const projectsViewable = useSelector(getProjectsViewable);
 
   const articles = useSortedArticles();
+  const articlesViewable = useSelector(getArticlesViewable);
+
   const tags = useSortedTags();
 
   return (
@@ -107,6 +113,10 @@ const Contents: FC = () => {
               key={article.id}
               label={article.title}
               to={generateSidebarPath(`/articles/${article.slug}`)}
+              highlighted={
+                articlesViewable.includes(article.id) &&
+                location.pathname === "/articles"
+              }
             />
           ))}
         </Category>

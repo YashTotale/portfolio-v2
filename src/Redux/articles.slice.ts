@@ -12,6 +12,7 @@ export const ARTICLES_SORT: ArticlesSort[] = [
 export interface ArticlesState {
   search: string;
   sort: ArticlesSort;
+  viewable: string[];
   tagFilter: string[];
   experienceFilter: string[];
 }
@@ -19,6 +20,7 @@ export interface ArticlesState {
 export const initialArticlesState: ArticlesState = {
   search: "",
   sort: ARTICLES_SORT[0],
+  viewable: [],
   tagFilter: [],
   experienceFilter: [],
 };
@@ -52,6 +54,18 @@ const articlesSlice = createSlice({
       ...state,
       experienceFilter: action.payload,
     }),
+    addArticleViewable: (state, action: PayloadAction<string>) => ({
+      ...state,
+      viewable: [...state.viewable, action.payload],
+    }),
+    removeArticleViewable: (state, action: PayloadAction<string>) => ({
+      ...state,
+      viewable: state.viewable.filter((v) => v !== action.payload),
+    }),
+    removeAllArticleViewable: (state) => ({
+      ...state,
+      viewable: [],
+    }),
   },
 });
 
@@ -61,6 +75,9 @@ export const {
   setArticlesSort,
   setArticlesTagFilter,
   setArticlesExperienceFilter,
+  addArticleViewable,
+  removeArticleViewable,
+  removeAllArticleViewable,
 } = articlesSlice.actions;
 
 // Selectors
@@ -78,6 +95,10 @@ export const getArticlesTagFilter = (
 export const getArticlesExperienceFilter = (
   state: RootState
 ): ArticlesState["experienceFilter"] => state.articles.experienceFilter;
+
+export const getArticlesViewable = (
+  state: RootState
+): ArticlesState["viewable"] => state.articles.viewable;
 
 // Reducer
 export const articlesReducer = articlesSlice.reducer;

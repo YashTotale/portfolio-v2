@@ -21,17 +21,14 @@ import {
   setProjectsSearch,
   setProjectsSort,
   setProjectsTagFilter,
+  addProjectViewable,
+  removeAllProjectViewable,
+  removeProjectViewable,
   getProjectsExperienceFilter,
   setProjectsExperienceFilter,
   getProjectsTagFilter,
 } from "../../Redux";
-import {
-  addProjectViewable,
-  ProjectsSort,
-  PROJECTS_SORT,
-  removeAllProjectViewable,
-  removeProjectViewable,
-} from "../../Redux/projects.slice";
+import { ProjectsSort, PROJECTS_SORT } from "../../Redux/projects.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports

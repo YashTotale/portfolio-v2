@@ -1,6 +1,7 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Helmet } from "react-helmet";
+import { Waypoint } from "react-waypoint";
 import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Filters";
 import ArticlePreview from "../../Components/Content/Article/Preview";
@@ -17,17 +18,17 @@ import { useSelector } from "react-redux";
 import {
   getArticlesSearch,
   getArticlesSort,
+  removeAllArticleViewable,
+  removeArticleViewable,
   setArticlesSearch,
+  addArticleViewable,
   setArticlesSort,
   getArticlesExperienceFilter,
   getArticlesTagFilter,
-} from "../../Redux";
-import {
-  ArticlesSort,
-  ARTICLES_SORT,
   setArticlesExperienceFilter,
   setArticlesTagFilter,
-} from "../../Redux/articles.slice";
+} from "../../Redux";
+import { ArticlesSort, ARTICLES_SORT } from "../../Redux/articles.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
@@ -108,8 +109,13 @@ const Articles: FC = () => {
 
 const Contents: FC = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
   const search = useSelector(getArticlesSearch);
   const filteredArticles = useFilteredArticles();
+
+  useEffect(() => {
+    dispatch(removeAllArticleViewable());
+  }, [dispatch]);
 
   if (!filteredArticles.length)
     return (
@@ -121,7 +127,15 @@ const Contents: FC = () => {
   return (
     <div className={classes.articles}>
       {filteredArticles.map((article) => (
-        <ArticlePreview key={article.id} id={article.id} search={search} />
+        <Waypoint
+          key={article.id}
+          onEnter={() => dispatch(addArticleViewable(article.id))}
+          onLeave={() => dispatch(removeArticleViewable(article.id))}
+          topOffset="30%"
+          bottomOffset="30%"
+        >
+          <ArticlePreview id={article.id} search={search} />
+        </Waypoint>
       ))}
     </div>
   );

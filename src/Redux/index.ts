@@ -124,11 +124,15 @@ export {
   getArticlesSort,
   getArticlesTagFilter,
   getArticlesExperienceFilter,
+  getArticlesViewable,
   // -> Actions
   setArticlesSearch,
   setArticlesSort,
   setArticlesTagFilter,
   setArticlesExperienceFilter,
+  addArticleViewable,
+  removeArticleViewable,
+  removeAllArticleViewable,
   // -> Reducer
   articlesReducer,
   // -> State
