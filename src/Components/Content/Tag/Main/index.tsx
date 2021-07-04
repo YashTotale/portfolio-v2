@@ -7,6 +7,7 @@ import Associated from "../../Shared/Associated";
 import MainContainer from "../../Shared/MainContainer";
 import { getTag } from "../../../../Utils/Content/tags";
 import {
+  generateExperienceSubtitle,
   generateExperienceTimeline,
   generateExperienceTitle,
   getSingleExperience,
@@ -68,6 +69,7 @@ const Tag: FC<TagProps> = (props) => {
                 basePath="experience"
                 timelineFunc={generateExperienceTimeline}
                 titleFunc={generateExperienceTitle}
+                subtitleFunc={generateExperienceSubtitle}
                 search={props.search}
                 className={classes.associated}
               />

@@ -45,7 +45,7 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: `1px solid ${theme.palette.text.disabled}`,
   },
   image: {
-    margin: theme.spacing(2, 0),
+    margin: theme.spacing(2, 0, 1),
 
     [theme.breakpoints.only("xl")]: {
       width: 225,
@@ -72,7 +72,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     width: "100%",
-    padding: theme.spacing(2),
+    padding: theme.spacing(1, 2),
   },
   description: {
     width: "100%",
@@ -88,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    padding: theme.spacing(2),
+    padding: theme.spacing(1, 2),
   },
   mini: {
     margin: theme.spacing(0.5, 1),
@@ -98,10 +98,10 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    padding: theme.spacing(2),
+    padding: theme.spacing(1, 2),
   },
   timeline: {
-    margin: theme.spacing(1, 0),
+    margin: theme.spacing(1),
   },
 }));
 
@@ -152,7 +152,6 @@ const Preview: FC<PreviewProps> = (props) => {
       </div>
       {experience.projects.length || experience.articles.length ? (
         <>
-          <HorizontalDivider />
           <div className={classes.minis}>
             {experience.projects.map((project) => (
               <Mini
@@ -177,7 +176,6 @@ const Preview: FC<PreviewProps> = (props) => {
       ) : null}
       {experience.tags.length && (
         <>
-          <HorizontalDivider />
           <div className={classes.tags}>
             {experience.tags.map((tag) => (
               <TagMini key={tag.id} id={tag.id} search={props.search} />

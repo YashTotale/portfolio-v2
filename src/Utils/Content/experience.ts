@@ -80,7 +80,13 @@ export const getRawExperience = (
 export const generateExperienceTitle = (
   exp: Experience | ResolvedExperience
 ): string => {
-  return `${exp.role} @ ${exp.title}`;
+  return exp.title;
+};
+
+export const generateExperienceSubtitle = (
+  exp: Experience | ResolvedExperience
+): string => {
+  return exp.role;
 };
 
 export const generateExperienceTimeline = (

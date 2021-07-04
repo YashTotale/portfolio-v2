@@ -6,6 +6,7 @@ import Category from "./Category";
 import Item from "./Item";
 import { generateSearch } from "../../../Utils/funcs";
 import {
+  generateExperienceSubtitle,
   generateExperienceTitle,
   useSortedExperience,
 } from "../../../Utils/Content/experience";
@@ -69,6 +70,7 @@ const Contents: FC = () => {
             <Item
               key={exp.id}
               label={generateExperienceTitle(exp)}
+              secondary={generateExperienceSubtitle(exp)}
               to={generateSidebarPath(`/experience/${exp.slug}`)}
             />
           ))}

@@ -14,24 +14,22 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: theme.palette.text.primary,
     textDecoration: "none",
-    width: 250,
   },
   button: {
-    padding: theme.spacing(1),
+    padding: theme.spacing(1, 2),
     textTransform: "none",
     width: "100%",
+    height: "100%",
   },
   label: {
-    position: "relative",
-    minHeight: theme.spacing(5),
+    display: "flex",
+    justifyContent: "flex-start",
   },
   avatar: {
-    position: "absolute",
-    left: theme.spacing(0.5),
     padding: theme.spacing(0.5),
   },
   title: {
-    margin: theme.spacing(0, 6),
+    marginLeft: theme.spacing(1),
     lineHeight: 1.4,
     whiteSpace: "nowrap",
     overflow: "hidden",

@@ -2,7 +2,10 @@
 import React, { FC } from "react";
 import FloatingIcons from "../../../Shared/FloatingIcons";
 import { ResolvedExperience } from "../../../../../Utils/types";
-import { generateExperienceTitle } from "../../../../../Utils/Content/experience";
+import {
+  generateExperienceSubtitle,
+  generateExperienceTitle,
+} from "../../../../../Utils/Content/experience";
 
 // Material UI Imports
 import {
@@ -15,12 +18,19 @@ import {
 const useStyles = makeStyles((theme) => ({
   titleContainer: {
     display: "flex",
+    flexDirection: "column",
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
     width: "100%",
     padding: theme.spacing(0, 6),
   },
+  title: {
+    [theme.breakpoints.up("sm")]: {
+      fontSize: "2.5rem",
+    },
+  },
+  subtitle: {},
 }));
 
 type TitleProps = ResolvedExperience;
@@ -32,8 +42,19 @@ const Title: FC<TitleProps> = (props) => {
 
   return (
     <div className={classes.titleContainer}>
-      <Typography variant={isSizeSmall ? "h5" : "h4"} align="center">
+      <Typography
+        variant={isSizeSmall ? "h4" : "h3"}
+        align="center"
+        className={classes.title}
+      >
         {generateExperienceTitle(props)}
+      </Typography>
+      <Typography
+        variant={isSizeSmall ? "subtitle1" : "h6"}
+        align="center"
+        className={classes.subtitle}
+      >
+        {generateExperienceSubtitle(props)}
       </Typography>
       <FloatingIcons
         link={props.link}

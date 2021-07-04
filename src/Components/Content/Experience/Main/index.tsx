@@ -116,7 +116,7 @@ const Main: FC<MainProps> = (props) => {
   return (
     <Paper elevation={8} className={clsx(classes.experience, props.className)}>
       <Title {...experience} />
-      <Typography align="center" variant="subtitle1">
+      <Typography align="center" variant="subtitle1" color="textSecondary">
         {generateExperienceTimeline(experience)}
       </Typography>
       <div className={classes.main}>

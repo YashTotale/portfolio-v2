@@ -31,10 +31,11 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 
 interface ItemProps {
   label: string;
+  secondary?: string;
   to: LocationDescriptor;
 }
 
-const Item: FC<ItemProps> = ({ label, to }) => {
+const Item: FC<ItemProps> = ({ label, secondary, to }) => {
   const pathname = useLocation().pathname;
   const classes = useStyles({
     isActive: pathname === (typeof to === "string" ? to : to.pathname),
@@ -45,6 +46,7 @@ const Item: FC<ItemProps> = ({ label, to }) => {
       <ListItem button className={classes.listItem}>
         <ListItemText
           primary={label}
+          secondary={secondary}
           classes={{
             primary: classes.listItemText,
           }}

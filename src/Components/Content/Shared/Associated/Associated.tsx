@@ -69,11 +69,15 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     alignSelf: "stretch",
   },
   title: {
-    margin: theme.spacing(1),
+    margin: theme.spacing(1, 1, 0),
 
     [theme.breakpoints.only("xs")]: {
       lineHeight: 1.3,
     },
+  },
+  subtitle: {},
+  titleDivider: {
+    marginTop: theme.spacing(1),
   },
   description: {
     width: "100%",
@@ -102,6 +106,7 @@ export interface AssociatedProps {
   basePath: string;
   timelineFunc: (content: any) => string;
   titleFunc?: (content: any) => string;
+  subtitleFunc?: (content: any) => string;
   search?: string;
   className?: string;
 }
@@ -145,7 +150,12 @@ const Associated: FC<AssociatedProps> = (props) => {
             ? props.titleFunc(props.content)
             : props.content.title}
         </StyledLink>
-        {!isSizeXS && <HorizontalDivider />}
+        {props.subtitleFunc && (
+          <Typography variant="subtitle2" align="center" color="textSecondary">
+            {props.subtitleFunc(props.content)}
+          </Typography>
+        )}
+        {!isSizeXS && <HorizontalDivider className={classes.titleDivider} />}
         <div className={classes.description}>
           <RichText
             richText={props.content.description as Document}

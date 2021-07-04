@@ -78,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
   },
   projectAssociated: {
     margin: theme.spacing(1),
-    minWidth: "90%",
   },
   projectTags: {
     display: "flex",

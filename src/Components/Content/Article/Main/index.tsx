@@ -13,6 +13,7 @@ import {
   getArticle,
 } from "../../../../Utils/Content/articles";
 import {
+  generateExperienceSubtitle,
   generateExperienceTimeline,
   generateExperienceTitle,
   getSingleExperience,
@@ -134,6 +135,7 @@ const Main: FC<MainProps> = (props) => {
               basePath="experience"
               timelineFunc={generateExperienceTimeline}
               titleFunc={generateExperienceTitle}
+              subtitleFunc={generateExperienceSubtitle}
               className={classes.associated}
             />
           </MainContainer>
