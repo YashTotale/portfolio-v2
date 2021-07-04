@@ -8,6 +8,7 @@ import { ListItem, ListItemText, makeStyles, Theme } from "@material-ui/core";
 
 interface StyleProps {
   isActive: boolean;
+  isHighlighted: boolean;
 }
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
@@ -24,21 +25,35 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
     overflow: "hidden",
-    color: ({ isActive }) =>
-      isActive ? theme.palette.primary.main : theme.palette.text.primary,
+    fontWeight: ({ isActive, isHighlighted }) =>
+      isActive || isHighlighted
+        ? theme.typography.fontWeightBold
+        : theme.typography.fontWeightRegular,
+    color: ({ isActive, isHighlighted }) =>
+      isActive
+        ? theme.palette.primary.main
+        : isHighlighted
+        ? theme.palette.secondary.main
+        : theme.palette.text.primary,
   },
 }));
 
 interface ItemProps {
   label: string;
+  highlighted?: boolean;
   secondary?: string;
   to: LocationDescriptor;
 }
 
-const Item: FC<ItemProps> = ({ label, secondary, to }) => {
+const Item: FC<ItemProps> = (props) => {
+  const { label, highlighted = false, secondary, to } = props;
+
   const pathname = useLocation().pathname;
+  const curr = typeof to === "string" ? to : to.pathname;
+
   const classes = useStyles({
-    isActive: pathname === (typeof to === "string" ? to : to.pathname),
+    isActive: pathname === curr,
+    isHighlighted: highlighted,
   });
 
   return (

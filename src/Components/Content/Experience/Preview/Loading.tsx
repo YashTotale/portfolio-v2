@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { forwardRef } from "react";
 import clsx from "clsx";
 
 // Material UI Imports
@@ -18,15 +18,16 @@ interface LoadingProps {
   className?: string;
 }
 
-const Loading: FC<LoadingProps> = (props) => {
+const Loading = forwardRef<HTMLDivElement, LoadingProps>((props, ref) => {
   const classes = useStyles();
 
   return (
     <Skeleton
       variant="rect"
+      ref={ref}
       className={clsx(classes.skeleton, props.className)}
     />
   );
-};
+});
 
 export default Loading;

@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { LocationDescriptor } from "history";
 import Category from "./Category";
 import Item from "./Item";
@@ -14,6 +14,10 @@ import { useSortedProjects } from "../../../Utils/Content/projects";
 import { useSortedArticles } from "../../../Utils/Content/articles";
 import { useSortedTags } from "../../../Utils/Content/tags";
 import { SIDEBAR_WIDTH } from "../../../Utils/constants";
+
+// Redux Imports
+import { useSelector } from "react-redux";
+import { getExperienceViewable } from "../../../Redux";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
@@ -39,8 +43,11 @@ export const generateSidebarPath = (p: string): LocationDescriptor => ({
 
 const Contents: FC = () => {
   const classes = useStyles();
+  const location = useLocation();
 
   const experience = useSortedExperience();
+  const experienceViewable = useSelector(getExperienceViewable);
+
   const projects = useSortedProjects();
   const articles = useSortedArticles();
   const tags = useSortedTags();
@@ -72,6 +79,10 @@ const Contents: FC = () => {
               label={generateExperienceTitle(exp)}
               secondary={generateExperienceSubtitle(exp)}
               to={generateSidebarPath(`/experience/${exp.slug}`)}
+              highlighted={
+                experienceViewable.includes(exp.id) &&
+                location.pathname === "/experience"
+              }
             />
           ))}
         </Category>

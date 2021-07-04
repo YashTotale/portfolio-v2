@@ -66,11 +66,15 @@ export {
   getExperienceSort,
   getExperienceTagFilter,
   getExperienceProjectFilter,
+  getExperienceViewable,
   // -> Actions
   setExperienceSearch,
   setExperienceSort,
   setExperienceTagFilter,
   setExperienceProjectFilter,
+  addExperienceViewable,
+  removeExperienceViewable,
+  removeAllExperienceViewable,
   // -> Reducer
   experienceReducer,
   // -> State

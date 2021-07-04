@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { forwardRef } from "react";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
@@ -111,7 +111,7 @@ export interface PreviewProps {
   className?: string;
 }
 
-const Preview: FC<PreviewProps> = (props) => {
+const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -120,7 +120,10 @@ const Preview: FC<PreviewProps> = (props) => {
   if (!experience) return null;
 
   return (
-    <DynamicPaper className={clsx(classes.container, props.className)}>
+    <DynamicPaper
+      ref={ref}
+      className={clsx(classes.container, props.className)}
+    >
       <div className={classes.display}>
         <FloatingIcons
           linkLabel="Website"
@@ -194,6 +197,6 @@ const Preview: FC<PreviewProps> = (props) => {
       </Typography>
     </DynamicPaper>
   );
-};
+});
 
 export default Preview;

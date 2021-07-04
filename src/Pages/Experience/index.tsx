@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import { Helmet } from "react-helmet";
+import { Waypoint } from "react-waypoint";
 import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Filters";
 import Preview from "../../Components/Content/Experience/Preview";
@@ -18,6 +19,9 @@ import {
   setExperienceSort,
   getExperienceProjectFilter,
   setExperienceProjectFilter,
+  addExperienceViewable,
+  removeExperienceViewable,
+  removeAllExperienceViewable,
   getExperienceTagFilter,
   setExperienceTagFilter,
 } from "../../Redux";
@@ -26,6 +30,7 @@ import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
+import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -100,8 +105,13 @@ const Experience: FC = () => {
 
 const Contents: FC = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
   const search = useSelector(getExperienceSearch);
   const filteredExperience = useFilteredExperience();
+
+  useEffect(() => {
+    dispatch(removeAllExperienceViewable());
+  }, [dispatch]);
 
   if (!filteredExperience.length)
     return <Typography variant="h6">No experience found</Typography>;
@@ -109,7 +119,15 @@ const Contents: FC = () => {
   return (
     <div className={classes.experience}>
       {filteredExperience.map((fields) => (
-        <Preview key={fields.id} id={fields.id} search={search} />
+        <Waypoint
+          key={fields.id}
+          onEnter={() => dispatch(addExperienceViewable(fields.id))}
+          onLeave={() => dispatch(removeExperienceViewable(fields.id))}
+          topOffset="30%"
+          bottomOffset="30%"
+        >
+          <Preview id={fields.id} search={search} />
+        </Waypoint>
       ))}
     </div>
   );

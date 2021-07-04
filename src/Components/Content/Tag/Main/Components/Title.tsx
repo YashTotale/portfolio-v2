@@ -45,7 +45,7 @@ const Title: FC<TitleProps> = (props) => {
   return (
     <div className={classes.titleContainer}>
       <Typography
-        variant={isSizeSmall ? "h4" : "h3"}
+        variant={isSizeSmall ? "h5" : "h4"}
         align="center"
         className={classes.title}
       >
