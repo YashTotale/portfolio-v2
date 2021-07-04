@@ -8,6 +8,9 @@
     "eject": "react-scripts eject",
     "start": "NODE_ENV=development react-scripts start",
     "test": "react-scripts test --passWithNoTests",
+    "deploy:local": "serve -s build",
+    "deploy:private": "firebase deploy --only hosting:private",
+    "deploy:public": "firebase deploy --only hosting:public",
     "data": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/data/index.ts",
     "books": "npm run books:get && npm run books:upload",
     "books:get": "sh scripts/books/get-books.sh",
@@ -82,6 +85,7 @@
     "react-scripts": "4.0.3",
     "react-snap": "^1.23.0",
     "rimraf": "^3.0.2",
+    "serve": "^12.0.0",
     "ts-node": "^10.0.0",
     "typescript": "^4.2.3",
     "web-vitals": "^1.1.0"

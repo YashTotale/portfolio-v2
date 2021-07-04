@@ -1,5 +1,17 @@
 {
   "projects": {
     "default": "yash-totale"
+  },
+  "targets": {
+    "yash-totale": {
+      "hosting": {
+        "public": [
+          "yashtotale"
+        ],
+        "private": [
+          "yash-totale"
+        ]
+      }
+    }
   }
 }
