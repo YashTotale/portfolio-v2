@@ -32,7 +32,7 @@ const Title: FC<TitleProps> = (props) => {
 
   return (
     <div className={classes.titleContainer}>
-      <Typography variant={isSizeSmall ? "h4" : "h3"} align="center">
+      <Typography variant={isSizeSmall ? "h5" : "h4"} align="center">
         {generateExperienceTitle(props)}
       </Typography>
       <FloatingIcons

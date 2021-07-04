@@ -26,7 +26,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   link: {
     color: theme.palette.text.primary,
     textDecoration: "none",
-    flex: 1,
     maxWidth: ({ maxWidth }) => maxWidth,
     marginRight: ({ type }) => (type === "previous" ? "auto" : 0),
     marginLeft: ({ type }) => (type === "next" ? "auto" : 0),
@@ -36,10 +35,6 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   button: {
     width: "100%",
     textTransform: "none",
-    border: `1px solid ${theme.palette.text.primary}`,
-    "&:hover": {
-      border: `1px solid ${theme.palette.primary.main}`,
-    },
     padding: theme.spacing(1, 2),
   },
   label: {
@@ -80,7 +75,7 @@ const NavButton: FC<NavButtonProps> = (props) => {
 
   return (
     <Link to={props.to} className={clsx(classes.link, props.className)}>
-      <Button variant="outlined" className={classes.button}>
+      <Button color="primary" className={classes.button}>
         <div className={classes.label}>
           <Typography
             color="textSecondary"

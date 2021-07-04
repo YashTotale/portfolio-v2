@@ -20,9 +20,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
   },
-  tag: {
-    margin: theme.spacing(1, 0),
-  },
 }));
 
 interface Params {
@@ -52,7 +49,7 @@ const Tag: FC = () => {
       </Helmet>
       <div className={classes.container}>
         <TopNav allPath="tags" allLabel="Tags" />
-        <TagMain id={tag.id} className={classes.tag} />
+        <TagMain id={tag.id} />
         <BottomNav
           basePath="tags"
           label="Tag"

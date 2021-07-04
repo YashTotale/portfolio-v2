@@ -3,7 +3,6 @@ import React, { FC } from "react";
 import clsx from "clsx";
 import Title from "./Components/Title";
 import Icon from "./Components/Icon";
-import HorizontalDivider from "../../../Divider/Horizontal";
 import Associated from "../../Shared/Associated";
 import MainContainer from "../../Shared/MainContainer";
 import { getTag } from "../../../../Utils/Content/tags";
@@ -59,7 +58,6 @@ const Tag: FC<TagProps> = (props) => {
     <Paper elevation={8} className={clsx(classes.root, props.className)}>
       <Title {...tag} search={props.search} />
       <Icon {...tag} />
-      <HorizontalDivider />
       <div className={classes.main}>
         {!!tag.experience.length && (
           <MainContainer title="Related Experience" direction="column">

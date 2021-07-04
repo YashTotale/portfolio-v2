@@ -16,10 +16,9 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   skeleton: {
     color: theme.palette.text.primary,
     textDecoration: "none",
-    flex: 1,
-    border: `1px solid ${theme.palette.text.primary}`,
     borderRadius: theme.spacing(0.5),
-    height: 74,
+    height: 60,
+    width: 200,
     maxWidth: ({ maxWidth }) => maxWidth,
     marginRight: ({ type }) => (type === "previous" ? "auto" : 0),
     marginLeft: ({ type }) => (type === "next" ? "auto" : 0),

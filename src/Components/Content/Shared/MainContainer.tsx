@@ -20,15 +20,13 @@ interface StyleProps {
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   container: {
-    borderRadius: "4px",
-    border: `1px solid ${theme.palette.text.disabled}`,
+    borderTop: `2px solid ${theme.palette.text.disabled}`,
     backgroundColor:
       theme.palette.type === "dark"
         ? darken(theme.palette.grey[800], 0.3)
         : theme.palette.grey[200],
     margin: theme.spacing(2, 0, 4),
     padding: theme.spacing(1, 2),
-    boxShadow: theme.shadows[3],
   },
   heading: {
     margin: theme.spacing(0, 1),
