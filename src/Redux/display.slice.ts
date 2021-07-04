@@ -90,7 +90,7 @@ export const initialDisplayState: DisplayState = {
     secondary: "amber",
   },
   shades: {
-    primary: "500",
+    primary: "600",
     secondary: "700",
   },
 };
