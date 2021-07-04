@@ -76,8 +76,8 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     padding: theme.spacing(2),
   },
-  projectAssociated: {
-    margin: theme.spacing(1),
+  associatedContainer: {
+    padding: theme.spacing(1),
   },
   projectTags: {
     display: "flex",
@@ -127,15 +127,14 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         />
       </div>
       {project.associated && (
-        <>
+        <div className={classes.associatedContainer}>
           <Mini
             content={getSingleExperience(project.associated.id)}
             basePath="experience"
             titleFunc={generateExperienceTitle}
             search={props.search}
-            className={classes.projectAssociated}
           />
-        </>
+        </div>
       )}
       <div className={classes.projectTags}>
         {project.tags.map((tag) => (

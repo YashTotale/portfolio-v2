@@ -9,7 +9,6 @@ import { makeStyles, useTheme } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   icon: {
     margin: theme.spacing(2),
-    marginTop: 0,
 
     [theme.breakpoints.only("xl")]: {
       width: 175,

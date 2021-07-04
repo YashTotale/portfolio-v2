@@ -89,6 +89,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     padding: theme.spacing(1, 2),
+    maxWidth: "100%",
   },
   mini: {
     margin: theme.spacing(0.5, 1),
@@ -132,7 +133,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           direction="row"
         />
         <DynamicImage
-          src={`${experience.image.file.url}?w=225`}
+          src={`${experience.image.file.url}?w=300`}
           alt={experience.image.title}
           className={classes.image}
         />

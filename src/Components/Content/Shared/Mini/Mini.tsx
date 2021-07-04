@@ -14,6 +14,7 @@ const useStyles = makeStyles((theme) => ({
   link: {
     color: theme.palette.text.primary,
     textDecoration: "none",
+    maxWidth: "100%",
   },
   button: {
     padding: theme.spacing(1, 2),

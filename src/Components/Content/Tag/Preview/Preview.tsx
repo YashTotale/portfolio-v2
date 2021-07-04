@@ -1,6 +1,6 @@
 // React Imports
 import React, { cloneElement, FC } from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import DynamicPaper from "../../../DynamicPaper";
 import DynamicImage from "../../../DynamicImage";
@@ -20,8 +20,7 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    minWidth: 200,
-    maxWidth: 250,
+    minWidth: 225,
   },
   display: {
     display: "flex",
@@ -29,11 +28,15 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     flex: 1,
   },
+  iconLink: {
+    margin: theme.spacing(3, 2, 2),
+  },
   icon: {
-    margin: theme.spacing(2),
+    maxWidth: 215,
+    height: 150,
   },
   title: {
-    margin: theme.spacing("auto", 1),
+    margin: theme.spacing(0.5, 1),
     textAlign: "center",
   },
   info: {
@@ -63,26 +66,29 @@ const Preview: FC<PreviewProps> = (props) => {
   const isDark = theme.palette.type === "dark";
   const icon = isDark ? tag.darkIcon : tag.lightIcon;
 
+  const generateLink = (type: string) => ({
+    pathname: `/tags/${tag.slug}`,
+    search: generateSearch(
+      {
+        from_path: location.pathname,
+        from_type: type,
+      },
+      title
+    ),
+  });
+
   return (
     <DynamicPaper className={clsx(classes.container, props.className)}>
       <div className={classes.display}>
-        <DynamicImage
-          src={`${icon.file.url}?w=200`}
-          alt={icon.title}
-          className={classes.icon}
-          width={150}
-        />
+        <Link to={generateLink("preview_image")} className={classes.iconLink}>
+          <DynamicImage
+            src={`${icon.file.url}?h=200`}
+            alt={icon.title}
+            className={classes.icon}
+          />
+        </Link>
         <StyledLink
-          to={{
-            pathname: `/tags/${tag.slug}`,
-            search: generateSearch(
-              {
-                from_path: location.pathname,
-                from_type: "preview_title",
-              },
-              title
-            ),
-          }}
+          to={generateLink("preview_title")}
           variant="h5"
           className={classes.title}
           toMatch={props.search}

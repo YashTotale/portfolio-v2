@@ -122,7 +122,7 @@ const Main: FC<MainProps> = (props) => {
       <div className={classes.main}>
         <div className={classes.info}>
           <DynamicImage
-            src={`${experience.image.file.url}?h=225`}
+            src={`${experience.image.file.url}?h=300`}
             alt={experience.image.title}
             className={classes.image}
           />

@@ -76,8 +76,8 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "center",
   },
-  articleAssociated: {
-    margin: theme.spacing(1),
+  associatedContainer: {
+    padding: theme.spacing(1),
   },
   articleTags: {
     display: "flex",
@@ -110,7 +110,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
       <div className={classes.articleTop}>
         <FloatingIcons link={article.link} linkLabel="Article" />
         <DynamicImage
-          src={`${article.image.file.url}?w=300`}
+          src={`${article.image.file.url}?h=300`}
           alt={article.image.title}
           className={classes.articleImage}
         />
@@ -124,15 +124,14 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         />
       </div>
       {article.associated && (
-        <>
+        <div className={classes.associatedContainer}>
           <Mini
             content={getSingleExperience(article.associated.id)}
             basePath="experience"
             titleFunc={generateExperienceTitle}
             search={props.search}
-            className={classes.articleAssociated}
           />
-        </>
+        </div>
       )}
       <div className={classes.articleTags}>
         {article.tags.map((tag) => (
