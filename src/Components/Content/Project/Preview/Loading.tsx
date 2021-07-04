@@ -7,15 +7,10 @@ import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   skeleton: {
-    margin: theme.spacing(2),
-    width: "45%",
+    width: `calc(50% - ${theme.spacing(2)}px)`,
 
     [theme.breakpoints.down("sm")]: {
-      width: "80%",
-    },
-    [theme.breakpoints.down("xs")]: {
       width: "100%",
-      margin: theme.spacing(2, 0),
     },
   },
 }));

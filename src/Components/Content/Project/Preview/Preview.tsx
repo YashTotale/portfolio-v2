@@ -33,15 +33,10 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    margin: theme.spacing(2),
-    width: "45%",
+    width: `calc(50% - ${theme.spacing(2)}px)`,
 
     [theme.breakpoints.down("sm")]: {
-      width: "80%",
-    },
-    [theme.breakpoints.down("xs")]: {
       width: "100%",
-      margin: theme.spacing(2, 0),
     },
   },
   projectTop: {
@@ -51,7 +46,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     width: "100%",
     position: "relative",
-    borderBottom: `1px solid ${theme.palette.text.disabled}`,
+    borderBottom: `1px solid ${theme.palette.divider}`,
   },
   projectImage: {
     margin: theme.spacing(2, 0),
@@ -134,7 +129,6 @@ const Preview: FC<PreviewProps> = (props) => {
       </div>
       {project.associated && (
         <>
-          <HorizontalDivider />
           <Mini
             content={getSingleExperience(project.associated.id)}
             basePath="experience"
@@ -144,7 +138,6 @@ const Preview: FC<PreviewProps> = (props) => {
           />
         </>
       )}
-      <HorizontalDivider />
       <div className={classes.projectTags}>
         {project.tags.map((tag) => (
           <TagChip key={tag.id} id={tag.id} search={props.search} />
