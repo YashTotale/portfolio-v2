@@ -57,16 +57,39 @@ const RichText: FC<RichTextProps> = (props) => {
       [BLOCKS.UL_LIST]: (node, children) => (
         <ul className={clsx(classes.unorderedList, ulClass)}>{children}</ul>
       ),
-      [INLINES.HYPERLINK]: (node, children) => (
-        <Link
-          variant={variant}
-          href={node.data.uri}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          {children}
-        </Link>
-      ),
+      [INLINES.HYPERLINK]: (node, children) => {
+        const url = node.data.uri as string;
+        if (!url) return children;
+
+        const isExternal = url.includes("http");
+
+        return isExternal ? (
+          <Link
+            variant={variant}
+            href={url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {children}
+          </Link>
+        ) : (
+          <StyledLink
+            variant={variant}
+            to={{
+              pathname: url,
+              search: generateSearch(
+                {
+                  from_path: location.pathname,
+                  from_type: "hyperlink",
+                },
+                title
+              ),
+            }}
+          >
+            {children}
+          </StyledLink>
+        );
+      },
       [INLINES.ENTRY_HYPERLINK]: (node, children) => {
         const entry = node.data.target;
         const id: string = entry.sys.id;

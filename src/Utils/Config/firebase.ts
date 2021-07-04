@@ -7,7 +7,7 @@ import "firebase/firestore";
 
 export const config = {
   apiKey: "AIzaSyBkV0LzaVCDpgr6-f-60MArbZWlyJ7utYU",
-  authDomain: "yash-totale.firebaseapp.com",
+  authDomain: "yashtotale.firebaseapp.com",
   projectId: "yash-totale",
   storageBucket: "yash-totale.appspot.com",
   messagingSenderId: "37331567202",
