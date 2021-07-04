@@ -95,11 +95,15 @@ export {
   getProjectsSort,
   getProjectsTagFilter,
   getProjectsExperienceFilter,
+  getProjectsViewable,
   // -> Actions
   setProjectsSearch,
   setProjectsSort,
   setProjectsTagFilter,
   setProjectsExperienceFilter,
+  addProjectViewable,
+  removeProjectViewable,
+  removeAllProjectViewable,
   // -> Reducer
   projectsReducer,
   // -> State

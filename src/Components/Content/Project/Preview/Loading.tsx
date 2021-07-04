@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { forwardRef } from "react";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
@@ -15,10 +15,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Loading: FC = () => {
+const Loading = forwardRef<HTMLDivElement>((props, ref) => {
   const classes = useStyles();
 
-  return <Skeleton variant="rect" height={600} className={classes.skeleton} />;
-};
+  return (
+    <Skeleton
+      ref={ref}
+      variant="rect"
+      height={600}
+      className={classes.skeleton}
+    />
+  );
+});
 
 export default Loading;

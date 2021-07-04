@@ -1,5 +1,5 @@
 //React Imports
-import React, { FC } from "react";
+import React, { forwardRef } from "react";
 import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "../../Shared/FloatingIcons";
 import TagChip from "../../Tag/Mini";
@@ -96,7 +96,7 @@ export interface PreviewProps {
   search?: string;
 }
 
-const Preview: FC<PreviewProps> = (props) => {
+const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
 
   const theme = useTheme();
@@ -106,7 +106,7 @@ const Preview: FC<PreviewProps> = (props) => {
   if (!project) return null;
 
   return (
-    <DynamicPaper className={classes.project}>
+    <DynamicPaper ref={ref} className={classes.project}>
       <div className={classes.projectTop}>
         <FloatingIcons
           link={project.link}
@@ -153,6 +153,6 @@ const Preview: FC<PreviewProps> = (props) => {
       </Typography>
     </DynamicPaper>
   );
-};
+});
 
 export default Preview;

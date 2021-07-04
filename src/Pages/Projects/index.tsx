@@ -1,6 +1,7 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Helmet } from "react-helmet";
+import { Waypoint } from "react-waypoint";
 import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Filters";
 import ProjectPreview from "../../Components/Content/Project/Preview";
@@ -24,7 +25,13 @@ import {
   setProjectsExperienceFilter,
   getProjectsTagFilter,
 } from "../../Redux";
-import { ProjectsSort, PROJECTS_SORT } from "../../Redux/projects.slice";
+import {
+  addProjectViewable,
+  ProjectsSort,
+  PROJECTS_SORT,
+  removeAllProjectViewable,
+  removeProjectViewable,
+} from "../../Redux/projects.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
@@ -105,8 +112,13 @@ const ProjectsPage: FC = () => {
 
 const Contents: FC = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
   const search = useSelector(getProjectsSearch);
   const filteredProjects = useFilteredProjects();
+
+  useEffect(() => {
+    dispatch(removeAllProjectViewable());
+  }, [dispatch]);
 
   if (!filteredProjects.length)
     return (
@@ -118,7 +130,15 @@ const Contents: FC = () => {
   return (
     <div className={classes.projects}>
       {filteredProjects.map((project) => (
-        <ProjectPreview key={project.id} id={project.id} search={search} />
+        <Waypoint
+          key={project.id}
+          onEnter={() => dispatch(addProjectViewable(project.id))}
+          onLeave={() => dispatch(removeProjectViewable(project.id))}
+          topOffset="30%"
+          bottomOffset="30%"
+        >
+          <ProjectPreview id={project.id} search={search} />
+        </Waypoint>
       ))}
     </div>
   );

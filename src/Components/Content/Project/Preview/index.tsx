@@ -1,16 +1,16 @@
 // React Imports
-import React, { FC, lazy, Suspense } from "react";
+import React, { lazy, Suspense, forwardRef } from "react";
 import { PreviewProps } from "./Preview";
 import Loading from "./Loading";
 
 const Component = lazy(() => import("./Preview"));
 
-const Preview: FC<PreviewProps> = (props) => {
+const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   return (
-    <Suspense fallback={<Loading />}>
-      <Component {...props} />
+    <Suspense fallback={<Loading ref={ref} />}>
+      <Component ref={ref} {...props} />
     </Suspense>
   );
-};
+});
 
 export default Preview;

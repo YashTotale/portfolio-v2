@@ -12,6 +12,7 @@ export const PROJECTS_SORT: ProjectsSort[] = [
 export interface ProjectsState {
   search: string;
   sort: ProjectsSort;
+  viewable: string[];
   tagFilter: string[];
   experienceFilter: string[];
 }
@@ -19,6 +20,7 @@ export interface ProjectsState {
 export const initialProjectsState: ProjectsState = {
   search: "",
   sort: PROJECTS_SORT[0],
+  viewable: [],
   tagFilter: [],
   experienceFilter: [],
 };
@@ -52,6 +54,18 @@ const projectsSlice = createSlice({
       ...state,
       experienceFilter: action.payload,
     }),
+    addProjectViewable: (state, action: PayloadAction<string>) => ({
+      ...state,
+      viewable: [...state.viewable, action.payload],
+    }),
+    removeProjectViewable: (state, action: PayloadAction<string>) => ({
+      ...state,
+      viewable: state.viewable.filter((v) => v !== action.payload),
+    }),
+    removeAllProjectViewable: (state) => ({
+      ...state,
+      viewable: [],
+    }),
   },
 });
 
@@ -61,6 +75,9 @@ export const {
   setProjectsSort,
   setProjectsTagFilter,
   setProjectsExperienceFilter,
+  addProjectViewable,
+  removeProjectViewable,
+  removeAllProjectViewable,
 } = projectsSlice.actions;
 
 // Selectors
@@ -78,6 +95,10 @@ export const getProjectsTagFilter = (
 export const getProjectsExperienceFilter = (
   state: RootState
 ): ProjectsState["experienceFilter"] => state.projects.experienceFilter;
+
+export const getProjectsViewable = (
+  state: RootState
+): ProjectsState["viewable"] => state.projects.viewable;
 
 // Reducer
 export const projectsReducer = projectsSlice.reducer;
