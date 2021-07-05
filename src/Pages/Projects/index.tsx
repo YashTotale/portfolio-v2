@@ -52,6 +52,11 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     margin: theme.spacing(2, 0),
     gap: theme.spacing(4),
+
+    "&:after": {
+      content: "''",
+      flex: "auto",
+    },
   },
 }));
 
