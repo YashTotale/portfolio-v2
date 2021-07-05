@@ -27,7 +27,10 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   unorderedList: {
-    margin: theme.spacing(0),
+    marginTop: 0,
+    marginBottom: 0,
+    width: "fit-content",
+    textAlign: "left",
   },
 }));
 
