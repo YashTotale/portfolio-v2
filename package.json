@@ -3,8 +3,7 @@
   "private": true,
   "scripts": {
     "make": "bash ./scripts/make.sh",
-    "build": "NODE_ENV=production react-scripts build",
-    "postbuild": "react-snap",
+    "build": "bash ./scripts/build.sh",
     "eject": "react-scripts eject",
     "start": "NODE_ENV=development react-scripts start",
     "test": "react-scripts test --passWithNoTests",
@@ -51,6 +50,7 @@
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
+    "@alex-drocks/react-snap-sitemap": "^0.3.0",
     "@contentful/rich-text-types": "^14.1.2",
     "@hack4impact/logger": "^3.0.3",
     "@testing-library/jest-dom": "^5.11.9",
