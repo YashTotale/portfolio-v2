@@ -27,6 +27,7 @@ export interface RelatedProps {
   values: string[];
   onChange: (value: string[]) => void;
   onClear?: () => void;
+  last?: boolean;
 }
 
 const Related: FC<RelatedProps> = (props) => {
@@ -49,6 +50,7 @@ const Related: FC<RelatedProps> = (props) => {
           action: () => onChange([]),
         },
       ]}
+      last={props.last}
     >
       <FormControl>
         {isSizeXS && <InputLabel>Related {label}</InputLabel>}

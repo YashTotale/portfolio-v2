@@ -8,8 +8,16 @@ import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   skeleton: {
+    width: "100%",
+    border: `1px solid ${theme.palette.text.disabled}`,
+    borderRadius: "10px",
+    marginBottom: theme.spacing(1),
+    overflow: "hidden",
     height: 58,
-    width: 250,
+
+    [theme.breakpoints.only("xs")]: {
+      height: 42,
+    },
   },
 }));
 
