@@ -6,6 +6,7 @@ import Typist from "react-typist";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
 import RichText from "../../Components/Custom/RichText";
+import Category from "../../Components/Content/Tag/Category";
 import StyledLink from "../../Components/Atomic/StyledLink";
 import DynamicImage from "../../Components/Atomic/DynamicImage";
 import { useTitle } from "../../Context/HeadContext";
@@ -20,6 +21,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 
 const useStyles = makeStyles((theme) => ({
   home: {
@@ -49,6 +51,18 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     textAlign: "center",
     width: "100%",
+    margin: theme.spacing(1, 0, 2),
+  },
+  skillset: {
+    padding: theme.spacing(1, 0),
+  },
+  skills: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "stretch",
+    alignItems: "stretch",
+    gap: theme.spacing(4),
+    padding: theme.spacing(1, 0),
   },
 }));
 
@@ -92,6 +106,19 @@ const Home: FC = () => {
             richText={description as Document}
             variant={isSizeSmall ? "body2" : "body1"}
           />
+        </div>
+        <HorizontalDivider />
+        <div className={classes.skillset}>
+          <Typography align="center" variant={isSizeSmall ? "h5" : "h4"}>
+            My Skill Set
+          </Typography>
+          <div className={classes.skills}>
+            <Category category="Languages" />
+            <Category category="Frontend" />
+            <Category category="Backend" />
+            <Category category="DevOps" />
+            <Category category="Design" />
+          </div>
         </div>
       </div>
     </>

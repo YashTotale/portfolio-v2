@@ -13,9 +13,16 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 
+type Size = "medium" | "small";
+
 interface StyleProps {
   hovering: boolean;
+  size: Size;
+  borderRadius: string | number;
+  padding: string | number;
 }
+
+const SIZES = [175, 150, 150, 125, 100, 75];
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   root: {
@@ -24,41 +31,41 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     alignItems: "center",
     justifySelf: "center",
   },
-  container: {
+  container: ({ size }) => ({
     [theme.breakpoints.only("xl")]: {
-      width: 175,
-      height: 175,
+      width: size === "medium" ? SIZES[0] : SIZES[1],
+      height: size === "medium" ? SIZES[0] : SIZES[1],
     },
 
     [theme.breakpoints.only("lg")]: {
-      width: 150,
-      height: 150,
+      width: size === "medium" ? SIZES[1] : SIZES[2],
+      height: size === "medium" ? SIZES[1] : SIZES[2],
     },
 
     [theme.breakpoints.only("md")]: {
-      width: 150,
-      height: 150,
+      width: size === "medium" ? SIZES[2] : SIZES[3],
+      height: size === "medium" ? SIZES[2] : SIZES[3],
     },
 
     [theme.breakpoints.only("sm")]: {
-      width: 125,
-      height: 125,
+      width: size === "medium" ? SIZES[3] : SIZES[4],
+      height: size === "medium" ? SIZES[3] : SIZES[4],
     },
 
     [theme.breakpoints.only("xs")]: {
-      width: 100,
-      height: 100,
+      width: size === "medium" ? SIZES[4] : SIZES[5],
+      height: size === "medium" ? SIZES[4] : SIZES[5],
     },
-  },
+  }),
   link: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
     justifySelf: "center",
     position: "relative",
-    border: `4px solid ${theme.palette.text.primary}`,
-    borderRadius: "5px",
-    padding: theme.spacing(1.5),
+    border: `${theme.spacing(0.5)}px solid ${theme.palette.text.primary}`,
+    borderRadius: ({ borderRadius }) => borderRadius,
+    padding: ({ padding }) => padding,
     width: "100%",
     height: "100%",
   },
@@ -113,14 +120,25 @@ interface OverlayProps {
   label: string;
   to: LinkProps["to"];
   icon: Asset["fields"];
+  size?: Size;
+  borderRadius?: number | string;
+  padding?: number | string;
   className?: string;
 }
 
-const Overlay: FC<OverlayProps> = ({ label, to, icon, className }) => {
+const Overlay: FC<OverlayProps> = (props) => {
+  const { label, to, icon, size, borderRadius, padding, className } = props;
   const [hovering, setHovering] = useState(false);
+
   const theme = useTheme();
-  const classes = useStyles({ hovering });
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+
+  const classes = useStyles({
+    hovering,
+    size: size ?? "medium",
+    borderRadius: borderRadius ?? theme.spacing(0.5),
+    padding: padding ?? theme.spacing(1.5),
+  });
 
   return (
     <div className={clsx(classes.root, className)}>
@@ -128,6 +146,7 @@ const Overlay: FC<OverlayProps> = ({ label, to, icon, className }) => {
         onMouseOver={() => setHovering(true)}
         onMouseLeave={() => setHovering(false)}
         className={classes.container}
+        title={props.label}
       >
         <Link to={to} className={classes.link}>
           <div className={classes.overlay}></div>

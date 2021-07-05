@@ -23,6 +23,7 @@ const DynamicImage: FC<ImgHTMLAttributes<HTMLImageElement>> = (props) => {
     <img
       {...props}
       alt={props.alt}
+      title={props.alt}
       className={clsx(classes.image, props.className)}
     />
   );
