@@ -189,7 +189,7 @@ const InputField: FC<InputFieldProps> = (props) => {
   } = useController({
     name: props.name,
     control: props.control,
-    rules: { required: props.required ?? true },
+    rules: { required: props.required ?? "This field is required" },
     defaultValue: "",
   });
 
