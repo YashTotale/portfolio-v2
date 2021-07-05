@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { Helmet } from "react-helmet";
 import { Waypoint } from "react-waypoint";
 import { useAnalytics } from "../../Hooks";
-import Filters from "../../Components/Filters";
+import Filters from "../../Components/Custom/Filters";
 import Preview from "../../Components/Content/Experience/Preview";
 import { generatePageTitle } from "../../Utils/funcs";
 import { useFilteredExperience } from "../../Utils/Content/experience";

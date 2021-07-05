@@ -2,9 +2,9 @@
 import React, { FC } from "react";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
-import Filters from "../../Components/Filters";
+import Filters from "../../Components/Custom/Filters";
 import BookPreview from "../../Components/Content/Book/Preview";
-import HorizontalDivider from "../../Components/Divider/Horizontal";
+import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 import { getBookGenres, useFilteredBooks } from "../../Utils/Content/books";
 import { Book } from "../../Utils/types";

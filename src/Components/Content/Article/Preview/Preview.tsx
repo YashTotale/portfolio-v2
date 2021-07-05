@@ -4,11 +4,11 @@ import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
 import FloatingIcons from "../../Shared/FloatingIcons";
-import DynamicImage from "../../../DynamicImage";
-import DynamicPaper from "../../../DynamicPaper";
-import RichText from "../../../RichText";
-import MatchHighlight from "../../../MatchHighlight";
-import HorizontalDivider from "../../../Divider/Horizontal";
+import DynamicImage from "../../../Atomic/DynamicImage";
+import DynamicPaper from "../../../Atomic/DynamicPaper";
+import RichText from "../../../Custom/RichText";
+import MatchHighlight from "../../../Atomic/MatchHighlight";
+import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
 import Mini from "../../Shared/Mini";
 import TagChip from "../../Tag/Mini";
 import {

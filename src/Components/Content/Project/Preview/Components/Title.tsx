@@ -1,7 +1,7 @@
 //React Imports
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
-import StyledLink from "../../../../StyledLink";
+import StyledLink from "../../../../Atomic/StyledLink";
 import { useTitle } from "../../../../../Context/HeadContext";
 import { ResolvedProject } from "../../../../../Utils/types";
 import { generateSearch } from "../../../../../Utils/funcs";

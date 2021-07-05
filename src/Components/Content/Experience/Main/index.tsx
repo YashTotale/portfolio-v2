@@ -6,8 +6,8 @@ import Title from "./Components/Title";
 import MainContainer from "../../Shared/MainContainer";
 import Associated from "../../Shared/Associated";
 import TagAssociated from "../../Tag/Associated";
-import DynamicImage from "../../../DynamicImage";
-import RichText from "../../../RichText";
+import DynamicImage from "../../../Atomic/DynamicImage";
+import RichText from "../../../Custom/RichText";
 import {
   generateExperienceTimeline,
   getSingleExperience,

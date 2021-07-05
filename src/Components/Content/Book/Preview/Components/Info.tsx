@@ -1,12 +1,12 @@
 // React Imports
 import React, { FC } from "react";
-import HorizontalDivider from "../../../../Divider/Horizontal";
+import HorizontalDivider from "../../../../Atomic/Divider/Horizontal";
 import { Book } from "../../../../../Utils/types";
 
 // Material UI Imports
 import { Chip, Link, makeStyles, Typography } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
-import MatchHighlight from "../../../../MatchHighlight";
+import MatchHighlight from "../../../../Atomic/MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   info: {

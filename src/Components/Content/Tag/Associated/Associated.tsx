@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
-import Overlay from "../../../Overlay";
+import Overlay from "../../../Atomic/Overlay";
 import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
 import { getTag } from "../../../../Utils/Content/tags";

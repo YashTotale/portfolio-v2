@@ -4,12 +4,12 @@ import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "../../Shared/FloatingIcons";
 import TagChip from "../../Tag/Mini";
 import Title from "./Components/Title";
-import RichText from "../../../RichText";
-import MatchHighlight from "../../../MatchHighlight";
-import DynamicImage from "../../../DynamicImage";
-import DynamicPaper from "../../../DynamicPaper";
+import RichText from "../../../Custom/RichText";
+import MatchHighlight from "../../../Atomic/MatchHighlight";
+import DynamicImage from "../../../Atomic/DynamicImage";
+import DynamicPaper from "../../../Atomic/DynamicPaper";
 import Mini from "../../Shared/Mini";
-import HorizontalDivider from "../../../Divider/Horizontal";
+import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
 import {
   generateExperienceTitle,
   getSingleExperience,

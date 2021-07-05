@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import FloatingIcons from "../../../Shared/FloatingIcons";
-import MatchHighlight from "../../../../MatchHighlight";
+import MatchHighlight from "../../../../Atomic/MatchHighlight";
 import { ResolvedTag } from "../../../../../Utils/types";
 
 // Material UI Imports

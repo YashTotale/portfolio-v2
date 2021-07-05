@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import LinkIcon from "../../Icon/Link";
+import LinkIcon from "../../Atomic/Icon/Link";
 
 // Material UI Imports
 import { makeStyles, Theme } from "@material-ui/core";

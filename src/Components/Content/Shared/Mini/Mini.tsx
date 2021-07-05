@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { Asset } from "contentful";
 import clsx from "clsx";
 import { Link, useLocation } from "react-router-dom";
-import MatchHighlight from "../../../MatchHighlight";
+import MatchHighlight from "../../../Atomic/MatchHighlight";
 import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
 

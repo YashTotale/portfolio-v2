@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import DynamicImage from "../../../../DynamicImage";
+import DynamicImage from "../../../../Atomic/DynamicImage";
 import { ResolvedTag } from "../../../../../Utils/types";
 
 // Material UI Imports

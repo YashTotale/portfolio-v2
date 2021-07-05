@@ -2,10 +2,10 @@
 import React, { cloneElement, FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
-import DynamicPaper from "../../../DynamicPaper";
-import DynamicImage from "../../../DynamicImage";
-import StyledLink from "../../../StyledLink";
-import HorizontalDivider from "../../../Divider/Horizontal";
+import DynamicPaper from "../../../Atomic/DynamicPaper";
+import DynamicImage from "../../../Atomic/DynamicImage";
+import StyledLink from "../../../Atomic/StyledLink";
+import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
 import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
 import { getTag } from "../../../../Utils/Content/tags";

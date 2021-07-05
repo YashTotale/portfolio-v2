@@ -1,8 +1,8 @@
 // React Imports
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
-import RichText from "../../../RichText";
-import DynamicImage from "../../../DynamicImage";
+import RichText from "../../../Custom/RichText";
+import DynamicImage from "../../../Atomic/DynamicImage";
 import { ResolvedProject } from "../../../../Utils/types";
 
 // Material UI Imports

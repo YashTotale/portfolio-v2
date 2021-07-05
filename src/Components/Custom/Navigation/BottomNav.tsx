@@ -2,8 +2,8 @@
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import NavButton from "./NavButton";
-import { useTitle } from "../../Context/HeadContext";
-import { generateSearch } from "../../Utils/funcs";
+import { useTitle } from "../../../Context/HeadContext";
+import { generateSearch } from "../../../Utils/funcs";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";

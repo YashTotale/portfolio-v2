@@ -4,8 +4,8 @@ import clsx from "clsx";
 import SearchBar, { SearchBarProps } from "./SearchBar";
 import Sorter, { SorterProps } from "./Sorter";
 import Related, { RelatedProps } from "./Related";
-import HorizontalDivider from "../Divider/Horizontal";
-import ResponsiveIcon from "../Icon/Responsive";
+import HorizontalDivider from "../../Atomic/Divider/Horizontal";
+import ResponsiveIcon from "../../Atomic/Icon/Responsive";
 
 // Material UI Imports
 import {

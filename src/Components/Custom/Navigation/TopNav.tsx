@@ -2,12 +2,12 @@
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import NavButton from "./NavButton";
-import { useTitle } from "../../Context/HeadContext";
-import { generateSearch, getPageTitle } from "../../Utils/funcs";
+import { useTitle } from "../../../Context/HeadContext";
+import { generateSearch, getPageTitle } from "../../../Utils/funcs";
 
 // Redux Imports
 import { useDispatch, useSelector } from "react-redux";
-import { getLastNav, popHistory } from "../../Redux";
+import { getLastNav, popHistory } from "../../../Redux";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";

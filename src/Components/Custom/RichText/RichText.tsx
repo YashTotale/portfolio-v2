@@ -8,13 +8,13 @@ import {
 } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, Document, INLINES } from "@contentful/rich-text-types";
 import TextRenderer from "./Components/TextRenderer";
-import StyledLink from "../StyledLink";
-import { useTitle } from "../../Context/HeadContext";
-import { generateSearch } from "../../Utils/funcs";
-import { getTag } from "../../Utils/Content/tags";
-import { getProject } from "../../Utils/Content/projects";
-import { getSingleExperience } from "../../Utils/Content/experience";
-import { getArticle } from "../../Utils/Content/articles";
+import StyledLink from "../../Atomic/StyledLink";
+import { useTitle } from "../../../Context/HeadContext";
+import { generateSearch } from "../../../Utils/funcs";
+import { getTag } from "../../../Utils/Content/tags";
+import { getProject } from "../../../Utils/Content/projects";
+import { getSingleExperience } from "../../../Utils/Content/experience";
+import { getArticle } from "../../../Utils/Content/articles";
 
 // Material UI Imports
 import { Link, makeStyles, TypographyProps } from "@material-ui/core";

@@ -2,7 +2,7 @@
 import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
-import MatchHighlight from "../../../MatchHighlight";
+import MatchHighlight from "../../../Atomic/MatchHighlight";
 import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
 import { getTag } from "../../../../Utils/Content/tags";

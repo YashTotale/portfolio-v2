@@ -3,11 +3,11 @@ import React, { FC } from "react";
 import { Asset, EntryFields } from "contentful";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
-import RichText from "../../../RichText";
-import DynamicImage from "../../../DynamicImage";
-import StyledLink from "../../../StyledLink";
-import VerticalDivider from "../../../Divider/Vertical";
-import HorizontalDivider from "../../../Divider/Horizontal";
+import RichText from "../../../Custom/RichText";
+import DynamicImage from "../../../Atomic/DynamicImage";
+import StyledLink from "../../../Atomic/StyledLink";
+import VerticalDivider from "../../../Atomic/Divider/Vertical";
+import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
 import { generateSearch } from "../../../../Utils/funcs";
 
 // Material UI Imports
@@ -18,7 +18,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import MatchHighlight from "../../../MatchHighlight";
+import MatchHighlight from "../../../Atomic/MatchHighlight";
 import { useLocation } from "react-router-dom";
 import { useTitle } from "../../../../Context/HeadContext";
 

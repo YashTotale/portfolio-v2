@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import MatchHighlight from "../../../../MatchHighlight";
+import MatchHighlight from "../../../../Atomic/MatchHighlight";
 import { Book } from "../../../../../Utils/types";
 
 // Material UI Imports

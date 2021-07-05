@@ -4,13 +4,13 @@ import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
 import FloatingIcons from "../../Shared/FloatingIcons";
-import DynamicImage from "../../../DynamicImage";
-import DynamicPaper from "../../../DynamicPaper";
-import RichText from "../../../RichText";
-import MatchHighlight from "../../../MatchHighlight";
+import DynamicImage from "../../../Atomic/DynamicImage";
+import DynamicPaper from "../../../Atomic/DynamicPaper";
+import RichText from "../../../Custom/RichText";
+import MatchHighlight from "../../../Atomic/MatchHighlight";
 import Mini from "../../Shared/Mini";
 import TagMini from "../../Tag/Mini";
-import HorizontalDivider from "../../../Divider/Horizontal";
+import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
 import {
   generateExperienceTimeline,
   getSingleExperience,

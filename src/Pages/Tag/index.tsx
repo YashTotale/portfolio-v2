@@ -5,8 +5,8 @@ import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
 import NotFound from "../NotFound";
 import TagMain from "../../Components/Content/Tag/Main";
-import TopNav from "../../Components/Navigation/TopNav";
-import BottomNav from "../../Components/Navigation/BottomNav";
+import TopNav from "../../Components/Custom/Navigation/TopNav";
+import BottomNav from "../../Components/Custom/Navigation/BottomNav";
 import { generatePageTitle } from "../../Utils/funcs";
 import { getTag, useSortedTags } from "../../Utils/Content/tags";
 

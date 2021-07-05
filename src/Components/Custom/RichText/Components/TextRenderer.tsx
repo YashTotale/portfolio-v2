@@ -1,11 +1,11 @@
 // React Imports
 import React, { FC, Fragment } from "react";
 import { useLocation } from "react-router-dom";
-import MatchHighlight from "../../MatchHighlight";
-import StyledLink from "../../StyledLink";
-import { useTitle } from "../../../Context/HeadContext";
-import { generateSearch } from "../../../Utils/funcs";
-import { getTags } from "../../../Utils/Content/tags";
+import MatchHighlight from "../../../Atomic/MatchHighlight";
+import StyledLink from "../../../Atomic/StyledLink";
+import { useTitle } from "../../../../Context/HeadContext";
+import { generateSearch } from "../../../../Utils/funcs";
+import { getTags } from "../../../../Utils/Content/tags";
 
 // Material UI Imports
 import { makeStyles, Typography, TypographyProps } from "@material-ui/core";

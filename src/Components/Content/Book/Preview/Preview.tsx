@@ -3,9 +3,9 @@ import React, { FC } from "react";
 import Title from "./Components/Title";
 import Author from "./Components/Author";
 import Info from "./Components/Info";
-import DynamicPaper from "../../../DynamicPaper";
-import HorizontalDivider from "../../../Divider/Horizontal";
-import VerticalDivider from "../../../Divider/Vertical";
+import DynamicPaper from "../../../Atomic/DynamicPaper";
+import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
+import VerticalDivider from "../../../Atomic/Divider/Vertical";
 import { getRawBook } from "../../../../Utils/Content/books";
 
 // Material UI Imports

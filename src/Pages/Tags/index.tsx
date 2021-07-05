@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
 import TagPreview from "../../Components/Content/Tag/Preview";
-import Filters from "../../Components/Filters";
+import Filters from "../../Components/Custom/Filters";
 import { generatePageTitle } from "../../Utils/funcs";
 import { useFilteredTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
