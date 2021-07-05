@@ -63,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     margin: theme.spacing(1.5, 0, 1),
   },
+  noFound: {
+    marginTop: theme.spacing(1),
+  },
 }));
 
 const Articles: FC = () => {
@@ -138,36 +141,35 @@ const Contents: FC = () => {
     dispatch(removeAllArticleViewable());
   }, [dispatch]);
 
-  if (!filteredArticles.length)
-    return (
-      <div className={classes.articles}>
-        <Typography variant="h6">No articles found</Typography>
-      </div>
-    );
-
   return (
     <>
       <HorizontalDivider className={classes.divider} />
       <Typography align="center" variant="h4">
         Articles
       </Typography>
-      <div className={classes.articles}>
-        {filteredArticles.map((article) => (
-          <Waypoint
-            key={article.id}
-            onEnter={() => dispatch(addArticleViewable(article.id))}
-            onLeave={() => dispatch(removeArticleViewable(article.id))}
-            topOffset="30%"
-            bottomOffset="30%"
-          >
-            <ArticlePreview
-              id={article.id}
-              search={search}
-              className={classes.article}
-            />
-          </Waypoint>
-        ))}
-      </div>
+      {filteredArticles.length ? (
+        <div className={classes.articles}>
+          {filteredArticles.map((article) => (
+            <Waypoint
+              key={article.id}
+              onEnter={() => dispatch(addArticleViewable(article.id))}
+              onLeave={() => dispatch(removeArticleViewable(article.id))}
+              topOffset="30%"
+              bottomOffset="30%"
+            >
+              <ArticlePreview
+                id={article.id}
+                search={search}
+                className={classes.article}
+              />
+            </Waypoint>
+          ))}
+        </div>
+      ) : (
+        <Typography variant="h5" className={classes.noFound}>
+          No articles found
+        </Typography>
+      )}
     </>
   );
 };

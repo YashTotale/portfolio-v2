@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     margin: theme.spacing(1.5, 0, 1),
   },
+  noFound: {
+    marginTop: theme.spacing(1),
+  },
 }));
 
 const Tags: FC = () => {
@@ -121,29 +124,28 @@ const Contents: FC = () => {
   const search = useSelector(getTagsSearch);
   const filteredTags = useFilteredTags();
 
-  if (!filteredTags.length)
-    return (
-      <div className={classes.tags}>
-        <Typography variant="h6">No tags found</Typography>
-      </div>
-    );
-
   return (
     <>
       <HorizontalDivider className={classes.divider} />
       <Typography align="center" variant="h4">
         Tags
       </Typography>
-      <div className={classes.tags}>
-        {filteredTags.map((tag) => (
-          <TagPreview
-            key={tag.id}
-            id={tag.id}
-            search={search}
-            className={classes.tag}
-          />
-        ))}
-      </div>
+      {filteredTags.length ? (
+        <div className={classes.tags}>
+          {filteredTags.map((tag) => (
+            <TagPreview
+              key={tag.id}
+              id={tag.id}
+              search={search}
+              className={classes.tag}
+            />
+          ))}
+        </div>
+      ) : (
+        <Typography variant="h5" className={classes.noFound}>
+          No tags found
+        </Typography>
+      )}
     </>
   );
 };

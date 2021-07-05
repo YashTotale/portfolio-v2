@@ -51,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     margin: theme.spacing(1.5, 0, 1),
   },
+  noFound: {
+    marginTop: theme.spacing(1),
+  },
 }));
 
 const Experience: FC = () => {
@@ -127,28 +130,31 @@ const Contents: FC = () => {
     dispatch(removeAllExperienceViewable());
   }, [dispatch]);
 
-  if (!filteredExperience.length)
-    return <Typography variant="h6">No experience found</Typography>;
-
   return (
     <>
       <HorizontalDivider className={classes.divider} />
       <Typography align="center" variant="h4">
         Experience
       </Typography>
-      <div className={classes.experience}>
-        {filteredExperience.map((fields) => (
-          <Waypoint
-            key={fields.id}
-            onEnter={() => dispatch(addExperienceViewable(fields.id))}
-            onLeave={() => dispatch(removeExperienceViewable(fields.id))}
-            topOffset="30%"
-            bottomOffset="30%"
-          >
-            <Preview id={fields.id} search={search} />
-          </Waypoint>
-        ))}
-      </div>
+      {filteredExperience.length ? (
+        <div className={classes.experience}>
+          {filteredExperience.map((fields) => (
+            <Waypoint
+              key={fields.id}
+              onEnter={() => dispatch(addExperienceViewable(fields.id))}
+              onLeave={() => dispatch(removeExperienceViewable(fields.id))}
+              topOffset="30%"
+              bottomOffset="30%"
+            >
+              <Preview id={fields.id} search={search} />
+            </Waypoint>
+          ))}
+        </div>
+      ) : (
+        <Typography variant="h5" className={classes.noFound}>
+          No experience found
+        </Typography>
+      )}
     </>
   );
 };

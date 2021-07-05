@@ -63,6 +63,9 @@ const useStyles = makeStyles((theme) => ({
   divider: {
     margin: theme.spacing(1.5, 0, 1),
   },
+  noFound: {
+    marginTop: theme.spacing(1),
+  },
 }));
 
 const ProjectsPage: FC = () => {
@@ -138,36 +141,35 @@ const Contents: FC = () => {
     dispatch(removeAllProjectViewable());
   }, [dispatch]);
 
-  if (!filteredProjects.length)
-    return (
-      <div className={classes.projects}>
-        <Typography variant="h6">No projects found</Typography>
-      </div>
-    );
-
   return (
     <>
       <HorizontalDivider className={classes.divider} />
       <Typography align="center" variant="h4">
         Projects
       </Typography>
-      <div className={classes.projects}>
-        {filteredProjects.map((project) => (
-          <Waypoint
-            key={project.id}
-            onEnter={() => dispatch(addProjectViewable(project.id))}
-            onLeave={() => dispatch(removeProjectViewable(project.id))}
-            topOffset="30%"
-            bottomOffset="30%"
-          >
-            <ProjectPreview
-              id={project.id}
-              search={search}
-              className={classes.project}
-            />
-          </Waypoint>
-        ))}
-      </div>
+      {filteredProjects.length ? (
+        <div className={classes.projects}>
+          {filteredProjects.map((project) => (
+            <Waypoint
+              key={project.id}
+              onEnter={() => dispatch(addProjectViewable(project.id))}
+              onLeave={() => dispatch(removeProjectViewable(project.id))}
+              topOffset="30%"
+              bottomOffset="30%"
+            >
+              <ProjectPreview
+                id={project.id}
+                search={search}
+                className={classes.project}
+              />
+            </Waypoint>
+          ))}
+        </div>
+      ) : (
+        <Typography variant="h5" className={classes.noFound}>
+          No projects found
+        </Typography>
+      )}
     </>
   );
 };
