@@ -1,8 +1,6 @@
 name: Fetch Books
 
 on:
-  # schedule:
-  #   - cron: "30 18 * * *"
   push:
     paths:
       - "scripts/books/**"
