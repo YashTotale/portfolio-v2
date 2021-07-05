@@ -24,6 +24,7 @@ import {
   addArticleViewable,
   setArticlesSort,
   getArticlesExperienceFilter,
+  getArticlesViewable,
   getArticlesTagFilter,
   setArticlesExperienceFilter,
   setArticlesTagFilter,
@@ -112,6 +113,16 @@ const Contents: FC = () => {
   const dispatch = useAppDispatch();
   const search = useSelector(getArticlesSearch);
   const filteredArticles = useFilteredArticles();
+
+  const articlesViewable = useSelector(getArticlesViewable);
+
+  useEffect(() => {
+    articlesViewable.forEach((a) => {
+      if (!filteredArticles.find((art) => art.id === a)) {
+        dispatch(removeArticleViewable(a));
+      }
+    });
+  }, [dispatch, filteredArticles, articlesViewable]);
 
   useEffect(() => {
     dispatch(removeAllArticleViewable());

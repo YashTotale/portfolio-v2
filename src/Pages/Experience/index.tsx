@@ -20,6 +20,7 @@ import {
   getExperienceProjectFilter,
   setExperienceProjectFilter,
   addExperienceViewable,
+  getExperienceViewable,
   removeExperienceViewable,
   removeAllExperienceViewable,
   getExperienceTagFilter,
@@ -108,6 +109,16 @@ const Contents: FC = () => {
   const dispatch = useAppDispatch();
   const search = useSelector(getExperienceSearch);
   const filteredExperience = useFilteredExperience();
+
+  const experienceViewable = useSelector(getExperienceViewable);
+
+  useEffect(() => {
+    experienceViewable.forEach((e) => {
+      if (!filteredExperience.find((exp) => exp.id === e)) {
+        dispatch(removeExperienceViewable(e));
+      }
+    });
+  }, [dispatch, filteredExperience, experienceViewable]);
 
   useEffect(() => {
     dispatch(removeAllExperienceViewable());

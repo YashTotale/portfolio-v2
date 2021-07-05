@@ -22,6 +22,7 @@ import {
   setProjectsSort,
   setProjectsTagFilter,
   addProjectViewable,
+  getProjectsViewable,
   removeAllProjectViewable,
   removeProjectViewable,
   getProjectsExperienceFilter,
@@ -112,6 +113,16 @@ const Contents: FC = () => {
   const dispatch = useAppDispatch();
   const search = useSelector(getProjectsSearch);
   const filteredProjects = useFilteredProjects();
+
+  const projectsViewable = useSelector(getProjectsViewable);
+
+  useEffect(() => {
+    projectsViewable.forEach((p) => {
+      if (!filteredProjects.find((project) => project.id === p)) {
+        dispatch(removeProjectViewable(p));
+      }
+    });
+  }, [dispatch, filteredProjects, projectsViewable]);
 
   useEffect(() => {
     dispatch(removeAllProjectViewable());
