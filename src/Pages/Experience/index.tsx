@@ -1,10 +1,11 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { Waypoint } from "react-waypoint";
 import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Custom/Filters";
 import Preview from "../../Components/Content/Experience/Preview";
+import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 import { useFilteredExperience } from "../../Utils/Content/experience";
 import { sortTags } from "../../Utils/Content/tags";
@@ -31,7 +32,6 @@ import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
-import { useEffect } from "react";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,6 +47,9 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     width: "100%",
+  },
+  divider: {
+    margin: theme.spacing(1.5, 0, 1),
   },
 }));
 
@@ -128,19 +131,25 @@ const Contents: FC = () => {
     return <Typography variant="h6">No experience found</Typography>;
 
   return (
-    <div className={classes.experience}>
-      {filteredExperience.map((fields) => (
-        <Waypoint
-          key={fields.id}
-          onEnter={() => dispatch(addExperienceViewable(fields.id))}
-          onLeave={() => dispatch(removeExperienceViewable(fields.id))}
-          topOffset="30%"
-          bottomOffset="30%"
-        >
-          <Preview id={fields.id} search={search} />
-        </Waypoint>
-      ))}
-    </div>
+    <>
+      <HorizontalDivider className={classes.divider} />
+      <Typography align="center" variant="h4">
+        Experience
+      </Typography>
+      <div className={classes.experience}>
+        {filteredExperience.map((fields) => (
+          <Waypoint
+            key={fields.id}
+            onEnter={() => dispatch(addExperienceViewable(fields.id))}
+            onLeave={() => dispatch(removeExperienceViewable(fields.id))}
+            topOffset="30%"
+            bottomOffset="30%"
+          >
+            <Preview id={fields.id} search={search} />
+          </Waypoint>
+        ))}
+      </div>
+    </>
   );
 };
 

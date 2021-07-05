@@ -69,7 +69,7 @@ interface FiltersProps {
 }
 
 const Filters: FC<FiltersProps> = (props) => {
-  const [open, setOpen] = useState(true);
+  const [open, setOpen] = useState(false);
   const classes = useStyles({
     open,
   });

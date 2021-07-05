@@ -5,13 +5,14 @@ import { Waypoint } from "react-waypoint";
 import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Custom/Filters";
 import ArticlePreview from "../../Components/Content/Article/Preview";
+import { useFilteredArticles } from "../../Utils/Content/articles";
+import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 import { sortTags } from "../../Utils/Content/tags";
 import {
   generateExperienceTitle,
   sortExperience,
 } from "../../Utils/Content/experience";
-import { useFilteredArticles } from "../../Utils/Content/articles";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -58,6 +59,9 @@ const useStyles = makeStyles((theme) => ({
   },
   article: {
     margin: theme.spacing(2),
+  },
+  divider: {
+    margin: theme.spacing(1.5, 0, 1),
   },
 }));
 
@@ -142,23 +146,29 @@ const Contents: FC = () => {
     );
 
   return (
-    <div className={classes.articles}>
-      {filteredArticles.map((article) => (
-        <Waypoint
-          key={article.id}
-          onEnter={() => dispatch(addArticleViewable(article.id))}
-          onLeave={() => dispatch(removeArticleViewable(article.id))}
-          topOffset="30%"
-          bottomOffset="30%"
-        >
-          <ArticlePreview
-            id={article.id}
-            search={search}
-            className={classes.article}
-          />
-        </Waypoint>
-      ))}
-    </div>
+    <>
+      <HorizontalDivider className={classes.divider} />
+      <Typography align="center" variant="h4">
+        Articles
+      </Typography>
+      <div className={classes.articles}>
+        {filteredArticles.map((article) => (
+          <Waypoint
+            key={article.id}
+            onEnter={() => dispatch(addArticleViewable(article.id))}
+            onLeave={() => dispatch(removeArticleViewable(article.id))}
+            topOffset="30%"
+            bottomOffset="30%"
+          >
+            <ArticlePreview
+              id={article.id}
+              search={search}
+              className={classes.article}
+            />
+          </Waypoint>
+        ))}
+      </div>
+    </>
   );
 };
 

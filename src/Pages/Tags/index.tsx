@@ -4,6 +4,7 @@ import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
 import TagPreview from "../../Components/Content/Tag/Preview";
 import Filters from "../../Components/Custom/Filters";
+import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 import { useFilteredTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
@@ -50,6 +51,9 @@ const useStyles = makeStyles((theme) => ({
   },
   tag: {
     margin: theme.spacing(2),
+  },
+  divider: {
+    margin: theme.spacing(1.5, 0, 1),
   },
 }));
 
@@ -125,16 +129,22 @@ const Contents: FC = () => {
     );
 
   return (
-    <div className={classes.tags}>
-      {filteredTags.map((tag) => (
-        <TagPreview
-          key={tag.id}
-          id={tag.id}
-          search={search}
-          className={classes.tag}
-        />
-      ))}
-    </div>
+    <>
+      <HorizontalDivider className={classes.divider} />
+      <Typography align="center" variant="h4">
+        Tags
+      </Typography>
+      <div className={classes.tags}>
+        {filteredTags.map((tag) => (
+          <TagPreview
+            key={tag.id}
+            id={tag.id}
+            search={search}
+            className={classes.tag}
+          />
+        ))}
+      </div>
+    </>
   );
 };
 
