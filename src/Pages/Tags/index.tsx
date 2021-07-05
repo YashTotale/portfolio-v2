@@ -46,9 +46,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "stretch",
     justifyContent: "center",
     flexWrap: "wrap",
-    width: "100%",
-    margin: theme.spacing(2, 0),
-    gap: theme.spacing(4),
+    width: `calc(100% + ${theme.spacing(4)}px)`,
+  },
+  tag: {
+    margin: theme.spacing(2),
   },
 }));
 
@@ -126,7 +127,12 @@ const Contents: FC = () => {
   return (
     <div className={classes.tags}>
       {filteredTags.map((tag) => (
-        <TagPreview key={tag.id} id={tag.id} search={search} />
+        <TagPreview
+          key={tag.id}
+          id={tag.id}
+          search={search}
+          className={classes.tag}
+        />
       ))}
     </div>
   );

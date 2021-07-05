@@ -1,5 +1,6 @@
 //React Imports
 import React, { forwardRef } from "react";
+import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "../../Shared/FloatingIcons";
 import TagChip from "../../Tag/Mini";
@@ -33,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    width: `calc(50% - ${theme.spacing(2)}px)`,
+    width: `calc(50% - ${theme.spacing(4)}px)`,
 
     [theme.breakpoints.down("sm")]: {
       width: "100%",
@@ -94,6 +95,7 @@ const useStyles = makeStyles((theme) => ({
 export interface PreviewProps {
   id: string;
   search?: string;
+  className?: string;
 }
 
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
@@ -106,7 +108,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   if (!project) return null;
 
   return (
-    <DynamicPaper ref={ref} className={classes.project}>
+    <DynamicPaper ref={ref} className={clsx(classes.project, props.className)}>
       <div className={classes.projectTop}>
         <FloatingIcons
           link={project.link}

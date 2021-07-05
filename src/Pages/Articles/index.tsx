@@ -49,14 +49,15 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "stretch",
     flexWrap: "wrap",
-    width: "100%",
-    margin: theme.spacing(2, 0),
-    gap: theme.spacing(4),
+    width: `calc(100% + ${theme.spacing(4)}px)`,
 
     "&:after": {
       content: "''",
       flex: "auto",
     },
+  },
+  article: {
+    margin: theme.spacing(2),
   },
 }));
 
@@ -150,7 +151,11 @@ const Contents: FC = () => {
           topOffset="30%"
           bottomOffset="30%"
         >
-          <ArticlePreview id={article.id} search={search} />
+          <ArticlePreview
+            id={article.id}
+            search={search}
+            className={classes.article}
+          />
         </Waypoint>
       ))}
     </div>

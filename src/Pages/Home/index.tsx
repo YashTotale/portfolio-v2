@@ -61,8 +61,9 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     justifyContent: "stretch",
     alignItems: "stretch",
-    gap: theme.spacing(4),
-    padding: theme.spacing(1, 0),
+  },
+  skillCategory: {
+    margin: theme.spacing(2, 0),
   },
 }));
 
@@ -113,11 +114,11 @@ const Home: FC = () => {
             My Skill Set
           </Typography>
           <div className={classes.skills}>
-            <Category category="Languages" />
-            <Category category="Frontend" />
-            <Category category="Backend" />
-            <Category category="DevOps" />
-            <Category category="Design" />
+            <Category category="Languages" className={classes.skillCategory} />
+            <Category category="Frontend" className={classes.skillCategory} />
+            <Category category="Backend" className={classes.skillCategory} />
+            <Category category="DevOps" className={classes.skillCategory} />
+            <Category category="Design" className={classes.skillCategory} />
           </div>
         </div>
       </div>

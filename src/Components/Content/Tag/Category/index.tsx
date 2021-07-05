@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
+import clsx from "clsx";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import Overlay from "../../../Atomic/Overlay";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
@@ -41,7 +42,9 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     justifyContent: "center",
     alignItems: "flex-start",
     padding: theme.spacing(2),
-    gap: theme.spacing(2),
+  },
+  tag: {
+    margin: theme.spacing(1),
   },
   empty: {
     flexGrow: 1,
@@ -50,6 +53,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 
 interface CategoryProps {
   category: string;
+  className?: string;
 }
 
 const Category: FC<CategoryProps> = (props) => {
@@ -75,7 +79,7 @@ const Category: FC<CategoryProps> = (props) => {
   if (!included.length) return null;
 
   return (
-    <DynamicPaper className={classes.container}>
+    <DynamicPaper className={clsx(classes.container, props.className)}>
       <Typography variant="h6" className={classes.title}>
         {props.category}
       </Typography>
@@ -99,6 +103,7 @@ const Category: FC<CategoryProps> = (props) => {
               icon={icon}
               size="small"
               label={tag.title}
+              className={classes.tag}
             />
           );
         })}

@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    width: `calc(50% - ${theme.spacing(2)}px)`,
+    width: `calc(50% - ${theme.spacing(4)}px)`,
 
     [theme.breakpoints.down("sm")]: {
       width: "100%",
