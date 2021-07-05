@@ -3,7 +3,11 @@ import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import NavButton from "./NavButton";
 import { useTitle } from "../../Context/HeadContext";
-import { generateSearch, getSearch } from "../../Utils/funcs";
+import { generateSearch, getPageTitle } from "../../Utils/funcs";
+
+// Redux Imports
+import { useDispatch, useSelector } from "react-redux";
+import { getLastNav, popHistory } from "../../Redux";
 
 // Material UI Imports
 import { makeStyles } from "@material-ui/core";
@@ -11,7 +15,7 @@ import { makeStyles } from "@material-ui/core";
 const useStyles = makeStyles((theme) => ({
   topNav: {
     display: "flex",
-    alignItems: "center",
+    alignItems: "flex-end",
     width: "100%",
     marginBottom: theme.spacing(1),
   },
@@ -24,21 +28,20 @@ interface TopNavProps {
 
 const TopNav: FC<TopNavProps> = (props) => {
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const location = useLocation();
-  const search = getSearch(location.search);
   const title = useTitle();
 
-  const fromPath = search["from_path"];
-  const fromTitle = search["from_title"];
+  const lastNav = useSelector(getLastNav);
 
   return (
     <div className={classes.topNav}>
-      {fromPath && fromTitle && (
+      {lastNav && (
         <NavButton
-          label={fromTitle}
+          label={getPageTitle(lastNav.title)}
           to={{
-            pathname: fromPath,
+            pathname: lastNav.pathname || "/",
             search: generateSearch(
               {
                 from_path: location.pathname,
@@ -47,6 +50,7 @@ const TopNav: FC<TopNavProps> = (props) => {
               title
             ),
           }}
+          onClick={() => dispatch(popHistory())}
           type="previous"
           typeLabel="Back"
         />

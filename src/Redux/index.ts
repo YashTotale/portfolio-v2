@@ -36,6 +36,28 @@ export {
 export type { DisplayState } from "./display.slice";
 
 /**
+ * Nav Slice
+ */
+
+export {
+  // -> Slice
+  default as navSlice,
+  // -> Selectors
+  getNavHistory,
+  getLastNav,
+  // -> Actions
+  addToHistory,
+  modifyLastHistory,
+  popHistory,
+  // -> Reducer
+  navReducer,
+  // -> State
+  initialNavState,
+} from "./nav.slice";
+
+export type { NavState } from "./nav.slice";
+
+/**
  * Popup Slice
  */
 

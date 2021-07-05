@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, MouseEventHandler } from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { LocationDescriptor } from "history";
@@ -57,6 +57,7 @@ export interface NavButtonProps {
   label: string;
   to: LocationDescriptor;
   type: BtnType;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
   maxWidth?: string;
   typeLabel?: string;
   className?: string;
@@ -74,7 +75,11 @@ const NavButton: FC<NavButtonProps> = (props) => {
     props.type === "previous" ? `« ${props.label}` : `${props.label} »`;
 
   return (
-    <Link to={props.to} className={clsx(classes.link, props.className)}>
+    <Link
+      to={props.to}
+      className={clsx(classes.link, props.className)}
+      onClick={props?.onClick}
+    >
       <Button color="primary" className={classes.button}>
         <div className={classes.label}>
           <Typography
