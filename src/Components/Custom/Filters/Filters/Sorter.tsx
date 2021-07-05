@@ -40,6 +40,7 @@ const Sorter: FC<SorterProps> = ({ value, values, onChange }) => {
           label: "Reset",
           icon: <Replay />,
           action: () => onChange(values[0]),
+          disabled: value === values[0],
         },
       ]}
     >

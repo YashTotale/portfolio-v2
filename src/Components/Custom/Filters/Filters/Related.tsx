@@ -48,6 +48,7 @@ const Related: FC<RelatedProps> = (props) => {
           label: "Clear",
           icon: <Clear />,
           action: () => onChange([]),
+          disabled: value.length === 0,
         },
       ]}
       last={props.last}

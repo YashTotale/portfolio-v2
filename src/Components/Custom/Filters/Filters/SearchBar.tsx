@@ -32,6 +32,7 @@ const SearchBar: FC<SearchBarProps> = ({ defaultSearch, onSearchChange }) => {
             setLocalSearch("");
             handleChange("");
           },
+          disabled: localSearch.length === 0,
         },
       ]}
     >

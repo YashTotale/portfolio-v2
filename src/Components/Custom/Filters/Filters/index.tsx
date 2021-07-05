@@ -194,12 +194,15 @@ interface FilterActionProps {
   label: string;
   icon: JSX.Element;
   action: () => void;
+  disabled?: boolean;
 }
 
 const FilterAction: FC<FilterActionProps> = (props) => {
   return (
     <Tooltip title={props.label}>
-      <ResponsiveIcon onClick={props.action}>{props.icon}</ResponsiveIcon>
+      <ResponsiveIcon onClick={props.action} disabled={props.disabled}>
+        {props.icon}
+      </ResponsiveIcon>
     </Tooltip>
   );
 };
