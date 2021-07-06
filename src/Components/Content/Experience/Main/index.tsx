@@ -4,7 +4,8 @@ import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
 import MainContainer from "../../Shared/MainContainer";
-import Associated from "../../Shared/Associated";
+import ProjectOverlay from "../../Project/Overlay";
+import ArticleOverlay from "../../Article/Overlay";
 import TagOverlay from "../../Tag/Overlay";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import RichText from "../../../Custom/RichText";
@@ -12,14 +13,6 @@ import {
   generateExperienceTimeline,
   getSingleExperience,
 } from "../../../../Utils/Content/experience";
-import {
-  generateProjectTimeline,
-  getProject,
-} from "../../../../Utils/Content/projects";
-import {
-  generateArticlePublished,
-  getArticle,
-} from "../../../../Utils/Content/articles";
 
 // Material UI Imports
 import {
@@ -95,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
     width: "100%",
   },
-  tag: {
+  overlay: {
     margin: theme.spacing(1, 2),
   },
 }));
@@ -142,12 +135,10 @@ const Main: FC<MainProps> = (props) => {
         {!!experience.projects.length && (
           <MainContainer title="Related Projects">
             {experience.projects.map((project) => (
-              <Associated
+              <ProjectOverlay
                 key={project.id}
-                content={getProject(project.id)}
-                basePath="projects"
-                timelineFunc={generateProjectTimeline}
-                className={classes.associated}
+                id={project.id}
+                className={classes.overlay}
               />
             ))}
           </MainContainer>
@@ -155,19 +146,17 @@ const Main: FC<MainProps> = (props) => {
         {!!experience.articles.length && (
           <MainContainer title="Related Articles">
             {experience.articles.map((article) => (
-              <Associated
+              <ArticleOverlay
                 key={article.id}
-                content={getArticle(article.id)}
-                basePath="articles"
-                timelineFunc={generateArticlePublished}
-                className={classes.associated}
+                id={article.id}
+                className={classes.overlay}
               />
             ))}
           </MainContainer>
         )}
-        <MainContainer title="Related Tags">
+        <MainContainer title="Related Tags" direction="row">
           {experience.tags.map((tag) => (
-            <TagOverlay key={tag.id} id={tag.id} className={classes.tag} />
+            <TagOverlay key={tag.id} id={tag.id} className={classes.overlay} />
           ))}
         </MainContainer>
       </div>

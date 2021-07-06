@@ -11,23 +11,23 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2),
 
     [theme.breakpoints.only("xl")]: {
-      width: 175,
+      height: 175,
     },
 
     [theme.breakpoints.only("lg")]: {
-      width: 150,
+      height: 150,
     },
 
     [theme.breakpoints.only("md")]: {
-      width: 150,
+      height: 150,
     },
 
     [theme.breakpoints.only("sm")]: {
-      width: 125,
+      height: 125,
     },
 
     [theme.breakpoints.only("xs")]: {
-      width: 100,
+      height: 100,
     },
   },
 }));
@@ -43,7 +43,7 @@ const Icon: FC<IconProps> = (props) => {
 
   return (
     <DynamicImage
-      src={`${icon.file.url}?w=175`}
+      src={`${icon.file.url}?h=175`}
       alt={icon.title}
       className={classes.icon}
     />

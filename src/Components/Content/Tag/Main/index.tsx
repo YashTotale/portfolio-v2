@@ -3,23 +3,11 @@ import React, { FC } from "react";
 import clsx from "clsx";
 import Title from "./Components/Title";
 import Icon from "./Components/Icon";
-import Associated from "../../Shared/Associated";
+import ExperienceOverlay from "../../Experience/Overlay";
+import ProjectOverlay from "../../Project/Overlay";
+import ArticleOverlay from "../../Article/Overlay";
 import MainContainer from "../../Shared/MainContainer";
 import { getTag } from "../../../../Utils/Content/tags";
-import {
-  generateExperienceSubtitle,
-  generateExperienceTimeline,
-  generateExperienceTitle,
-  getSingleExperience,
-} from "../../../../Utils/Content/experience";
-import {
-  generateProjectTimeline,
-  getProject,
-} from "../../../../Utils/Content/projects";
-import {
-  generateArticlePublished,
-  getArticle,
-} from "../../../../Utils/Content/articles";
 
 // Material UI Imports
 import { makeStyles, Paper } from "@material-ui/core";
@@ -41,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     margin: theme.spacing(2, 0),
     width: "100%",
   },
+  overlay: {
+    margin: theme.spacing(1, 2),
+  },
 }));
 
 interface TagProps {
@@ -61,43 +52,34 @@ const Tag: FC<TagProps> = (props) => {
       <Icon {...tag} />
       <div className={classes.main}>
         {!!tag.experience.length && (
-          <MainContainer title="Related Experience" direction="column">
+          <MainContainer title="Related Experience" direction="row">
             {tag.experience.map((exp) => (
-              <Associated
+              <ExperienceOverlay
                 key={exp.id}
-                content={getSingleExperience(exp.id)}
-                basePath="experience"
-                timelineFunc={generateExperienceTimeline}
-                titleFunc={generateExperienceTitle}
-                subtitleFunc={generateExperienceSubtitle}
-                search={props.search}
-                className={classes.associated}
+                id={exp.id}
+                className={classes.overlay}
               />
             ))}
           </MainContainer>
         )}
         {!!tag.projects.length && (
-          <MainContainer title="Related Projects" direction="column">
+          <MainContainer title="Related Projects" direction="row">
             {tag.projects.map((project) => (
-              <Associated
+              <ProjectOverlay
                 key={project.id}
-                content={getProject(project.id)}
-                basePath="projects"
-                timelineFunc={generateProjectTimeline}
-                className={classes.associated}
+                id={project.id}
+                className={classes.overlay}
               />
             ))}
           </MainContainer>
         )}
         {!!tag.articles.length && (
-          <MainContainer title="Related Articles" direction="column">
+          <MainContainer title="Related Articles" direction="row">
             {tag.articles.map((article) => (
-              <Associated
+              <ArticleOverlay
                 key={article.id}
-                content={getArticle(article.id)}
-                basePath="articles"
-                timelineFunc={generateArticlePublished}
-                className={classes.associated}
+                id={article.id}
+                className={classes.overlay}
               />
             ))}
           </MainContainer>
