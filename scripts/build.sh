@@ -4,20 +4,8 @@ set -e
 
 export NODE_ENV=production
 
-pre-render() {
-  set -e
-
-  # Copy the build folder
-  cp -R build temp-build
-
-  # Pre-render HTML files
-  react-snap
-
-  # Generate Sitemap
+create-sitemap() {
   react-snap-sitemap --base-url=http://yashtotale.web.app/ --change-frequency=weekly
-
-  # Remove the temp folder
-  rm -rf temp-build
 }
 
 clean-up-error() {
@@ -26,9 +14,6 @@ clean-up-error() {
 
   # Copy the original build folder
   cp -R temp-build build
-
-  # Remove the temp folder
-  rm -rf temp-build
 }
 
 # Remove existing build directory
@@ -37,5 +22,13 @@ rm -rf build temp-build
 # Build
 react-scripts build
 
+# Copy the build folder
+cp -R build temp-build
+
 # Pre-render
-for i in {1..5}; do pre-render && break || clean-up-error; done
+for i in {1..5}; do
+  react-snap && create-sitemap && break || clean-up-error
+done
+
+# Remove the temp folder
+rm -rf temp-build
