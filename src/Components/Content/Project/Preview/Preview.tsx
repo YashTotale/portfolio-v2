@@ -78,7 +78,11 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
   },
   associatedContainer: {
-    padding: theme.spacing(1),
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: theme.spacing(0.5, 1.5),
+    width: "100%",
   },
   projectTags: {
     display: "flex",

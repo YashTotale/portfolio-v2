@@ -48,9 +48,17 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     flexWrap: "wrap",
     width: `calc(100% + ${theme.spacing(4)}px)`,
+
+    [theme.breakpoints.only("xs")]: {
+      width: "100%",
+    },
   },
   tag: {
     margin: theme.spacing(2),
+
+    [theme.breakpoints.only("xs")]: {
+      margin: theme.spacing(2, 0),
+    },
   },
   divider: {
     margin: theme.spacing(1.5, 0, 1),

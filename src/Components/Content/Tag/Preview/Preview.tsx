@@ -21,6 +21,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     minWidth: 225,
+
+    [theme.breakpoints.only("xs")]: {
+      width: "100%",
+      flex: "none",
+    },
   },
   display: {
     display: "flex",

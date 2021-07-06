@@ -56,9 +56,17 @@ const useStyles = makeStyles((theme) => ({
       content: "''",
       flex: "auto",
     },
+
+    [theme.breakpoints.only("xs")]: {
+      width: "100%",
+    },
   },
   article: {
     margin: theme.spacing(2),
+
+    [theme.breakpoints.only("xs")]: {
+      margin: theme.spacing(2, 0),
+    },
   },
   divider: {
     margin: theme.spacing(1.5, 0, 1),

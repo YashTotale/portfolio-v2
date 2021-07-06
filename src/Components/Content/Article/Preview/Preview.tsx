@@ -80,7 +80,11 @@ const useStyles = makeStyles((theme) => ({
     margin: "auto",
   },
   associatedContainer: {
-    padding: theme.spacing(1),
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: theme.spacing(0.5, 1.5),
+    width: "100%",
   },
   articleTags: {
     display: "flex",

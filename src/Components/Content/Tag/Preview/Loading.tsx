@@ -9,8 +9,12 @@ import { Skeleton } from "@material-ui/lab";
 const useStyles = makeStyles((theme) => ({
   skeleton: {
     flex: 1,
-    minWidth: 200,
-    maxWidth: 250,
+    minWidth: 225,
+
+    [theme.breakpoints.only("xs")]: {
+      width: "100%",
+      flex: "none",
+    },
   },
 }));
 
