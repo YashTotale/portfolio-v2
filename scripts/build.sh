@@ -9,7 +9,7 @@ create-sitemap() {
 }
 
 clean-up-error() {
-  if [ "$1" -gt 4 ]; then
+  if [ "$1" -gt 3 ]; then
     exit 1
   fi
 
