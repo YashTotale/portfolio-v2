@@ -8,7 +8,13 @@ import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
 
 // Material UI Imports
-import { Avatar, makeStyles, Typography, Button } from "@material-ui/core";
+import {
+  Avatar,
+  makeStyles,
+  Typography,
+  Button,
+  useTheme,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -41,7 +47,9 @@ const useStyles = makeStyles((theme) => ({
 interface Content {
   title: string;
   slug: string;
-  image: Asset["fields"];
+  image?: Asset["fields"];
+  lightImage?: Asset["fields"];
+  darkImage?: Asset["fields"];
 }
 
 export interface MiniProps {
@@ -54,11 +62,18 @@ export interface MiniProps {
 
 const Mini: FC<MiniProps> = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isDark = theme.palette.type === "dark";
 
   const location = useLocation();
   const title = useTitle();
 
   if (!props.content) return null;
+
+  const image = (props.content.image ??
+    (isDark
+      ? props.content.darkImage
+      : props.content.lightImage)) as Asset["fields"];
 
   return (
     <Link
@@ -82,8 +97,8 @@ const Mini: FC<MiniProps> = (props) => {
         variant="outlined"
       >
         <Avatar
-          alt={props.content.image.title}
-          src={props.content.image.file.url}
+          alt={image.title}
+          src={image.file.url}
           className={classes.avatar}
         />
         <Typography variant="subtitle1" className={classes.title}>

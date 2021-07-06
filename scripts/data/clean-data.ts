@@ -24,7 +24,8 @@ const cleanExperience = async (
   const experience = await readData<RawExperience>("experience");
 
   const parsed = Object.entries(experience).reduce((obj, [id, fields]) => {
-    const image = getId(fields.image);
+    const lightImage = getId(fields.lightImage);
+    const darkImage = getId(fields.darkImage);
     const tags = fields.tags?.map(getId) ?? [];
 
     const relatedProjects = Object.values(projects).reduce((arr, project) => {
@@ -54,7 +55,8 @@ const cleanExperience = async (
       [id]: {
         ...fields,
         tags: relatedTags,
-        image,
+        lightImage,
+        darkImage,
         projects: relatedProjects,
         articles: relatedArticles,
       },

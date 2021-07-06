@@ -41,7 +41,8 @@ export const getSingleExperience = (
   const single = getRawExperience(id, isSlug);
   if (!single) return null;
 
-  const image = getAsset(single.image);
+  const lightImage = getAsset(single.lightImage);
+  const darkImage = getAsset(single.darkImage);
 
   const projects = single.projects.reduce((arr, project) => {
     const resolved = getRawProject(project);
@@ -61,7 +62,7 @@ export const getSingleExperience = (
     return arr;
   }, [] as Tag[]);
 
-  return { ...single, image, projects, articles, tags };
+  return { ...single, lightImage, darkImage, projects, articles, tags };
 };
 
 export const getRawExperience = (

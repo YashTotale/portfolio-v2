@@ -102,9 +102,12 @@ const Main: FC<MainProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isDark = theme.palette.type === "dark";
 
   const experience = getSingleExperience(props.id);
   if (!experience) return null;
+
+  const image = isDark ? experience.darkImage : experience.lightImage;
 
   return (
     <Paper elevation={8} className={clsx(classes.experience, props.className)}>
@@ -115,8 +118,8 @@ const Main: FC<MainProps> = (props) => {
       <div className={classes.main}>
         <div className={classes.info}>
           <DynamicImage
-            src={`${experience.image.file.url}?h=300`}
-            alt={experience.image.title}
+            src={`${image.file.url}?h=300`}
+            alt={image.title}
             className={classes.image}
           />
 

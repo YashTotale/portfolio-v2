@@ -5,6 +5,7 @@ import BaseOverlay from "../../Atomic/Overlay";
 import { useTitle } from "../../../Context/HeadContext";
 import { generateSearch } from "../../../Utils/funcs";
 import { getSingleExperience } from "../../../Utils/Content/experience";
+import { useTheme } from "@material-ui/core";
 
 interface OverlayProps {
   id: string;
@@ -12,11 +13,16 @@ interface OverlayProps {
 }
 
 const Overlay: FC<OverlayProps> = (props) => {
+  const theme = useTheme();
+  const isDark = theme.palette.type === "dark";
+
   const location = useLocation();
   const title = useTitle();
 
   const experience = getSingleExperience(props.id);
   if (!experience) return null;
+
+  const image = isDark ? experience.darkImage : experience.lightImage;
 
   return (
     <BaseOverlay
@@ -30,7 +36,7 @@ const Overlay: FC<OverlayProps> = (props) => {
           title
         ),
       }}
-      icon={experience.image}
+      icon={image}
       label={experience.title}
       className={props.className}
     />

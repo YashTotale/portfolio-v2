@@ -4,19 +4,13 @@ import clsx from "clsx";
 import Display from "./Display";
 import Title from "./Components/Title";
 import Badge from "../../Badge";
-import Associated from "../../Shared/Associated";
+import Associated from "../../Experience/Associated";
 import MainContainer from "../../Shared/MainContainer";
 import TagOverlay from "../../Tag/Overlay";
 import {
   generateProjectTimeline,
   getProject,
 } from "../../../../Utils/Content/projects";
-import {
-  generateExperienceSubtitle,
-  generateExperienceTimeline,
-  generateExperienceTitle,
-  getSingleExperience,
-} from "../../../../Utils/Content/experience";
 
 // Material UI Imports
 import { makeStyles, Typography, Paper } from "@material-ui/core";
@@ -93,11 +87,7 @@ const Main: FC<MainProps> = (props) => {
         {project.associated && (
           <MainContainer title="Associated With" direction="column">
             <Associated
-              content={getSingleExperience(project.associated.id)}
-              basePath="experience"
-              timelineFunc={generateExperienceTimeline}
-              titleFunc={generateExperienceTitle}
-              subtitleFunc={generateExperienceSubtitle}
+              id={project.associated.id}
               className={classes.associated}
             />
           </MainContainer>

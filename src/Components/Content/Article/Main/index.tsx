@@ -5,19 +5,13 @@ import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import RichText from "../../../Custom/RichText";
-import Associated from "../../Shared/Associated";
+import Associated from "../../Experience/Associated";
 import MainContainer from "../../Shared/MainContainer";
 import TagOverlay from "../../Tag/Overlay";
 import {
   generateArticlePublished,
   getArticle,
 } from "../../../../Utils/Content/articles";
-import {
-  generateExperienceSubtitle,
-  generateExperienceTimeline,
-  generateExperienceTitle,
-  getSingleExperience,
-} from "../../../../Utils/Content/experience";
 
 // Material UI Imports
 import {
@@ -131,11 +125,7 @@ const Main: FC<MainProps> = (props) => {
         {article.associated && (
           <MainContainer title="Associated With" direction="column">
             <Associated
-              content={getSingleExperience(article.associated.id)}
-              basePath="experience"
-              timelineFunc={generateExperienceTimeline}
-              titleFunc={generateExperienceTitle}
-              subtitleFunc={generateExperienceSubtitle}
+              id={article.associated.id}
               className={classes.associated}
             />
           </MainContainer>

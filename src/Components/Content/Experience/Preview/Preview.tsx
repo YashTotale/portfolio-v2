@@ -116,9 +116,12 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+  const isDark = theme.palette.type === "dark";
 
   const experience = getSingleExperience(props.id);
   if (!experience) return null;
+
+  const image = isDark ? experience.darkImage : experience.lightImage;
 
   return (
     <DynamicPaper
@@ -133,8 +136,8 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           direction="row"
         />
         <DynamicImage
-          src={`${experience.image.file.url}?w=300`}
-          alt={experience.image.title}
+          src={`${image.file.url}?w=300`}
+          alt={image.title}
           className={classes.image}
         />
         <Title {...experience} search={props.search} />

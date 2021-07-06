@@ -1,32 +1,32 @@
 // React Imports
 import React, { FC } from "react";
-import { Asset, EntryFields } from "contentful";
+import { useLocation } from "react-router-dom";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import RichText from "../../../Custom/RichText";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import StyledLink from "../../../Atomic/StyledLink";
+import MatchHighlight from "../../../Atomic/MatchHighlight";
 import VerticalDivider from "../../../Atomic/Divider/Vertical";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
+import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
+import {
+  generateExperienceSubtitle,
+  generateExperienceTimeline,
+  generateExperienceTitle,
+  getSingleExperience,
+} from "../../../../Utils/Content/experience";
 
 // Material UI Imports
 import {
   makeStyles,
-  Theme,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import MatchHighlight from "../../../Atomic/MatchHighlight";
-import { useLocation } from "react-router-dom";
-import { useTitle } from "../../../../Context/HeadContext";
 
-interface StyleProps {
-  basePath: string;
-}
-
-const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     alignItems: "center",
@@ -82,7 +82,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   description: {
     width: "100%",
     padding: theme.spacing(1),
-    textAlign: ({ basePath }) => (basePath === "projects" ? "start" : "center"),
+    textAlign: "center",
     flex: 1,
 
     [theme.breakpoints.only("xs")]: {
@@ -94,38 +94,31 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-interface Content {
-  title: string;
-  slug: string;
-  description: EntryFields.RichText;
-  image: Asset["fields"];
-}
-
 export interface AssociatedProps {
-  content: Content | null;
-  basePath: string;
-  timelineFunc: (content: any) => string;
-  titleFunc?: (content: any) => string;
-  subtitleFunc?: (content: any) => string;
+  id: string;
   search?: string;
   className?: string;
 }
 
 const Associated: FC<AssociatedProps> = (props) => {
-  const classes = useStyles({ basePath: props.basePath });
+  const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+  const isDark = theme.palette.type === "dark";
 
   const location = useLocation();
   const title = useTitle();
 
-  if (!props.content) return null;
+  const exp = getSingleExperience(props.id);
+  if (!exp) return null;
+
+  const image = isDark ? exp.darkImage : exp.lightImage;
 
   return (
     <div className={clsx(classes.container, props.className)}>
       <DynamicImage
-        src={`${props.content.image.file.url}?h=175`}
-        alt={props.content.image.title}
+        src={`${image.file.url}?h=175`}
+        alt={image.title}
         className={classes.image}
       />
       {!isSizeXS && <VerticalDivider />}
@@ -134,7 +127,7 @@ const Associated: FC<AssociatedProps> = (props) => {
           variant="h6"
           align="center"
           to={{
-            pathname: `/${props.basePath}/${props.content.slug}`,
+            pathname: `/experience/${exp.slug}`,
             search: generateSearch(
               {
                 from_path: location.pathname,
@@ -146,19 +139,15 @@ const Associated: FC<AssociatedProps> = (props) => {
           className={classes.title}
           toMatch={props.search}
         >
-          {props.titleFunc
-            ? props.titleFunc(props.content)
-            : props.content.title}
+          {generateExperienceTitle(exp)}
         </StyledLink>
-        {props.subtitleFunc && (
-          <Typography variant="subtitle2" align="center" color="textSecondary">
-            {props.subtitleFunc(props.content)}
-          </Typography>
-        )}
+        <Typography variant="subtitle2" align="center" color="textSecondary">
+          {generateExperienceSubtitle(exp)}
+        </Typography>
         {!isSizeXS && <HorizontalDivider className={classes.titleDivider} />}
         <div className={classes.description}>
           <RichText
-            richText={props.content.description as Document}
+            richText={exp.description as Document}
             variant={isSizeXS ? "body2" : "body1"}
             toMatch={props.search}
           />
@@ -167,7 +156,7 @@ const Associated: FC<AssociatedProps> = (props) => {
         <div className={classes.timeline}>
           <Typography variant={isSizeXS ? "body2" : "body1"}>
             <MatchHighlight toMatch={props.search}>
-              {props.timelineFunc(props.content)}
+              {generateExperienceTimeline(exp)}
             </MatchHighlight>
           </Typography>
         </div>

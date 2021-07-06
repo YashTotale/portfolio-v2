@@ -27,7 +27,8 @@ export interface RawExperience {
   slug: EntryFields.Text;
   description: EntryFields.RichText;
   responsibilities: EntryFields.RichText;
-  image: RawLink;
+  lightImage: RawLink;
+  darkImage: RawLink;
   start: EntryFields.Text;
   end?: EntryFields.Text;
   link?: EntryFields.Text;

@@ -26,8 +26,12 @@ export interface Badge {
   id: string;
 }
 
-export type Experience = Omit<RawExperience, "image" | "tags"> & {
-  image: string;
+export type Experience = Omit<
+  RawExperience,
+  "lightImage" | "darkImage" | "tags"
+> & {
+  lightImage: string;
+  darkImage: string;
   projects: string[];
   articles: string[];
   tags: string[];
@@ -35,9 +39,10 @@ export type Experience = Omit<RawExperience, "image" | "tags"> & {
 
 export type ResolvedExperience = Omit<
   Experience,
-  "image" | "projects" | "articles" | "tags"
+  "lightImage" | "darkImage" | "projects" | "articles" | "tags"
 > & {
-  image: Asset["fields"];
+  lightImage: Asset["fields"];
+  darkImage: Asset["fields"];
   projects: Project[];
   articles: Article[];
   tags: Tag[];
