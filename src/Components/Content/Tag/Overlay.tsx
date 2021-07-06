@@ -1,20 +1,20 @@
 // React Imports
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
-import Overlay from "../../../Atomic/Overlay";
-import { useTitle } from "../../../../Context/HeadContext";
-import { generateSearch } from "../../../../Utils/funcs";
-import { getTag } from "../../../../Utils/Content/tags";
+import BaseOverlay from "../../Atomic/Overlay";
+import { useTitle } from "../../../Context/HeadContext";
+import { generateSearch } from "../../../Utils/funcs";
+import { getTag } from "../../../Utils/Content/tags";
 
 // Material UI Imports
 import { useTheme } from "@material-ui/core";
 
-export interface AssociatedProps {
+interface OverlayProps {
   id: string;
   className?: string;
 }
 
-const Associated: FC<AssociatedProps> = (props) => {
+const Overlay: FC<OverlayProps> = (props) => {
   const theme = useTheme();
   const isDark = theme.palette.type === "dark";
 
@@ -27,7 +27,7 @@ const Associated: FC<AssociatedProps> = (props) => {
   const icon = isDark ? tag.darkIcon : tag.lightIcon;
 
   return (
-    <Overlay
+    <BaseOverlay
       to={{
         pathname: `/tags/${tag.slug}`,
         search: generateSearch(
@@ -45,4 +45,4 @@ const Associated: FC<AssociatedProps> = (props) => {
   );
 };
 
-export default Associated;
+export default Overlay;

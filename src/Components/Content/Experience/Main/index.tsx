@@ -5,7 +5,7 @@ import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
 import MainContainer from "../../Shared/MainContainer";
 import Associated from "../../Shared/Associated";
-import TagAssociated from "../../Tag/Associated";
+import TagOverlay from "../../Tag/Overlay";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import RichText from "../../../Custom/RichText";
 import {
@@ -167,7 +167,7 @@ const Main: FC<MainProps> = (props) => {
         )}
         <MainContainer title="Related Tags">
           {experience.tags.map((tag) => (
-            <TagAssociated key={tag.id} id={tag.id} className={classes.tag} />
+            <TagOverlay key={tag.id} id={tag.id} className={classes.tag} />
           ))}
         </MainContainer>
       </div>

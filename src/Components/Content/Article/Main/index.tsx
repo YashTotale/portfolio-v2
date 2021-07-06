@@ -7,7 +7,7 @@ import DynamicImage from "../../../Atomic/DynamicImage";
 import RichText from "../../../Custom/RichText";
 import Associated from "../../Shared/Associated";
 import MainContainer from "../../Shared/MainContainer";
-import TagAssociated from "../../Tag/Associated";
+import TagOverlay from "../../Tag/Overlay";
 import {
   generateArticlePublished,
   getArticle,
@@ -142,7 +142,7 @@ const Main: FC<MainProps> = (props) => {
         )}
         <MainContainer title="Related Tags">
           {article.tags.map((tag) => (
-            <TagAssociated key={tag.id} id={tag.id} className={classes.tag} />
+            <TagOverlay key={tag.id} id={tag.id} className={classes.tag} />
           ))}
         </MainContainer>
       </div>

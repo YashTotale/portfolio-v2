@@ -13,7 +13,8 @@ import {
   useMediaQuery,
 } from "@material-ui/core";
 
-type Size = "medium" | "small";
+export type Size = "medium" | "small";
+export const SIZES = [175, 150, 150, 125, 100, 75];
 
 interface StyleProps {
   hovering: boolean;
@@ -21,8 +22,6 @@ interface StyleProps {
   borderRadius: string | number;
   padding: string | number;
 }
-
-const SIZES = [175, 150, 150, 125, 100, 75];
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   root: {
@@ -116,7 +115,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
-interface OverlayProps {
+export interface OverlayProps {
   label: string;
   to: LinkProps["to"];
   icon: Asset["fields"];
