@@ -31,6 +31,7 @@
     "@reduxjs/toolkit": "^1.5.0",
     "clsx": "^1.1.1",
     "contentful": "^8.3.2",
+    "emailjs-com": "^3.1.0",
     "firebase": "^8.3.3",
     "lodash.startcase": "^4.4.0",
     "lodash.throttle": "^4.1.1",

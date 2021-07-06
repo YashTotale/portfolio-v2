@@ -8,6 +8,7 @@ import {
   useController,
   useForm,
 } from "react-hook-form";
+import emailjs from "emailjs-com";
 import { useClosableSnackbar } from "../../Hooks";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
@@ -87,8 +88,16 @@ const Contact: FC = () => {
 
     try {
       setLoading(true);
+
       await firestore.collection("contact").doc().set(data);
-      enqueueSnackbar("Message received!", {
+      await emailjs.send(
+        process.env.REACT_APP_EMAIL_SERVICE_ID ?? "",
+        process.env.REACT_APP_EMAIL_TEMPLATE_ID ?? "",
+        data,
+        process.env.REACT_APP_EMAIL_USER_ID ?? ""
+      );
+
+      enqueueSnackbar("Message received! Check your inbox.", {
         variant: "success",
       });
       reset({
