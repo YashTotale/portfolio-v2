@@ -9,6 +9,10 @@ create-sitemap() {
 }
 
 clean-up-error() {
+  if [ "$1" -gt 4 ]; then
+    exit 1
+  fi
+
   # Remove the changed build folder
   rm -rf build
 
@@ -26,8 +30,10 @@ react-scripts build
 cp -R build temp-build
 
 # Pre-render
-for i in {1..5}; do
-  react-snap && create-sitemap && break || clean-up-error
+n=0
+until [ "$n" -ge 5 ]; do
+  react-snap && create-sitemap && break || clean-up-error "$n"
+  n=$((n + 1))
 done
 
 # Remove the temp folder
