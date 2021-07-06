@@ -26,6 +26,7 @@ import {
   Paper,
   TextField,
   Typography,
+  useMediaQuery,
   useTheme,
 } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
@@ -75,9 +76,11 @@ interface Inputs {
 
 const Contact: FC = () => {
   const classes = useStyles();
-  const theme = useTheme();
   const firestore = useFirestore();
   const { enqueueSnackbar } = useClosableSnackbar();
+
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const { formState, control, handleSubmit, reset } = useForm<Inputs>();
   const [loading, setLoading] = useState(false);
@@ -158,7 +161,7 @@ const Contact: FC = () => {
 
   useEffect(() => {
     setRecaptcha(null);
-  }, [theme.palette.type]);
+  }, [theme.palette.type, isSizeXS]);
 
   return (
     <>
@@ -207,7 +210,8 @@ const Contact: FC = () => {
             onErrored={onRecaptchaError}
             ref={recaptchaRef}
             theme={theme.palette.type}
-            key={theme.palette.type}
+            size={isSizeXS ? "compact" : "normal"}
+            key={`${theme.palette.type}${isSizeXS}`}
           />
           <Button
             variant="contained"
