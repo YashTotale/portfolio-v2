@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet";
 import {
   Control,
@@ -8,6 +8,7 @@ import {
   useController,
   useForm,
 } from "react-hook-form";
+import ReCAPTCHA, { ReCAPTCHAProps } from "react-google-recaptcha";
 import emailjs from "emailjs-com";
 import { useClosableSnackbar } from "../../Hooks";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
@@ -25,6 +26,7 @@ import {
   Paper,
   TextField,
   Typography,
+  useTheme,
 } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 
@@ -50,8 +52,11 @@ const useStyles = makeStyles((theme) => ({
   ratingText: {
     margin: theme.spacing(1.5, 0, 0.5),
   },
+  rating: {
+    marginBottom: theme.spacing(2),
+  },
   submit: {
-    margin: theme.spacing(1.5, 0),
+    margin: theme.spacing(2, 0),
     minWidth: 100,
     minHeight: "2.5rem",
   },
@@ -70,13 +75,35 @@ interface Inputs {
 
 const Contact: FC = () => {
   const classes = useStyles();
+  const theme = useTheme();
   const firestore = useFirestore();
   const { enqueueSnackbar } = useClosableSnackbar();
 
   const { formState, control, handleSubmit, reset } = useForm<Inputs>();
   const [loading, setLoading] = useState(false);
 
+  const recaptchaRef = useRef<ReCAPTCHA | null>(null);
+  const [recaptcha, setRecaptcha] = useState<string | null>(null);
+
   const isError = !!Object.keys(formState.errors).length;
+
+  const onRecaptchaError = () => {
+    enqueueSnackbar("An error occurred with ReCAPTCHA. Please try again.", {
+      variant: "error",
+    });
+    setRecaptcha(null);
+  };
+
+  const onRecaptchaChange: ReCAPTCHAProps["onChange"] = (token) => {
+    if (token === null) {
+      enqueueSnackbar("ReCAPTCHA expired.", {
+        variant: "error",
+      });
+      setRecaptcha(null);
+    } else {
+      setRecaptcha(token);
+    }
+  };
 
   const onSubmit: SubmitHandler<Inputs> = async (inputs, e) => {
     inputs.bugs = inputs.bugs || undefined;
@@ -85,17 +112,22 @@ const Contact: FC = () => {
     const data = Object.fromEntries(
       Object.entries(inputs).filter(([_, v]) => v !== undefined)
     );
+    data["g-recaptcha-response"] = recaptcha;
 
     try {
       setLoading(true);
 
-      await firestore.collection("contact").doc().set(data);
+      if (data["g-recaptcha-response"] === null) {
+        throw new Error("Please complete the ReCAPTCHA challenge.");
+      }
+
       await emailjs.send(
         process.env.REACT_APP_EMAIL_SERVICE_ID ?? "",
         process.env.REACT_APP_EMAIL_TEMPLATE_ID ?? "",
         data,
         process.env.REACT_APP_EMAIL_USER_ID ?? ""
       );
+      await firestore.collection("contact").doc().set(data);
 
       enqueueSnackbar("Message received! Check your inbox.", {
         variant: "success",
@@ -104,6 +136,7 @@ const Contact: FC = () => {
         message: "",
         bugs: "",
       });
+      recaptchaRef.current?.reset();
     } catch (e) {
       const message = typeof e === "string" ? e : e.message;
       enqueueSnackbar(message || "An error occurred. Please try again.", {
@@ -113,6 +146,10 @@ const Contact: FC = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    setRecaptcha(null);
+  }, [theme.palette.type]);
 
   return (
     <>
@@ -151,8 +188,17 @@ const Contact: FC = () => {
                 }}
                 onBlur={field.onBlur}
                 ref={field.ref}
+                className={classes.rating}
               />
             )}
+          />
+          <ReCAPTCHA
+            sitekey={process.env.REACT_APP_RECAPTCHA_KEY ?? ""}
+            onChange={onRecaptchaChange}
+            onErrored={onRecaptchaError}
+            ref={recaptchaRef}
+            theme={theme.palette.type}
+            key={theme.palette.type}
           />
           <Button
             variant="contained"
