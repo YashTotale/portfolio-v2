@@ -85,7 +85,7 @@ const Contact: FC = () => {
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [recaptcha, setRecaptcha] = useState<string | null>(null);
 
-  const isError = !!Object.keys(formState.errors).length;
+  const isError = !!Object.keys(formState.errors).length || recaptcha === null;
 
   const onRecaptchaError = () => {
     enqueueSnackbar("An error occurred with ReCAPTCHA. Please try again.", {
@@ -112,6 +112,7 @@ const Contact: FC = () => {
     const data = Object.fromEntries(
       Object.entries(inputs).filter(([_, v]) => v !== undefined)
     );
+    data.timestamp = new Date();
     data["g-recaptcha-response"] = recaptcha;
 
     try {
@@ -138,8 +139,16 @@ const Contact: FC = () => {
       });
       recaptchaRef.current?.reset();
     } catch (e) {
-      const message = typeof e === "string" ? e : e.message;
-      enqueueSnackbar(message || "An error occurred. Please try again.", {
+      const message =
+        (typeof e === "string" ? e : e.message) ||
+        "An error occurred. Please try again.";
+
+      firestore.collection("contact-errors").doc().set({
+        error: message,
+        data,
+      });
+
+      enqueueSnackbar(message, {
         variant: "error",
       });
     } finally {
