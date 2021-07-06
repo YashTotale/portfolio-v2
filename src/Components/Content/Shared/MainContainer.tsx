@@ -29,7 +29,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     padding: theme.spacing(1, 2),
   },
   heading: {
-    margin: theme.spacing(0, 1),
+    margin: theme.spacing(0, 1, 1),
   },
   items: {
     display: "flex",

@@ -74,6 +74,7 @@ const useStyles = makeStyles((theme) => ({
     alignSelf: "flex-start",
     alignItems: "flex-start",
     justifyContent: "flex-start",
+    textAlign: "center",
     marginLeft: theme.spacing(1),
     flex: 1,
 
