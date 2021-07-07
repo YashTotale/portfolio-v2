@@ -17,6 +17,7 @@ export interface RawMain {
   sortedExperience: RawLink[];
   sortedProjects: RawLink[];
   sortedArticles: RawLink[];
+  educationImage: RawLink;
 }
 
 export interface RawExperience {

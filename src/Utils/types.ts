@@ -13,11 +13,12 @@ import {
 
 export type Main = Omit<
   RawMain,
-  "sortedExperience" | "sortedProjects" | "sortedArticles"
+  "sortedExperience" | "sortedProjects" | "sortedArticles" | "educationImage"
 > & {
   sortedExperience: string[];
   sortedProjects: string[];
   sortedArticles: string[];
+  educationImage: string;
 };
 
 export interface Badge {
@@ -100,11 +101,17 @@ export type Tag = Omit<RawTag, "darkIcon" | "lightIcon"> & {
 
 export type ResolvedTag = Omit<
   Tag,
-  "darkIcon" | "lightIcon" | "experience" | "projects" | "articles"
+  | "darkIcon"
+  | "lightIcon"
+  | "experience"
+  | "education"
+  | "projects"
+  | "articles"
 > & {
   darkIcon: Asset["fields"];
   lightIcon: Asset["fields"];
   experience: Experience[];
+  education: Education[];
   projects: Project[];
   articles: Article[];
 };

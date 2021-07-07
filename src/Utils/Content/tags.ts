@@ -1,6 +1,14 @@
 // Internal Imports
-import { Article, Experience, Project, ResolvedTag, Tag } from "../types";
+import {
+  Article,
+  Education,
+  Experience,
+  Project,
+  ResolvedTag,
+  Tag,
+} from "../types";
 import { generateExperienceTitle, getRawExperience } from "./experience";
+import { getRawEducation } from "./education";
 import { getRawProject } from "./projects";
 import { getRawArticle } from "./articles";
 import { getAsset } from "./assets";
@@ -37,6 +45,12 @@ export const getTag = (id: string, isSlug = false): ResolvedTag | null => {
     return arr;
   }, [] as Experience[]);
 
+  const education = single.education.reduce((arr, ed) => {
+    const resolved = getRawEducation(ed);
+    if (resolved) arr.push(resolved);
+    return arr;
+  }, [] as Education[]);
+
   const projects = single.projects.reduce((arr, project) => {
     const resolved = getRawProject(project);
     if (resolved) arr.push(resolved);
@@ -49,7 +63,15 @@ export const getTag = (id: string, isSlug = false): ResolvedTag | null => {
     return arr;
   }, [] as Article[]);
 
-  return { ...single, darkIcon, lightIcon, experience, projects, articles };
+  return {
+    ...single,
+    darkIcon,
+    lightIcon,
+    experience,
+    education,
+    projects,
+    articles,
+  };
 };
 
 export const getRawTag = (identifier: string, isSlug = false): Tag | null => {

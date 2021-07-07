@@ -180,12 +180,14 @@ const cleanTags = async (
 const cleanMain = async () => {
   const main = await readData<RawMain>("main");
   const single = Object.values(main)[0];
+  const educationImage = getId(single.educationImage);
 
   const parsed: Main = {
     ...single,
     sortedExperience: single.sortedExperience.map(getId),
     sortedProjects: single.sortedProjects.map(getId),
     sortedArticles: single.sortedArticles.map(getId),
+    educationImage,
   };
 
   await writeData(parsed, "main");

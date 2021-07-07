@@ -1,8 +1,12 @@
+// External Imports
+import { Asset } from "contentful";
+
 // Data Imports
 import main from "../../Data/main.json";
 
 // Internal Imports
 import { Main } from "../types";
+import { getAsset } from "./assets";
 
 export const getMain = (): Main => {
   return (main as unknown) as Main;
@@ -26,4 +30,10 @@ export const getDefaultSortedProjects = (): Main["sortedProjects"] => {
 export const getDefaultSortedArticles = (): Main["sortedArticles"] => {
   const main = getMain();
   return main.sortedArticles;
+};
+
+export const getDefaultEducationImage = (): Asset["fields"] => {
+  const main = getMain();
+  const educationImage = getAsset(main.educationImage);
+  return educationImage;
 };
