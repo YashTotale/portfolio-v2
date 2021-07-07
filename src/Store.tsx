@@ -47,6 +47,7 @@ import { displayReducer, DisplayState } from "./Redux/display.slice";
 import { navReducer, NavState } from "./Redux/nav.slice";
 import { popupReducer, PopupState } from "./Redux/popup.slice";
 import { experienceReducer, ExperienceState } from "./Redux/experience.slice";
+import { educationReducer, EducationState } from "./Redux/education.slice";
 import { projectsReducer, ProjectsState } from "./Redux/projects.slice";
 import { articlesReducer, ArticlesState } from "./Redux/articles.slice";
 import { tagsReducer, TagsState } from "./Redux/tags.slice";
@@ -57,6 +58,7 @@ interface State {
   nav: NavState;
   popup: PopupState;
   experience: ExperienceState;
+  education: EducationState;
   projects: ProjectsState;
   articles: ArticlesState;
   tags: TagsState;
@@ -73,6 +75,7 @@ const reducers = combineReducers<State>({
   nav: navReducer,
   popup: popupReducer,
   experience: experienceReducer,
+  education: educationReducer,
   projects: projectsReducer,
   articles: articlesReducer,
   tags: tagsReducer,
