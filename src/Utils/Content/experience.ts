@@ -172,8 +172,8 @@ export function useSortedExperience(
   const sorted = sortExperience(sort);
   if (!resolve) return sorted;
 
-  return sorted.reduce((arr, a) => {
-    const exp = getSingleExperience(a.id);
+  return sorted.reduce((arr, e) => {
+    const exp = getSingleExperience(e.id);
     if (exp) arr.push(exp);
     return arr;
   }, [] as ResolvedExperience[]);
