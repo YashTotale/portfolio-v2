@@ -10,7 +10,7 @@ import {
 } from "react-hook-form";
 import ReCAPTCHA, { ReCAPTCHAProps } from "react-google-recaptcha";
 import emailjs from "emailjs-com";
-import { useClosableSnackbar } from "../../Hooks";
+import { useAnalytics, useClosableSnackbar } from "../../Hooks";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 
@@ -87,6 +87,8 @@ const Contact: FC = () => {
 
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [recaptcha, setRecaptcha] = useState<string | null>(null);
+
+  useAnalytics("Contact");
 
   const isError = !!Object.keys(formState.errors).length || recaptcha === null;
 
