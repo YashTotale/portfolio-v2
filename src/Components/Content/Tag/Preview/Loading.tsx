@@ -10,6 +10,7 @@ const useStyles = makeStyles((theme) => ({
   skeleton: {
     flex: 1,
     minWidth: 225,
+    height: 375,
 
     [theme.breakpoints.only("xs")]: {
       width: "100%",
@@ -28,7 +29,6 @@ const Loading: FC<LoadingProps> = (props) => {
   return (
     <Skeleton
       variant="rect"
-      height={339}
       className={clsx(classes.skeleton, props.className)}
     />
   );

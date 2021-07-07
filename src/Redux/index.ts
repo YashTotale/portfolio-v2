@@ -200,15 +200,17 @@ export {
   // -> Selectors
   getTagsSearch,
   getTagsSort,
+  getTagsExperienceFilter,
+  getTagsEducationFilter,
   getTagsProjectFilter,
   getTagsArticleFilter,
-  getTagsExperienceFilter,
   // -> Actions
   setTagsSearch,
   setTagsSort,
+  setTagsExperienceFilter,
+  setTagsEducationFilter,
   setTagsProjectFilter,
   setTagsArticleFilter,
-  setTagsExperienceFilter,
   // -> Reducer
   tagsReducer,
   // -> State

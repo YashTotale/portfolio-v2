@@ -16,17 +16,19 @@ export const TAGS_SORT: TagsSort[] = [
 export interface TagsState {
   search: string;
   sort: TagsSort;
+  experienceFilter: string[];
+  educationFilter: string[];
   projectFilter: string[];
   articleFilter: string[];
-  experienceFilter: string[];
 }
 
 export const initialTagsState: TagsState = {
   search: "",
   sort: TAGS_SORT[0],
+  experienceFilter: [],
+  educationFilter: [],
   projectFilter: [],
   articleFilter: [],
-  experienceFilter: [],
 };
 
 const tagsSlice = createSlice({
@@ -40,6 +42,20 @@ const tagsSlice = createSlice({
     setTagsSort: (state, action: PayloadAction<TagsSort>) => ({
       ...state,
       sort: action.payload,
+    }),
+    setTagsExperienceFilter: (
+      state,
+      action: PayloadAction<TagsState["experienceFilter"]>
+    ) => ({
+      ...state,
+      experienceFilter: action.payload,
+    }),
+    setTagsEducationFilter: (
+      state,
+      action: PayloadAction<TagsState["educationFilter"]>
+    ) => ({
+      ...state,
+      educationFilter: action.payload,
     }),
     setTagsProjectFilter: (
       state,
@@ -55,13 +71,6 @@ const tagsSlice = createSlice({
       ...state,
       articleFilter: action.payload,
     }),
-    setTagsExperienceFilter: (
-      state,
-      action: PayloadAction<TagsState["experienceFilter"]>
-    ) => ({
-      ...state,
-      experienceFilter: action.payload,
-    }),
   },
 });
 
@@ -69,9 +78,10 @@ const tagsSlice = createSlice({
 export const {
   setTagsSearch,
   setTagsSort,
+  setTagsExperienceFilter,
+  setTagsEducationFilter,
   setTagsProjectFilter,
   setTagsArticleFilter,
-  setTagsExperienceFilter,
 } = tagsSlice.actions;
 
 // Selectors
@@ -82,6 +92,14 @@ export const getTagsSearch = (state: RootState): TagsState["search"] =>
 export const getTagsSort = (state: RootState): TagsState["sort"] =>
   state.tags.sort;
 
+export const getTagsExperienceFilter = (
+  state: RootState
+): TagsState["experienceFilter"] => state.tags.experienceFilter;
+
+export const getTagsEducationFilter = (
+  state: RootState
+): TagsState["educationFilter"] => state.tags.educationFilter;
+
 export const getTagsProjectFilter = (
   state: RootState
 ): TagsState["projectFilter"] => state.tags.projectFilter;
@@ -89,10 +107,6 @@ export const getTagsProjectFilter = (
 export const getTagsArticleFilter = (
   state: RootState
 ): TagsState["articleFilter"] => state.tags.articleFilter;
-
-export const getTagsExperienceFilter = (
-  state: RootState
-): TagsState["experienceFilter"] => state.tags.experienceFilter;
 
 // Reducer
 export const tagsReducer = tagsSlice.reducer;

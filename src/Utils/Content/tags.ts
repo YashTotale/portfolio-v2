@@ -18,6 +18,7 @@ import { createSorter } from "../funcs";
 import { useSelector } from "react-redux";
 import {
   getTagsArticleFilter,
+  getTagsEducationFilter,
   getTagsExperienceFilter,
   getTagsProjectFilter,
   getTagsSearch,
@@ -95,6 +96,17 @@ export const checkExperience = (
   );
 };
 
+export const checkEducation = (
+  t: ResolvedTag,
+  education: string[]
+): boolean => {
+  if (!education.length) return true;
+
+  return education.some((education) =>
+    t.education.some((ed) => ed.title === education)
+  );
+};
+
 export const checkProjects = (t: ResolvedTag, projects: string[]): boolean => {
   if (!projects.length) return true;
 
@@ -135,11 +147,13 @@ export const useFilteredTags = (): ResolvedTag[] => {
   const search = useSelector(getTagsSearch);
   const normalizedSearch = search.toLowerCase();
   const experienceFilter = useSelector(getTagsExperienceFilter);
+  const educationFilter = useSelector(getTagsEducationFilter);
   const projectFilter = useSelector(getTagsProjectFilter);
   const articleFilter = useSelector(getTagsArticleFilter);
 
   return tags.filter((t) => {
     if (!checkExperience(t, experienceFilter)) return false;
+    if (!checkEducation(t, educationFilter)) return false;
     if (!checkProjects(t, projectFilter)) return false;
     if (!checkArticles(t, articleFilter)) return false;
     if (!checkSearch(t, normalizedSearch)) return false;
