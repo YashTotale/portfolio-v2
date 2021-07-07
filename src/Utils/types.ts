@@ -8,6 +8,7 @@ import {
   RawTag,
   RawArticle,
   RawMain,
+  RawEducation,
 } from "../../scripts/data/helpers";
 
 export type Main = Omit<
@@ -48,6 +49,14 @@ export type ResolvedExperience = Omit<
   tags: Tag[];
 };
 
+export type Education = Omit<RawEducation, "tags"> & {
+  tags: string[];
+};
+
+export type ResolvedEducation = Omit<Education, "tags"> & {
+  tags: Tag[];
+};
+
 export type Project = Omit<
   RawProject,
   "image" | "tags" | "badges" | "associated"
@@ -84,6 +93,7 @@ export type Tag = Omit<RawTag, "darkIcon" | "lightIcon"> & {
   darkIcon: string;
   lightIcon: string;
   experience: string[];
+  education: string[];
   projects: string[];
   articles: string[];
 };

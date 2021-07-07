@@ -12,8 +12,16 @@ import {
   writeData,
   RawTag,
   RawMain,
+  RawEducation,
 } from "./helpers";
-import { Project, Article, Experience, Tag, Main } from "../../src/Utils/types";
+import {
+  Project,
+  Article,
+  Experience,
+  Tag,
+  Main,
+  Education,
+} from "../../src/Utils/types";
 
 const getId = (x: RawLink) => x.sys.id;
 
@@ -67,6 +75,19 @@ const cleanExperience = async (
   return parsed;
 };
 
+const cleanEducation = async () => {
+  const education = await readData<RawEducation>("education");
+
+  const parsed = Object.entries(education).reduce((obj, [id, fields]) => {
+    const tags = fields.tags.map(getId);
+
+    return { ...obj, [id]: { ...fields, tags } };
+  }, {} as Dict<Education>);
+
+  await writeData(parsed, "education");
+  return parsed;
+};
+
 const cleanProjects = async () => {
   const projects = await readData<RawProject>("project");
 
@@ -100,6 +121,7 @@ const cleanArticles = async () => {
 
 const cleanTags = async (
   experience: Dict<Experience>,
+  education: Dict<Education>,
   projects: Dict<Project>,
   articles: Dict<Article>
 ) => {
@@ -112,6 +134,13 @@ const cleanTags = async (
     const relatedExperience = Object.values(experience).reduce((arr, exp) => {
       if (exp.tags.includes(id)) {
         return [...arr, exp.id];
+      }
+      return arr;
+    }, [] as string[]);
+
+    const relatedEducation = Object.values(education).reduce((arr, ed) => {
+      if (ed.tags.includes(id)) {
+        return [...arr, ed.id];
       }
       return arr;
     }, [] as string[]);
@@ -137,6 +166,7 @@ const cleanTags = async (
         darkIcon,
         lightIcon,
         experience: relatedExperience,
+        education: relatedEducation,
         projects: relatedProjects,
         articles: relatedArticles,
       },
@@ -164,14 +194,15 @@ const cleanMain = async () => {
 const cleanData = async (): Promise<void> => {
   Logger.log("Cleaning data...");
 
-  const [projects, articles] = await Promise.all([
+  const [education, projects, articles] = await Promise.all([
+    cleanEducation(),
     cleanProjects(),
     cleanArticles(),
     cleanMain(),
   ]);
 
   const experience = await cleanExperience(projects, articles);
-  await cleanTags(experience, projects, articles);
+  await cleanTags(experience, education, projects, articles);
 
   Logger.success("Successfully cleaned data!");
   Logger.line();

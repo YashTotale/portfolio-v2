@@ -36,6 +36,18 @@ export interface RawExperience {
   tags?: RawLink[];
 }
 
+export interface RawEducation {
+  id: string;
+  title: EntryFields.Text;
+  description: EntryFields.RichText;
+  slug: EntryFields.Text;
+  start: EntryFields.Text;
+  end?: EntryFields.Text;
+  link?: EntryFields.Text;
+  github?: EntryFields.Text;
+  tags: RawLink[];
+}
+
 export interface RawProject {
   id: string;
   title: EntryFields.Text;
