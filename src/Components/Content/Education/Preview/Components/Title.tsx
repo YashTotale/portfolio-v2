@@ -7,7 +7,12 @@ import { ResolvedEducation } from "../../../../../Utils/types";
 import { generateSearch } from "../../../../../Utils/funcs";
 
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import {
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -16,11 +21,15 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     textAlign: "center",
     width: "95%",
-    margin: theme.spacing(1),
+    margin: theme.spacing(1, 1, 0),
+    padding: theme.spacing(0, 7),
 
     [theme.breakpoints.up("xs")]: {
       fontSize: "2rem",
     },
+  },
+  subtitle: {
+    marginBottom: theme.spacing(1),
   },
 }));
 
@@ -57,6 +66,13 @@ const Title: FC<TitleProps> = (props) => {
       >
         {props.title}
       </StyledLink>
+      <Typography
+        variant={isSizeXS ? "subtitle2" : "subtitle1"}
+        color="textSecondary"
+        className={classes.subtitle}
+      >
+        {props.type}
+      </Typography>
     </>
   );
 };

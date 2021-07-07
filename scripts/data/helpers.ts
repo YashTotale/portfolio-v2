@@ -41,8 +41,12 @@ export interface RawExperience {
 export interface RawEducation {
   id: string;
   title: EntryFields.Text;
-  description: EntryFields.RichText;
+  type: "Class" | "Online Course";
   slug: EntryFields.Text;
+  description: EntryFields.RichText;
+  provider?: EntryFields.Text;
+  providerLink?: EntryFields.Text;
+  providerImage?: RawLink;
   start: EntryFields.Text;
   end?: EntryFields.Text;
   link?: EntryFields.Text;

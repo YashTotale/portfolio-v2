@@ -3,6 +3,7 @@ import React, { forwardRef } from "react";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
+import Provider from "../Shared/Provider";
 import FloatingIcons from "../../Shared/FloatingIcons";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import RichText from "../../../Custom/RichText";
@@ -86,13 +87,14 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
       className={clsx(classes.container, props.className)}
     >
       <div className={classes.display}>
+        <Provider {...education} />
+        <Title {...education} search={props.search} />
         <FloatingIcons
           linkLabel="Education"
           link={education.link}
           github={education.github}
           direction="row"
         />
-        <Title {...education} search={props.search} />
       </div>
       <div className={classes.info}>
         <div className={classes.description}>

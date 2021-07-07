@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC } from "react";
+import Provider from "../../Shared/Provider";
 import FloatingIcons from "../../../Shared/FloatingIcons";
 import { ResolvedEducation } from "../../../../../Utils/types";
 
@@ -39,12 +40,20 @@ const Title: FC<TitleProps> = (props) => {
 
   return (
     <div className={classes.titleContainer}>
+      <Provider {...props} />
       <Typography
         variant={isSizeSmall ? "h4" : "h3"}
         align="center"
         className={classes.title}
       >
         {props.title}
+      </Typography>
+      <Typography
+        variant={isSizeSmall ? "subtitle1" : "h6"}
+        align="center"
+        color="textSecondary"
+      >
+        {props.type}
       </Typography>
       <FloatingIcons
         link={props.link}

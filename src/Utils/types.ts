@@ -55,11 +55,13 @@ export type ResolvedExperience = Omit<
   tags: Tag[];
 };
 
-export type Education = Omit<RawEducation, "tags"> & {
+export type Education = Omit<RawEducation, "providerImage" | "tags"> & {
+  providerImage?: string;
   tags: string[];
 };
 
-export type ResolvedEducation = Omit<Education, "tags"> & {
+export type ResolvedEducation = Omit<Education, "providerImage" | "tags"> & {
+  providerImage?: Asset["fields"];
   tags: Tag[];
 };
 
