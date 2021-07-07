@@ -13,9 +13,14 @@ import {
 
 export type Main = Omit<
   RawMain,
-  "sortedExperience" | "sortedProjects" | "sortedArticles" | "educationImage"
+  | "sortedExperience"
+  | "sortedEducation"
+  | "sortedProjects"
+  | "sortedArticles"
+  | "educationImage"
 > & {
   sortedExperience: string[];
+  sortedEducation: string[];
   sortedProjects: string[];
   sortedArticles: string[];
   educationImage: string;

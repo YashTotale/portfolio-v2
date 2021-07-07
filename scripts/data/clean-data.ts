@@ -185,6 +185,7 @@ const cleanMain = async () => {
   const parsed: Main = {
     ...single,
     sortedExperience: single.sortedExperience.map(getId),
+    sortedEducation: single.sortedEducation.map(getId),
     sortedProjects: single.sortedProjects.map(getId),
     sortedArticles: single.sortedArticles.map(getId),
     educationImage,

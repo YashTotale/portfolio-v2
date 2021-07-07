@@ -5,6 +5,7 @@ import { Document } from "@contentful/rich-text-types";
 // Internal Imports
 import { createSorter, sortByDate } from "../funcs";
 import { Education, ResolvedEducation, Tag } from "../types";
+import { getDefaultSortedEducation } from "./main";
 import { getRawTag } from "./tags";
 
 // Redux Imports
@@ -125,12 +126,11 @@ export function useSortedEducation(
 export const sortEducation = createSorter<EducationSort, Education>(
   {
     Default: (a, b) => {
-      return 0;
-      // const sorted = getDefaultSortedExperience();
-      // const aIndex = sorted.indexOf(a.id);
-      // const bIndex = sorted.indexOf(b.id);
+      const sorted = getDefaultSortedEducation();
+      const aIndex = sorted.indexOf(a.id);
+      const bIndex = sorted.indexOf(b.id);
 
-      // return aIndex - bIndex;
+      return aIndex - bIndex;
     },
     Alphabetically: (a, b) => a.title.localeCompare(b.title),
     Latest: (a, b) => sortByDate(a, b),

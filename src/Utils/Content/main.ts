@@ -22,6 +22,11 @@ export const getDefaultSortedExperience = (): Main["sortedExperience"] => {
   return main.sortedExperience;
 };
 
+export const getDefaultSortedEducation = (): Main["sortedEducation"] => {
+  const main = getMain();
+  return main.sortedEducation;
+};
+
 export const getDefaultSortedProjects = (): Main["sortedProjects"] => {
   const main = getMain();
   return main.sortedProjects;
