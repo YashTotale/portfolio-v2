@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Title from "./Components/Title";
 import Icon from "./Components/Icon";
 import Description from "./Components/Description";
+import Categories from "../Shared/Categories";
 import ExperienceOverlay from "../../Experience/Overlay";
 import EducationOverlay from "../../Education/Overlay";
 import ProjectOverlay from "../../Project/Overlay";
@@ -51,6 +52,7 @@ const Tag: FC<TagProps> = (props) => {
   return (
     <Paper elevation={8} className={clsx(classes.root, props.className)}>
       <Title {...tag} search={props.search} />
+      <Categories {...tag} search={props.search} />
       <Icon {...tag} />
       <Description {...tag} search={props.search} />
       <div className={classes.main}>

@@ -2,7 +2,7 @@
 import React, { cloneElement, FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
-import Categories from "./Components/Categories";
+import Categories from "../Shared/Categories";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import StyledLink from "../../../Atomic/StyledLink";
@@ -122,7 +122,7 @@ const Preview: FC<PreviewProps> = (props) => {
           label="article"
           icon={<Description />}
         />
-        <Categories {...tag} search={props.search} />
+        <Categories {...tag} search={props.search} paddingY={0.5} withClick />
       </div>
     </DynamicPaper>
   );

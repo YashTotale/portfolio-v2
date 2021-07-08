@@ -1,62 +1,82 @@
 // React Imports
 import React, { FC } from "react";
-import { useClosableSnackbar } from "../../../../../Hooks";
-import MatchHighlight from "../../../../Atomic/MatchHighlight";
-import { ResolvedTag } from "../../../../../Utils/types";
+import { useClosableSnackbar } from "../../../../Hooks";
+import MatchHighlight from "../../../Atomic/MatchHighlight";
+import { ResolvedTag } from "../../../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
 import {
   getTagsCategoryFilter,
   setTagsCategoryFilter,
-} from "../../../../../Redux";
-import { useAppDispatch } from "../../../../../Store";
+} from "../../../../Redux";
+import { useAppDispatch } from "../../../../Store";
 
 // Material UI Imports
-import { Chip, makeStyles, Tooltip } from "@material-ui/core";
+import { Chip, makeStyles, Theme, Tooltip } from "@material-ui/core";
 
-const useStyles = makeStyles((theme) => ({
+interface StyleProps {
+  paddingX: number;
+  paddingY: number;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   categories: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
     alignItems: "center",
-    padding: theme.spacing(1, 0),
-  },
-  category: {
-    margin: theme.spacing(0.5),
+    padding: ({ paddingX, paddingY }) => theme.spacing(paddingY, paddingX),
   },
 }));
 
 type CategoriesProps = ResolvedTag & {
   search?: string;
+  withClick?: boolean;
+  paddingX?: number;
+  paddingY?: number;
 };
 
 const Categories: FC<CategoriesProps> = (props) => {
-  const classes = useStyles();
+  const classes = useStyles({
+    paddingX: props.paddingX ?? 0,
+    paddingY: props.paddingY ?? 0,
+  });
 
   if (!props.categories) return null;
 
   return (
     <div className={classes.categories}>
       {props.categories.map((category, i) => (
-        <Category key={i} category={category} search={props.search} />
+        <Category
+          key={i}
+          category={category}
+          search={props.search}
+          withClick={props.withClick}
+        />
       ))}
     </div>
   );
 };
 
+const useCategoryStyles = makeStyles((theme) => ({
+  category: {
+    margin: theme.spacing(0.5),
+  },
+}));
+
 interface CategoryProps {
   category: string;
   search?: string;
+  withClick?: boolean;
 }
 
 const Category: FC<CategoryProps> = (props) => {
-  const classes = useStyles();
+  const classes = useCategoryStyles();
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useClosableSnackbar();
-  const categoryFilter = useSelector(getTagsCategoryFilter);
 
+  const categoryFilter = useSelector(getTagsCategoryFilter);
   const alreadyFiltered =
     categoryFilter.length === 1 && categoryFilter[0] === props.category;
 
@@ -74,6 +94,20 @@ const Category: FC<CategoryProps> = (props) => {
     });
   };
 
+  const chip = (
+    <Chip
+      label={
+        <MatchHighlight toMatch={props.search}>{props.category}</MatchHighlight>
+      }
+      onClick={
+        props.withClick ? (alreadyFiltered ? onUnfilter : onFilter) : undefined
+      }
+      className={classes.category}
+    />
+  );
+
+  if (!props.withClick) return chip;
+
   return (
     <Tooltip
       title={
@@ -82,15 +116,7 @@ const Category: FC<CategoryProps> = (props) => {
           : `Filter by ${props.category}`
       }
     >
-      <Chip
-        label={
-          <MatchHighlight toMatch={props.search}>
-            {props.category}
-          </MatchHighlight>
-        }
-        onClick={alreadyFiltered ? onUnfilter : onFilter}
-        className={classes.category}
-      />
+      {chip}
     </Tooltip>
   );
 };
