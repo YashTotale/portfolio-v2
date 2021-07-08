@@ -25,6 +25,7 @@ import {
   getExperienceSearch,
   getExperienceSort,
   getExperienceTagFilter,
+  getExperienceTypeFilter,
 } from "../../Redux/experience.slice";
 
 // Data Imports
@@ -78,6 +79,22 @@ export const getRawExperience = (
   return single;
 };
 
+let typesCache: string[] | null = null;
+
+export const getExperienceTypes = (): string[] => {
+  if (typesCache) return typesCache;
+
+  const experience = getExperience();
+
+  const types = experience.reduce((types, exp) => {
+    return [...types, exp.type];
+  }, [] as string[]);
+
+  const unique = [...new Set(types)].sort((a, b) => a.localeCompare(b));
+  typesCache = unique;
+  return unique;
+};
+
 export const generateExperienceTitle = (
   exp: Experience | ResolvedExperience
 ): string => {
@@ -100,6 +117,11 @@ export const generateExperienceTimeline = (
 
   if (!end) end = "Present";
   return `${start} - ${end}`;
+};
+
+export const checkTypes = (e: ResolvedExperience, types: string[]): boolean => {
+  if (!types.length) return true;
+  return types.includes(e.type);
 };
 
 export const checkProjects = (
@@ -150,10 +172,12 @@ export const useFilteredExperience = (): ResolvedExperience[] => {
 
   const search = useSelector(getExperienceSearch);
   const normalizedSearch = search.toLowerCase();
+  const typeFilter = useSelector(getExperienceTypeFilter);
   const projectFilter = useSelector(getExperienceProjectFilter);
   const tagFilter = useSelector(getExperienceTagFilter);
 
   return experience.filter((e) => {
+    if (!checkTypes(e, typeFilter)) return false;
     if (!checkProjects(e, projectFilter)) return false;
     if (!checkTags(e, tagFilter)) return false;
     if (!checkSearch(e, normalizedSearch)) return false;

@@ -7,7 +7,10 @@ import Filters from "../../Components/Custom/Filters";
 import Preview from "../../Components/Content/Experience/Preview";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
-import { useFilteredExperience } from "../../Utils/Content/experience";
+import {
+  getExperienceTypes,
+  useFilteredExperience,
+} from "../../Utils/Content/experience";
 import { sortTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
 
@@ -22,9 +25,11 @@ import {
   setExperienceProjectFilter,
   addExperienceViewable,
   getExperienceViewable,
+  setExperienceTypeFilter,
   removeExperienceViewable,
   removeAllExperienceViewable,
   getExperienceTagFilter,
+  getExperienceTypeFilter,
   setExperienceTagFilter,
 } from "../../Redux";
 import { ExperienceSort, EXPERIENCE_SORT } from "../../Redux/experience.slice";
@@ -60,11 +65,13 @@ const Experience: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
+  const allTypes = getExperienceTypes();
   const allTags = sortTags("Alphabetically");
   const allProjects = sortProjects("Alphabetically");
 
   const search = useSelector(getExperienceSearch);
   const sort = useSelector(getExperienceSort);
+  const typeFilter = useSelector(getExperienceTypeFilter);
   const tagFilter = useSelector(getExperienceTagFilter);
   const projectFilter = useSelector(getExperienceProjectFilter);
 
@@ -88,6 +95,12 @@ const Experience: FC = () => {
               dispatch(setExperienceSort(value as ExperienceSort)),
           }}
           related={[
+            {
+              label: "Types",
+              values: allTypes,
+              value: typeFilter,
+              onChange: (values) => dispatch(setExperienceTypeFilter(values)),
+            },
             {
               label: "Tags",
               values: allTags.map((tag) => tag.title),

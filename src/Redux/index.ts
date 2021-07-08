@@ -86,12 +86,14 @@ export {
   // -> Selectors
   getExperienceSearch,
   getExperienceSort,
+  getExperienceTypeFilter,
   getExperienceTagFilter,
   getExperienceProjectFilter,
   getExperienceViewable,
   // -> Actions
   setExperienceSearch,
   setExperienceSort,
+  setExperienceTypeFilter,
   setExperienceTagFilter,
   setExperienceProjectFilter,
   addExperienceViewable,
