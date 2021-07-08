@@ -12,10 +12,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "stretch",
     alignItems: "stretch",
     position: "absolute",
-    top: theme.spacing(1),
     left: theme.spacing(1),
     maxWidth: 65,
     maxHeight: 65,
+    padding: theme.spacing(1),
 
     [theme.breakpoints.only("xs")]: {
       maxWidth: 45,

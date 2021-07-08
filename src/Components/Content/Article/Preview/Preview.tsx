@@ -76,9 +76,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(2),
     textAlign: "center",
   },
-  articleDescriptionList: {
-    margin: "auto",
-  },
   associatedContainer: {
     display: "flex",
     alignItems: "center",
@@ -128,7 +125,6 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           richText={article.description as Document}
           variant={isSizeXS ? "body2" : "body1"}
           toMatch={props.search}
-          ulClass={classes.articleDescriptionList}
         />
       </div>
       {article.associated && (

@@ -11,10 +11,7 @@ const useStyles = makeStyles((theme) => ({
   description: {
     width: "100%",
     textAlign: "center",
-    padding: theme.spacing(0, 1),
-  },
-  descriptionList: {
-    margin: "auto",
+    padding: theme.spacing(1, 2),
   },
 }));
 
@@ -32,7 +29,6 @@ const Description: FC<DescriptionProps> = (props) => {
       <RichText
         richText={props.description as Document}
         toMatch={props.search}
-        ulClass={classes.descriptionList}
         variant={isSizeXS ? "body2" : "body1"}
       />
     </div>

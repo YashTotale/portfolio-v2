@@ -15,7 +15,7 @@ interface OverlayProps {
 const Overlay: FC<OverlayProps> = (props) => {
   const location = useLocation();
   const title = useTitle();
-  const image = getDefaultEducationImage();
+  const defaultImage = getDefaultEducationImage();
 
   const education = getSingleEducation(props.id);
   if (!education) return null;
@@ -32,7 +32,7 @@ const Overlay: FC<OverlayProps> = (props) => {
           title
         ),
       }}
-      icon={image}
+      icon={education.providerImage ?? defaultImage}
       label={education.title}
       className={props.className}
     />

@@ -52,9 +52,6 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     textAlign: "center",
   },
-  descriptionList: {
-    margin: "auto",
-  },
   tags: {
     display: "flex",
     flexWrap: "wrap",
@@ -90,7 +87,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         <Provider {...education} />
         <Title {...education} search={props.search} />
         <FloatingIcons
-          linkLabel="Education"
+          linkLabel="Website"
           link={education.link}
           github={education.github}
           direction="row"
@@ -102,7 +99,6 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
             richText={education.description as Document}
             toMatch={props.search}
             variant={isSizeXS ? "body2" : "body1"}
-            ulClass={classes.descriptionList}
           />
         </div>
       </div>
