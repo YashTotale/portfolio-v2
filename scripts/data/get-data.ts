@@ -13,6 +13,7 @@ const client = createClient({
 const getContent = () => {
   const contentTypes = [
     "experience",
+    "education",
     "project",
     "article",
     "tag",

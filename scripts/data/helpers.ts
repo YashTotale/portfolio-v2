@@ -15,8 +15,10 @@ export interface RawLink {
 export interface RawMain {
   description: EntryFields.RichText;
   sortedExperience: RawLink[];
+  sortedEducation: RawLink[];
   sortedProjects: RawLink[];
   sortedArticles: RawLink[];
+  educationImage: RawLink;
 }
 
 export interface RawExperience {
@@ -34,6 +36,22 @@ export interface RawExperience {
   link?: EntryFields.Text;
   github?: EntryFields.Text;
   tags?: RawLink[];
+}
+
+export interface RawEducation {
+  id: string;
+  title: EntryFields.Text;
+  type: "Class" | "Online Course";
+  slug: EntryFields.Text;
+  description: EntryFields.RichText;
+  provider?: EntryFields.Text;
+  providerLink?: EntryFields.Text;
+  providerImage?: RawLink;
+  start: EntryFields.Text;
+  end?: EntryFields.Text;
+  link?: EntryFields.Text;
+  github?: EntryFields.Text;
+  tags: RawLink[];
 }
 
 export interface RawProject {

@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { forwardRef } from "react";
 import clsx from "clsx";
 
 // Material UI Imports
@@ -8,14 +8,9 @@ import { Skeleton } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
   skeleton: {
-    flex: 1,
-    minWidth: 225,
-    height: 375,
-
-    [theme.breakpoints.only("xs")]: {
-      width: "100%",
-      flex: "none",
-    },
+    margin: theme.spacing(2, 0),
+    height: 450,
+    width: "100%",
   },
 }));
 
@@ -23,15 +18,16 @@ interface LoadingProps {
   className?: string;
 }
 
-const Loading: FC<LoadingProps> = (props) => {
+const Loading = forwardRef<HTMLDivElement, LoadingProps>((props, ref) => {
   const classes = useStyles();
 
   return (
     <Skeleton
       variant="rect"
+      ref={ref}
       className={clsx(classes.skeleton, props.className)}
     />
   );
-};
+});
 
 export default Loading;

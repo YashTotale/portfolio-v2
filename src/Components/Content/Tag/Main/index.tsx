@@ -4,6 +4,7 @@ import clsx from "clsx";
 import Title from "./Components/Title";
 import Icon from "./Components/Icon";
 import ExperienceOverlay from "../../Experience/Overlay";
+import EducationOverlay from "../../Education/Overlay";
 import ProjectOverlay from "../../Project/Overlay";
 import ArticleOverlay from "../../Article/Overlay";
 import MainContainer from "../../Shared/MainContainer";
@@ -57,6 +58,17 @@ const Tag: FC<TagProps> = (props) => {
               <ExperienceOverlay
                 key={exp.id}
                 id={exp.id}
+                className={classes.overlay}
+              />
+            ))}
+          </MainContainer>
+        )}
+        {!!tag.education.length && (
+          <MainContainer title="Related Education" direction="row">
+            {tag.education.map((ed) => (
+              <EducationOverlay
+                key={ed.id}
+                id={ed.id}
                 className={classes.overlay}
               />
             ))}

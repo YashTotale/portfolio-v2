@@ -7,12 +7,13 @@ import Filters from "../../Components/Custom/Filters";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 import { useFilteredTags } from "../../Utils/Content/tags";
-import { sortProjects } from "../../Utils/Content/projects";
-import { sortArticles } from "../../Utils/Content/articles";
 import {
   generateExperienceTitle,
   sortExperience,
 } from "../../Utils/Content/experience";
+import { sortEducation } from "../../Utils/Content/education";
+import { sortProjects } from "../../Utils/Content/projects";
+import { sortArticles } from "../../Utils/Content/articles";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -24,6 +25,8 @@ import {
   getTagsProjectFilter,
   setTagsArticleFilter,
   setTagsExperienceFilter,
+  getTagsEducationFilter,
+  setTagsEducationFilter,
   setTagsProjectFilter,
   setTagsSearch,
   setTagsSort,
@@ -75,12 +78,14 @@ const Tags: FC = () => {
   const allProjects = sortProjects("Alphabetically");
   const allArticles = sortArticles("Alphabetically");
   const allExperience = sortExperience("Alphabetically");
+  const allEducation = sortEducation("Alphabetically");
 
   const search = useSelector(getTagsSearch);
   const sort = useSelector(getTagsSort);
+  const experienceFilter = useSelector(getTagsExperienceFilter);
+  const educationFilter = useSelector(getTagsEducationFilter);
   const projectFilter = useSelector(getTagsProjectFilter);
   const articleFilter = useSelector(getTagsArticleFilter);
-  const experienceFilter = useSelector(getTagsExperienceFilter);
 
   useAnalytics("Tags");
 
@@ -106,6 +111,12 @@ const Tags: FC = () => {
               values: allExperience.map(generateExperienceTitle),
               value: experienceFilter,
               onChange: (values) => dispatch(setTagsExperienceFilter(values)),
+            },
+            {
+              label: "Education",
+              values: allEducation.map((ed) => ed.title),
+              value: educationFilter,
+              onChange: (values) => dispatch(setTagsEducationFilter(values)),
             },
             {
               label: "Projects",

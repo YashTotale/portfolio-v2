@@ -1,6 +1,14 @@
 // Internal Imports
-import { Article, Experience, Project, ResolvedTag, Tag } from "../types";
+import {
+  Article,
+  Education,
+  Experience,
+  Project,
+  ResolvedTag,
+  Tag,
+} from "../types";
 import { generateExperienceTitle, getRawExperience } from "./experience";
+import { getRawEducation } from "./education";
 import { getRawProject } from "./projects";
 import { getRawArticle } from "./articles";
 import { getAsset } from "./assets";
@@ -10,6 +18,7 @@ import { createSorter } from "../funcs";
 import { useSelector } from "react-redux";
 import {
   getTagsArticleFilter,
+  getTagsEducationFilter,
   getTagsExperienceFilter,
   getTagsProjectFilter,
   getTagsSearch,
@@ -37,6 +46,12 @@ export const getTag = (id: string, isSlug = false): ResolvedTag | null => {
     return arr;
   }, [] as Experience[]);
 
+  const education = single.education.reduce((arr, ed) => {
+    const resolved = getRawEducation(ed);
+    if (resolved) arr.push(resolved);
+    return arr;
+  }, [] as Education[]);
+
   const projects = single.projects.reduce((arr, project) => {
     const resolved = getRawProject(project);
     if (resolved) arr.push(resolved);
@@ -49,7 +64,15 @@ export const getTag = (id: string, isSlug = false): ResolvedTag | null => {
     return arr;
   }, [] as Article[]);
 
-  return { ...single, darkIcon, lightIcon, experience, projects, articles };
+  return {
+    ...single,
+    darkIcon,
+    lightIcon,
+    experience,
+    education,
+    projects,
+    articles,
+  };
 };
 
 export const getRawTag = (identifier: string, isSlug = false): Tag | null => {
@@ -70,6 +93,17 @@ export const checkExperience = (
 
   return experiences.some((experience) =>
     t.experience.some((exp) => generateExperienceTitle(exp) === experience)
+  );
+};
+
+export const checkEducation = (
+  t: ResolvedTag,
+  education: string[]
+): boolean => {
+  if (!education.length) return true;
+
+  return education.some((education) =>
+    t.education.some((ed) => ed.title === education)
   );
 };
 
@@ -113,11 +147,13 @@ export const useFilteredTags = (): ResolvedTag[] => {
   const search = useSelector(getTagsSearch);
   const normalizedSearch = search.toLowerCase();
   const experienceFilter = useSelector(getTagsExperienceFilter);
+  const educationFilter = useSelector(getTagsEducationFilter);
   const projectFilter = useSelector(getTagsProjectFilter);
   const articleFilter = useSelector(getTagsArticleFilter);
 
   return tags.filter((t) => {
     if (!checkExperience(t, experienceFilter)) return false;
+    if (!checkEducation(t, educationFilter)) return false;
     if (!checkProjects(t, projectFilter)) return false;
     if (!checkArticles(t, articleFilter)) return false;
     if (!checkSearch(t, normalizedSearch)) return false;

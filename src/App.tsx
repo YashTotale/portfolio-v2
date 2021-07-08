@@ -22,6 +22,8 @@ import { CircularProgress, makeStyles } from "@material-ui/core";
 const Home = lazy(() => import("./Pages/Home"));
 const ExperiencePage = lazy(() => import("./Pages/Experience"));
 const SingleExperiencePage = lazy(() => import("./Pages/SingleExperience"));
+const EducationPage = lazy(() => import("./Pages/Education"));
+const SingleEducationPage = lazy(() => import("./Pages/SingleEducation"));
 const ProjectsPage = lazy(() => import("./Pages/Projects"));
 const ProjectPage = lazy(() => import("./Pages/Project"));
 const ArticlesPage = lazy(() => import("./Pages/Articles"));
@@ -88,6 +90,12 @@ const Routes: FC = () => {
             </Route>
             <Route exact path="/experience/:slug">
               <SingleExperiencePage />
+            </Route>
+            <Route exact path="/education">
+              <EducationPage />
+            </Route>
+            <Route exact path="/education/:slug">
+              <SingleEducationPage />
             </Route>
             <Route exact path="/projects">
               <ProjectsPage />

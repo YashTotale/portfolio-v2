@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC, ImgHTMLAttributes } from "react";
+import React, { ImgHTMLAttributes, forwardRef } from "react";
 import clsx from "clsx";
 
 // Material UI Imports
@@ -16,7 +16,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const DynamicImage: FC<ImgHTMLAttributes<HTMLImageElement>> = (props) => {
+const DynamicImage = forwardRef<
+  HTMLImageElement,
+  ImgHTMLAttributes<HTMLImageElement>
+>((props) => {
   const classes = useStyles();
 
   return (
@@ -27,6 +30,6 @@ const DynamicImage: FC<ImgHTMLAttributes<HTMLImageElement>> = (props) => {
       className={clsx(classes.image, props.className)}
     />
   );
-};
+});
 
 export default DynamicImage;

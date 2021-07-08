@@ -10,6 +10,7 @@ import {
   generateExperienceTitle,
   useSortedExperience,
 } from "../../../Utils/Content/experience";
+import { useSortedEducation } from "../../../Utils/Content/education";
 import { useSortedProjects } from "../../../Utils/Content/projects";
 import { useSortedArticles } from "../../../Utils/Content/articles";
 import { useSortedTags } from "../../../Utils/Content/tags";
@@ -19,6 +20,7 @@ import { SIDEBAR_WIDTH } from "../../../Utils/constants";
 import { useSelector } from "react-redux";
 import {
   getArticlesViewable,
+  getEducationViewable,
   getExperienceViewable,
   getProjectsViewable,
 } from "../../../Redux";
@@ -51,6 +53,9 @@ const Contents: FC = () => {
 
   const experience = useSortedExperience();
   const experienceViewable = useSelector(getExperienceViewable);
+
+  const education = useSortedEducation();
+  const educationViewable = useSelector(getEducationViewable);
 
   const projects = useSortedProjects();
   const projectsViewable = useSelector(getProjectsViewable);
@@ -90,6 +95,19 @@ const Contents: FC = () => {
               highlighted={
                 experienceViewable.includes(exp.id) &&
                 location.pathname === "/experience"
+              }
+            />
+          ))}
+        </Category>
+        <Category label="Education" to={generateSidebarPath("/education")}>
+          {education.map((ed) => (
+            <Item
+              key={ed.id}
+              label={ed.title}
+              to={generateSidebarPath(`/education/${ed.slug}`)}
+              highlighted={
+                educationViewable.includes(ed.id) &&
+                location.pathname === "/education"
               }
             />
           ))}

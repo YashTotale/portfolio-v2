@@ -12,7 +12,7 @@ import { getTag } from "../../../../Utils/Content/tags";
 
 // Material UI Imports
 import { makeStyles, Typography, useTheme } from "@material-ui/core";
-import { Build, Description, Work } from "@material-ui/icons";
+import { Build, Description, School, Work } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -108,6 +108,12 @@ const Preview: FC<PreviewProps> = (props) => {
           label="experience"
           icon={<Work />}
         />
+        <Related
+          value={tag.education.length}
+          label="education"
+          icon={<School />}
+          noPlural
+        />
         <Related value={tag.projects.length} label="project" icon={<Build />} />
         <Related
           value={tag.articles.length}
@@ -134,16 +140,22 @@ interface RelatedProps {
   value: number;
   label: string;
   icon: JSX.Element;
+  noPlural?: boolean;
 }
 
-const Related: FC<RelatedProps> = ({ value, label, icon }) => {
+const Related: FC<RelatedProps> = ({
+  value,
+  label,
+  icon,
+  noPlural = false,
+}) => {
   const classes = useRelatedStyles();
 
   const plural = value !== 1;
   const text = (
     <>
       <strong>{value}</strong> related {label}
-      {plural ? "s" : ""}
+      {plural && !noPlural ? "s" : ""}
     </>
   );
 

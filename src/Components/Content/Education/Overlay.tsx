@@ -4,11 +4,8 @@ import { useLocation } from "react-router-dom";
 import BaseOverlay from "../../Atomic/Overlay";
 import { useTitle } from "../../../Context/HeadContext";
 import { generateSearch } from "../../../Utils/funcs";
-import {
-  generateExperienceTitle,
-  getSingleExperience,
-} from "../../../Utils/Content/experience";
-import { useTheme } from "@material-ui/core";
+import { getSingleEducation } from "../../../Utils/Content/education";
+import { getDefaultEducationImage } from "../../../Utils/Content/main";
 
 interface OverlayProps {
   id: string;
@@ -16,21 +13,17 @@ interface OverlayProps {
 }
 
 const Overlay: FC<OverlayProps> = (props) => {
-  const theme = useTheme();
-  const isDark = theme.palette.type === "dark";
-
   const location = useLocation();
   const title = useTitle();
+  const defaultImage = getDefaultEducationImage();
 
-  const experience = getSingleExperience(props.id);
-  if (!experience) return null;
-
-  const image = isDark ? experience.darkImage : experience.lightImage;
+  const education = getSingleEducation(props.id);
+  if (!education) return null;
 
   return (
     <BaseOverlay
       to={{
-        pathname: `/experience/${experience.slug}`,
+        pathname: `/education/${education.slug}`,
         search: generateSearch(
           {
             from_path: location.pathname,
@@ -39,8 +32,8 @@ const Overlay: FC<OverlayProps> = (props) => {
           title
         ),
       }}
-      icon={image}
-      label={generateExperienceTitle(experience)}
+      icon={education.providerImage ?? defaultImage}
+      label={education.title}
       className={props.className}
     />
   );

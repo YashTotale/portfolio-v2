@@ -8,15 +8,22 @@ import {
   RawTag,
   RawArticle,
   RawMain,
+  RawEducation,
 } from "../../scripts/data/helpers";
 
 export type Main = Omit<
   RawMain,
-  "sortedExperience" | "sortedProjects" | "sortedArticles"
+  | "sortedExperience"
+  | "sortedEducation"
+  | "sortedProjects"
+  | "sortedArticles"
+  | "educationImage"
 > & {
   sortedExperience: string[];
+  sortedEducation: string[];
   sortedProjects: string[];
   sortedArticles: string[];
+  educationImage: string;
 };
 
 export interface Badge {
@@ -45,6 +52,16 @@ export type ResolvedExperience = Omit<
   darkImage: Asset["fields"];
   projects: Project[];
   articles: Article[];
+  tags: Tag[];
+};
+
+export type Education = Omit<RawEducation, "providerImage" | "tags"> & {
+  providerImage?: string;
+  tags: string[];
+};
+
+export type ResolvedEducation = Omit<Education, "providerImage" | "tags"> & {
+  providerImage?: Asset["fields"];
   tags: Tag[];
 };
 
@@ -84,17 +101,24 @@ export type Tag = Omit<RawTag, "darkIcon" | "lightIcon"> & {
   darkIcon: string;
   lightIcon: string;
   experience: string[];
+  education: string[];
   projects: string[];
   articles: string[];
 };
 
 export type ResolvedTag = Omit<
   Tag,
-  "darkIcon" | "lightIcon" | "experience" | "projects" | "articles"
+  | "darkIcon"
+  | "lightIcon"
+  | "experience"
+  | "education"
+  | "projects"
+  | "articles"
 > & {
   darkIcon: Asset["fields"];
   lightIcon: Asset["fields"];
   experience: Experience[];
+  education: Education[];
   projects: Project[];
   articles: Article[];
 };

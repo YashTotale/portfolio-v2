@@ -106,6 +106,33 @@ export {
 export type { ExperienceState } from "./experience.slice";
 
 /**
+ * Education Slice
+ */
+
+export {
+  // -> Slice
+  default as educationSlice,
+  // -> Selectors
+  getEducationSearch,
+  getEducationSort,
+  getEducationTagFilter,
+  getEducationViewable,
+  // -> Actions
+  setEducationSearch,
+  setEducationSort,
+  setEducationTagFilter,
+  addEducationViewable,
+  removeEducationViewable,
+  removeAllEducationViewable,
+  // -> Reducer
+  educationReducer,
+  // -> State
+  initialEducationState,
+} from "./education.slice";
+
+export type { EducationState } from "./education.slice";
+
+/**
  * Projects Slice
  */
 
@@ -173,15 +200,17 @@ export {
   // -> Selectors
   getTagsSearch,
   getTagsSort,
+  getTagsExperienceFilter,
+  getTagsEducationFilter,
   getTagsProjectFilter,
   getTagsArticleFilter,
-  getTagsExperienceFilter,
   // -> Actions
   setTagsSearch,
   setTagsSort,
+  setTagsExperienceFilter,
+  setTagsEducationFilter,
   setTagsProjectFilter,
   setTagsArticleFilter,
-  setTagsExperienceFilter,
   // -> Reducer
   tagsReducer,
   // -> State
