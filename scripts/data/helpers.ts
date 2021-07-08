@@ -86,6 +86,7 @@ export interface RawTag {
   title: EntryFields.Text;
   slug: EntryFields.Text;
   categories?: string[];
+  description?: EntryFields.RichText;
   darkIcon: RawLink;
   lightIcon: RawLink;
   link?: EntryFields.Text;
