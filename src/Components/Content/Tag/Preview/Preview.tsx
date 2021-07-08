@@ -2,6 +2,7 @@
 import React, { cloneElement, FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
+import Categories from "./Components/Categories";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import StyledLink from "../../../Atomic/StyledLink";
@@ -11,9 +12,8 @@ import { generateSearch } from "../../../../Utils/funcs";
 import { getTag } from "../../../../Utils/Content/tags";
 
 // Material UI Imports
-import { Chip, makeStyles, Typography, useTheme } from "@material-ui/core";
+import { makeStyles, Typography, useTheme } from "@material-ui/core";
 import { Build, Description, School, Work } from "@material-ui/icons";
-import MatchHighlight from "../../../Atomic/MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -50,16 +50,6 @@ const useStyles = makeStyles((theme) => ({
     padding: theme.spacing(0, 1),
     margin: theme.spacing(1, "auto"),
     flex: 1,
-  },
-  categories: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "center",
-    alignItems: "center",
-    padding: theme.spacing(1, 0),
-  },
-  category: {
-    margin: theme.spacing(0.5),
   },
 }));
 
@@ -132,21 +122,7 @@ const Preview: FC<PreviewProps> = (props) => {
           label="article"
           icon={<Description />}
         />
-        {tag.categories && (
-          <div className={classes.categories}>
-            {tag.categories.map((category, i) => (
-              <Chip
-                key={i}
-                label={
-                  <MatchHighlight toMatch={props.search}>
-                    {category}
-                  </MatchHighlight>
-                }
-                className={classes.category}
-              />
-            ))}
-          </div>
-        )}
+        <Categories {...tag} search={props.search} />
       </div>
     </DynamicPaper>
   );

@@ -19,6 +19,9 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     width: "100%",
     height: ({ variant }) => {
       switch (variant) {
+        case "subtitle1": {
+          return 35;
+        }
         case "body1": {
           return 35;
         }
