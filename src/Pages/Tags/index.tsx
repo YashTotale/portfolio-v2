@@ -6,7 +6,7 @@ import TagPreview from "../../Components/Content/Tag/Preview";
 import Filters from "../../Components/Custom/Filters";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
-import { useFilteredTags } from "../../Utils/Content/tags";
+import { getTagCategories, useFilteredTags } from "../../Utils/Content/tags";
 import {
   generateExperienceTitle,
   sortExperience,
@@ -26,9 +26,11 @@ import {
   setTagsArticleFilter,
   setTagsExperienceFilter,
   getTagsEducationFilter,
+  setTagsCategoryFilter,
   setTagsEducationFilter,
   setTagsProjectFilter,
   setTagsSearch,
+  getTagsCategoryFilter,
   setTagsSort,
 } from "../../Redux";
 import { TAGS_SORT, TagsSort } from "../../Redux/tags.slice";
@@ -75,13 +77,15 @@ const Tags: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
+  const allCategories = getTagCategories();
+  const allExperience = sortExperience("Alphabetically");
   const allProjects = sortProjects("Alphabetically");
   const allArticles = sortArticles("Alphabetically");
-  const allExperience = sortExperience("Alphabetically");
   const allEducation = sortEducation("Alphabetically");
 
   const search = useSelector(getTagsSearch);
   const sort = useSelector(getTagsSort);
+  const categoryFilter = useSelector(getTagsCategoryFilter);
   const experienceFilter = useSelector(getTagsExperienceFilter);
   const educationFilter = useSelector(getTagsEducationFilter);
   const projectFilter = useSelector(getTagsProjectFilter);
@@ -106,6 +110,12 @@ const Tags: FC = () => {
             onChange: (value) => dispatch(setTagsSort(value as TagsSort)),
           }}
           related={[
+            {
+              label: "Categories",
+              values: allCategories,
+              value: categoryFilter,
+              onChange: (values) => dispatch(setTagsCategoryFilter(values)),
+            },
             {
               label: "Experience",
               values: allExperience.map(generateExperienceTitle),

@@ -200,6 +200,7 @@ export {
   // -> Selectors
   getTagsSearch,
   getTagsSort,
+  getTagsCategoryFilter,
   getTagsExperienceFilter,
   getTagsEducationFilter,
   getTagsProjectFilter,
@@ -207,6 +208,7 @@ export {
   // -> Actions
   setTagsSearch,
   setTagsSort,
+  setTagsCategoryFilter,
   setTagsExperienceFilter,
   setTagsEducationFilter,
   setTagsProjectFilter,

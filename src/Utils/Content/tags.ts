@@ -18,6 +18,7 @@ import { createSorter } from "../funcs";
 import { useSelector } from "react-redux";
 import {
   getTagsArticleFilter,
+  getTagsCategoryFilter,
   getTagsEducationFilter,
   getTagsExperienceFilter,
   getTagsProjectFilter,
@@ -85,6 +86,32 @@ export const getRawTag = (identifier: string, isSlug = false): Tag | null => {
   return single;
 };
 
+let categoriesCache: string[] | null = null;
+
+export const getTagCategories = (): string[] => {
+  if (categoriesCache) return categoriesCache;
+
+  const tags = getTags();
+
+  const categories = tags.reduce((cats, tag) => {
+    return [...cats, ...(tag.categories || [])];
+  }, [] as string[]);
+
+  const unique = [...new Set(categories)].sort((a, b) => a.localeCompare(b));
+  categoriesCache = unique;
+  return unique;
+};
+
+export const checkCategories = (
+  t: ResolvedTag,
+  categories: string[]
+): boolean => {
+  if (!categories.length) return true;
+  return (
+    t.categories?.some((category) => categories.includes(category)) ?? false
+  );
+};
+
 export const checkExperience = (
   t: ResolvedTag,
   experiences: string[]
@@ -134,6 +161,7 @@ export const checkSearch = (t: ResolvedTag, search: string): boolean => {
 
   const matches: (boolean | undefined)[] = [
     t.title.toLowerCase().includes(search),
+    t.categories?.some((category) => category.toLowerCase().includes(search)),
   ];
 
   const result = matches.includes(true);
@@ -146,12 +174,14 @@ export const useFilteredTags = (): ResolvedTag[] => {
 
   const search = useSelector(getTagsSearch);
   const normalizedSearch = search.toLowerCase();
+  const categoryFilter = useSelector(getTagsCategoryFilter);
   const experienceFilter = useSelector(getTagsExperienceFilter);
   const educationFilter = useSelector(getTagsEducationFilter);
   const projectFilter = useSelector(getTagsProjectFilter);
   const articleFilter = useSelector(getTagsArticleFilter);
 
   return tags.filter((t) => {
+    if (!checkCategories(t, categoryFilter)) return false;
     if (!checkExperience(t, experienceFilter)) return false;
     if (!checkEducation(t, educationFilter)) return false;
     if (!checkProjects(t, projectFilter)) return false;
