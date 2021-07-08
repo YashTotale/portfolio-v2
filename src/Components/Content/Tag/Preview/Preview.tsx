@@ -11,8 +11,9 @@ import { generateSearch } from "../../../../Utils/funcs";
 import { getTag } from "../../../../Utils/Content/tags";
 
 // Material UI Imports
-import { makeStyles, Typography, useTheme } from "@material-ui/core";
+import { Chip, makeStyles, Typography, useTheme } from "@material-ui/core";
 import { Build, Description, School, Work } from "@material-ui/icons";
+import MatchHighlight from "../../../Atomic/MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -31,7 +32,6 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    flex: 1,
   },
   iconLink: {
     margin: theme.spacing(3, 2, 2),
@@ -49,6 +49,17 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     padding: theme.spacing(0, 1),
     margin: theme.spacing(1, "auto"),
+    flex: 1,
+  },
+  categories: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center",
+    alignItems: "center",
+    padding: theme.spacing(1, 0),
+  },
+  category: {
+    margin: theme.spacing(0.5),
   },
 }));
 
@@ -60,6 +71,7 @@ export interface PreviewProps {
 
 const Preview: FC<PreviewProps> = (props) => {
   const classes = useStyles();
+
   const theme = useTheme();
   const tag = getTag(props.id);
 
@@ -120,6 +132,21 @@ const Preview: FC<PreviewProps> = (props) => {
           label="article"
           icon={<Description />}
         />
+        {tag.categories && (
+          <div className={classes.categories}>
+            {tag.categories.map((category, i) => (
+              <Chip
+                key={i}
+                label={
+                  <MatchHighlight toMatch={props.search}>
+                    {category}
+                  </MatchHighlight>
+                }
+                className={classes.category}
+              />
+            ))}
+          </div>
+        )}
       </div>
     </DynamicPaper>
   );
