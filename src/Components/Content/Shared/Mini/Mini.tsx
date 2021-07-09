@@ -98,7 +98,7 @@ const Mini: FC<MiniProps> = (props) => {
       >
         <Avatar
           alt={image.title}
-          src={image.file.url}
+          src={`${image.file.url}?h=40`}
           className={classes.avatar}
         />
         <Typography variant="subtitle1" className={classes.title}>
