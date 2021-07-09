@@ -16,6 +16,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+const isAlphaNumeric = (char: string) => {
+  if (!char.length) return false;
+
+  const code = char.charCodeAt(0);
+
+  if (
+    !(code > 47 && code < 58) && // numeric (0-9)
+    !(code > 64 && code < 91) && // upper alpha (A-Z)
+    !(code > 96 && code < 123) // lower alpha (a-z)
+  ) {
+    return false;
+  }
+
+  return true;
+};
+
 interface TextRendererProps {
   children: string;
   variant: TypographyProps["variant"];
@@ -34,52 +50,54 @@ const TextRenderer: FC<TextRendererProps> = ({
 
   const parsed: (JSX.Element | string)[] = [];
 
-  if (tags === null) parsed.push(children);
-  else {
-    for (let i = 0; i < children.length; i++) {
-      const matchedTags = tags.filter(
-        (tag) =>
-          tag.title.toLowerCase() ===
-          children.substring(i, i + tag.title.length).toLowerCase()
-      );
-      const tag = matchedTags.length
-        ? matchedTags.sort((a, b) => b.title.length - a.title.length)[0]
-        : undefined;
+  for (let i = 0; i < children.length; i++) {
+    const matchedTags = tags.filter(
+      (tag) =>
+        tag.title.toLowerCase() ===
+        children.substring(i, i + tag.title.length).toLowerCase()
+    );
+    const tag = matchedTags.length
+      ? matchedTags.sort((a, b) => b.title.length - a.title.length)[0]
+      : undefined;
 
-      if (tag === undefined) {
-        const char = children.substring(i, i + 1);
+    if (tag) {
+      const beforeTag = children.charAt(i - 1);
+      const afterTag = children.charAt(i + tag.title.length);
 
-        const last = parsed[parsed.length - 1];
+      if (!isAlphaNumeric(beforeTag) && !isAlphaNumeric(afterTag)) {
+        parsed.push(
+          <StyledLink
+            to={{
+              pathname: `/tags/${tag.slug}`,
+              search: generateSearch(
+                {
+                  from_path: location.pathname,
+                  from_type: "rich_text",
+                },
+                title
+              ),
+            }}
+            variant={variant}
+            toMatch={toMatch}
+          >
+            {children.substring(i, i + tag.title.length)}
+          </StyledLink>
+        );
 
-        if (typeof last === "string") {
-          parsed[parsed.length - 1] = last + char;
-        } else {
-          parsed.push(char);
-        }
+        i += tag.title.length - 1;
 
         continue;
       }
+    }
 
-      parsed.push(
-        <StyledLink
-          to={{
-            pathname: `/tags/${tag.slug}`,
-            search: generateSearch(
-              {
-                from_path: location.pathname,
-                from_type: "rich_text",
-              },
-              title
-            ),
-          }}
-          variant={variant}
-          toMatch={toMatch}
-        >
-          {children.substring(i, i + tag.title.length)}
-        </StyledLink>
-      );
+    const char = children.charAt(i);
 
-      i += tag.title.length - 1;
+    const last = parsed[parsed.length - 1];
+
+    if (typeof last === "string") {
+      parsed[parsed.length - 1] = last + char;
+    } else {
+      parsed.push(char);
     }
   }
 

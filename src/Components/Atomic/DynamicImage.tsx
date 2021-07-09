@@ -19,12 +19,13 @@ const useStyles = makeStyles((theme) => ({
 const DynamicImage = forwardRef<
   HTMLImageElement,
   ImgHTMLAttributes<HTMLImageElement>
->((props) => {
+>((props, ref) => {
   const classes = useStyles();
 
   return (
     <img
       {...props}
+      ref={ref}
       alt={props.alt}
       title={props.alt}
       className={clsx(classes.image, props.className)}
