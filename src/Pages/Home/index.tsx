@@ -1,18 +1,15 @@
 // React Imports
-import React, { FC, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
+import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
-import Typist from "react-typist";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
+import Typer from "../../Components/Static/Home/Typer";
+import SkillSet from "../../Components/Static/Home/SkillSet";
 import RichText from "../../Components/Custom/RichText";
-import Category from "../../Components/Content/Tag/Category";
-import StyledLink from "../../Components/Atomic/StyledLink";
 import DynamicImage from "../../Components/Atomic/DynamicImage";
-import { useTitle } from "../../Context/HeadContext";
-import { generatePageTitle, generateSearch } from "../../Utils/funcs";
+import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
+import { generatePageTitle } from "../../Utils/funcs";
 import { getDescription } from "../../Utils/Content/main";
-import "react-typist/dist/Typist.css";
 
 // Material UI Imports
 import {
@@ -21,7 +18,6 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 
 const useStyles = makeStyles((theme) => ({
   home: {
@@ -52,18 +48,6 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     width: "100%",
     margin: theme.spacing(1, 0, 2),
-  },
-  skillset: {
-    padding: theme.spacing(1, 0),
-  },
-  skills: {
-    display: "flex",
-    flexWrap: "wrap",
-    justifyContent: "stretch",
-    alignItems: "stretch",
-  },
-  skillCategory: {
-    margin: theme.spacing(2, 0),
   },
 }));
 
@@ -109,76 +93,10 @@ const Home: FC = () => {
           />
         </div>
         <HorizontalDivider />
-        <div className={classes.skillset}>
-          <Typography align="center" variant={isSizeSmall ? "h5" : "h4"}>
-            My Skill Set
-          </Typography>
-          <div className={classes.skills}>
-            <Category category="Languages" className={classes.skillCategory} />
-            <Category category="Frontend" className={classes.skillCategory} />
-            <Category category="Backend" className={classes.skillCategory} />
-            <Category category="DevOps" className={classes.skillCategory} />
-            <Category category="Design" className={classes.skillCategory} />
-          </div>
-        </div>
+        <SkillSet />
       </div>
     </>
   );
-};
-
-const useTyperStyles = makeStyles((theme) => ({
-  typist: {
-    display: "inline-block",
-  },
-}));
-
-const Typer: FC = () => {
-  const classes = useTyperStyles();
-  const [count, setCount] = useState(1);
-
-  const location = useLocation();
-  const title = useTitle();
-
-  useEffect(() => {
-    setCount(1);
-  }, [count]);
-
-  const generateTo = (path: string) => ({
-    pathname: path,
-    search: generateSearch(
-      {
-        from_path: location.pathname,
-        from_type: "home_typer",
-      },
-      title
-    ),
-  });
-
-  return count ? (
-    <Typist
-      className={classes.typist}
-      avgTypingDelay={50}
-      onTypingDone={() => setCount(0)}
-      cursor={{
-        blink: true,
-      }}
-    >
-      <StyledLink to={generateTo("/experience")}>experience</StyledLink>
-      <Typist.Backspace count={"experience".length} delay={2000} />
-
-      <StyledLink to={generateTo("/education")}>education</StyledLink>
-      <Typist.Backspace count={"education".length} delay={2000} />
-
-      <StyledLink to={generateTo("/projects")}>projects</StyledLink>
-      <Typist.Backspace count={"projects".length} delay={2000} />
-
-      <StyledLink to={generateTo("/articles")}>articles</StyledLink>
-      <Typist.Backspace count={"articles".length} delay={2000} />
-
-      <StyledLink to={generateTo("/books")}>books</StyledLink>
-      <Typist.Backspace count={"books".length} delay={2000} />
-    </Typist>
-  ) : null;
 };
 
 export default Home;
