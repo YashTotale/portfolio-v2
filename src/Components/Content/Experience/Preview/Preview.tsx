@@ -93,6 +93,11 @@ const useStyles = makeStyles((theme) => ({
   },
   mini: {
     margin: theme.spacing(0.5, 1),
+
+    [theme.breakpoints.only("xs")]: {
+      width: "100%",
+      margin: theme.spacing(0.5, 0),
+    },
   },
   tags: {
     display: "flex",
