@@ -13,9 +13,7 @@
 
 - [🏃 Running Locally](#-running-locally)
 - [🏆 Goals](#-goals)
-  - [Start with a design](#start-with-a-design)
-  - [Use an efficient CMS](#use-an-efficient-cms)
-  - [Build sustainable infrastructure](#build-sustainable-infrastructure)
+- [🧱 Architecture](#-architecture)
 
 ## 🏃 Running Locally
 
@@ -56,11 +54,11 @@
 
 ## 🏆 Goals
 
-As you may have noticed, this is my second attempt at a portfolio website. The [first one](https://github.com/YashTotale/portfolio-v1) was ... a total failure. 600+ commits in, I realized that I had overcomplicated and under-planned the project. Instead of focusing on a clean and intuitive UI, I had gotten bogged down in adding relatively useless features that I thought were cool (like dynamic [Wikipedia](https://github.com/YashTotale/portfolio-v1/blob/master/src/Scripts/getTerms.ts) & [LinkedIn](https://github.com/YashTotale/portfolio-v1/blob/master/src/Scripts/getLinkedin.ts) integration). So, to avoid another failure, I set a few goals ahead of time:
+As you may have noticed, this is my second attempt at a portfolio website. The [first one](https://github.com/YashTotale/portfolio-v1) was ... a total failure. **600+ commits** in, I realized that I had overcomplicated and under-planned the project. Instead of focusing on a clean and intuitive UI, I had gotten bogged down in adding relatively useless features that I thought were cool (like dynamic [Wikipedia](https://github.com/YashTotale/portfolio-v1/blob/master/src/Scripts/getTerms.ts) & [LinkedIn](https://github.com/YashTotale/portfolio-v1/blob/master/src/Scripts/getLinkedin.ts) integration). So, to avoid another failure, I set a few goals ahead of time:
 
 ### Start with a design
 
-I used [Figma](https://figma.com/) to design almost all of the website's pages before I even started programming. This helped me quickly and efficiently write the UI for
+I used [Figma](https://figma.com/) to design almost all of the website's pages before I even started programming. This helped me quickly build an MVP of the entire website. From there, I was able to optimize and improve specific areas without losing sight of the overall picture.
 
 ### Use an efficient CMS
 
@@ -68,10 +66,56 @@ I used [Contentful](https://www.contentful.com/) for my headless CMS. This allow
 
 ### Build sustainable infrastructure
 
-If you browse through the [Components], [Pages], or [Utils] folders, you'll see quite a few patterns in each. This is on purpose: by "patternizing" my code, I am able to quickly add new features/pages or make edits to existing UI.
+If you browse through the [Components], [Pages], or [Utils] folders, you'll see quite a few patterns in each. This is on purpose: by "_patternizing_" my code, I was able to quickly add new features/pages or make edits to existing UI.
+
+## 🧱 Architecture
+
+### [Components]
+
+**Components are divided into 4 folders: [Atomic], [Content], [Custom], and [Static]**
+
+#### [Atomic]
+
+Atomic components are those that can be used essentially anywhere. They are meant to be building blocks for layouts, with specific styling/UI to make the website consistent.
+
+#### [Content]
+
+Content components are meant to be UI for a specific type of content. They can be further divided into Main, Preview, Overlay/Mini/Associated.
+
+- Main content components are to be displayed on that specific content's own page. For example, on the route `/experience/<slug>`, the Main component for that specific experience will be displayed.
+- Preview content components are to be displayed on the content type's page. For example, on the route `/experience`, the Preview components for all experiences will be displayed.
+- The other content components such as Overlay, Mini, and Associated are to be displayed anywhere else as "supporting" components. For example, on a specific tag's page (`/tags/<slug>`), the related experience, articles, and projects of the tag will also be displayed via Overlay components.
+
+#### [Custom]
+
+Custom components are extensively configured components (like a [Rich Text renderer](https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Custom/RichText)) that can be used in multiple areas of the application. They are generally not atomic as they are meant for a very specific purpose.
+
+#### [Static]
+
+Static components are rendered only once. They include elements like the Navbar, Footer, Sidebar, etc.
+
+### [Pages]
+
+Each page of the website is a folder in the [Pages] directory (except the [NotFound] page). Each of these folders contains an `index.tsx` file which contains the UI for that page.
+
+- Every page calls a [`useAnalytics`] hook, which logs a `page_view` event to [Google Analytics](http://analytics.google.com/) if the environment is a production environment.
+- Every page updates the `<head>` of the HTML using [React Helmet](https://github.com/nfl/react-helmet) based on the title of the page.
+
+### [Utils]
+
+Any utilities such as [functions](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/funcs.ts), [types](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/types.ts), [constants](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/constants.ts), etc. are located in the [Utils] folder.
+
+Additionally, content utilities are located in the [Content subdirectory]. Each of the files in this folder corresponds to a specific content type. They contain utilities to get, resolve, filter, and sort that specific content type.
 
 <!-- Reference Links -->
 
 [components]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components
 [pages]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Pages
 [utils]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Utils
+[atomic]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Atomic
+[content]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Content
+[custom]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Custom
+[static]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Static
+[notfound]: https://github.com/YashTotale/portfolio-v2/blob/master/src/Pages/NotFound.tsx
+[`useanalytics`]: https://github.com/YashTotale/portfolio-v2/blob/master/src/Hooks/useAnalytics.tsx
+[content subdirectory]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Utils/Content
