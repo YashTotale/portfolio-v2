@@ -4,11 +4,13 @@ import { RootState } from "../Store";
 export type TagsSort =
   | "Alphabetically"
   | "Most Related Experience"
+  | "Most Related Education"
   | "Most Related Projects"
   | "Most Related Articles";
 export const TAGS_SORT: TagsSort[] = [
   "Alphabetically",
   "Most Related Experience",
+  "Most Related Education",
   "Most Related Projects",
   "Most Related Articles",
 ];

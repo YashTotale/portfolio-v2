@@ -217,6 +217,7 @@ export const sortTags = createSorter<TagsSort, Tag>(
     },
     "Most Related Experience": (a, b) =>
       b.experience.length - a.experience.length,
+    "Most Related Education": (a, b) => b.education.length - a.education.length,
     "Most Related Projects": (a, b) => b.projects.length - a.projects.length,
     "Most Related Articles": (a, b) => b.articles.length - a.articles.length,
   },
