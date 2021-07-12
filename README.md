@@ -14,6 +14,7 @@
 - [🏃 Running Locally](#-running-locally)
 - [🏆 Goals](#-goals)
 - [🧱 Architecture](#-architecture)
+- [🛠 Pre-rendering](#-pre-rendering)
 - [🤝 Show your support](#-show-your-support)
 - [✍ Author](#-author)
 
@@ -108,6 +109,38 @@ Each page of the website is a folder in the [Pages] directory (except the [NotFo
 Any utilities such as [functions](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/funcs.ts), [types](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/types.ts), [constants](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/constants.ts), etc. are located in the [Utils] folder.
 
 Additionally, content utilities are located in the [Content subdirectory]. All the files in this folder correspond to a specific content type. They contain utilities to get, resolve, filter, and sort that specific content type.
+
+## 🛠 Pre-rendering
+
+Pre-rendering is a way to generate static HTML files for a SPA. I used pre-rendering largely to boost page-load times and SEO. Learn more about its benefits on the [react-snap GitHub page](https://github.com/stereobooster/react-snap).
+
+Sounds pretty simple, but there are a few caveats with pre-rendering that took a _little_ while for me to debug.
+
+### Pre-rendering in CI/CD
+
+[react-snap](https://github.com/stereobooster/react-snap) and other pre-rendering libraries use [puppeteer](https://github.com/puppeteer/puppeteer) to launch a headless Chrome browser to crawl your site's web pages and generate HTML files.
+
+This works great locally, however if you're pre-rendering in a CI/CD step, you have to include some extra configuration for puppeteer to work properly. Here is what you need to include in your project's `package.json`:
+
+```json
+"reactSnap": {
+  "puppeteerArgs": [
+    "--no-sandbox",
+    "--disable-setuid-sandbox",
+    "--disable-gpu"
+  ]
+}
+```
+
+### Pre-rendering with API requests
+
+If you attempt to pre-render your website with API requests or something similar (ex. Google Analytics event logging) enabled, you'll likely face `Navigation Timeout Exceeded` or `Protocol Error` issues. There's a simple fix for this: **just don't make those calls during the pre-rendering stage.** Here's how:
+
+```javascript
+if (navigator.userAgent !== "ReactSnap") {
+  // Do your requests here
+}
+```
 
 ## 🤝 Show your support
 
