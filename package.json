@@ -1,6 +1,21 @@
 {
   "name": "portfolio-website",
+  "description": "Yash Totale's Portfolio Website",
   "private": true,
+  "license": "MIT",
+  "homepage": "http://yashtotale.web.app/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/YashTotale/portfolio-v2/"
+  },
+  "bugs": {
+    "url": "https://github.com/YashTotale/portfolio-v2/issues/"
+  },
+  "author": {
+    "name": "Yash Totale",
+    "email": "totaleyash@gmail.com",
+    "url": "http://yashtotale.web.app/"
+  },
   "scripts": {
     "make": "bash ./scripts/make.sh",
     "build": "bash ./scripts/build.sh",

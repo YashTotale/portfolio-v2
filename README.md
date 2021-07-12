@@ -14,6 +14,8 @@
 - [🏃 Running Locally](#-running-locally)
 - [🏆 Goals](#-goals)
 - [🧱 Architecture](#-architecture)
+- [🤝 Show your support](#-show-your-support)
+- [✍ Author](#-author)
 
 ## 🏃 Running Locally
 
@@ -92,20 +94,34 @@ Custom components are extensively configured components (like a [Rich Text rende
 
 #### [Static]
 
-Static components are rendered only once. They include elements like the Navbar, Footer, Sidebar, etc.
+Static components are rendered only once. These include elements like the Navbar, Footer, Sidebar, etc.
 
 ### [Pages]
 
 Each page of the website is a folder in the [Pages] directory (except the [NotFound] page). Each of these folders contains an `index.tsx` file which contains the UI for that page.
 
 - Every page calls a [`useAnalytics`] hook, which logs a `page_view` event to [Google Analytics](http://analytics.google.com/) if the environment is a production environment.
-- Every page updates the `<head>` of the HTML using [React Helmet](https://github.com/nfl/react-helmet) based on the title of the page.
+- Every page updates the `<head>` of the HTML using [React Helmet](https://github.com/nfl/react-helmet).
 
 ### [Utils]
 
 Any utilities such as [functions](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/funcs.ts), [types](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/types.ts), [constants](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/constants.ts), etc. are located in the [Utils] folder.
 
-Additionally, content utilities are located in the [Content subdirectory]. Each of the files in this folder corresponds to a specific content type. They contain utilities to get, resolve, filter, and sort that specific content type.
+Additionally, content utilities are located in the [Content subdirectory]. All the files in this folder correspond to a specific content type. They contain utilities to get, resolve, filter, and sort that specific content type.
+
+## 🤝 Show your support
+
+Give a ⭐️ if this project helped you! Since this project is licensed under the [MIT License](https://github.com/YashTotale/portfolio-v2/blob/master/LICENSE.md), you can use my code in your own projects or portfolio websites 🙂
+
+Feel free to reach out to me via [email](mailto:totalyash@gmail.com) or through the [contact form](https://yashtotale.web.app/contact) of this site!
+
+## ✍ Author
+
+**Yash Totale**
+
+- Github: [@YashTotale](https://github.com/YashTotale)
+- LinkedIn: [@yash-totale](https://linkedin.com/in/yash-totale/)
+- Email: totaleyash@gmail.com
 
 <!-- Reference Links -->
 

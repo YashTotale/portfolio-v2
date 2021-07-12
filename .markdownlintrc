@@ -1,5 +1,6 @@
 {
   "no-inline-html": false,
   "first-line-heading": false,
-  "line-length": false
+  "line-length": false,
+  "no-emphasis-as-header": false
 }
