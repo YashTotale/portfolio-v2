@@ -35,9 +35,6 @@ jobs:
       - name: Build Project
         run: npm run make
 
-      - name: Analyze Bundle
-        run: npm run analyze
-
       - name: Deploy Bundle Report Website
         run: curl "${{ secrets.BUNDLE_DEPLOY_URL }}"
 
