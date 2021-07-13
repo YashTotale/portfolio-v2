@@ -36,15 +36,10 @@ jobs:
         run: npm run make
 
       - name: Analyze Bundle
-        if: ${{ github.event_name == 'push' }}
         run: npm run analyze
 
       - name: Deploy Bundle Report Website
-        if: ${{ github.event_name == 'push' }}
-        uses: JamesIves/github-pages-deploy-action@4.0.0
-        with:
-          branch: gh-pages
-          folder: bundle-report
+        run: curl "${{ secrets.BUNDLE_DEPLOY_URL }}"
 
       - name: Deploy to Firebase Hosting
         if: ${{ github.event_name == 'push' }}

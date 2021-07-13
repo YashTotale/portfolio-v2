@@ -45,10 +45,7 @@ jobs:
         run: npm run analyze
 
       - name: Deploy Bundle Report Website
-        uses: JamesIves/github-pages-deploy-action@4.0.0
-        with:
-          branch: gh-pages
-          folder: bundle-report
+        run: curl "${{ secrets.BUNDLE_DEPLOY_URL }}"
 
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
