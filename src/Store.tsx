@@ -11,23 +11,6 @@ import {
 } from "@reduxjs/toolkit";
 import { Provider, useDispatch } from "react-redux";
 
-// Firebase Imports
-import firebase from "./Utils/Config/firebase";
-import {
-  getFirebase,
-  actionTypes as rrfActionTypes,
-  firebaseReducer,
-  ReactReduxFirebaseProvider,
-  FirebaseReducer,
-  FirestoreReducer,
-} from "react-redux-firebase";
-import {
-  getFirestore,
-  constants as rfConstants,
-  createFirestoreInstance,
-  firestoreReducer,
-} from "redux-firestore";
-
 // Redux Persist Imports
 import {
   persistStore,
@@ -63,11 +46,6 @@ interface State {
   articles: ArticlesState;
   tags: TagsState;
   books: BooksState;
-  firebase: FirebaseReducer.Reducer<
-    Record<string, unknown>,
-    Record<string, unknown>
-  >;
-  firestore: FirestoreReducer.Reducer;
 }
 
 const reducers = combineReducers<State>({
@@ -80,8 +58,6 @@ const reducers = combineReducers<State>({
   articles: articlesReducer,
   tags: tagsReducer,
   books: booksReducer,
-  firebase: firebaseReducer,
-  firestore: firestoreReducer,
 });
 
 const persistedReducer = persistReducer<State>(
@@ -94,30 +70,13 @@ const persistedReducer = persistReducer<State>(
   reducers
 );
 
-const extraArgument = {
-  getFirebase,
-  getFirestore,
-};
+const extraArgument = {};
 
 const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware({
     serializableCheck: {
-      ignoredActions: [
-        FLUSH,
-        REHYDRATE,
-        PAUSE,
-        PERSIST,
-        PURGE,
-        REGISTER,
-        ...Object.keys(rfConstants.actionTypes).map(
-          (type) => `${rfConstants.actionsPrefix}/${type}`
-        ),
-        ...Object.keys(rrfActionTypes).map(
-          (type) => `@@reactReduxFirebase/${type}`
-        ),
-      ],
-      ignoredPaths: ["firebase", "firestore"],
+      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
     },
     thunk: {
       extraArgument,
@@ -145,19 +104,9 @@ const persistor = persistStore(store);
 const ReduxStore: FC = ({ children }) => {
   return (
     <Provider store={store}>
-      <ReactReduxFirebaseProvider
-        dispatch={store.dispatch}
-        firebase={firebase}
-        config={{
-          useFirestoreForProfile: true,
-          userProfile: "users",
-        }}
-        createFirestoreInstance={createFirestoreInstance}
-      >
-        <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
-          {children}
-        </PersistGate>
-      </ReactReduxFirebaseProvider>
+      <PersistGate loading={<div>Loading...</div>} persistor={persistor}>
+        {children}
+      </PersistGate>
     </Provider>
   );
 };

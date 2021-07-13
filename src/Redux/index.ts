@@ -1,13 +1,3 @@
-import { FirebaseReducer } from "react-redux-firebase";
-import { RootState } from "../Store";
-
-/**
- * Firebase
- */
-
-export const getUser = (state: RootState): FirebaseReducer.AuthState =>
-  state.firebase.auth;
-
 /**
  * Display Slice
  */

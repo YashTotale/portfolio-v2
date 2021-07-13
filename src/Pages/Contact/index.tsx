@@ -15,7 +15,7 @@ import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 
 // Firebase Imports
-import { useFirestore } from "react-redux-firebase";
+import { firestore } from "../../Utils/Config/firebase";
 
 // Material UI Imports
 import {
@@ -76,7 +76,6 @@ interface Inputs {
 
 const Contact: FC = () => {
   const classes = useStyles();
-  const firestore = useFirestore();
   const { enqueueSnackbar } = useClosableSnackbar();
 
   const theme = useTheme();
