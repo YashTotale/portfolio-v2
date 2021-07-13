@@ -11,6 +11,7 @@
 # production
 /build
 /temp-build
+/bundle-report
 
 # misc
 /src/Data

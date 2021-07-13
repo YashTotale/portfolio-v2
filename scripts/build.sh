@@ -24,7 +24,7 @@ clean-up-error() {
 rm -rf build temp-build
 
 # Build
-react-scripts build
+react-scripts build --stats
 
 # Copy the build folder
 cp -R build temp-build

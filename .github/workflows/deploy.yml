@@ -41,6 +41,15 @@ jobs:
       - name: Build Project
         run: npm run make
 
+      - name: Analyze Bundle
+        run: npm run analyze
+
+      - name: Deploy Bundle Report Website
+        uses: JamesIves/github-pages-deploy-action@4.0.0
+        with:
+          branch: gh-pages
+          folder: bundle-report
+
       - name: Deploy to Firebase Hosting
         uses: FirebaseExtended/action-hosting-deploy@v0
         with:
