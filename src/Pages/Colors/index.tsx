@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC, useState } from "react";
+import React, { FC, useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import throttle from "lodash.throttle";
 import startCase from "lodash.startcase";
@@ -40,9 +40,15 @@ import {
 } from "@material-ui/core";
 import * as muiColors from "@material-ui/core/colors";
 import { Check } from "@material-ui/icons";
-import { useEffect } from "react";
+import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 
 const useStyles = makeStyles((theme) => ({
+  title: {
+    margin: theme.spacing(0.5, 0),
+  },
+  divider: {
+    margin: theme.spacing(0.5, 0),
+  },
   root: {
     display: "flex",
     flexDirection: "column",
@@ -87,6 +93,10 @@ const Colors: FC = (props) => {
       <Helmet>
         <title>{generatePageTitle("Colors")}</title>
       </Helmet>
+      <HorizontalDivider className={classes.divider} />
+      <Typography align="center" variant="h4" className={classes.title}>
+        Create your pallette!
+      </Typography>
       <div className={classes.root}>
         <div className={classes.schemes}>
           {SCHEMES.map((scheme) => (
