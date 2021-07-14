@@ -20,11 +20,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     position: "relative",
     width: "100%",
-    padding: theme.spacing(0, 6),
-  },
-  title: {
-    [theme.breakpoints.up("sm")]: {
-      fontSize: "2.5rem",
+    padding: theme.spacing(0, 12),
+
+    [theme.breakpoints.only("sm")]: {
+      padding: theme.spacing(0, 9),
+    },
+
+    [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(0, 8),
     },
   },
 }));
@@ -41,11 +44,7 @@ const Title: FC<TitleProps> = (props) => {
   return (
     <div className={classes.titleContainer}>
       <Provider {...props} />
-      <Typography
-        variant={isSizeSmall ? "h4" : "h3"}
-        align="center"
-        className={classes.title}
-      >
+      <Typography variant={isSizeSmall ? "h5" : "h4"} align="center">
         {props.title}
       </Typography>
       <Typography
@@ -55,13 +54,15 @@ const Title: FC<TitleProps> = (props) => {
       >
         {props.type}
       </Typography>
-      <FloatingIcons
-        link={props.link}
-        github={props.github}
-        linkLabel="Website"
-        direction="row"
-        top={0}
-      />
+      {!isSizeSmall && (
+        <FloatingIcons
+          link={props.link}
+          github={props.github}
+          linkLabel="Website"
+          direction="row"
+          top={0}
+        />
+      )}
     </div>
   );
 };

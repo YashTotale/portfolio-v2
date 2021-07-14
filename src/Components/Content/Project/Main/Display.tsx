@@ -1,19 +1,13 @@
 // React Imports
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
+import ButtonLinks from "../../Shared/ButtonLinks";
 import RichText from "../../../Custom/RichText";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import { ResolvedProject } from "../../../../Utils/types";
 
 // Material UI Imports
-import {
-  Button,
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
-import { GitHub, Launch } from "@material-ui/icons";
+import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   projectInfo: {
@@ -63,33 +57,8 @@ const useStyles = makeStyles((theme) => ({
 
     [theme.breakpoints.down("sm")]: {
       width: "100%",
+      alignItems: "center",
     },
-  },
-  projectLinks: {
-    margin: theme.spacing(1),
-    minWidth: "140px",
-    overflow: "hidden",
-
-    [theme.breakpoints.only("xs")]: {
-      margin: theme.spacing(0, 1),
-    },
-  },
-  projectLink: {
-    textDecorationColor: theme.palette.text.primary,
-  },
-  projectLinkButton: {
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    color: theme.palette.text.primary,
-    textDecoration: "inherit",
-    width: "100%",
-    textTransform: "none",
-    padding: theme.spacing(0.5, 1.5),
-    margin: theme.spacing(1, 0),
-  },
-  projectLinkText: {
-    marginRight: theme.spacing(0.5),
   },
 }));
 
@@ -111,38 +80,11 @@ const Display: FC<ResolvedProject> = (props) => {
           richText={props.description as Document}
         />
       </div>
-      {(props.link || props.github) && isSizeSmall && (
-        <div className={classes.projectLinks}>
-          {props.link && (
-            <a
-              href={props.link}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={classes.projectLink}
-            >
-              <Button variant="outlined" className={classes.projectLinkButton}>
-                <Typography variant="body2" className={classes.projectLinkText}>
-                  View Website
-                </Typography>
-                <Launch fontSize="small" />
-              </Button>
-            </a>
-          )}
-          {props.github && (
-            <a
-              href={props.github}
-              target="_blank"
-              rel="noopener noreferrer"
-              className={classes.projectLink}
-            >
-              <Button variant="outlined" className={classes.projectLinkButton}>
-                <Typography variant="body2">View GitHub</Typography>
-                <GitHub fontSize="small" />
-              </Button>
-            </a>
-          )}
-        </div>
-      )}
+      <ButtonLinks
+        link={props.link}
+        linkLabel="Project"
+        github={props.github}
+      />
     </div>
   );
 };

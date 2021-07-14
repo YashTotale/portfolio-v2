@@ -20,12 +20,16 @@ const useStyles = makeStyles((theme) => ({
     overflow: "hidden",
     textOverflow: "ellipsis",
     textAlign: "center",
-    width: "95%",
-    margin: theme.spacing(1, 1, 0),
-    padding: theme.spacing(0, 7),
+    width: "100%",
+    marginTop: theme.spacing(1),
+    padding: theme.spacing(0, 12),
 
-    [theme.breakpoints.up("xs")]: {
-      fontSize: "2rem",
+    [theme.breakpoints.only("sm")]: {
+      padding: theme.spacing(0, 9),
+    },
+
+    [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(0, 8),
     },
   },
   subtitle: {

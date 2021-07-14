@@ -56,13 +56,15 @@ const Title: FC<TitleProps> = (props) => {
       >
         {generateExperienceSubtitle(props)}
       </Typography>
-      <FloatingIcons
-        link={props.link}
-        github={props.github}
-        linkLabel="Website"
-        direction="row"
-        top={0}
-      />
+      {!isSizeSmall && (
+        <FloatingIcons
+          link={props.link}
+          github={props.github}
+          linkLabel="Website"
+          direction="row"
+          top={0}
+        />
+      )}
     </div>
   );
 };

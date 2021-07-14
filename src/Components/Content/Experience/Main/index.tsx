@@ -22,6 +22,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import ButtonLinks from "../../Shared/ButtonLinks";
 
 const useStyles = makeStyles((theme) => ({
   experience: {
@@ -123,7 +124,6 @@ const Main: FC<MainProps> = (props) => {
             alt={image.title}
             className={classes.image}
           />
-
           <div className={classes.description}>
             <RichText
               variant={isSizeSmall ? "body2" : "body1"}
@@ -135,6 +135,7 @@ const Main: FC<MainProps> = (props) => {
               ulClass={classes.responsibilities}
             />
           </div>
+          <ButtonLinks link={experience.link} github={experience.github} />
         </div>
         {!!experience.projects.length && (
           <MainContainer title="Related Projects">

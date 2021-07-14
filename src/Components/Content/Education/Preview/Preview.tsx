@@ -59,6 +59,21 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     padding: theme.spacing(1, 2),
   },
+  footer: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
+    width: "100%",
+
+    [theme.breakpoints.only("sm")]: {
+      minHeight: theme.spacing(7),
+    },
+
+    [theme.breakpoints.only("xs")]: {
+      minHeight: theme.spacing(6),
+    },
+  },
   timeline: {
     margin: theme.spacing(1),
   },
@@ -73,6 +88,7 @@ export interface PreviewProps {
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
   const theme = useTheme();
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const education = getSingleEducation(props.id);
@@ -86,12 +102,14 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
       <div className={classes.display}>
         <Provider {...education} />
         <Title {...education} search={props.search} />
-        <FloatingIcons
-          linkLabel="Website"
-          link={education.link}
-          github={education.github}
-          direction="row"
-        />
+        {!isSizeSmall && (
+          <FloatingIcons
+            linkLabel="Website"
+            link={education.link}
+            github={education.github}
+            direction="row"
+          />
+        )}
       </div>
       <div className={classes.info}>
         <div className={classes.description}>
@@ -112,14 +130,26 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         </>
       )}
       <HorizontalDivider />
-      <Typography
-        variant={isSizeXS ? "body2" : "body1"}
-        className={classes.timeline}
-      >
-        <MatchHighlight toMatch={props.search}>
-          {generateEducationTimeline(education)}
-        </MatchHighlight>
-      </Typography>
+      <div className={classes.footer}>
+        <Typography
+          align="center"
+          variant={isSizeXS ? "body2" : "body1"}
+          className={classes.timeline}
+        >
+          <MatchHighlight toMatch={props.search}>
+            {generateEducationTimeline(education)}
+          </MatchHighlight>
+        </Typography>
+        {isSizeSmall && (
+          <FloatingIcons
+            linkLabel="Website"
+            link={education.link}
+            github={education.github}
+            direction="row"
+            top={0.5}
+          />
+        )}
+      </div>
     </DynamicPaper>
   );
 });

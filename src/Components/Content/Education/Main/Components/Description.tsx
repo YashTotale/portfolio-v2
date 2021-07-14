@@ -6,9 +6,14 @@ import { ResolvedEducation } from "../../../../../Utils/types";
 
 // Material UI Imports
 import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import ButtonLinks from "../../../Shared/ButtonLinks";
 
 const useStyles = makeStyles((theme) => ({
   description: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
     width: "100%",
     textAlign: "center",
     padding: theme.spacing(1, 2),
@@ -31,6 +36,7 @@ const Description: FC<DescriptionProps> = (props) => {
         toMatch={props.search}
         variant={isSizeXS ? "body2" : "body1"}
       />
+      <ButtonLinks link={props.link} github={props.github} />
     </div>
   );
 };
