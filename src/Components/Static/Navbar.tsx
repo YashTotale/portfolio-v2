@@ -28,8 +28,10 @@ import {
 import { useClosableSnackbar } from "../../Hooks";
 
 const useStyles = makeStyles((theme) => ({
-  toolbar: {
+  appbar: {
     backgroundColor: theme.palette.background.default,
+  },
+  toolbar: {
     margin: 0,
     [theme.breakpoints.up("lg")]: {
       marginLeft: SIDEBAR_WIDTH,
@@ -58,7 +60,7 @@ const Navbar: FC = () => {
 
   return (
     <>
-      <AppBar elevation={trigger ? 4 : 1}>
+      <AppBar elevation={trigger ? 4 : 1} className={classes.appbar}>
         <Toolbar className={classes.toolbar}>
           <div>
             {isSizeSmall && (
