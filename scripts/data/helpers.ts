@@ -44,9 +44,7 @@ export interface RawEducation {
   type: "Class" | "Online Course";
   slug: EntryFields.Text;
   description: EntryFields.RichText;
-  provider?: EntryFields.Text;
-  providerLink?: EntryFields.Text;
-  providerImage?: RawLink;
+  provider?: RawLink;
   start: EntryFields.Text;
   end?: EntryFields.Text;
   link?: EntryFields.Text;
@@ -90,6 +88,13 @@ export interface RawTag {
   darkIcon: RawLink;
   lightIcon: RawLink;
   link?: EntryFields.Text;
+}
+
+export interface RawProvider {
+  id: string;
+  title: string;
+  link?: string;
+  image: RawLink;
 }
 
 export const ROOT_DIR = join(__dirname, "..", "..");

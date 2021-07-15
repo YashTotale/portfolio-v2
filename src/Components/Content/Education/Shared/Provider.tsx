@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import { ResolvedEducation } from "../../../../Utils/types";
+import { getAsset } from "../../../../Utils/Content/assets";
 
 // Material UI Imports
 import { makeStyles, Tooltip } from "@material-ui/core";
@@ -33,24 +34,24 @@ type ProviderProps = ResolvedEducation;
 const Provider: FC<ProviderProps> = (props) => {
   const classes = useStyles();
 
-  if (!props.provider || !props.providerImage) return null;
+  if (!props.provider) return null;
 
-  const title = `Provided by ${props.provider}`;
+  const title = `Provided by ${props.provider.title}`;
 
   const providerImage = (
     <DynamicImage
-      src={`${props.providerImage.file.url}?w=80`}
-      alt={props.provider}
+      src={`${getAsset(props.provider.image).file.url}?w=80`}
+      alt={props.provider.title}
       className={classes.providerImage}
     />
   );
 
-  if (props.providerLink)
+  if (props.provider.link)
     return (
       <div className={classes.provider}>
         <Tooltip title={title}>
           <a
-            href={props.providerLink}
+            href={props.provider.link}
             target="_blank"
             rel="noopener noreferrer"
           >

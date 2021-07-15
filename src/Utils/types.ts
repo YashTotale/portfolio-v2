@@ -9,6 +9,7 @@ import {
   RawArticle,
   RawMain,
   RawEducation,
+  RawProvider,
 } from "../../scripts/data/helpers";
 
 export type Main = Omit<
@@ -55,13 +56,13 @@ export type ResolvedExperience = Omit<
   tags: Tag[];
 };
 
-export type Education = Omit<RawEducation, "providerImage" | "tags"> & {
-  providerImage?: string;
+export type Education = Omit<RawEducation, "provider" | "tags"> & {
+  provider?: string;
   tags: string[];
 };
 
-export type ResolvedEducation = Omit<Education, "providerImage" | "tags"> & {
-  providerImage?: Asset["fields"];
+export type ResolvedEducation = Omit<Education, "provider" | "tags"> & {
+  provider?: Provider;
   tags: Tag[];
 };
 
@@ -121,6 +122,14 @@ export type ResolvedTag = Omit<
   education: Education[];
   projects: Project[];
   articles: Article[];
+};
+
+export type Provider = Omit<RawProvider, "image"> & {
+  image: string;
+};
+
+export type ResolvedProvider = Omit<Provider, "image"> & {
+  image: Asset["fields"];
 };
 
 export interface Book {

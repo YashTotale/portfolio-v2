@@ -18,6 +18,7 @@ const getContent = () => {
     "article",
     "tag",
     "badge",
+    "provider",
     "book",
     "main",
   ];

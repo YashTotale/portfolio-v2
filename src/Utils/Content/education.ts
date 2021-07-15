@@ -7,7 +7,7 @@ import { createSorter, sortByDate } from "../funcs";
 import { Education, ResolvedEducation, Tag } from "../types";
 import { getDefaultSortedEducation } from "./main";
 import { getRawTag } from "./tags";
-import { getAsset } from "./assets";
+import { getRawProvider } from "./providers";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -32,9 +32,7 @@ export const getSingleEducation = (
   const single = getRawEducation(id, isSlug);
   if (!single) return null;
 
-  const providerImage = single.providerImage
-    ? getAsset(single.providerImage)
-    : undefined;
+  const provider = getRawProvider(single.provider ?? "") ?? undefined;
 
   const tags = single.tags.reduce((arr, tag) => {
     const resolved = getRawTag(tag);
@@ -42,7 +40,7 @@ export const getSingleEducation = (
     return arr;
   }, [] as Tag[]);
 
-  return { ...single, providerImage, tags };
+  return { ...single, provider, tags };
 };
 
 export const getRawEducation = (

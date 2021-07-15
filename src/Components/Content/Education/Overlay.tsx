@@ -6,6 +6,7 @@ import { useTitle } from "../../../Context/HeadContext";
 import { generateSearch } from "../../../Utils/funcs";
 import { getSingleEducation } from "../../../Utils/Content/education";
 import { getDefaultEducationImage } from "../../../Utils/Content/main";
+import { getAsset } from "../../../Utils/Content/assets";
 
 interface OverlayProps {
   id: string;
@@ -32,7 +33,9 @@ const Overlay: FC<OverlayProps> = (props) => {
           title
         ),
       }}
-      icon={education.providerImage ?? defaultImage}
+      icon={
+        education.provider ? getAsset(education.provider.image) : defaultImage
+      }
       label={education.title}
       className={props.className}
     />

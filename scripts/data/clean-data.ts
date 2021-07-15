@@ -13,6 +13,7 @@ import {
   RawTag,
   RawMain,
   RawEducation,
+  RawProvider,
 } from "./helpers";
 import {
   Project,
@@ -21,6 +22,7 @@ import {
   Tag,
   Main,
   Education,
+  Provider,
 } from "../../src/Utils/types";
 
 const getId = (x: RawLink) => x.sys.id;
@@ -80,11 +82,9 @@ const cleanEducation = async () => {
 
   const parsed = Object.entries(education).reduce((obj, [id, fields]) => {
     const tags = fields.tags.map(getId);
-    const providerImage = fields.providerImage
-      ? getId(fields.providerImage)
-      : undefined;
+    const provider = fields.provider ? getId(fields.provider) : undefined;
 
-    return { ...obj, [id]: { ...fields, providerImage, tags } };
+    return { ...obj, [id]: { ...fields, provider, tags } };
   }, {} as Dict<Education>);
 
   await writeData(parsed, "education");
@@ -180,6 +180,19 @@ const cleanTags = async (
   return parsed;
 };
 
+const cleanProviders = async () => {
+  const providers = await readData<RawProvider>("provider");
+
+  const parsed = Object.entries(providers).reduce((obj, [id, fields]) => {
+    const image = getId(fields.image);
+
+    return { ...obj, [id]: { ...fields, image } };
+  }, {} as Dict<Provider>);
+
+  await writeData(parsed, "provider");
+  return parsed;
+};
+
 const cleanMain = async () => {
   const main = await readData<RawMain>("main");
   const single = Object.values(main)[0];
@@ -204,6 +217,7 @@ const cleanData = async (): Promise<void> => {
     cleanEducation(),
     cleanProjects(),
     cleanArticles(),
+    cleanProviders(),
     cleanMain(),
   ]);
 
