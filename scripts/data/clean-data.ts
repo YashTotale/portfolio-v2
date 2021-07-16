@@ -83,8 +83,11 @@ const cleanEducation = async () => {
   const parsed = Object.entries(education).reduce((obj, [id, fields]) => {
     const tags = fields.tags.map(getId);
     const provider = fields.provider ? getId(fields.provider) : undefined;
+    const certificate = fields.certificate
+      ? getId(fields.certificate)
+      : undefined;
 
-    return { ...obj, [id]: { ...fields, provider, tags } };
+    return { ...obj, [id]: { ...fields, provider, certificate, tags } };
   }, {} as Dict<Education>);
 
   await writeData(parsed, "education");

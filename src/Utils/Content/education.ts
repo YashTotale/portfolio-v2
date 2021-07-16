@@ -20,6 +20,7 @@ import { EducationSort } from "../../Redux/education.slice";
 
 // Data Imports
 import education from "../../Data/education.json";
+import { getAsset } from "./assets";
 
 export const getEducation = (): Education[] => {
   return (Object.values(education) as unknown) as Education[];
@@ -33,6 +34,7 @@ export const getSingleEducation = (
   if (!single) return null;
 
   const provider = getRawProvider(single.provider ?? "") ?? undefined;
+  const certificate = getAsset(single.certificate ?? "") ?? undefined;
 
   const tags = single.tags.reduce((arr, tag) => {
     const resolved = getRawTag(tag);
@@ -40,7 +42,7 @@ export const getSingleEducation = (
     return arr;
   }, [] as Tag[]);
 
-  return { ...single, provider, tags };
+  return { ...single, provider, certificate, tags };
 };
 
 export const getRawEducation = (

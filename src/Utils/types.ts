@@ -56,13 +56,21 @@ export type ResolvedExperience = Omit<
   tags: Tag[];
 };
 
-export type Education = Omit<RawEducation, "provider" | "tags"> & {
+export type Education = Omit<
+  RawEducation,
+  "provider" | "certificate" | "tags"
+> & {
   provider?: string;
+  certificate?: string;
   tags: string[];
 };
 
-export type ResolvedEducation = Omit<Education, "provider" | "tags"> & {
+export type ResolvedEducation = Omit<
+  Education,
+  "provider" | "certificate" | "tags"
+> & {
   provider?: Provider;
+  certificate?: Asset["fields"];
   tags: Tag[];
 };
 

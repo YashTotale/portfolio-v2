@@ -30,12 +30,19 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   },
 }));
 
+interface Icon {
+  label: string;
+  value: string;
+  icon: JSX.Element;
+}
+
 interface FloatingIconsProps {
   linkLabel?: string;
   link?: string;
   github?: string;
   direction?: Direction;
   top?: number;
+  icons?: Icon[];
 }
 
 const FloatingIcons: FC<FloatingIconsProps> = (props) => {
@@ -62,6 +69,16 @@ const FloatingIcons: FC<FloatingIconsProps> = (props) => {
           className={classes.iconButton}
         />
       )}
+      {props.icons &&
+        props.icons.map((icon, i) => (
+          <LinkIcon
+            key={i}
+            label={`View ${icon.label}`}
+            href={icon.value}
+            icon={icon.icon}
+            className={classes.iconButton}
+          />
+        ))}
     </div>
   );
 };

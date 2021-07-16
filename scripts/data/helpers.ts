@@ -45,6 +45,7 @@ export interface RawEducation {
   slug: EntryFields.Text;
   description: EntryFields.RichText;
   provider?: RawLink;
+  certificate?: RawLink;
   start: EntryFields.Text;
   end?: EntryFields.Text;
   link?: EntryFields.Text;

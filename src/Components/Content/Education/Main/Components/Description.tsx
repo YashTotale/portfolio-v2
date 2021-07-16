@@ -1,12 +1,13 @@
 // React Imports
 import React, { FC } from "react";
 import { Document } from "@contentful/rich-text-types";
+import ButtonLinks from "../../../Shared/ButtonLinks";
 import RichText from "../../../../Custom/RichText";
 import { ResolvedEducation } from "../../../../../Utils/types";
 
 // Material UI Imports
 import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
-import ButtonLinks from "../../../Shared/ButtonLinks";
+import { Description as DescriptionIcon } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   description: {
@@ -36,7 +37,19 @@ const Description: FC<DescriptionProps> = (props) => {
         toMatch={props.search}
         variant={isSizeXS ? "body2" : "body1"}
       />
-      <ButtonLinks link={props.link} github={props.github} />
+      <ButtonLinks
+        link={props.link}
+        github={props.github}
+        buttons={
+          props.certificate && [
+            {
+              label: "Certificate",
+              value: props.certificate.file.url,
+              icon: <DescriptionIcon />,
+            },
+          ]
+        }
+      />
     </div>
   );
 };

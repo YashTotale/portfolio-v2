@@ -11,6 +11,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import { Description } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   titleContainer: {
@@ -20,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     position: "relative",
     width: "100%",
-    padding: theme.spacing(0, 12),
+    padding: theme.spacing(0, 18),
 
     [theme.breakpoints.only("sm")]: {
       padding: theme.spacing(0, 9),
@@ -61,6 +62,15 @@ const Title: FC<TitleProps> = (props) => {
           linkLabel="Website"
           direction="row"
           top={0}
+          icons={
+            props.certificate && [
+              {
+                label: "Certificate",
+                value: props.certificate.file.url,
+                icon: <Description />,
+              },
+            ]
+          }
         />
       )}
     </div>

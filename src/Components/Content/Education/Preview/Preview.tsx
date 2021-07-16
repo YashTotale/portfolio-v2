@@ -22,6 +22,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import { Description } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -65,10 +66,7 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     position: "relative",
     width: "100%",
-
-    [theme.breakpoints.only("sm")]: {
-      minHeight: theme.spacing(7),
-    },
+    minHeight: theme.spacing(7),
 
     [theme.breakpoints.only("xs")]: {
       minHeight: theme.spacing(6),
@@ -88,7 +86,6 @@ export interface PreviewProps {
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const education = getSingleEducation(props.id);
@@ -102,14 +99,6 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
       <div className={classes.display}>
         <Provider {...education} />
         <Title {...education} search={props.search} />
-        {!isSizeSmall && (
-          <FloatingIcons
-            linkLabel="Website"
-            link={education.link}
-            github={education.github}
-            direction="row"
-          />
-        )}
       </div>
       <div className={classes.info}>
         <div className={classes.description}>
@@ -140,15 +129,22 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
             {generateEducationTimeline(education)}
           </MatchHighlight>
         </Typography>
-        {isSizeSmall && (
-          <FloatingIcons
-            linkLabel="Website"
-            link={education.link}
-            github={education.github}
-            direction="row"
-            top={0.5}
-          />
-        )}
+        <FloatingIcons
+          linkLabel="Website"
+          link={education.link}
+          github={education.github}
+          direction="row"
+          top={0.5}
+          icons={
+            education.certificate && [
+              {
+                label: "Certificate",
+                value: education.certificate.file.url,
+                icon: <Description />,
+              },
+            ]
+          }
+        />
       </div>
     </DynamicPaper>
   );

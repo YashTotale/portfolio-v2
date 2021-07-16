@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { cloneElement, FC } from "react";
 
 // Material UI Imports
 import {
@@ -9,7 +9,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import { Launch } from "@material-ui/icons";
+import { GitHub, Launch } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   links: {
@@ -23,10 +23,17 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+interface CustomButton {
+  label: string;
+  value: string;
+  icon: JSX.Element;
+}
+
 interface ButtonLinksProps {
   link?: string;
   github?: string;
   linkLabel?: string;
+  buttons?: CustomButton[];
 }
 
 const ButtonLinks: FC<ButtonLinksProps> = (props) => {
@@ -39,8 +46,14 @@ const ButtonLinks: FC<ButtonLinksProps> = (props) => {
 
   return (
     <div className={classes.links}>
-      <ButtonLink value={props.link} label={props.linkLabel ?? "Website"} />
-      <ButtonLink value={props.github} label="GitHub" />
+      <ButtonLink
+        value={props.link}
+        label={props.linkLabel ?? "Website"}
+        icon={<Launch />}
+      />
+      <ButtonLink value={props.github} label="GitHub" icon={<GitHub />} />
+      {props.buttons &&
+        props.buttons.map((button, i) => <ButtonLink key={i} {...button} />)}
     </div>
   );
 };
@@ -68,6 +81,7 @@ const useButtonLinkStyles = makeStyles((theme) => ({
 interface ButtonLinkProps {
   label: string;
   value?: string;
+  icon: JSX.Element;
 }
 
 const ButtonLink: FC<ButtonLinkProps> = (props) => {
@@ -86,7 +100,9 @@ const ButtonLink: FC<ButtonLinkProps> = (props) => {
         <Typography variant="body2" className={classes.linkText}>
           View {props.label}
         </Typography>
-        <Launch fontSize="small" />
+        {cloneElement(props.icon, {
+          fontSize: "small",
+        })}
       </Button>
     </a>
   );
