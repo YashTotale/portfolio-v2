@@ -2,7 +2,6 @@
 import firebase from "firebase/app";
 import "firebase/analytics";
 import "firebase/performance";
-import "firebase/firestore";
 
 export const config = {
   apiKey: "AIzaSyBkV0LzaVCDpgr6-f-60MArbZWlyJ7utYU",
@@ -16,8 +15,16 @@ export const config = {
 
 firebase.initializeApp(config);
 
-export const firestore = firebase.firestore();
+let firestore: firebase.firestore.Firestore;
+
 export const performance = firebase.performance();
 export const analytics = firebase.analytics();
+
+export const useFirestore = (): firebase.firestore.Firestore => {
+  if (!firestore) {
+    firestore = firebase.firestore();
+  }
+  return firestore;
+};
 
 export default firebase;
