@@ -25,33 +25,49 @@ const getContent = () => {
 
   return Promise.all(
     contentTypes.map(async (type) => {
-      const entries = await client.getEntries({
-        content_type: type,
-        include: 0,
-      });
+      const parsed: Dict = {};
 
-      const parsed = entries.items.reduce((obj, item) => {
-        return {
-          ...obj,
-          [item.sys.id]: {
-            ...(item.fields as Dict),
-            id: item.sys.id,
-          },
-        };
-      }, {});
+      const recurse = async (skip = 0) => {
+        const entries = await client.getEntries({
+          content_type: type,
+          include: 0,
+          skip,
+        });
 
+        entries.items.forEach((entry) => {
+          parsed[entry.sys.id] = {
+            ...(entry.fields as Dict),
+            id: entry.sys.id,
+          };
+        });
+
+        if (entries.total > entries.limit + entries.skip) {
+          await recurse(entries.limit + entries.skip);
+        }
+      };
+
+      await recurse();
       await writeData(parsed, type);
     })
   );
 };
 
 const getAssets = async () => {
-  const assets = await client.getAssets();
+  const parsed: Dict = {};
 
-  const parsed = assets.items.reduce((obj, asset) => {
-    return { ...obj, [asset.sys.id]: { ...asset.fields } };
-  }, {});
+  const recurse = async (skip = 0) => {
+    const assets = await client.getAssets({ skip });
 
+    assets.items.forEach((asset) => {
+      parsed[asset.sys.id] = asset.fields;
+    });
+
+    if (assets.total > assets.limit + assets.skip) {
+      await recurse(assets.limit + assets.skip);
+    }
+  };
+
+  await recurse();
   await writeData(parsed, "assets");
 };
 
