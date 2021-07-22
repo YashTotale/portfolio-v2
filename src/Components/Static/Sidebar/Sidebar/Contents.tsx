@@ -4,17 +4,17 @@ import { Link, useLocation } from "react-router-dom";
 import { LocationDescriptor } from "history";
 import Category from "./Category";
 import Item from "./Item";
-import { generateSearch } from "../../../Utils/funcs";
+import { generateSearch } from "../../../../Utils/funcs";
 import {
   generateExperienceSubtitle,
   generateExperienceTitle,
   useSortedExperience,
-} from "../../../Utils/Content/experience";
-import { useSortedEducation } from "../../../Utils/Content/education";
-import { useSortedProjects } from "../../../Utils/Content/projects";
-import { useSortedArticles } from "../../../Utils/Content/articles";
-import { useSortedTags } from "../../../Utils/Content/tags";
-import { SIDEBAR_WIDTH } from "../../../Utils/constants";
+} from "../../../../Utils/Content/experience";
+import { useSortedEducation } from "../../../../Utils/Content/education";
+import { useSortedProjects } from "../../../../Utils/Content/projects";
+import { useSortedArticles } from "../../../../Utils/Content/articles";
+import { useSortedTags } from "../../../../Utils/Content/tags";
+import { SIDEBAR_WIDTH } from "../../../../Utils/constants";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -23,7 +23,7 @@ import {
   getEducationViewable,
   getExperienceViewable,
   getProjectsViewable,
-} from "../../../Redux";
+} from "../../../../Redux";
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
