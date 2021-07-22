@@ -3,7 +3,7 @@ import { Document } from "@contentful/rich-text-types";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 
 // Internal Imports
-import { createSorter, sortByDate } from "../funcs";
+import { createResolver, createSorter, sortByDate } from "../funcs";
 import { Badge, Experience, Project, ResolvedProject, Tag } from "../types";
 import { getDefaultSortedProjects } from "./main";
 import { generateExperienceTitle, getRawExperience } from "./experience";
@@ -28,31 +28,30 @@ export const getProjects = (): Project[] => {
   return (Object.values(projects) as unknown) as Project[];
 };
 
-export const getProject = (
-  id: string,
-  isSlug = false
-): ResolvedProject | null => {
-  const single = getRawProject(id, isSlug);
-  if (!single) return null;
+export const getProject = createResolver(
+  (id: string, isSlug = false): ResolvedProject | null => {
+    const single = getRawProject(id, isSlug);
+    if (!single) return null;
 
-  const image = getAsset(single.image);
+    const image = getAsset(single.image);
 
-  const associated = getRawExperience(single.associated ?? "") ?? undefined;
+    const associated = getRawExperience(single.associated ?? "") ?? undefined;
 
-  const badges = single?.badges?.reduce((arr, tag) => {
-    const resolved = getRawBadge(tag);
-    if (resolved) arr.push(resolved);
-    return arr;
-  }, [] as Badge[]);
+    const badges = single?.badges?.reduce((arr, tag) => {
+      const resolved = getRawBadge(tag);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Badge[]);
 
-  const tags = single.tags.reduce((arr, tag) => {
-    const resolved = getRawTag(tag);
-    if (resolved) arr.push(resolved);
-    return arr;
-  }, [] as Tag[]);
+    const tags = single.tags.reduce((arr, tag) => {
+      const resolved = getRawTag(tag);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Tag[]);
 
-  return { ...single, image, associated, badges, tags };
-};
+    return { ...single, image, associated, badges, tags };
+  }
+);
 
 export const getRawProject = (
   identifier: string,

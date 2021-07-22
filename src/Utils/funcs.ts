@@ -76,6 +76,21 @@ export const createSorter = <K extends string, T>(
   };
 };
 
+type Resolver<T> = (id: string, isSlug?: boolean) => T | null;
+
+export const createResolver = <T>(resolveFunc: Resolver<T>): Resolver<T> => {
+  const resolveCache: Record<string, T | null> = {};
+
+  return (id: string, isSlug = false) => {
+    if (resolveCache[id]) return resolveCache[id];
+
+    const resolved = resolveFunc(id, isSlug);
+    resolveCache[id] = resolved;
+
+    return resolved;
+  };
+};
+
 export const generateSearch = (
   obj: Record<string, string>,
   title: string | null

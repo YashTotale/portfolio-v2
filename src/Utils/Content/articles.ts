@@ -4,7 +4,7 @@ import { Document } from "@contentful/rich-text-types";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 
 // Internal Imports
-import { compareDates, createSorter } from "../funcs";
+import { compareDates, createResolver, createSorter } from "../funcs";
 import { Article, Experience, ResolvedArticle, Tag } from "../types";
 import { getDefaultSortedArticles } from "./main";
 import { generateExperienceTitle, getRawExperience } from "./experience";
@@ -28,25 +28,24 @@ export const getArticles = (): Article[] => {
   return (Object.values(articles) as unknown) as Article[];
 };
 
-export const getArticle = (
-  id: string,
-  isSlug = false
-): ResolvedArticle | null => {
-  const single = getRawArticle(id, isSlug);
-  if (!single) return null;
+export const getArticle = createResolver(
+  (id: string, isSlug = false): ResolvedArticle | null => {
+    const single = getRawArticle(id, isSlug);
+    if (!single) return null;
 
-  const image = getAsset(single.image);
+    const image = getAsset(single.image);
 
-  const associated = getRawExperience(single.associated ?? "") ?? undefined;
+    const associated = getRawExperience(single.associated ?? "") ?? undefined;
 
-  const tags = single.tags.reduce((arr, tag) => {
-    const resolved = getRawTag(tag);
-    if (resolved) arr.push(resolved);
-    return arr;
-  }, [] as Tag[]);
+    const tags = single.tags.reduce((arr, tag) => {
+      const resolved = getRawTag(tag);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Tag[]);
 
-  return { ...single, image, associated, tags };
-};
+    return { ...single, image, associated, tags };
+  }
+);
 
 export const getRawArticle = (
   identifier: string,

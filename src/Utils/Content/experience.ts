@@ -3,7 +3,7 @@ import { Document } from "@contentful/rich-text-types";
 import { documentToPlainTextString } from "@contentful/rich-text-plain-text-renderer";
 
 // Internal Imports
-import { createSorter, sortByDate } from "../funcs";
+import { createResolver, createSorter, sortByDate } from "../funcs";
 import {
   Article,
   Experience,
@@ -35,36 +35,35 @@ export const getExperience = (): Experience[] => {
   return (Object.values(experience) as unknown) as Experience[];
 };
 
-export const getSingleExperience = (
-  id: string,
-  isSlug = false
-): ResolvedExperience | null => {
-  const single = getRawExperience(id, isSlug);
-  if (!single) return null;
+export const getSingleExperience = createResolver(
+  (id: string, isSlug = false): ResolvedExperience | null => {
+    const single = getRawExperience(id, isSlug);
+    if (!single) return null;
 
-  const lightImage = getAsset(single.lightImage);
-  const darkImage = getAsset(single.darkImage);
+    const lightImage = getAsset(single.lightImage);
+    const darkImage = getAsset(single.darkImage);
 
-  const projects = single.projects.reduce((arr, project) => {
-    const resolved = getRawProject(project);
-    if (resolved) arr.push(resolved);
-    return arr;
-  }, [] as Project[]);
+    const projects = single.projects.reduce((arr, project) => {
+      const resolved = getRawProject(project);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Project[]);
 
-  const articles = single.articles.reduce((arr, article) => {
-    const resolved = getRawArticle(article);
-    if (resolved) arr.push(resolved);
-    return arr;
-  }, [] as Article[]);
+    const articles = single.articles.reduce((arr, article) => {
+      const resolved = getRawArticle(article);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Article[]);
 
-  const tags = single.tags.reduce((arr, tag) => {
-    const resolved = getRawTag(tag);
-    if (resolved) arr.push(resolved);
-    return arr;
-  }, [] as Tag[]);
+    const tags = single.tags.reduce((arr, tag) => {
+      const resolved = getRawTag(tag);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Tag[]);
 
-  return { ...single, lightImage, darkImage, projects, articles, tags };
-};
+    return { ...single, lightImage, darkImage, projects, articles, tags };
+  }
+);
 
 export const getRawExperience = (
   identifier: string,

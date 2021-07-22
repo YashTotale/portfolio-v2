@@ -12,7 +12,7 @@ import { getRawEducation } from "./education";
 import { getRawProject } from "./projects";
 import { getRawArticle } from "./articles";
 import { getAsset } from "./assets";
-import { createSorter } from "../funcs";
+import { createResolver, createSorter } from "../funcs";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -34,47 +34,49 @@ export const getTags = (): Tag[] => {
   return (Object.values(tags) as unknown) as Tag[];
 };
 
-export const getTag = (id: string, isSlug = false): ResolvedTag | null => {
-  const single = getRawTag(id, isSlug);
-  if (!single) return null;
+export const getTag = createResolver(
+  (id: string, isSlug = false): ResolvedTag | null => {
+    const single = getRawTag(id, isSlug);
+    if (!single) return null;
 
-  const darkIcon = getAsset(single.darkIcon);
-  const lightIcon = getAsset(single.lightIcon);
+    const darkIcon = getAsset(single.darkIcon);
+    const lightIcon = getAsset(single.lightIcon);
 
-  const experience = single.experience.reduce((arr, exp) => {
-    const resolved = getRawExperience(exp);
-    if (resolved) arr.push(resolved);
-    return arr;
-  }, [] as Experience[]);
+    const experience = single.experience.reduce((arr, exp) => {
+      const resolved = getRawExperience(exp);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Experience[]);
 
-  const education = single.education.reduce((arr, ed) => {
-    const resolved = getRawEducation(ed);
-    if (resolved) arr.push(resolved);
-    return arr;
-  }, [] as Education[]);
+    const education = single.education.reduce((arr, ed) => {
+      const resolved = getRawEducation(ed);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Education[]);
 
-  const projects = single.projects.reduce((arr, project) => {
-    const resolved = getRawProject(project);
-    if (resolved) arr.push(resolved);
-    return arr;
-  }, [] as Project[]);
+    const projects = single.projects.reduce((arr, project) => {
+      const resolved = getRawProject(project);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Project[]);
 
-  const articles = single.articles.reduce((arr, article) => {
-    const resolved = getRawArticle(article);
-    if (resolved) arr.push(resolved);
-    return arr;
-  }, [] as Article[]);
+    const articles = single.articles.reduce((arr, article) => {
+      const resolved = getRawArticle(article);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Article[]);
 
-  return {
-    ...single,
-    darkIcon,
-    lightIcon,
-    experience,
-    education,
-    projects,
-    articles,
-  };
-};
+    return {
+      ...single,
+      darkIcon,
+      lightIcon,
+      experience,
+      education,
+      projects,
+      articles,
+    };
+  }
+);
 
 export const getRawTag = (identifier: string, isSlug = false): Tag | null => {
   const all = (tags as unknown) as Record<string, Tag>;

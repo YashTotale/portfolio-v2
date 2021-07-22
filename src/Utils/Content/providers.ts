@@ -1,4 +1,5 @@
 // Internal Imports
+import { createResolver } from "../funcs";
 import { Provider, ResolvedProvider } from "../types";
 import { getAsset } from "./assets";
 
@@ -9,14 +10,16 @@ export const getProviders = (): Provider[] => {
   return (Object.values(providers) as unknown) as Provider[];
 };
 
-export const getProvider = (id: string): ResolvedProvider | null => {
-  const single = getRawProvider(id);
-  if (!single) return null;
+export const getProvider = createResolver(
+  (id: string): ResolvedProvider | null => {
+    const single = getRawProvider(id);
+    if (!single) return null;
 
-  const image = getAsset(single.image);
+    const image = getAsset(single.image);
 
-  return { ...single, image };
-};
+    return { ...single, image };
+  }
+);
 
 export const getRawProvider = (identifier: string): Provider | null => {
   const all = (providers as unknown) as Record<string, Provider>;

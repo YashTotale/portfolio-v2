@@ -3,7 +3,7 @@ import { documentToPlainTextString } from "@contentful/rich-text-plain-text-rend
 import { Document } from "@contentful/rich-text-types";
 
 // Internal Imports
-import { createSorter, sortByDate } from "../funcs";
+import { createResolver, createSorter, sortByDate } from "../funcs";
 import { Education, ResolvedEducation, Tag } from "../types";
 import { getDefaultSortedEducation } from "./main";
 import { getRawTag } from "./tags";
@@ -26,24 +26,23 @@ export const getEducation = (): Education[] => {
   return (Object.values(education) as unknown) as Education[];
 };
 
-export const getSingleEducation = (
-  id: string,
-  isSlug = false
-): ResolvedEducation | null => {
-  const single = getRawEducation(id, isSlug);
-  if (!single) return null;
+export const getSingleEducation = createResolver(
+  (id: string, isSlug = false): ResolvedEducation | null => {
+    const single = getRawEducation(id, isSlug);
+    if (!single) return null;
 
-  const provider = getRawProvider(single.provider ?? "") ?? undefined;
-  const certificate = getAsset(single.certificate ?? "") ?? undefined;
+    const provider = getRawProvider(single.provider ?? "") ?? undefined;
+    const certificate = getAsset(single.certificate ?? "") ?? undefined;
 
-  const tags = single.tags.reduce((arr, tag) => {
-    const resolved = getRawTag(tag);
-    if (resolved) arr.push(resolved);
-    return arr;
-  }, [] as Tag[]);
+    const tags = single.tags.reduce((arr, tag) => {
+      const resolved = getRawTag(tag);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Tag[]);
 
-  return { ...single, provider, certificate, tags };
-};
+    return { ...single, provider, certificate, tags };
+  }
+);
 
 export const getRawEducation = (
   identifier: string,
