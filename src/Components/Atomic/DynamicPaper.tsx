@@ -1,20 +1,25 @@
 // React Imports
-import React, { forwardRef, useState } from "react";
+import React, { forwardRef } from "react";
 import clsx from "clsx";
 
 // Material UI Imports
 import { makeStyles, Paper, PaperProps, Theme } from "@material-ui/core";
 
 interface StyleProps {
-  hovering: boolean;
+  elevation: number;
+  elevationOnHover: number;
 }
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   paper: {
+    boxShadow: ({ elevation }) => theme.shadows[elevation],
     transition: theme.transitions.create(["transform", "box-shadow"], {
       duration: "0.4s",
     }),
-    transform: ({ hovering }) => (hovering ? "scale(1.01)" : ""),
+    "&:hover": {
+      boxShadow: ({ elevationOnHover }) => theme.shadows[elevationOnHover],
+      transform: `scale(1.01) translate(0, -${theme.spacing(0.5)}px)`,
+    },
   },
 }));
 
@@ -25,14 +30,10 @@ type DynamicPaperProps = PaperProps & {
 const DynamicPaper = forwardRef<HTMLDivElement, DynamicPaperProps>(
   (props, ref) => {
     const { elevation = 8, elevationOnHover = 16 } = props;
-    const [hovering, setHovering] = useState(false);
-    const classes = useStyles({ hovering });
+    const classes = useStyles({ elevation, elevationOnHover });
 
     return (
       <Paper
-        onMouseOver={() => setHovering(true)}
-        onMouseLeave={() => setHovering(false)}
-        elevation={hovering ? elevationOnHover : elevation}
         ref={ref}
         {...props}
         className={clsx(classes.paper, props.className)}
