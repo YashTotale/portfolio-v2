@@ -1,12 +1,13 @@
 // React Imports
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
-import { SIDEBAR_WIDTH } from "../../Utils/constants";
-import { generateSearch } from "../../Utils/funcs";
+import { useClosableSnackbar } from "../../../Hooks";
+import { SIDEBAR_WIDTH } from "../../../Utils/constants";
+import { generateSearch } from "../../../Utils/funcs";
 
 // Redux Imports
-import { toggleDarkMode, toggleSidebar } from "../../Redux";
-import { useAppDispatch } from "../../Store";
+import { toggleDarkMode, toggleSidebar } from "../../../Redux";
+import { useAppDispatch } from "../../../Store";
 
 // Material UI Imports
 import {
@@ -25,7 +26,6 @@ import {
   Menu as MenuButton,
   Palette,
 } from "@material-ui/icons";
-import { useClosableSnackbar } from "../../Hooks";
 
 const useStyles = makeStyles((theme) => ({
   appbar: {
