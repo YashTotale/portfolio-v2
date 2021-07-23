@@ -30,17 +30,28 @@ const SkillSet: FC = () => {
   const theme = useTheme();
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
 
+  const tagCategories = [
+    "Languages",
+    "Frontend",
+    "Backend",
+    "DevOps",
+    "Testing",
+    "Design",
+  ];
+
   return (
     <div className={classes.skillset}>
       <Typography align="center" variant={isSizeSmall ? "h5" : "h4"}>
         My Skill Set
       </Typography>
       <div className={classes.skills}>
-        <Category category="Languages" className={classes.skillCategory} />
-        <Category category="Frontend" className={classes.skillCategory} />
-        <Category category="Backend" className={classes.skillCategory} />
-        <Category category="DevOps" className={classes.skillCategory} />
-        <Category category="Design" className={classes.skillCategory} />
+        {tagCategories.map((category, i) => (
+          <Category
+            key={i}
+            category={category}
+            className={classes.skillCategory}
+          />
+        ))}
       </div>
     </div>
   );
