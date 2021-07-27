@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import LinkIcon from "../Atomic/Icon/Link";
+import LinkIcon from "../../Atomic/Icon/Link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNpm, faHackerrank } from "@fortawesome/free-brands-svg-icons";
 
