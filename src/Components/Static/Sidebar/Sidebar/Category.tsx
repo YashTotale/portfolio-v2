@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { cloneElement, FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { LocationDescriptor } from "history";
 import { generateSidebarPath } from "./Contents";
@@ -12,6 +12,7 @@ import {
   ListItemText,
   Collapse,
   Theme,
+  ListItemIcon,
 } from "@material-ui/core";
 import { ExpandLess } from "@material-ui/icons";
 
@@ -32,6 +33,9 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     padding: theme.spacing(0.75, 1),
     paddingLeft: theme.spacing(3),
   },
+  listItemIcon: {
+    minWidth: theme.spacing(4),
+  },
   listItemText: {
     fontWeight: theme.typography.fontWeightBold,
     color: ({ isActive }) =>
@@ -46,13 +50,15 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
 interface CategoryProps {
   to: LocationDescriptor;
   label: string;
+  icon: JSX.Element;
 }
 
-const Category: FC<CategoryProps> = ({ label, to, children }) => {
+const Category: FC<CategoryProps> = ({ label, to, icon, children }) => {
   const pathname = useLocation().pathname;
   const curr = typeof to === "string" ? to : to.pathname ?? "";
   const open = pathname.includes(curr);
-  const classes = useStyles({ open, isActive: pathname === curr });
+  const isActive = pathname === curr;
+  const classes = useStyles({ open, isActive });
 
   return (
     <li className={classes.listItemContainer}>
@@ -61,6 +67,12 @@ const Category: FC<CategoryProps> = ({ label, to, children }) => {
         className={classes.link}
       >
         <ListItem button className={classes.listItem}>
+          <ListItemIcon className={classes.listItemIcon}>
+            {cloneElement(icon, {
+              fontSize: "small",
+              color: isActive ? "primary" : "default",
+            })}
+          </ListItemIcon>
           <ListItemText
             primary={label}
             classes={{

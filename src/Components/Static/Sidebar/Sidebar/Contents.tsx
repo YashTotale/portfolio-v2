@@ -27,6 +27,16 @@ import {
 
 // Material UI Imports
 import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
+import {
+  HomeOutlined,
+  WorkOutline,
+  SchoolOutlined,
+  BuildOutlined,
+  DescriptionOutlined,
+  LabelOutlined,
+  BookOutlined,
+  ChatBubbleOutline,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -84,8 +94,16 @@ const Contents: FC = () => {
       </Toolbar>
       <Divider />
       <List disablePadding className={classes.list}>
-        <Category label="Home" to={generateSidebarPath("/")} />
-        <Category label="Experience" to={generateSidebarPath("/experience")}>
+        <Category
+          label="Home"
+          to={generateSidebarPath("/")}
+          icon={<HomeOutlined />}
+        />
+        <Category
+          label="Experience"
+          to={generateSidebarPath("/experience")}
+          icon={<WorkOutline />}
+        >
           {experience.map((exp) => (
             <Item
               key={exp.id}
@@ -99,7 +117,11 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
-        <Category label="Education" to={generateSidebarPath("/education")}>
+        <Category
+          label="Education"
+          to={generateSidebarPath("/education")}
+          icon={<SchoolOutlined />}
+        >
           {education.map((ed) => (
             <Item
               key={ed.id}
@@ -112,7 +134,11 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
-        <Category label="Projects" to={generateSidebarPath("/projects")}>
+        <Category
+          label="Projects"
+          to={generateSidebarPath("/projects")}
+          icon={<BuildOutlined />}
+        >
           {projects.map((project) => (
             <Item
               key={project.id}
@@ -125,7 +151,11 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
-        <Category label="Articles" to={generateSidebarPath("/articles")}>
+        <Category
+          label="Articles"
+          to={generateSidebarPath("/articles")}
+          icon={<DescriptionOutlined />}
+        >
           {articles.map((article) => (
             <Item
               key={article.id}
@@ -138,7 +168,11 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
-        <Category label="Tags" to={generateSidebarPath("/tags")}>
+        <Category
+          label="Tags"
+          to={generateSidebarPath("/tags")}
+          icon={<LabelOutlined />}
+        >
           {tags.map((tag) => (
             <Item
               key={tag.id}
@@ -147,8 +181,16 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
-        <Category label="Books" to={generateSidebarPath("/books")} />
-        <Category label="Contact" to={generateSidebarPath("/contact")} />
+        <Category
+          label="Books"
+          to={generateSidebarPath("/books")}
+          icon={<BookOutlined />}
+        />
+        <Category
+          label="Contact"
+          to={generateSidebarPath("/contact")}
+          icon={<ChatBubbleOutline />}
+        />
       </List>
     </>
   );
