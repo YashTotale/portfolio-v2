@@ -62,7 +62,9 @@ const Typer: FC = () => {
       <StyledLink to={generateTo("/books")}>books</StyledLink>
       <Typist.Backspace count={"books".length} delay={2000} />
     </Typist>
-  ) : null;
+  ) : (
+    <></>
+  );
 };
 
 export default Typer;

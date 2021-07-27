@@ -70,7 +70,7 @@ const Category: FC<CategoryProps> = ({ label, to, icon, children }) => {
           <ListItemIcon className={classes.listItemIcon}>
             {cloneElement(icon, {
               fontSize: "small",
-              color: isActive ? "primary" : "default",
+              color: isActive ? "primary" : "action",
             })}
           </ListItemIcon>
           <ListItemText
