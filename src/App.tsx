@@ -14,9 +14,10 @@ import Navbar from "./Components/Static/Navbar";
 import Footer from "./Components/Static/Footer";
 import Sidebar from "./Components/Static/Sidebar";
 import NavController from "./Components/Static/NavController";
+import Loading from "./Components/Static/Loading";
 
 // Material UI Imports
-import { CircularProgress, makeStyles } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 // Pages
 const Home = lazy(() => import("./Pages/Home"));
@@ -50,11 +51,6 @@ const useStyles = makeStyles((theme) => ({
     width: "90%",
     margin: "auto",
   },
-  spinner: {
-    display: "flex",
-    justifyContent: "center",
-    width: "100%",
-  },
 }));
 
 const App: FC = () => {
@@ -77,13 +73,7 @@ const Routes: FC = () => {
   return (
     <div className={classes.root}>
       <div className={classes.layout}>
-        <Suspense
-          fallback={
-            <div className={classes.spinner}>
-              <CircularProgress />
-            </div>
-          }
-        >
+        <Suspense fallback={<Loading />}>
           <Switch>
             <Route exact path="/experience">
               <ExperiencePage />
