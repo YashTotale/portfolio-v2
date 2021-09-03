@@ -11,7 +11,7 @@ import {
   getExperienceTypes,
   useFilteredExperience,
 } from "../../Utils/Content/experience";
-import { sortTags } from "../../Utils/Content/tags";
+import { resolveTagIcon, sortTags } from "../../Utils/Content/tags";
 import { sortProjects } from "../../Utils/Content/projects";
 
 // Redux Imports
@@ -36,7 +36,7 @@ import { ExperienceSort, EXPERIENCE_SORT } from "../../Redux/experience.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, useTheme, Typography } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,6 +64,9 @@ const useStyles = makeStyles((theme) => ({
 const Experience: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+
+  const theme = useTheme();
+  const isDarkMode = theme.palette.type === "dark";
 
   const allTypes = getExperienceTypes();
   const allTags = sortTags("Alphabetically");
@@ -104,6 +107,7 @@ const Experience: FC = () => {
             {
               label: "Tags",
               values: allTags.map((tag) => tag.title),
+              images: allTags.map((tag) => resolveTagIcon(tag, isDarkMode)),
               value: tagFilter,
               onChange: (values) => dispatch(setExperienceTagFilter(values)),
             },

@@ -8,7 +8,7 @@ import ProjectPreview from "../../Components/Content/Project/Preview";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 import { useFilteredProjects } from "../../Utils/Content/projects";
-import { sortTags } from "../../Utils/Content/tags";
+import { resolveTagIcon, sortTags } from "../../Utils/Content/tags";
 import {
   generateExperienceTitle,
   sortExperience,
@@ -34,7 +34,7 @@ import { ProjectsSort, PROJECTS_SORT } from "../../Redux/projects.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -80,6 +80,9 @@ const ProjectsPage: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
+  const theme = useTheme();
+  const isDarkMode = theme.palette.type === "dark";
+
   const allTags = sortTags("Alphabetically");
   const allExperience = sortExperience("Alphabetically");
 
@@ -111,6 +114,7 @@ const ProjectsPage: FC = () => {
             {
               label: "Tags",
               values: allTags.map((tag) => tag.title),
+              images: allTags.map((tag) => resolveTagIcon(tag, isDarkMode)),
               value: tagFilter,
               onChange: (values) => dispatch(setProjectsTagFilter(values)),
             },

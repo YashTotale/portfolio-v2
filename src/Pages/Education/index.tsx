@@ -8,7 +8,7 @@ import Preview from "../../Components/Content/Education/Preview";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 import { useFilteredEducation } from "../../Utils/Content/education";
-import { sortTags } from "../../Utils/Content/tags";
+import { resolveTagIcon, sortTags } from "../../Utils/Content/tags";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -28,7 +28,7 @@ import { EDUCATION_SORT, EducationSort } from "../../Redux/education.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -56,6 +56,9 @@ const useStyles = makeStyles((theme) => ({
 const Education: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+
+  const theme = useTheme();
+  const isDarkMode = theme.palette.type === "dark";
 
   const allTags = sortTags("Alphabetically");
 
@@ -86,6 +89,7 @@ const Education: FC = () => {
             {
               label: "Tags",
               values: allTags.map((tag) => tag.title),
+              images: allTags.map((tag) => resolveTagIcon(tag, isDarkMode)),
               value: tagFilter,
               onChange: (values) => dispatch(setEducationTagFilter(values)),
             },

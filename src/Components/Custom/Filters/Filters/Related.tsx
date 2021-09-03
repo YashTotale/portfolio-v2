@@ -21,6 +21,10 @@ const useStyles = makeStyles((theme) => ({
   itemSelected: {
     fontWeight: theme.typography.fontWeightBold,
   },
+  avatar: {
+    width: theme.spacing(4),
+    height: theme.spacing(4),
+  },
 }));
 
 export interface RelatedProps {
@@ -69,7 +73,7 @@ const Related: FC<RelatedProps> = (props) => {
             >
               {typeof props.images?.[i] === "string" && (
                 <ListItemAvatar>
-                  <Avatar src={props.images[i]} />
+                  <Avatar className={classes.avatar} src={props.images[i]} />
                 </ListItemAvatar>
               )}
               {v}

@@ -88,6 +88,16 @@ export const getRawTag = (identifier: string, isSlug = false): Tag | null => {
   return single;
 };
 
+export const resolveTagIcon = (
+  tag: Tag,
+  isDarkMode: boolean,
+  width = 30
+): string => {
+  return `${
+    getAsset(isDarkMode ? tag.darkIcon : tag.lightIcon).file.url
+  }?w=${width}`;
+};
+
 let categoriesCache: string[] | null = null;
 
 export const getTagCategories = (): string[] => {
