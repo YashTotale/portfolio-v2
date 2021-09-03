@@ -102,6 +102,7 @@ const Category: FC<CategoryProps> = (props) => {
       onClick={
         props.withClick ? (alreadyFiltered ? onUnfilter : onFilter) : undefined
       }
+      color={alreadyFiltered ? "primary" : "default"}
       className={classes.category}
     />
   );

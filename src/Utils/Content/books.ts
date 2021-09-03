@@ -71,12 +71,12 @@ export const checkSearch = (b: Book, search: string): boolean => {
 export const useFilteredBooks = (): Book[] => {
   const books = getBooks();
 
-  const tagFilter = useSelector(getBooksGenreFilter);
+  const genreFilter = useSelector(getBooksGenreFilter);
   const search = useSelector(getBooksSearch);
   const normalizedSearch = search.toLowerCase();
 
   return books.filter((b) => {
-    if (!checkGenres(b, tagFilter)) return false;
+    if (!checkGenres(b, genreFilter)) return false;
     if (!checkSearch(b, normalizedSearch)) return false;
 
     return true;

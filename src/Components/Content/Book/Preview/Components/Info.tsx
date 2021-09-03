@@ -1,12 +1,13 @@
 // React Imports
 import React, { FC } from "react";
+import Genres from "./Genres";
 import HorizontalDivider from "../../../../Atomic/Divider/Horizontal";
+import MatchHighlight from "../../../../Atomic/MatchHighlight";
 import { Book } from "../../../../../Utils/types";
 
 // Material UI Imports
-import { Chip, Link, makeStyles, Typography } from "@material-ui/core";
+import { Link, makeStyles, Typography } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
-import MatchHighlight from "../../../../Atomic/MatchHighlight";
 
 const useStyles = makeStyles((theme) => ({
   info: {
@@ -45,9 +46,6 @@ const useStyles = makeStyles((theme) => ({
   },
   rating: {
     marginRight: theme.spacing(0.25),
-  },
-  genre: {
-    margin: theme.spacing(0.25),
   },
 }));
 
@@ -99,18 +97,7 @@ const Info: FC<InfoProps> = (props) => {
             {props.yearPublished}
           </Item>
         )}
-        <Item label="Genres">
-          {props.genres.map((genre) => (
-            <Chip
-              key={genre}
-              label={
-                <MatchHighlight toMatch={props.search}>{genre}</MatchHighlight>
-              }
-              size="small"
-              className={classes.genre}
-            />
-          ))}
-        </Item>
+        <Genres {...props} />
       </Section>
       <Section last>
         <Item label="Avg Rating">
@@ -163,7 +150,7 @@ interface ItemProps {
   search?: string;
 }
 
-const Item: FC<ItemProps> = ({ label, children, link, search }) => {
+export const Item: FC<ItemProps> = ({ label, children, link, search }) => {
   const classes = useStyles();
 
   if (typeof children === "string" && search) {
