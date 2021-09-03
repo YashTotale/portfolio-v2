@@ -3,7 +3,11 @@ import { Book } from "../types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getBooksGenreFilter, getBooksSearch } from "../../Redux";
+import {
+  getBooksAuthorFilter,
+  getBooksGenreFilter,
+  getBooksSearch,
+} from "../../Redux";
 
 // Data Imports
 import books from "../../Data/book.json";
@@ -36,9 +40,30 @@ export const getBookGenres = (): string[] => {
   return unique;
 };
 
+let authorsCache: string[] | null = null;
+
+export const getBookAuthors = (): string[] => {
+  if (authorsCache) return authorsCache;
+
+  const books = getBooks();
+
+  const authors = books.reduce((genres, book) => {
+    return [...genres, book.author];
+  }, [] as string[]);
+
+  const unique = [...new Set(authors)].sort((a, b) => a.localeCompare(b));
+  authorsCache = unique;
+  return unique;
+};
+
 export const checkGenres = (b: Book, genres: string[]): boolean => {
   if (!genres.length) return true;
   return b.genres.some((genre) => genres.includes(genre));
+};
+
+export const checkAuthors = (b: Book, authors: string[]): boolean => {
+  if (!authors.length) return true;
+  return authors.includes(b.author);
 };
 
 const searchCache: Record<string, Record<string, boolean>> = {};
@@ -72,11 +97,14 @@ export const useFilteredBooks = (): Book[] => {
   const books = getBooks();
 
   const genreFilter = useSelector(getBooksGenreFilter);
+  const authorFilter = useSelector(getBooksAuthorFilter);
+
   const search = useSelector(getBooksSearch);
   const normalizedSearch = search.toLowerCase();
 
   return books.filter((b) => {
     if (!checkGenres(b, genreFilter)) return false;
+    if (!checkAuthors(b, authorFilter)) return false;
     if (!checkSearch(b, normalizedSearch)) return false;
 
     return true;

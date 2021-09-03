@@ -223,9 +223,11 @@ export {
   // -> Selectors
   getBooksSearch,
   getBooksGenreFilter,
+  getBooksAuthorFilter,
   // -> Actions
   setBooksSearch,
   setBooksGenreFilter,
+  setBooksAuthorFilter,
   // -> Reducer
   booksReducer,
   // -> State

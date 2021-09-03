@@ -6,14 +6,20 @@ import Filters from "../../Components/Custom/Filters";
 import BookPreview from "../../Components/Content/Book/Preview";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
-import { getBookGenres, useFilteredBooks } from "../../Utils/Content/books";
+import {
+  getBookAuthors,
+  getBookGenres,
+  useFilteredBooks,
+} from "../../Utils/Content/books";
 import { Book } from "../../Utils/types";
 
 // Redux Imports
 import { useSelector } from "react-redux";
 import {
+  getBooksAuthorFilter,
   getBooksGenreFilter,
   getBooksSearch,
+  setBooksAuthorFilter,
   setBooksGenreFilter,
   setBooksSearch,
 } from "../../Redux";
@@ -71,9 +77,11 @@ const Books: FC = () => {
 
   const books = useFilteredBooks();
   const genres = getBookGenres();
+  const authors = getBookAuthors();
 
   const search = useSelector(getBooksSearch);
   const genreFilter = useSelector(getBooksGenreFilter);
+  const authorFilter = useSelector(getBooksAuthorFilter);
 
   useAnalytics("Books");
 
@@ -94,6 +102,12 @@ const Books: FC = () => {
               values: genres,
               value: genreFilter,
               onChange: (value) => dispatch(setBooksGenreFilter(value)),
+            },
+            {
+              label: "Authors",
+              values: authors,
+              value: authorFilter,
+              onChange: (value) => dispatch(setBooksAuthorFilter(value)),
             },
           ]}
         />
