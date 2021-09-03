@@ -12,6 +12,8 @@ import {
   useMediaQuery,
   useTheme,
   InputLabel,
+  ListItemAvatar,
+  Avatar,
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 
@@ -25,6 +27,7 @@ export interface RelatedProps {
   label: string;
   value: string[];
   values: string[];
+  images?: string[];
   onChange: (value: string[]) => void;
   onClear?: () => void;
   last?: boolean;
@@ -56,7 +59,7 @@ const Related: FC<RelatedProps> = (props) => {
       <FormControl>
         {isSizeXS && <InputLabel>Related {label}</InputLabel>}
         <Select multiple value={value} onChange={handleChange}>
-          {values.map((v) => (
+          {values.map((v, i) => (
             <MenuItem
               key={v}
               value={v}
@@ -64,6 +67,11 @@ const Related: FC<RelatedProps> = (props) => {
                 [classes.itemSelected]: value.includes(v),
               })}
             >
+              {typeof props.images?.[i] === "string" && (
+                <ListItemAvatar>
+                  <Avatar src={props.images[i]} />
+                </ListItemAvatar>
+              )}
               {v}
             </MenuItem>
           ))}

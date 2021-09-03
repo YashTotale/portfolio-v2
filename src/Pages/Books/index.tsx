@@ -105,7 +105,8 @@ const Books: FC = () => {
             },
             {
               label: "Authors",
-              values: authors,
+              values: authors.map((a) => a.name),
+              images: authors.map((a) => a.image),
               value: authorFilter,
               onChange: (value) => dispatch(setBooksAuthorFilter(value)),
             },

@@ -151,6 +151,7 @@ export interface Book {
   shelves: string[];
   author: string;
   authorLink: string;
+  authorImage: string;
   datesRead?: string[];
   rating?: number;
   avgRating: number;

@@ -40,18 +40,33 @@ export const getBookGenres = (): string[] => {
   return unique;
 };
 
-let authorsCache: string[] | null = null;
+interface Author {
+  name: string;
+  image: string;
+}
 
-export const getBookAuthors = (): string[] => {
+let authorsCache: Author[] | null = null;
+
+export const getBookAuthors = (): Author[] => {
   if (authorsCache) return authorsCache;
 
   const books = getBooks();
+  const encountered: Record<string, boolean> = {};
 
-  const authors = books.reduce((genres, book) => {
-    return [...genres, book.author];
-  }, [] as string[]);
+  const authors = books.reduce((authors, book) => {
+    if (encountered[book.author]) return authors;
+    encountered[book.author] = true;
 
-  const unique = [...new Set(authors)].sort((a, b) => a.localeCompare(b));
+    return [
+      ...authors,
+      {
+        name: book.author,
+        image: book.authorImage,
+      },
+    ];
+  }, [] as Author[]);
+
+  const unique = authors.sort((a, b) => a.name.localeCompare(b.name));
   authorsCache = unique;
   return unique;
 };

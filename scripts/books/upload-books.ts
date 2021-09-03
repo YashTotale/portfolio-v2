@@ -8,7 +8,9 @@ import { join, basename } from "path";
 
 config();
 
-type BookData = Record<string, unknown>;
+type BookData = Record<string, unknown> & {
+  author: Record<string, unknown>;
+};
 
 const client = createClient({
   accessToken: process.env.CONTENTFUL_MANAGEMENT_ACCESS_TOKEN ?? "",
@@ -63,8 +65,8 @@ const uploadBook = async (env: Environment, id: string, data: BookData) => {
     image: createField(data["book_image"]),
     shelves: createField(data.shelves),
     genres: createField(data.genres),
-    author: createField(data.author),
-    authorLink: createField(data["author_url"]),
+    author: createField(data.author["author_name"]),
+    authorLink: createField(data.author["author_url"]),
     datesRead: createField(data["dates_read"]),
     avgRating: createField(data["average_rating"]),
     numRatings: createField(data["num_ratings"]),
@@ -88,6 +90,9 @@ const uploadBook = async (env: Environment, id: string, data: BookData) => {
   }
   if (typeof data["num_pages"] === "number") {
     fields.pages = createField(data["num_pages"]);
+  }
+  if (typeof data.author["author_image"] === "string") {
+    fields.authorImage = createField(data.author["author_image"]);
   }
 
   const entry = await env.createEntryWithId("book", id, {
