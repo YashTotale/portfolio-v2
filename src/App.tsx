@@ -9,7 +9,6 @@ import { HeadProvider } from "./Context/HeadContext";
 import { ClassnameProvider } from "./Context/ClassnameContext";
 
 // Components
-import Popup from "./Components/Static/Popup";
 import Navbar from "./Components/Static/Navbar";
 import Footer from "./Components/Static/Footer";
 import Sidebar from "./Components/Static/Sidebar";
@@ -58,7 +57,6 @@ const App: FC = () => {
     <HeadProvider>
       <ClassnameProvider>
         <NavController />
-        <Popup />
         <Navbar />
         <Sidebar />
         <Routes />
