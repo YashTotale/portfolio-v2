@@ -62,7 +62,12 @@ const Related: FC<RelatedProps> = (props) => {
     >
       <FormControl>
         {isSizeXS && <InputLabel>Related {label}</InputLabel>}
-        <Select multiple value={value} onChange={handleChange}>
+        <Select
+          multiple
+          value={value}
+          onChange={handleChange}
+          renderValue={(val) => <>{(val as string[]).join(", ")}</>}
+        >
           {values.map((v, i) => (
             <MenuItem
               key={v}
