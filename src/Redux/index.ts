@@ -222,10 +222,12 @@ export {
   default as booksSlice,
   // -> Selectors
   getBooksSearch,
+  getBooksSort,
   getBooksGenreFilter,
   getBooksAuthorFilter,
   // -> Actions
   setBooksSearch,
+  setBooksSort,
   setBooksGenreFilter,
   setBooksAuthorFilter,
   // -> Reducer

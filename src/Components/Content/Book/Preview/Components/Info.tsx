@@ -75,7 +75,7 @@ const Info: FC<InfoProps> = (props) => {
             </Item>
           )}
           {props.datesRead && (
-            <Item label="Dates Read">
+            <Item label={`Date${props.datesRead.length > 1 ? "s" : ""} Read`}>
               {props.datesRead.map((date, i) => (
                 <>
                   {i ? <> &bull; </> : null}

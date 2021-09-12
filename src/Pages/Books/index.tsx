@@ -19,10 +19,13 @@ import {
   getBooksAuthorFilter,
   getBooksGenreFilter,
   getBooksSearch,
+  getBooksSort,
   setBooksAuthorFilter,
   setBooksGenreFilter,
   setBooksSearch,
+  setBooksSort,
 } from "../../Redux";
+import { BookSort, BOOKS_SORT } from "../../Redux/books.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
@@ -80,6 +83,7 @@ const Books: FC = () => {
   const authors = getBookAuthors();
 
   const search = useSelector(getBooksSearch);
+  const sort = useSelector(getBooksSort);
   const genreFilter = useSelector(getBooksGenreFilter);
   const authorFilter = useSelector(getBooksAuthorFilter);
 
@@ -95,6 +99,12 @@ const Books: FC = () => {
           search={{
             defaultSearch: search,
             onSearchChange: (value) => dispatch(setBooksSearch(value)),
+          }}
+          sort={{
+            value: sort,
+            values: BOOKS_SORT,
+
+            onChange: (value) => dispatch(setBooksSort(value as BookSort)),
           }}
           related={[
             {

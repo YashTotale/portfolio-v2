@@ -1,14 +1,34 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
+export type BookSort =
+  | "Recently Read"
+  | "Recently Published"
+  | "Highest Average Rating"
+  | "Highest Rated by Me"
+  | "Most Pages"
+  | "Most Ratings"
+  | "Most Reviews";
+export const BOOKS_SORT: BookSort[] = [
+  "Recently Read",
+  "Recently Published",
+  "Highest Average Rating",
+  "Highest Rated by Me",
+  "Most Pages",
+  "Most Ratings",
+  "Most Reviews",
+];
+
 export interface BooksState {
   search: string;
+  sort: BookSort;
   genreFilter: string[];
   authorFilter: string[];
 }
 
 export const initialBooksState: BooksState = {
   search: "",
+  sort: "Recently Read",
   genreFilter: [],
   authorFilter: [],
 };
@@ -20,6 +40,10 @@ const booksSlice = createSlice({
     setBooksSearch: (state, action: PayloadAction<BooksState["search"]>) => ({
       ...state,
       search: action.payload,
+    }),
+    setBooksSort: (state, action: PayloadAction<BookSort>) => ({
+      ...state,
+      sort: action.payload,
     }),
     setBooksGenreFilter: (
       state,
@@ -41,6 +65,7 @@ const booksSlice = createSlice({
 // Actions
 export const {
   setBooksSearch,
+  setBooksSort,
   setBooksGenreFilter,
   setBooksAuthorFilter,
 } = booksSlice.actions;
@@ -48,6 +73,9 @@ export const {
 // Selectors
 export const getBooksSearch = (state: RootState): BooksState["search"] =>
   state.books.search;
+
+export const getBooksSort = (state: RootState): BooksState["sort"] =>
+  state.books.sort;
 
 export const getBooksGenreFilter = (
   state: RootState

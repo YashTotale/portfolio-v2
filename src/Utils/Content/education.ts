@@ -8,6 +8,7 @@ import { Education, ResolvedEducation, Tag } from "../types";
 import { getDefaultSortedEducation } from "./main";
 import { getRawTag } from "./tags";
 import { getRawProvider } from "./providers";
+import { getAsset } from "./assets";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -20,7 +21,6 @@ import { EducationSort } from "../../Redux/education.slice";
 
 // Data Imports
 import education from "../../Data/education.json";
-import { getAsset } from "./assets";
 
 export const getEducation = (): Education[] => {
   return (Object.values(education) as unknown) as Education[];

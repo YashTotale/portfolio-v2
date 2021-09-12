@@ -40,7 +40,7 @@ export const sortByDate = (
 export const compareDates = (
   a: string,
   b: string,
-  format: string,
+  format: string | string[],
   multiplier: 1 | -1 = 1
 ): number => {
   const first = moment(a, format);

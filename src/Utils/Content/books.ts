@@ -1,5 +1,6 @@
 // Internal Imports
 import { Book } from "../types";
+import { createSorter, compareDates } from "../funcs";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -7,7 +8,9 @@ import {
   getBooksAuthorFilter,
   getBooksGenreFilter,
   getBooksSearch,
+  getBooksSort,
 } from "../../Redux";
+import { BookSort } from "../../Redux/books.slice";
 
 // Data Imports
 import books from "../../Data/book.json";
@@ -109,7 +112,7 @@ export const checkSearch = (b: Book, search: string): boolean => {
 };
 
 export const useFilteredBooks = (): Book[] => {
-  const books = getBooks();
+  const books = useSortedBooks();
 
   const genreFilter = useSelector(getBooksGenreFilter);
   const authorFilter = useSelector(getBooksAuthorFilter);
@@ -125,3 +128,81 @@ export const useFilteredBooks = (): Book[] => {
     return true;
   });
 };
+
+export const useSortedBooks = (): Book[] => {
+  const sort = useSelector(getBooksSort);
+  const sorted = sortBooks(sort);
+  return sorted;
+};
+
+export const sortBooks = createSorter<BookSort, Book>(
+  {
+    "Recently Read": (a, b) => {
+      if (!a.datesRead) {
+        if (!b.datesRead) return 0;
+        return 1;
+      }
+      if (!b.datesRead) {
+        return -1;
+      }
+
+      const formats = ["MMM YYYY", "MMM DD, YYYY"];
+
+      const aRecent = [...a.datesRead].sort((a, b) =>
+        compareDates(a, b, formats)
+      )[0];
+      const bRecent = [...b.datesRead].sort((a, b) =>
+        compareDates(a, b, formats)
+      )[0];
+
+      return compareDates(aRecent, bRecent, formats);
+    },
+    "Recently Published": (a, b) => {
+      if (!a.yearPublished) {
+        if (!b.yearPublished) return 0;
+        return 1;
+      }
+      if (!b.yearPublished) {
+        return -1;
+      }
+
+      return parseInt(b.yearPublished) - parseInt(a.yearPublished);
+    },
+    "Highest Average Rating": (a, b) => {
+      if (!a.avgRating) {
+        if (!b.avgRating) return 0;
+        return 1;
+      }
+      if (!b.avgRating) {
+        return -1;
+      }
+
+      return b.avgRating - a.avgRating;
+    },
+    "Highest Rated by Me": (a, b) => {
+      if (!a.rating) {
+        if (!b.rating) return 0;
+        return 1;
+      }
+      if (!b.rating) {
+        return -1;
+      }
+
+      return b.rating - a.rating;
+    },
+    "Most Pages": (a, b) => {
+      if (!a.pages) {
+        if (!b.pages) return 0;
+        return 1;
+      }
+      if (!b.pages) {
+        return -1;
+      }
+
+      return b.pages - a.pages;
+    },
+    "Most Ratings": (a, b) => b.numRatings - a.numRatings,
+    "Most Reviews": (a, b) => b.numReviews - a.numReviews,
+  },
+  getBooks()
+);
