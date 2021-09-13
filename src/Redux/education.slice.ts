@@ -18,6 +18,7 @@ export interface EducationState {
   sort: EducationSort;
   viewable: string[];
   tagFilter: string[];
+  providerFilter: string[];
 }
 
 export const initialEducationState: EducationState = {
@@ -25,6 +26,7 @@ export const initialEducationState: EducationState = {
   sort: EDUCATION_SORT[0],
   viewable: [],
   tagFilter: [],
+  providerFilter: [],
 };
 
 const educationSlice = createSlice({
@@ -49,6 +51,13 @@ const educationSlice = createSlice({
       ...state,
       tagFilter: action.payload,
     }),
+    setEducationProviderFilter: (
+      state,
+      action: PayloadAction<EducationState["providerFilter"]>
+    ) => ({
+      ...state,
+      providerFilter: action.payload,
+    }),
     addEducationViewable: (state, action: PayloadAction<string>) => ({
       ...state,
       viewable: [...state.viewable, action.payload],
@@ -69,6 +78,7 @@ export const {
   setEducationSearch,
   setEducationSort,
   setEducationTagFilter,
+  setEducationProviderFilter,
   addEducationViewable,
   removeEducationViewable,
   removeAllEducationViewable,
@@ -85,6 +95,10 @@ export const getEducationSort = (state: RootState): EducationState["sort"] =>
 export const getEducationTagFilter = (
   state: RootState
 ): EducationState["tagFilter"] => state.education.tagFilter;
+
+export const getEducationProviderFilter = (
+  state: RootState
+): EducationState["providerFilter"] => state.education.providerFilter;
 
 export const getEducationViewable = (
   state: RootState

@@ -8,7 +8,9 @@ import Preview from "../../Components/Content/Education/Preview";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 import { useFilteredEducation } from "../../Utils/Content/education";
+import { sortProviders } from "../../Utils/Content/providers";
 import { resolveTagIcon, sortTags } from "../../Utils/Content/tags";
+import { getAsset } from "../../Utils/Content/assets";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -16,9 +18,11 @@ import {
   getEducationSearch,
   getEducationSort,
   getEducationTagFilter,
+  getEducationProviderFilter,
   setEducationSearch,
   setEducationSort,
   setEducationTagFilter,
+  setEducationProviderFilter,
   addEducationViewable,
   removeEducationViewable,
   getEducationViewable,
@@ -61,10 +65,12 @@ const Education: FC = () => {
   const isDarkMode = theme.palette.type === "dark";
 
   const allTags = sortTags("Alphabetically");
+  const allProviders = sortProviders("Alphabetically");
 
   const search = useSelector(getEducationSearch);
   const sort = useSelector(getEducationSort);
   const tagFilter = useSelector(getEducationTagFilter);
+  const providerFilter = useSelector(getEducationProviderFilter);
 
   useAnalytics("Education");
 
@@ -92,6 +98,16 @@ const Education: FC = () => {
               images: allTags.map((tag) => resolveTagIcon(tag, isDarkMode)),
               value: tagFilter,
               onChange: (values) => dispatch(setEducationTagFilter(values)),
+            },
+            {
+              label: "Providers",
+              values: allProviders.map((provider) => provider.title),
+              images: allProviders.map(
+                (provider) => getAsset(provider.image).file.url
+              ),
+              value: providerFilter,
+              onChange: (values) =>
+                dispatch(setEducationProviderFilter(values)),
             },
           ]}
         />

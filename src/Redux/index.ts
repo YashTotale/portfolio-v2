@@ -108,11 +108,13 @@ export {
   getEducationSearch,
   getEducationSort,
   getEducationTagFilter,
+  getEducationProviderFilter,
   getEducationViewable,
   // -> Actions
   setEducationSearch,
   setEducationSort,
   setEducationTagFilter,
+  setEducationProviderFilter,
   addEducationViewable,
   removeEducationViewable,
   removeAllEducationViewable,
@@ -214,7 +216,7 @@ export {
 export type { TagsState } from "./tags.slice";
 
 /**
- * Tags Slice
+ * Certification Slice
  */
 
 export {

@@ -16,6 +16,7 @@ import {
   getEducationSearch,
   getEducationSort,
   getEducationTagFilter,
+  getEducationProviderFilter,
 } from "../../Redux";
 import { EducationSort } from "../../Redux/education.slice";
 
@@ -74,6 +75,14 @@ export const checkTags = (e: ResolvedEducation, tags: string[]): boolean => {
   return tags.some((tag) => e.tags.some((t) => t.title === tag));
 };
 
+export const checkProviders = (
+  c: ResolvedEducation,
+  providers: string[]
+): boolean => {
+  if (!providers.length) return true;
+  return providers.some((provider) => c.provider?.title === provider);
+};
+
 const searchCache: Record<string, Record<string, boolean>> = {};
 
 export const checkSearch = (e: ResolvedEducation, search: string): boolean => {
@@ -101,9 +110,11 @@ export const useFilteredEducation = (): ResolvedEducation[] => {
   const search = useSelector(getEducationSearch);
   const normalizedSearch = search.toLowerCase();
   const tagFilter = useSelector(getEducationTagFilter);
+  const providerFilter = useSelector(getEducationProviderFilter);
 
   return education.filter((e) => {
     if (!checkTags(e, tagFilter)) return false;
+    if (!checkProviders(e, providerFilter)) return false;
     if (!checkSearch(e, normalizedSearch)) return false;
 
     return true;

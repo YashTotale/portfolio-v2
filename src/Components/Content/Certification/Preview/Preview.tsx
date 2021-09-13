@@ -85,7 +85,7 @@ const Preview: FC<PreviewProps> = (props) => {
 
   return (
     <DynamicPaper className={clsx(classes.container, props.className)}>
-      <FloatingIcons link={cert.link} linkLabel="Certificate" />
+      <FloatingIcons link={cert.link} linkLabel="Certification" />
       <div className={classes.display}>
         <DynamicImage
           src={`${cert.provider.image.file.url}?w=200`}
