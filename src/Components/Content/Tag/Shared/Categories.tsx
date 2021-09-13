@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { useClosableSnackbar } from "../../../../Hooks";
 import MatchHighlight from "../../../Atomic/MatchHighlight";
 import { ResolvedTag } from "../../../../Utils/types";
+import { scrollToTop } from "../../../../Utils/funcs";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -81,6 +82,7 @@ const Category: FC<CategoryProps> = (props) => {
     categoryFilter.length === 1 && categoryFilter[0] === props.category;
 
   const onFilter = () => {
+    scrollToTop();
     dispatch(setTagsCategoryFilter([props.category]));
     enqueueSnackbar(`Filtered Tags by ${props.category}`, {
       variant: "success",
@@ -88,6 +90,7 @@ const Category: FC<CategoryProps> = (props) => {
   };
 
   const onUnfilter = () => {
+    scrollToTop();
     dispatch(setTagsCategoryFilter([]));
     enqueueSnackbar(`Removed ${props.category} filter`, {
       variant: "success",

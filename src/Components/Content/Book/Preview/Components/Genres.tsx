@@ -4,6 +4,7 @@ import { Item } from "./Info";
 import { useClosableSnackbar } from "../../../../../Hooks";
 import { Book } from "../../../../../Utils/types";
 import MatchHighlight from "../../../../Atomic/MatchHighlight";
+import { scrollToTop } from "../../../../../Utils/funcs";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -50,6 +51,7 @@ const Genre: FC<GenreProps> = (props) => {
     genreFilter.length === 1 && genreFilter[0] === props.genre;
 
   const onFilter = () => {
+    scrollToTop();
     dispatch(setBooksGenreFilter([props.genre]));
     enqueueSnackbar(`Filtered Books by ${props.genre}`, {
       variant: "success",
@@ -57,6 +59,7 @@ const Genre: FC<GenreProps> = (props) => {
   };
 
   const onUnfilter = () => {
+    scrollToTop();
     dispatch(setBooksGenreFilter([]));
     enqueueSnackbar(`Removed ${props.genre} filter`, {
       variant: "success",

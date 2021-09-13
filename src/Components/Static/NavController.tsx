@@ -2,6 +2,7 @@
 import React, { FC, useState, useEffect } from "react";
 import { Redirect, useLocation } from "react-router";
 import { useTitle } from "../../Context/HeadContext";
+import { scrollToTop } from "../../Utils/funcs";
 
 // Redux Imports
 import { addToHistory, modifyLastHistory } from "../../Redux";
@@ -59,13 +60,7 @@ const ScrollToTop: FC = () => {
     threshold: 100,
   });
 
-  const onClick = () => {
-    window.scrollTo({
-      top: 0,
-      left: 0,
-      behavior: "smooth",
-    });
-  };
+  const onClick = () => scrollToTop();
 
   return (
     <Zoom in={trigger}>

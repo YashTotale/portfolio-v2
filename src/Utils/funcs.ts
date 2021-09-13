@@ -118,3 +118,11 @@ export const generatePageTitle = (t: string): string => `${t}${toAppend}`;
 export const getPageTitle = (rawTitle: string): string => {
   return rawTitle.replace(toAppend, "");
 };
+
+export const scrollToTop = (behavior: ScrollBehavior = "smooth"): void => {
+  window.scrollTo({
+    top: 0,
+    left: 0,
+    behavior,
+  });
+};
