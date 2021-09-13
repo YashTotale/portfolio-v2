@@ -16,6 +16,7 @@ import {
   getEducationSearch,
   getEducationSort,
   getEducationTagFilter,
+  getEducationTypeFilter,
   getEducationProviderFilter,
 } from "../../Redux";
 import { EducationSort } from "../../Redux/education.slice";
@@ -75,6 +76,11 @@ export const checkTags = (e: ResolvedEducation, tags: string[]): boolean => {
   return tags.some((tag) => e.tags.some((t) => t.title === tag));
 };
 
+export const checkTypes = (e: ResolvedEducation, types: string[]): boolean => {
+  if (!types.length) return true;
+  return types.some((type) => e.type === type);
+};
+
 export const checkProviders = (
   c: ResolvedEducation,
   providers: string[]
@@ -94,6 +100,7 @@ export const checkSearch = (e: ResolvedEducation, search: string): boolean => {
 
   const matches: (boolean | undefined)[] = [
     e.title.toLowerCase().includes(search),
+    e.type.toLowerCase().includes(search),
     documentToPlainTextString(e.description as Document).includes(search),
     generateEducationTimeline(e).toLowerCase().includes(search),
     e.tags.some((tag) => tag.title.toLowerCase().includes(search)),
@@ -110,10 +117,12 @@ export const useFilteredEducation = (): ResolvedEducation[] => {
   const search = useSelector(getEducationSearch);
   const normalizedSearch = search.toLowerCase();
   const tagFilter = useSelector(getEducationTagFilter);
+  const typeFilter = useSelector(getEducationTypeFilter);
   const providerFilter = useSelector(getEducationProviderFilter);
 
   return education.filter((e) => {
     if (!checkTags(e, tagFilter)) return false;
+    if (!checkTypes(e, typeFilter)) return false;
     if (!checkProviders(e, providerFilter)) return false;
     if (!checkSearch(e, normalizedSearch)) return false;
 

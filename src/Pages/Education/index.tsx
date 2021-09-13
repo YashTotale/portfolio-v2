@@ -7,6 +7,7 @@ import Filters from "../../Components/Custom/Filters";
 import Preview from "../../Components/Content/Education/Preview";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
+import { EDUCATION_TYPES } from "../../Utils/types";
 import { useFilteredEducation } from "../../Utils/Content/education";
 import { sortProviders } from "../../Utils/Content/providers";
 import { resolveTagIcon, sortTags } from "../../Utils/Content/tags";
@@ -18,10 +19,12 @@ import {
   getEducationSearch,
   getEducationSort,
   getEducationTagFilter,
+  getEducationTypeFilter,
   getEducationProviderFilter,
   setEducationSearch,
   setEducationSort,
   setEducationTagFilter,
+  setEducationTypeFilter,
   setEducationProviderFilter,
   addEducationViewable,
   removeEducationViewable,
@@ -70,6 +73,7 @@ const Education: FC = () => {
   const search = useSelector(getEducationSearch);
   const sort = useSelector(getEducationSort);
   const tagFilter = useSelector(getEducationTagFilter);
+  const typeFilter = useSelector(getEducationTypeFilter);
   const providerFilter = useSelector(getEducationProviderFilter);
 
   useAnalytics("Education");
@@ -100,10 +104,16 @@ const Education: FC = () => {
               onChange: (values) => dispatch(setEducationTagFilter(values)),
             },
             {
+              label: "Types",
+              values: EDUCATION_TYPES,
+              value: typeFilter,
+              onChange: (values) => dispatch(setEducationTypeFilter(values)),
+            },
+            {
               label: "Providers",
               values: allProviders.map((provider) => provider.title),
               images: allProviders.map(
-                (provider) => getAsset(provider.image).file.url
+                (provider) => `${getAsset(provider.image).file.url}?w=32`
               ),
               value: providerFilter,
               onChange: (values) =>

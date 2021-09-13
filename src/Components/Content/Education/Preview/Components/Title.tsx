@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
 import StyledLink from "../../../../Atomic/StyledLink";
+import MatchHighlight from "../../../../Atomic/MatchHighlight";
 import { useTitle } from "../../../../../Context/HeadContext";
 import { ResolvedEducation } from "../../../../../Utils/types";
 import { generateSearch } from "../../../../../Utils/funcs";
@@ -75,7 +76,7 @@ const Title: FC<TitleProps> = (props) => {
         color="textSecondary"
         className={classes.subtitle}
       >
-        {props.type}
+        <MatchHighlight toMatch={props.search}>{props.type}</MatchHighlight>
       </Typography>
     </>
   );

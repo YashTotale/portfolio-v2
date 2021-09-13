@@ -112,7 +112,7 @@ const Certification: FC = () => {
               label: "Providers",
               values: allProviders.map((provider) => provider.title),
               images: allProviders.map(
-                (provider) => getAsset(provider.image).file.url
+                (provider) => `${getAsset(provider.image).file.url}?w=32`
               ),
               value: providerFilter,
               onChange: (values) =>

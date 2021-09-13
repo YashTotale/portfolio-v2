@@ -57,6 +57,11 @@ export type ResolvedExperience = Omit<
   tags: Tag[];
 };
 
+export const EDUCATION_TYPES: RawEducation["type"][] = [
+  "Class",
+  "Online Course",
+];
+
 export type Education = Omit<
   RawEducation,
   "provider" | "certificate" | "tags"
