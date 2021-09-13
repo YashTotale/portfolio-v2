@@ -121,8 +121,8 @@ export function useSortedEducation(
   if (!resolve) return sorted;
 
   return sorted.reduce((arr, e) => {
-    const exp = getSingleEducation(e.id);
-    if (exp) arr.push(exp);
+    const ed = getSingleEducation(e.id);
+    if (ed) arr.push(ed);
     return arr;
   }, [] as ResolvedEducation[]);
 }

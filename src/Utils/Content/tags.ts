@@ -1,6 +1,7 @@
 // Internal Imports
 import {
   Article,
+  Certification,
   Education,
   Experience,
   Project,
@@ -12,6 +13,7 @@ import { getRawEducation } from "./education";
 import { getRawProject } from "./projects";
 import { getRawArticle } from "./articles";
 import { getAsset } from "./assets";
+import { getRawCertification } from "./certification";
 import { createResolver, createSorter } from "../funcs";
 
 // Redux Imports
@@ -32,6 +34,16 @@ import tags from "../../Data/tag.json";
 
 export const getTags = (): Tag[] => {
   return (Object.values(tags) as unknown) as Tag[];
+};
+
+export const getRawTag = (identifier: string, isSlug = false): Tag | null => {
+  const all = (tags as unknown) as Record<string, Tag>;
+  const single = !isSlug
+    ? all[identifier]
+    : Object.values(all).find((p) => p.slug === identifier);
+
+  if (!single) return null;
+  return single;
 };
 
 export const getTag = createResolver(
@@ -66,6 +78,12 @@ export const getTag = createResolver(
       return arr;
     }, [] as Article[]);
 
+    const certification = single.certification.reduce((arr, certification) => {
+      const resolved = getRawCertification(certification);
+      if (resolved) arr.push(resolved);
+      return arr;
+    }, [] as Certification[]);
+
     return {
       ...single,
       darkIcon,
@@ -74,19 +92,10 @@ export const getTag = createResolver(
       education,
       projects,
       articles,
+      certification,
     };
   }
 );
-
-export const getRawTag = (identifier: string, isSlug = false): Tag | null => {
-  const all = (tags as unknown) as Record<string, Tag>;
-  const single = !isSlug
-    ? all[identifier]
-    : Object.values(all).find((p) => p.slug === identifier);
-
-  if (!single) return null;
-  return single;
-};
 
 export const resolveTagIcon = (
   tag: Tag,

@@ -114,6 +114,7 @@ export type Tag = Omit<RawTag, "darkIcon" | "lightIcon"> & {
   education: string[];
   projects: string[];
   articles: string[];
+  certification: string[];
 };
 
 export type ResolvedTag = Omit<
@@ -124,6 +125,7 @@ export type ResolvedTag = Omit<
   | "education"
   | "projects"
   | "articles"
+  | "certification"
 > & {
   darkIcon: Asset["fields"];
   lightIcon: Asset["fields"];
@@ -131,6 +133,7 @@ export type ResolvedTag = Omit<
   education: Education[];
   projects: Project[];
   articles: Article[];
+  certification: Certification[];
 };
 
 export type Certification = Omit<RawCertification, "provider" | "tags"> & {
@@ -140,7 +143,7 @@ export type Certification = Omit<RawCertification, "provider" | "tags"> & {
 
 export type ResolvedCertification = Omit<Certification, "provider" | "tags"> & {
   provider: ResolvedProvider;
-  tags: ResolvedTag[];
+  tags: Tag[];
 };
 
 export type Provider = Omit<RawProvider, "image"> & {

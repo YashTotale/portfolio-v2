@@ -135,7 +135,7 @@ const Contents: FC = () => {
     <>
       <HorizontalDivider className={classes.divider} />
       <Typography align="center" variant="h4">
-        Certification
+        Certifications
       </Typography>
       {filteredCertification.length ? (
         <div className={classes.certification}>

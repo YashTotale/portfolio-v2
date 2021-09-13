@@ -183,8 +183,8 @@ const Contents: FC = () => {
           ))}
         </Category>
         <Category
-          label="Certification"
-          to={generateSidebarPath("/certification")}
+          label="Certifications"
+          to={generateSidebarPath("/certifications")}
           icon={<AssignmentTurnedInOutlined />}
         />
         <Category

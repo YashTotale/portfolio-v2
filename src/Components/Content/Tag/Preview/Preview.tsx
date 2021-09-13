@@ -13,7 +13,13 @@ import { getTag } from "../../../../Utils/Content/tags";
 
 // Material UI Imports
 import { makeStyles, Typography, useTheme } from "@material-ui/core";
-import { Build, Description, School, Work } from "@material-ui/icons";
+import {
+  AssignmentTurnedIn,
+  Build,
+  Description,
+  School,
+  Work,
+} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -121,6 +127,11 @@ const Preview: FC<PreviewProps> = (props) => {
           value={tag.articles.length}
           label="article"
           icon={<Description />}
+        />
+        <Related
+          value={tag.certification.length}
+          label="certification"
+          icon={<AssignmentTurnedIn />}
         />
         <Categories {...tag} search={props.search} paddingY={0.5} withClick />
       </div>

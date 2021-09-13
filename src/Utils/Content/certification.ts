@@ -1,8 +1,8 @@
 // Internal Imports
-import { getTag } from "./tags";
+import { getRawTag } from "./tags";
 import { getProvider } from "./providers";
-import { Certification, ResolvedCertification, ResolvedTag } from "../types";
-import { compareDates, createSorter } from "../funcs";
+import { Certification, ResolvedCertification, Tag } from "../types";
+import { compareDates, createResolver, createSorter } from "../funcs";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -17,31 +17,37 @@ import { CertificationSort } from "../../Redux/certification.slice";
 // Data Imports
 import certification from "../../Data/certification.json";
 
-let resolvedCache: ResolvedCertification[] | null = null;
-
-export const getResolvedCertification = (): ResolvedCertification[] => {
-  if (resolvedCache) return resolvedCache;
-
-  const raw = Object.values(certification) as Certification[];
-
-  const resolved = raw.reduce((arr, cert) => {
-    const provider = getProvider(cert.provider);
-    if (!provider) return arr;
-
-    const tags = cert.tags.reduce((arr, tag) => {
-      const resolved = getTag(tag);
-      if (!resolved) return arr;
-      return [...arr, resolved];
-    }, [] as ResolvedTag[]);
-
-    const resolved: ResolvedCertification = { ...cert, provider, tags };
-
-    return [...arr, resolved];
-  }, [] as ResolvedCertification[]);
-
-  resolvedCache = resolved;
-  return resolved;
+export const getCertification = (): Certification[] => {
+  return Object.values(certification);
 };
+
+export const getRawCertification = (
+  identifier: string
+): Certification | null => {
+  const all = certification as Record<string, Certification>;
+  const single = all[identifier];
+
+  if (!single) return null;
+  return single;
+};
+
+export const getSingleCertification = createResolver((id: string) => {
+  const cert = getRawCertification(id);
+  if (!cert) return null;
+
+  const provider = getProvider(cert.provider);
+  if (!provider) return null;
+
+  const tags = cert.tags.reduce((arr, tag) => {
+    const resolved = getRawTag(tag);
+    if (!resolved) return arr;
+    return [...arr, resolved];
+  }, [] as Tag[]);
+
+  const resolved: ResolvedCertification = { ...cert, provider, tags };
+
+  return resolved;
+});
 
 export const checkTags = (
   c: ResolvedCertification,
@@ -84,7 +90,7 @@ export const checkSearch = (
 };
 
 export const useFilteredCertification = (): ResolvedCertification[] => {
-  const certification = useSortedCertification();
+  const certification = useSortedCertification(true);
 
   const search = useSelector(getCertificationSearch);
   const normalizedSearch = search.toLowerCase();
@@ -100,15 +106,24 @@ export const useFilteredCertification = (): ResolvedCertification[] => {
   });
 };
 
-export const useSortedCertification = (): ResolvedCertification[] => {
+export function useSortedCertification(resolve: true): ResolvedCertification[];
+export function useSortedCertification(resolve: false): Certification[];
+export function useSortedCertification(): Certification[];
+export function useSortedCertification(
+  resolve?: boolean
+): (ResolvedCertification | Certification)[] {
   const sort = useSelector(getCertificationSort);
-  return sortCertification(sort);
-};
+  const sorted = sortCertification(sort);
+  if (!resolve) return sorted;
 
-const sortCertification = createSorter<
-  CertificationSort,
-  ResolvedCertification
->(
+  return sorted.reduce((arr, e) => {
+    const cert = getSingleCertification(e.id);
+    if (cert) arr.push(cert);
+    return arr;
+  }, [] as ResolvedCertification[]);
+}
+
+export const sortCertification = createSorter<CertificationSort, Certification>(
   {
     Latest: (a, b) =>
       compareDates(a.date, b.date, ["MMM YYYY", "MMM DD, YYYY"]),
@@ -116,5 +131,5 @@ const sortCertification = createSorter<
       compareDates(a.date, b.date, ["MMM YYYY", "MMM DD, YYYY"], -1),
     Alphabetically: (a, b) => a.title.localeCompare(b.title),
   },
-  getResolvedCertification()
+  getCertification()
 );

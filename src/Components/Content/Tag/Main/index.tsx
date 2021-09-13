@@ -9,6 +9,7 @@ import ExperienceOverlay from "../../Experience/Overlay";
 import EducationOverlay from "../../Education/Overlay";
 import ProjectOverlay from "../../Project/Overlay";
 import ArticleOverlay from "../../Article/Overlay";
+import CertificationOverlay from "../../Certification/Overlay";
 import MainContainer from "../../Shared/MainContainer";
 import { getTag } from "../../../../Utils/Content/tags";
 
@@ -95,6 +96,17 @@ const Tag: FC<TagProps> = (props) => {
               <ArticleOverlay
                 key={article.id}
                 id={article.id}
+                className={classes.overlay}
+              />
+            ))}
+          </MainContainer>
+        )}
+        {!!tag.certification.length && (
+          <MainContainer title="Related Certifications" direction="row">
+            {tag.certification.map((cert) => (
+              <CertificationOverlay
+                key={cert.id}
+                id={cert.id}
                 className={classes.overlay}
               />
             ))}

@@ -131,7 +131,8 @@ const cleanTags = async (
   experience: Dict<Experience>,
   education: Dict<Education>,
   projects: Dict<Project>,
-  articles: Dict<Article>
+  articles: Dict<Article>,
+  certification: Dict<Certification>
 ) => {
   const tags = await readData<RawTag>("tag");
 
@@ -167,6 +168,16 @@ const cleanTags = async (
       return arr;
     }, [] as string[]);
 
+    const relatedCertification = Object.values(certification).reduce(
+      (arr, certification) => {
+        if (certification.tags.includes(id)) {
+          return [...arr, certification.id];
+        }
+        return arr;
+      },
+      [] as string[]
+    );
+
     return {
       ...obj,
       [id]: {
@@ -177,6 +188,7 @@ const cleanTags = async (
         education: relatedEducation,
         projects: relatedProjects,
         articles: relatedArticles,
+        certification: relatedCertification,
       },
     };
   }, {} as Dict<Tag>);
@@ -239,7 +251,7 @@ const cleanMain = async () => {
 const cleanData = async (): Promise<void> => {
   Logger.log("Cleaning data...");
 
-  const [education, projects, articles] = await Promise.all([
+  const [education, projects, articles, certification] = await Promise.all([
     cleanEducation(),
     cleanProjects(),
     cleanArticles(),
@@ -249,7 +261,7 @@ const cleanData = async (): Promise<void> => {
   ]);
 
   const experience = await cleanExperience(projects, articles);
-  await cleanTags(experience, education, projects, articles);
+  await cleanTags(experience, education, projects, articles, certification);
 
   Logger.success("Successfully cleaned data!");
   Logger.line();
