@@ -17,6 +17,7 @@ const getContent = () => {
     "project",
     "article",
     "tag",
+    "certification",
     "badge",
     "provider",
     "book",

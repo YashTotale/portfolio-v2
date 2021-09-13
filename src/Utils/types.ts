@@ -10,6 +10,7 @@ import {
   RawMain,
   RawEducation,
   RawProvider,
+  RawCertification,
 } from "../../scripts/data/helpers";
 
 export type Main = Omit<
@@ -130,6 +131,16 @@ export type ResolvedTag = Omit<
   education: Education[];
   projects: Project[];
   articles: Article[];
+};
+
+export type Certification = Omit<RawCertification, "provider" | "tags"> & {
+  provider: string;
+  tags: string[];
+};
+
+export type ResolvedCertification = Omit<Certification, "provider" | "tags"> & {
+  provider: ResolvedProvider;
+  tags: ResolvedTag[];
 };
 
 export type Provider = Omit<RawProvider, "image"> & {

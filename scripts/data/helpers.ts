@@ -91,6 +91,15 @@ export interface RawTag {
   link?: EntryFields.Text;
 }
 
+export interface RawCertification {
+  id: string;
+  title: string;
+  date: string;
+  link: string;
+  provider: RawLink;
+  tags?: RawLink[];
+}
+
 export interface RawProvider {
   id: string;
   title: string;

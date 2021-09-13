@@ -36,6 +36,7 @@ import {
   LabelOutlined,
   BookOutlined,
   ChatBubbleOutline,
+  AssignmentTurnedInOutlined,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -181,6 +182,11 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
+        <Category
+          label="Certification"
+          to={generateSidebarPath("/certification")}
+          icon={<AssignmentTurnedInOutlined />}
+        />
         <Category
           label="Books"
           to={generateSidebarPath("/books")}

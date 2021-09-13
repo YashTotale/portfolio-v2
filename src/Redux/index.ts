@@ -214,6 +214,31 @@ export {
 export type { TagsState } from "./tags.slice";
 
 /**
+ * Tags Slice
+ */
+
+export {
+  // -> Slice
+  default as certificationSlice,
+  // -> Selectors
+  getCertificationSearch,
+  getCertificationSort,
+  getCertificationTagFilter,
+  getCertificationProviderFilter,
+  // -> Actions
+  setCertificationSearch,
+  setCertificationSort,
+  setCertificationTagFilter,
+  setCertificationProviderFilter,
+  // -> Reducer
+  certificationReducer,
+  // -> State
+  initialCertificationState,
+} from "./certification.slice";
+
+export type { CertificationState } from "./certification.slice";
+
+/**
  * Books Slice
  */
 

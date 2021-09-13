@@ -1,5 +1,5 @@
 // Internal Imports
-import { createResolver } from "../funcs";
+import { createResolver, createSorter } from "../funcs";
 import { Provider, ResolvedProvider } from "../types";
 import { getAsset } from "./assets";
 
@@ -28,3 +28,12 @@ export const getRawProvider = (identifier: string): Provider | null => {
   if (!single) return null;
   return single;
 };
+
+type ProviderSort = "Alphabetically";
+
+export const sortProviders = createSorter<ProviderSort, Provider>(
+  {
+    Alphabetically: (a, b) => a.title.localeCompare(b.title),
+  },
+  getProviders()
+);

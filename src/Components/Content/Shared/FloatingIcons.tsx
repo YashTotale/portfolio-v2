@@ -55,7 +55,7 @@ const FloatingIcons: FC<FloatingIconsProps> = (props) => {
     <div className={classes.floatingIcons}>
       {props.link && (
         <LinkIcon
-          label={`View ${props.linkLabel}`}
+          label={`View ${props.linkLabel ?? "Link"}`}
           href={props.link}
           icon={<Launch />}
           className={classes.iconButton}

@@ -34,6 +34,10 @@ import { educationReducer, EducationState } from "./Redux/education.slice";
 import { projectsReducer, ProjectsState } from "./Redux/projects.slice";
 import { articlesReducer, ArticlesState } from "./Redux/articles.slice";
 import { tagsReducer, TagsState } from "./Redux/tags.slice";
+import {
+  certificationReducer,
+  CertificationState,
+} from "./Redux/certification.slice";
 import { booksReducer, BooksState } from "./Redux/books.slice";
 
 interface State {
@@ -45,6 +49,7 @@ interface State {
   projects: ProjectsState;
   articles: ArticlesState;
   tags: TagsState;
+  certification: CertificationState;
   books: BooksState;
 }
 
@@ -57,6 +62,7 @@ const reducers = combineReducers<State>({
   projects: projectsReducer,
   articles: articlesReducer,
   tags: tagsReducer,
+  certification: certificationReducer,
   books: booksReducer,
 });
 

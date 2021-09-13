@@ -30,6 +30,7 @@ const ArticlesPage = lazy(() => import("./Pages/Articles"));
 const ArticlePage = lazy(() => import("./Pages/Article"));
 const TagsPage = lazy(() => import("./Pages/Tags"));
 const TagPage = lazy(() => import("./Pages/Tag"));
+const CertificationPage = lazy(() => import("./Pages/Certification"));
 const BooksPage = lazy(() => import("./Pages/Books"));
 const Contact = lazy(() => import("./Pages/Contact"));
 const Colors = lazy(() => import("./Pages/Colors"));
@@ -102,6 +103,9 @@ const Routes: FC = () => {
             </Route>
             <Route exact path="/tags/:slug">
               <TagPage />
+            </Route>
+            <Route exact path="/certification">
+              <CertificationPage />
             </Route>
             <Route exact path="/books">
               <BooksPage />
