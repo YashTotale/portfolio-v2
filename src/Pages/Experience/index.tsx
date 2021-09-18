@@ -1,9 +1,9 @@
 // React Imports
 import React, { FC, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { Waypoint } from "react-waypoint";
 import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Custom/Filters";
+import Tracker from "../../Components/Custom/Tracker";
 import Preview from "../../Components/Content/Experience/Preview";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
@@ -155,15 +155,17 @@ const Contents: FC = () => {
       {filteredExperience.length ? (
         <div className={classes.experience}>
           {filteredExperience.map((fields) => (
-            <Waypoint
+            <Tracker
               key={fields.id}
               onEnter={() => dispatch(addExperienceViewable(fields.id))}
               onLeave={() => dispatch(removeExperienceViewable(fields.id))}
+              canRemoveAll={!!experienceViewable.length}
+              removeAll={() => dispatch(removeAllExperienceViewable())}
               topOffset="30%"
               bottomOffset="30%"
             >
               <Preview id={fields.id} search={search} />
-            </Waypoint>
+            </Tracker>
           ))}
         </div>
       ) : (

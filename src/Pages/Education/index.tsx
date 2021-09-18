@@ -1,9 +1,9 @@
 // React Imports
 import React, { FC, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { Waypoint } from "react-waypoint";
 import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Custom/Filters";
+import Tracker from "../../Components/Custom/Tracker";
 import Preview from "../../Components/Content/Education/Preview";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
@@ -156,15 +156,17 @@ const Contents: FC = () => {
       {filteredEducation.length ? (
         <div className={classes.education}>
           {filteredEducation.map((fields) => (
-            <Waypoint
+            <Tracker
               key={fields.id}
               onEnter={() => dispatch(addEducationViewable(fields.id))}
               onLeave={() => dispatch(removeEducationViewable(fields.id))}
+              canRemoveAll={!!educationViewable.length}
+              removeAll={() => dispatch(removeAllEducationViewable())}
               topOffset="30%"
               bottomOffset="30%"
             >
               <Preview id={fields.id} search={search} />
-            </Waypoint>
+            </Tracker>
           ))}
         </div>
       ) : (

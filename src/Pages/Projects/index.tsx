@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { Waypoint } from "react-waypoint";
+import Tracker from "../../Components/Custom/Tracker";
 import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Custom/Filters";
 import ProjectPreview from "../../Components/Content/Project/Preview";
@@ -162,10 +162,12 @@ const Contents: FC = () => {
       {filteredProjects.length ? (
         <div className={classes.projects}>
           {filteredProjects.map((project) => (
-            <Waypoint
+            <Tracker
               key={project.id}
               onEnter={() => dispatch(addProjectViewable(project.id))}
               onLeave={() => dispatch(removeProjectViewable(project.id))}
+              canRemoveAll={!!projectsViewable.length}
+              removeAll={() => dispatch(removeAllProjectViewable())}
               topOffset="30%"
               bottomOffset="30%"
             >
@@ -174,7 +176,7 @@ const Contents: FC = () => {
                 search={search}
                 className={classes.project}
               />
-            </Waypoint>
+            </Tracker>
           ))}
         </div>
       ) : (

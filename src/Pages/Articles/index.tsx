@@ -1,9 +1,9 @@
 // React Imports
 import React, { FC, useEffect } from "react";
 import { Helmet } from "react-helmet";
-import { Waypoint } from "react-waypoint";
 import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Custom/Filters";
+import Tracker from "../../Components/Custom/Tracker";
 import ArticlePreview from "../../Components/Content/Article/Preview";
 import { useFilteredArticles } from "../../Utils/Content/articles";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
@@ -162,10 +162,12 @@ const Contents: FC = () => {
       {filteredArticles.length ? (
         <div className={classes.articles}>
           {filteredArticles.map((article) => (
-            <Waypoint
+            <Tracker
               key={article.id}
               onEnter={() => dispatch(addArticleViewable(article.id))}
               onLeave={() => dispatch(removeArticleViewable(article.id))}
+              canRemoveAll={!!articlesViewable.length}
+              removeAll={() => dispatch(removeAllArticleViewable())}
               topOffset="30%"
               bottomOffset="30%"
             >
@@ -174,7 +176,7 @@ const Contents: FC = () => {
                 search={search}
                 className={classes.article}
               />
-            </Waypoint>
+            </Tracker>
           ))}
         </div>
       ) : (
