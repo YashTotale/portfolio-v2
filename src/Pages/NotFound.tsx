@@ -66,7 +66,7 @@ const NotFound: FC<NotFoundProps> = ({
   const location = useLocation();
   const title = useTitle();
 
-  const pageTitle = `${capitalize(name)} Not Found`;
+  const pageTitle = `404: ${capitalize(name)} Not Found`;
   useAnalytics(pageTitle);
 
   return (

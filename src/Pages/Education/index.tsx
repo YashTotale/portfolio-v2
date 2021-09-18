@@ -137,7 +137,7 @@ const Contents: FC = () => {
 
   useEffect(() => {
     educationViewable.forEach((e) => {
-      if (!filteredEducation.find((exp) => exp.id === e)) {
+      if (!filteredEducation.find((ed) => ed.id === e)) {
         dispatch(removeEducationViewable(e));
       }
     });

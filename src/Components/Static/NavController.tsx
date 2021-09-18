@@ -50,6 +50,7 @@ const useScrollToTopStyles = makeStyles((theme) => ({
     position: "fixed",
     bottom: theme.spacing(2),
     right: theme.spacing(2),
+    zIndex: 1000,
   },
 }));
 
