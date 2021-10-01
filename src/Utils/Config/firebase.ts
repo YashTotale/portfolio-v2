@@ -1,6 +1,5 @@
 // Firebase Imports
 import firebase from "firebase/app";
-import "firebase/analytics";
 import "firebase/performance";
 
 export const config = {
@@ -15,16 +14,24 @@ export const config = {
 
 firebase.initializeApp(config);
 
-let firestore: firebase.firestore.Firestore;
-
 export const performance = firebase.performance();
-export const analytics = firebase.analytics();
 
+let firestore: firebase.firestore.Firestore;
 export const useFirestore = (): firebase.firestore.Firestore => {
   if (!firestore) {
     firestore = firebase.firestore();
   }
   return firestore;
+};
+
+let analytics: firebase.analytics.Analytics;
+export const useAnalytics = (
+  triggerCall = true
+): firebase.analytics.Analytics => {
+  if (!analytics && triggerCall) {
+    analytics = firebase.analytics();
+  }
+  return analytics;
 };
 
 export default firebase;
