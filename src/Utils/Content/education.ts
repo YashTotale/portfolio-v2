@@ -4,7 +4,7 @@ import { Document } from "@contentful/rich-text-types";
 
 // Internal Imports
 import { createResolver, createSorter, sortByDate } from "../funcs";
-import { Education, ResolvedEducation, Tag } from "../types";
+import { Education, ResolvedEducation, SubType, Tag } from "../types";
 import { getDefaultSortedEducation } from "./main";
 import { getRawTag } from "./tags";
 import { getRawProvider } from "./providers";
@@ -57,6 +57,40 @@ export const getRawEducation = (
 
   if (!single) return null;
   return single;
+};
+
+interface EdType {
+  label: string;
+  amount: number;
+}
+
+let typesCache: EdType[] | null = null;
+
+export const getEducationTypes = (): EdType[] => {
+  if (typesCache) return typesCache;
+
+  const education = getEducation();
+
+  const types = education.reduce((types, ed) => {
+    const exists = types.find((t) => t.label === ed.type);
+
+    if (exists) {
+      exists.amount++;
+      return types;
+    }
+
+    return [
+      ...types,
+      {
+        label: ed.type,
+        amount: 1,
+      },
+    ];
+  }, [] as EdType[]);
+
+  const unique = types.sort((a, b) => a.label.localeCompare(b.label));
+  typesCache = unique;
+  return unique;
 };
 
 export const generateEducationTimeline = (
@@ -162,3 +196,25 @@ export const sortEducation = createSorter<EducationSort, Education>(
   },
   getEducation()
 );
+
+interface RelatedEducation {
+  label: string;
+  amount: number;
+}
+
+const relatedCache: Record<any, RelatedEducation[]> = {};
+
+export const getEducationAsRelated = (
+  key: SubType<Education, any[]>
+): RelatedEducation[] => {
+  if (relatedCache[key]) return relatedCache[key];
+
+  const allEducation = sortEducation("Alphabetically");
+  const related = allEducation.map((ed) => ({
+    label: ed.title,
+    amount: ed[key].length,
+  }));
+
+  relatedCache[key] = related;
+  return related;
+};

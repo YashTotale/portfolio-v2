@@ -8,11 +8,8 @@ import ProjectPreview from "../../Components/Content/Project/Preview";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 import { useFilteredProjects } from "../../Utils/Content/projects";
-import { resolveTagIcon, sortTags } from "../../Utils/Content/tags";
-import {
-  generateExperienceTitle,
-  sortExperience,
-} from "../../Utils/Content/experience";
+import { getTagsAsRelated } from "../../Utils/Content/tags";
+import { getExperienceAsRelated } from "../../Utils/Content/experience";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -83,8 +80,8 @@ const ProjectsPage: FC = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.type === "dark";
 
-  const allTags = sortTags("Alphabetically");
-  const allExperience = sortExperience("Alphabetically");
+  const allTags = getTagsAsRelated("projects", isDarkMode);
+  const allExperience = getExperienceAsRelated("projects");
 
   const search = useSelector(getProjectsSearch);
   const sort = useSelector(getProjectsSort);
@@ -113,14 +110,13 @@ const ProjectsPage: FC = () => {
           related={[
             {
               label: "Tags",
-              values: allTags.map((tag) => tag.title),
-              images: allTags.map((tag) => resolveTagIcon(tag, isDarkMode)),
+              values: allTags,
               value: tagFilter,
               onChange: (values) => dispatch(setProjectsTagFilter(values)),
             },
             {
               label: "Experience",
-              values: allExperience.map(generateExperienceTitle),
+              values: allExperience,
               value: experienceFilter,
               onChange: (values) =>
                 dispatch(setProjectsExperienceFilter(values)),

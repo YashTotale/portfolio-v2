@@ -11,8 +11,8 @@ import {
   getExperienceTypes,
   useFilteredExperience,
 } from "../../Utils/Content/experience";
-import { resolveTagIcon, sortTags } from "../../Utils/Content/tags";
-import { sortProjects } from "../../Utils/Content/projects";
+import { getTagsAsRelated } from "../../Utils/Content/tags";
+import { getProjectsAsRelated } from "../../Utils/Content/projects";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -69,8 +69,8 @@ const Experience: FC = () => {
   const isDarkMode = theme.palette.type === "dark";
 
   const allTypes = getExperienceTypes();
-  const allTags = sortTags("Alphabetically");
-  const allProjects = sortProjects("Alphabetically");
+  const allTags = getTagsAsRelated("experience", isDarkMode);
+  const allProjects = getProjectsAsRelated("associated");
 
   const search = useSelector(getExperienceSearch);
   const sort = useSelector(getExperienceSort);
@@ -106,14 +106,13 @@ const Experience: FC = () => {
             },
             {
               label: "Tags",
-              values: allTags.map((tag) => tag.title),
-              images: allTags.map((tag) => resolveTagIcon(tag, isDarkMode)),
+              values: allTags,
               value: tagFilter,
               onChange: (values) => dispatch(setExperienceTagFilter(values)),
             },
             {
               label: "Projects",
-              values: allProjects.map((project) => project.title),
+              values: allProjects,
               value: projectFilter,
               onChange: (values) =>
                 dispatch(setExperienceProjectFilter(values)),

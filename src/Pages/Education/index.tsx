@@ -7,11 +7,12 @@ import Tracker from "../../Components/Custom/Tracker";
 import Preview from "../../Components/Content/Education/Preview";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
-import { EDUCATION_TYPES } from "../../Utils/types";
-import { useFilteredEducation } from "../../Utils/Content/education";
-import { sortProviders } from "../../Utils/Content/providers";
-import { resolveTagIcon, sortTags } from "../../Utils/Content/tags";
-import { getAsset } from "../../Utils/Content/assets";
+import {
+  getEducationTypes,
+  useFilteredEducation,
+} from "../../Utils/Content/education";
+import { getProvidersAsRelated } from "../../Utils/Content/providers";
+import { getTagsAsRelated } from "../../Utils/Content/tags";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -67,8 +68,9 @@ const Education: FC = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.type === "dark";
 
-  const allTags = sortTags("Alphabetically");
-  const allProviders = sortProviders("Alphabetically");
+  const allTypes = getEducationTypes();
+  const allTags = getTagsAsRelated("education", isDarkMode);
+  const allProviders = getProvidersAsRelated("education");
 
   const search = useSelector(getEducationSearch);
   const sort = useSelector(getEducationSort);
@@ -98,23 +100,19 @@ const Education: FC = () => {
           related={[
             {
               label: "Tags",
-              values: allTags.map((tag) => tag.title),
-              images: allTags.map((tag) => resolveTagIcon(tag, isDarkMode)),
+              values: allTags,
               value: tagFilter,
               onChange: (values) => dispatch(setEducationTagFilter(values)),
             },
             {
               label: "Types",
-              values: EDUCATION_TYPES,
+              values: allTypes,
               value: typeFilter,
               onChange: (values) => dispatch(setEducationTypeFilter(values)),
             },
             {
               label: "Providers",
-              values: allProviders.map((provider) => provider.title),
-              images: allProviders.map(
-                (provider) => `${getAsset(provider.image).file.url}?w=32`
-              ),
+              values: allProviders,
               value: providerFilter,
               onChange: (values) =>
                 dispatch(setEducationProviderFilter(values)),

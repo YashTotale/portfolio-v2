@@ -27,25 +27,42 @@ export const getRawBook = (id: string): Book | null => {
   return single;
 };
 
-let genresCache: string[] | null = null;
+interface Genre {
+  label: string;
+  amount: number;
+}
 
-export const getBookGenres = (): string[] => {
+let genresCache: Genre[] | null = null;
+
+export const getBookGenres = (): Genre[] => {
   if (genresCache) return genresCache;
 
   const books = getBooks();
+  const genres: Genre[] = [];
 
-  const genres = books.reduce((genres, book) => {
-    return [...genres, ...book.genres];
-  }, [] as string[]);
+  books.forEach((book) => {
+    book.genres.forEach((genre) => {
+      const exists = genres.find((g) => g.label === genre);
 
-  const unique = [...new Set(genres)].sort((a, b) => a.localeCompare(b));
-  genresCache = unique;
-  return unique;
+      if (exists) {
+        exists.amount++;
+      } else {
+        genres.push({
+          label: genre,
+          amount: 1,
+        });
+      }
+    });
+  });
+
+  genresCache = genres;
+  return genres;
 };
 
 interface Author {
-  name: string;
+  label: string;
   image: string;
+  amount: number;
 }
 
 let authorsCache: Author[] | null = null;
@@ -54,22 +71,26 @@ export const getBookAuthors = (): Author[] => {
   if (authorsCache) return authorsCache;
 
   const books = getBooks();
-  const encountered: Record<string, boolean> = {};
 
   const authors = books.reduce((authors, book) => {
-    if (encountered[book.author]) return authors;
-    encountered[book.author] = true;
+    const exists = authors.find((a) => a.label === book.author);
+
+    if (exists) {
+      exists.amount++;
+      return authors;
+    }
 
     return [
       ...authors,
       {
-        name: book.author,
+        label: book.author,
         image: book.authorImage,
+        amount: 1,
       },
     ];
   }, [] as Author[]);
 
-  const unique = authors.sort((a, b) => a.name.localeCompare(b.name));
+  const unique = authors.sort((a, b) => a.label.localeCompare(b.label));
   authorsCache = unique;
   return unique;
 };

@@ -9,6 +9,7 @@ import {
   Experience,
   Project,
   ResolvedExperience,
+  SubType,
   Tag,
 } from "../types";
 import { getDefaultSortedExperience } from "./main";
@@ -78,18 +79,36 @@ export const getRawExperience = (
   return single;
 };
 
-let typesCache: string[] | null = null;
+interface ExpType {
+  label: string;
+  amount: number;
+}
 
-export const getExperienceTypes = (): string[] => {
+let typesCache: ExpType[] | null = null;
+
+export const getExperienceTypes = (): ExpType[] => {
   if (typesCache) return typesCache;
 
   const experience = getExperience();
 
   const types = experience.reduce((types, exp) => {
-    return [...types, exp.type];
-  }, [] as string[]);
+    const exists = types.find((t) => t.label === exp.type);
 
-  const unique = [...new Set(types)].sort((a, b) => a.localeCompare(b));
+    if (exists) {
+      exists.amount++;
+      return types;
+    }
+
+    return [
+      ...types,
+      {
+        label: exp.type,
+        amount: 1,
+      },
+    ];
+  }, [] as ExpType[]);
+
+  const unique = types.sort((a, b) => a.label.localeCompare(b.label));
   typesCache = unique;
   return unique;
 };
@@ -222,3 +241,25 @@ export const sortExperience = createSorter<ExperienceSort, Experience>(
   },
   getExperience()
 );
+
+interface RelatedExperience {
+  label: string;
+  amount: number;
+}
+
+const relatedCache: Record<any, RelatedExperience[]> = {};
+
+export const getExperienceAsRelated = (
+  key: SubType<Experience, any[]>
+): RelatedExperience[] => {
+  if (relatedCache[key]) return relatedCache[key];
+
+  const allExperience = sortExperience("Alphabetically");
+  const related = allExperience.map((exp) => ({
+    label: generateExperienceTitle(exp),
+    amount: exp[key].length,
+  }));
+
+  relatedCache[key] = related;
+  return related;
+};

@@ -1,6 +1,6 @@
 // Internal Imports
 import { createResolver, createSorter } from "../funcs";
-import { Provider, ResolvedProvider } from "../types";
+import { Provider, ResolvedProvider, SubType } from "../types";
 import { getAsset } from "./assets";
 
 // Data Imports
@@ -37,3 +37,26 @@ export const sortProviders = createSorter<ProviderSort, Provider>(
   },
   getProviders()
 );
+
+interface RelatedProvider {
+  label: string;
+  image: string;
+}
+
+const relatedCache: Record<any, RelatedProvider[]> = {};
+
+export const getProvidersAsRelated = (
+  key: SubType<Provider, any[]>
+): RelatedProvider[] => {
+  if (relatedCache[key]) return relatedCache[key];
+
+  const allProviders = sortProviders("Alphabetically");
+  const related = allProviders.map((provider) => ({
+    label: provider.title,
+    amount: provider[key].length,
+    image: `${getAsset(provider.image).file.url}?w=32`,
+  }));
+
+  relatedCache[key] = related;
+  return related;
+};

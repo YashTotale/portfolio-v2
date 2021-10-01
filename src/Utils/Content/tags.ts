@@ -6,6 +6,7 @@ import {
   Experience,
   Project,
   ResolvedTag,
+  SubType,
   Tag,
 } from "../types";
 import { generateExperienceTitle, getRawExperience } from "./experience";
@@ -107,20 +108,36 @@ export const resolveTagIcon = (
   }?w=${width}`;
 };
 
-let categoriesCache: string[] | null = null;
+interface Category {
+  label: string;
+  amount: number;
+}
 
-export const getTagCategories = (): string[] => {
+let categoriesCache: Category[] | null = null;
+
+export const getTagCategories = (): Category[] => {
   if (categoriesCache) return categoriesCache;
 
   const tags = getTags();
+  const categories: Category[] = [];
 
-  const categories = tags.reduce((cats, tag) => {
-    return [...cats, ...(tag.categories || [])];
-  }, [] as string[]);
+  tags.forEach((tag) => {
+    tag.categories?.forEach((category) => {
+      const exists = categories.find((g) => g.label === category);
 
-  const unique = [...new Set(categories)].sort((a, b) => a.localeCompare(b));
-  categoriesCache = unique;
-  return unique;
+      if (exists) {
+        exists.amount++;
+      } else {
+        categories.push({
+          label: category,
+          amount: 1,
+        });
+      }
+    });
+  });
+
+  categoriesCache = categories;
+  return categories;
 };
 
 export const checkCategories = (
@@ -244,3 +261,28 @@ export const sortTags = createSorter<TagsSort, Tag>(
   },
   getTags()
 );
+
+interface RelatedTag {
+  label: string;
+  amount: number;
+  image: string;
+}
+
+const relatedCache: Record<any, RelatedTag[]> = {};
+
+export const getTagsAsRelated = (
+  key: SubType<Tag, any[]>,
+  isDarkMode: boolean
+): RelatedTag[] => {
+  if (relatedCache[key]) return relatedCache[key];
+
+  const allTags = sortTags("Alphabetically");
+  const related = allTags.map((tag) => ({
+    label: tag.title,
+    amount: tag[key].length,
+    image: resolveTagIcon(tag, isDarkMode),
+  }));
+
+  relatedCache[key] = related;
+  return related;
+};

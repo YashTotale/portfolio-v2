@@ -6,8 +6,9 @@ import Filters from "../../Components/Custom/Filters";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import CertificationPreview from "../../Components/Content/Certification/Preview";
 import { generatePageTitle } from "../../Utils/funcs";
-import { resolveTagIcon, sortTags } from "../../Utils/Content/tags";
+import { getTagsAsRelated } from "../../Utils/Content/tags";
 import { useFilteredCertification } from "../../Utils/Content/certification";
+import { getProvidersAsRelated } from "../../Utils/Content/providers";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -29,8 +30,6 @@ import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { makeStyles, Typography, useTheme } from "@material-ui/core";
-import { sortProviders } from "../../Utils/Content/providers";
-import { getAsset } from "../../Utils/Content/assets";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -73,8 +72,8 @@ const Certification: FC = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.type === "dark";
 
-  const allTags = sortTags("Alphabetically");
-  const allProviders = sortProviders("Alphabetically");
+  const allTags = getTagsAsRelated("certification", isDarkMode);
+  const allProviders = getProvidersAsRelated("certification");
 
   const search = useSelector(getCertificationSearch);
   const sort = useSelector(getCertificationSort);
@@ -103,17 +102,13 @@ const Certification: FC = () => {
           related={[
             {
               label: "Tags",
-              values: allTags.map((tag) => tag.title),
-              images: allTags.map((tag) => resolveTagIcon(tag, isDarkMode)),
+              values: allTags,
               value: tagFilter,
               onChange: (values) => dispatch(setCertificationTagFilter(values)),
             },
             {
               label: "Providers",
-              values: allProviders.map((provider) => provider.title),
-              images: allProviders.map(
-                (provider) => `${getAsset(provider.image).file.url}?w=32`
-              ),
+              values: allProviders,
               value: providerFilter,
               onChange: (values) =>
                 dispatch(setCertificationProviderFilter(values)),

@@ -8,11 +8,8 @@ import ArticlePreview from "../../Components/Content/Article/Preview";
 import { useFilteredArticles } from "../../Utils/Content/articles";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
-import { resolveTagIcon, sortTags } from "../../Utils/Content/tags";
-import {
-  generateExperienceTitle,
-  sortExperience,
-} from "../../Utils/Content/experience";
+import { getTagsAsRelated } from "../../Utils/Content/tags";
+import { getExperienceAsRelated } from "../../Utils/Content/experience";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -83,8 +80,8 @@ const Articles: FC = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.type === "dark";
 
-  const allTags = sortTags("Alphabetically");
-  const allExperience = sortExperience("Alphabetically");
+  const allTags = getTagsAsRelated("articles", isDarkMode);
+  const allExperience = getExperienceAsRelated("articles");
 
   const search = useSelector(getArticlesSearch);
   const sort = useSelector(getArticlesSort);
@@ -113,14 +110,13 @@ const Articles: FC = () => {
           related={[
             {
               label: "Tags",
-              values: allTags.map((tag) => tag.title),
-              images: allTags.map((tag) => resolveTagIcon(tag, isDarkMode)),
+              values: allTags,
               value: tagFilter,
               onChange: (values) => dispatch(setArticlesTagFilter(values)),
             },
             {
               label: "Experience",
-              values: allExperience.map(generateExperienceTitle),
+              values: allExperience,
               value: experienceFilter,
               onChange: (values) =>
                 dispatch(setArticlesExperienceFilter(values)),

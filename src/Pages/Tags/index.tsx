@@ -7,13 +7,10 @@ import Filters from "../../Components/Custom/Filters";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 import { getTagCategories, useFilteredTags } from "../../Utils/Content/tags";
-import {
-  generateExperienceTitle,
-  sortExperience,
-} from "../../Utils/Content/experience";
-import { sortEducation } from "../../Utils/Content/education";
-import { sortProjects } from "../../Utils/Content/projects";
-import { sortArticles } from "../../Utils/Content/articles";
+import { getExperienceAsRelated } from "../../Utils/Content/experience";
+import { getEducationAsRelated } from "../../Utils/Content/education";
+import { getProjectsAsRelated } from "../../Utils/Content/projects";
+import { getArticlesAsRelated } from "../../Utils/Content/articles";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -78,10 +75,10 @@ const Tags: FC = () => {
   const dispatch = useAppDispatch();
 
   const allCategories = getTagCategories();
-  const allExperience = sortExperience("Alphabetically");
-  const allProjects = sortProjects("Alphabetically");
-  const allArticles = sortArticles("Alphabetically");
-  const allEducation = sortEducation("Alphabetically");
+  const allExperience = getExperienceAsRelated("tags");
+  const allEducation = getEducationAsRelated("tags");
+  const allProjects = getProjectsAsRelated("tags");
+  const allArticles = getArticlesAsRelated("tags");
 
   const search = useSelector(getTagsSearch);
   const sort = useSelector(getTagsSort);
@@ -118,25 +115,25 @@ const Tags: FC = () => {
             },
             {
               label: "Experience",
-              values: allExperience.map(generateExperienceTitle),
+              values: allExperience,
               value: experienceFilter,
               onChange: (values) => dispatch(setTagsExperienceFilter(values)),
             },
             {
               label: "Education",
-              values: allEducation.map((ed) => ed.title),
+              values: allEducation,
               value: educationFilter,
               onChange: (values) => dispatch(setTagsEducationFilter(values)),
             },
             {
               label: "Projects",
-              values: allProjects.map((project) => project.title),
+              values: allProjects,
               value: projectFilter,
               onChange: (values) => dispatch(setTagsProjectFilter(values)),
             },
             {
               label: "Articles",
-              values: allArticles.map((article) => article.title),
+              values: allArticles,
               value: articleFilter,
               onChange: (values) => dispatch(setTagsArticleFilter(values)),
             },

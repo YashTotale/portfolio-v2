@@ -14,6 +14,7 @@ import {
   InputLabel,
   ListItemAvatar,
   Avatar,
+  Typography,
 } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 
@@ -25,12 +26,21 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(4),
     height: theme.spacing(4),
   },
+  amount: {
+    marginLeft: "auto",
+  },
 }));
+
+interface Value {
+  label: string;
+  amount?: number;
+  image?: string;
+}
 
 export interface RelatedProps {
   label: string;
   value: string[];
-  values: string[];
+  values: Value[];
   images?: string[];
   onChange: (value: string[]) => void;
   onClear?: () => void;
@@ -68,22 +78,37 @@ const Related: FC<RelatedProps> = (props) => {
           onChange={handleChange}
           renderValue={(val) => <>{(val as string[]).join(", ")}</>}
         >
-          {values.map((v, i) => (
-            <MenuItem
-              key={v}
-              value={v}
-              className={clsx({
-                [classes.itemSelected]: value.includes(v),
-              })}
-            >
-              {typeof props.images?.[i] === "string" && (
-                <ListItemAvatar>
-                  <Avatar className={classes.avatar} src={props.images[i]} />
-                </ListItemAvatar>
-              )}
-              {v}
-            </MenuItem>
-          ))}
+          {values.map((v) => {
+            const label = typeof v === "string" ? v : v.label;
+            const image = typeof v === "string" ? null : v.image;
+            const amount = typeof v === "string" ? null : v.amount;
+
+            return (
+              <MenuItem
+                key={label}
+                value={label}
+                className={clsx({
+                  [classes.itemSelected]: value.includes(label),
+                })}
+              >
+                {typeof image === "string" && (
+                  <ListItemAvatar>
+                    <Avatar className={classes.avatar} src={image} />
+                  </ListItemAvatar>
+                )}
+                {label}
+                {typeof amount === "number" && (
+                  <Typography
+                    variant="body1"
+                    color="textSecondary"
+                    className={classes.amount}
+                  >
+                    ({amount})
+                  </Typography>
+                )}
+              </MenuItem>
+            );
+          })}
         </Select>
       </FormControl>
     </Filter>

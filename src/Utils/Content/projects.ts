@@ -4,7 +4,14 @@ import { documentToPlainTextString } from "@contentful/rich-text-plain-text-rend
 
 // Internal Imports
 import { createResolver, createSorter, sortByDate } from "../funcs";
-import { Badge, Experience, Project, ResolvedProject, Tag } from "../types";
+import {
+  Badge,
+  Experience,
+  Project,
+  ResolvedProject,
+  SubType,
+  Tag,
+} from "../types";
 import { getDefaultSortedProjects } from "./main";
 import { generateExperienceTitle, getRawExperience } from "./experience";
 import { getAsset } from "./assets";
@@ -174,3 +181,25 @@ export const sortProjects = createSorter<ProjectsSort, Project>(
   },
   getProjects()
 );
+
+interface RelatedProject {
+  label: string;
+  amount?: number;
+}
+
+const relatedCache: Record<any, RelatedProject[]> = {};
+
+export const getProjectsAsRelated = (
+  key: SubType<Project, any[]> | "associated"
+): RelatedProject[] => {
+  if (relatedCache[key]) return relatedCache[key];
+
+  const allProjects = sortProjects("Alphabetically");
+  const related = allProjects.map((project) => ({
+    label: project.title,
+    amount: key !== "associated" ? project[key].length : undefined,
+  }));
+
+  relatedCache[key] = related;
+  return related;
+};

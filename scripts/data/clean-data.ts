@@ -218,13 +218,41 @@ const cleanCertification = async () => {
   return parsed;
 };
 
-const cleanProviders = async () => {
+const cleanProviders = async (
+  education: Dict<Education>,
+  certification: Dict<Certification>
+) => {
   const providers = await readData<RawProvider>("provider");
 
   const parsed = Object.entries(providers).reduce((obj, [id, fields]) => {
     const image = getId(fields.image);
 
-    return { ...obj, [id]: { ...fields, image } };
+    const relatedEducation = Object.values(education).reduce((arr, ed) => {
+      if (ed.provider === id) {
+        return [...arr, ed.id];
+      }
+      return arr;
+    }, [] as string[]);
+
+    const relatedCertification = Object.values(certification).reduce(
+      (arr, certification) => {
+        if (certification.provider === id) {
+          return [...arr, certification.id];
+        }
+        return arr;
+      },
+      [] as string[]
+    );
+
+    return {
+      ...obj,
+      [id]: {
+        ...fields,
+        image,
+        education: relatedEducation,
+        certification: relatedCertification,
+      },
+    };
   }, {} as Dict<Provider>);
 
   await writeData(parsed, "provider");
@@ -256,11 +284,14 @@ const cleanData = async (): Promise<void> => {
     cleanProjects(),
     cleanArticles(),
     cleanCertification(),
-    cleanProviders(),
     cleanMain(),
   ]);
 
-  const experience = await cleanExperience(projects, articles);
+  const [experience] = await Promise.all([
+    cleanExperience(projects, articles),
+    cleanProviders(education, certification),
+  ]);
+
   await cleanTags(experience, education, projects, articles, certification);
 
   Logger.success("Successfully cleaned data!");

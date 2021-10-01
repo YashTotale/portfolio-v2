@@ -5,7 +5,7 @@ import { documentToPlainTextString } from "@contentful/rich-text-plain-text-rend
 
 // Internal Imports
 import { compareDates, createResolver, createSorter } from "../funcs";
-import { Article, Experience, ResolvedArticle, Tag } from "../types";
+import { Article, Experience, ResolvedArticle, SubType, Tag } from "../types";
 import { getDefaultSortedArticles } from "./main";
 import { generateExperienceTitle, getRawExperience } from "./experience";
 import { getRawTag } from "./tags";
@@ -162,3 +162,25 @@ export const sortArticles = createSorter<ArticlesSort, Article>(
   },
   getArticles()
 );
+
+interface RelatedArticles {
+  label: string;
+  amount: number;
+}
+
+const relatedCache: Record<any, RelatedArticles[]> = {};
+
+export const getArticlesAsRelated = (
+  key: SubType<Article, any[]>
+): RelatedArticles[] => {
+  if (relatedCache[key]) return relatedCache[key];
+
+  const allArticles = sortArticles("Alphabetically");
+  const related = allArticles.map((article) => ({
+    label: article.title,
+    amount: article[key].length,
+  }));
+
+  relatedCache[key] = related;
+  return related;
+};
