@@ -40,7 +40,12 @@ const NavController: FC = () => {
   }, [normalizedPath, title, dispatch]);
 
   if (withTrailingSlash)
-    return <Redirect to={{ ...location, pathname: pathname.slice(0, -1) }} />;
+    return (
+      <>
+        <Redirect to={{ ...location, pathname: pathname.slice(0, -1) }} />
+        <ScrollToTop />
+      </>
+    );
 
   return <ScrollToTop />;
 };
