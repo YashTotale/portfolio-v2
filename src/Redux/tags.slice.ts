@@ -6,13 +6,15 @@ export type TagsSort =
   | "Most Related Experience"
   | "Most Related Education"
   | "Most Related Projects"
-  | "Most Related Articles";
+  | "Most Related Articles"
+  | "Most Related Certifications";
 export const TAGS_SORT: TagsSort[] = [
   "Alphabetically",
   "Most Related Experience",
   "Most Related Education",
   "Most Related Projects",
   "Most Related Articles",
+  "Most Related Certifications",
 ];
 
 export interface TagsState {

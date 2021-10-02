@@ -258,6 +258,8 @@ export const sortTags = createSorter<TagsSort, Tag>(
     "Most Related Education": (a, b) => b.education.length - a.education.length,
     "Most Related Projects": (a, b) => b.projects.length - a.projects.length,
     "Most Related Articles": (a, b) => b.articles.length - a.articles.length,
+    "Most Related Certifications": (a, b) =>
+      b.certification.length - a.certification.length,
   },
   getTags()
 );
