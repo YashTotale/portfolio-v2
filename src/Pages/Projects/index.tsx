@@ -81,7 +81,7 @@ const ProjectsPage: FC = () => {
   const isDarkMode = theme.palette.type === "dark";
 
   const allTags = getTagsAsRelated("projects", isDarkMode);
-  const allExperience = getExperienceAsRelated("projects");
+  const allExperience = getExperienceAsRelated("projects", isDarkMode);
 
   const search = useSelector(getProjectsSearch);
   const sort = useSelector(getProjectsSort);

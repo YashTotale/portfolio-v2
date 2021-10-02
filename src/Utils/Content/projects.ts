@@ -73,6 +73,10 @@ export const getRawProject = (
   return single;
 };
 
+export const resolveProjectImage = (project: Project, width = 30): string => {
+  return `${getAsset(project.image).file.url}?w=${width}`;
+};
+
 export const generateProjectTimeline = (
   project: Project | ResolvedProject
 ): string => {
@@ -198,6 +202,7 @@ export const getProjectsAsRelated = (
   const related = allProjects.map((project) => ({
     label: project.title,
     amount: key !== "associated" ? project[key].length : undefined,
+    image: resolveProjectImage(project),
   }));
 
   relatedCache[key] = related;

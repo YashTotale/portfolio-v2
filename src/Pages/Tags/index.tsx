@@ -34,7 +34,7 @@ import { TAGS_SORT, TagsSort } from "../../Redux/tags.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -74,8 +74,11 @@ const Tags: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
 
+  const theme = useTheme();
+  const isDarkMode = theme.palette.type === "dark";
+
   const allCategories = getTagCategories();
-  const allExperience = getExperienceAsRelated("tags");
+  const allExperience = getExperienceAsRelated("tags", isDarkMode);
   const allEducation = getEducationAsRelated("tags");
   const allProjects = getProjectsAsRelated("tags");
   const allArticles = getArticlesAsRelated("tags");

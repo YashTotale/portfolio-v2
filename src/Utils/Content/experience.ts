@@ -79,6 +79,16 @@ export const getRawExperience = (
   return single;
 };
 
+export const resolveExpImage = (
+  exp: Experience,
+  isDarkMode: boolean,
+  width = 30
+): string => {
+  return `${
+    getAsset(isDarkMode ? exp.darkImage : exp.lightImage).file.url
+  }?w=${width}`;
+};
+
 interface ExpType {
   label: string;
   amount: number;
@@ -245,12 +255,14 @@ export const sortExperience = createSorter<ExperienceSort, Experience>(
 interface RelatedExperience {
   label: string;
   amount: number;
+  image: string;
 }
 
 const relatedCache: Record<any, RelatedExperience[]> = {};
 
 export const getExperienceAsRelated = (
-  key: SubType<Experience, any[]>
+  key: SubType<Experience, any[]>,
+  isDarkMode: boolean
 ): RelatedExperience[] => {
   if (relatedCache[key]) return relatedCache[key];
 
@@ -258,6 +270,7 @@ export const getExperienceAsRelated = (
   const related = allExperience.map((exp) => ({
     label: generateExperienceTitle(exp),
     amount: exp[key].length,
+    image: resolveExpImage(exp, isDarkMode),
   }));
 
   relatedCache[key] = related;

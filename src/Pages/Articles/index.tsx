@@ -81,7 +81,7 @@ const Articles: FC = () => {
   const isDarkMode = theme.palette.type === "dark";
 
   const allTags = getTagsAsRelated("articles", isDarkMode);
-  const allExperience = getExperienceAsRelated("articles");
+  const allExperience = getExperienceAsRelated("articles", isDarkMode);
 
   const search = useSelector(getArticlesSearch);
   const sort = useSelector(getArticlesSort);

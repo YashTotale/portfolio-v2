@@ -26,8 +26,14 @@ const useStyles = makeStyles((theme) => ({
     width: theme.spacing(4),
     height: theme.spacing(4),
   },
+  label: {
+    overflow: "hidden",
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    marginRight: "auto",
+  },
   amount: {
-    marginLeft: "auto",
+    marginLeft: theme.spacing(1.5),
   },
 }));
 
@@ -96,7 +102,7 @@ const Related: FC<RelatedProps> = (props) => {
                     <Avatar className={classes.avatar} src={image} />
                   </ListItemAvatar>
                 )}
-                {label}
+                <Typography className={classes.label}>{label}</Typography>
                 {typeof amount === "number" && (
                   <Typography
                     variant="body1"

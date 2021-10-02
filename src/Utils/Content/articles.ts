@@ -60,6 +60,10 @@ export const getRawArticle = (
   return single;
 };
 
+export const resolveArticleImage = (article: Article, width = 60): string => {
+  return `${getAsset(article.image).file.url}?w=${width}`;
+};
+
 export const generateArticlePublished = (
   article: Article | ResolvedArticle
 ): string => {
@@ -166,6 +170,7 @@ export const sortArticles = createSorter<ArticlesSort, Article>(
 interface RelatedArticles {
   label: string;
   amount: number;
+  image: string;
 }
 
 const relatedCache: Record<any, RelatedArticles[]> = {};
@@ -179,6 +184,7 @@ export const getArticlesAsRelated = (
   const related = allArticles.map((article) => ({
     label: article.title,
     amount: article[key].length,
+    image: resolveArticleImage(article),
   }));
 
   relatedCache[key] = related;
