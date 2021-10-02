@@ -1,8 +1,9 @@
 // React Imports
 import React, { FC } from "react";
-import LinkIcon from "../../Atomic/Icon/Link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faNpm, faHackerrank } from "@fortawesome/free-brands-svg-icons";
+import LinkIcon from "../../Atomic/Icon/Link";
+import { BUILD_TIME } from "../../../Utils/constants";
 
 // Material UI Imports
 import { Box, Container, makeStyles, Typography } from "@material-ui/core";
@@ -72,6 +73,22 @@ const Footer: FC = () => {
       <Box mt={1}>
         <Typography variant="body2" color="textSecondary" align="center">
           Copyright © Yash Totale {new Date().getFullYear()}
+        </Typography>
+      </Box>
+      <Box mt={1}>
+        <Typography variant="body2" color="textSecondary" align="center">
+          Last updated on{" "}
+          {new Date(BUILD_TIME).toLocaleDateString("en-US", {
+            weekday: "long",
+            month: "long",
+            day: "numeric",
+            hour: "numeric",
+            minute: "numeric",
+            timeZoneName: "short",
+            timeZone:
+              Intl.DateTimeFormat().resolvedOptions().timeZone ??
+              "America/Los_Angeles",
+          })}
         </Typography>
       </Box>
     </Container>

@@ -42,7 +42,17 @@
 
 4. Set up environment variables
 
-   Please reach out to me at totaleyash@gmail.com for these 🙂. Paste them into `.env`.
+   Please reach out to me at totaleyash@gmail.com for these 🙂. Paste them into `.env`. Use [`.env.example`] as an example:
+
+   ```text
+   CONTENTFUL_ACCESS_TOKEN=
+   CONTENTFUL_SPACE_ID=
+   CONTENTFUL_MANAGEMENT_ACCESS_TOKEN=
+   REACT_APP_EMAIL_USER_ID=
+   REACT_APP_EMAIL_SERVICE_ID=
+   REACT_APP_EMAIL_TEMPLATE_ID=
+   REACT_APP_RECAPTCHA_KEY=
+   ```
 
 5. Fetch data
 
@@ -167,5 +177,6 @@ Feel free to reach out to me via [email](mailto:totalyash@gmail.com) or through 
 [custom]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Custom
 [static]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Static
 [notfound]: https://github.com/YashTotale/portfolio-v2/blob/master/src/Pages/NotFound.tsx
+[`.env.example`]: https://github.com/YashTotale/portfolio-v2/blob/master/.env.example
 [`useanalytics`]: https://github.com/YashTotale/portfolio-v2/blob/master/src/Hooks/useAnalytics.tsx
 [content subdirectory]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Utils/Content
