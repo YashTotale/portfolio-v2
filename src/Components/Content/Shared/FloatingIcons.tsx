@@ -4,7 +4,7 @@ import LinkIcon from "../../Atomic/Icon/Link";
 
 // Material UI Imports
 import { makeStyles, Theme } from "@material-ui/core";
-import { GitHub, Launch } from "@material-ui/icons";
+import { GitHub, Launch, LinkedIn } from "@material-ui/icons";
 
 type Direction = "row" | "column";
 
@@ -40,6 +40,7 @@ interface FloatingIconsProps {
   linkLabel?: string;
   link?: string;
   github?: string;
+  linkedin?: string;
   direction?: Direction;
   top?: number;
   icons?: Icon[];
@@ -66,6 +67,14 @@ const FloatingIcons: FC<FloatingIconsProps> = (props) => {
           label="View GitHub"
           href={props.github}
           icon={<GitHub />}
+          className={classes.iconButton}
+        />
+      )}
+      {props.linkedin && (
+        <LinkIcon
+          label="View LinkedIn"
+          href={props.linkedin}
+          icon={<LinkedIn />}
           className={classes.iconButton}
         />
       )}

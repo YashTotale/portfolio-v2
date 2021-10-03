@@ -35,6 +35,7 @@ export interface RawExperience {
   end?: EntryFields.Text;
   link?: EntryFields.Text;
   github?: EntryFields.Text;
+  linkedin?: EntryFields.Text;
   tags?: RawLink[];
 }
 

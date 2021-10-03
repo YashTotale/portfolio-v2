@@ -10,7 +10,7 @@ import {
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
-import { GitHub, Launch } from "@material-ui/icons";
+import { GitHub, Launch, LinkedIn } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   links: {
@@ -33,6 +33,7 @@ interface CustomButton {
 interface ButtonLinksProps {
   link?: string;
   github?: string;
+  linkedin?: string;
   linkLabel?: string;
   buttons?: CustomButton[];
 }
@@ -53,6 +54,7 @@ const ButtonLinks: FC<ButtonLinksProps> = (props) => {
         icon={<Launch />}
       />
       <ButtonLink value={props.github} label="GitHub" icon={<GitHub />} />
+      <ButtonLink value={props.linkedin} label="LinkedIn" icon={<LinkedIn />} />
       {props.buttons &&
         props.buttons.map((button, i) => <ButtonLink key={i} {...button} />)}
     </div>

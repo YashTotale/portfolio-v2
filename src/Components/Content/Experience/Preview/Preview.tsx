@@ -138,6 +138,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           linkLabel="Website"
           link={experience.link}
           github={experience.github}
+          linkedin={experience.linkedin}
           direction={isSizeXS ? "column" : "row"}
         />
         <DynamicImage

@@ -23,7 +23,11 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     position: "relative",
     width: "100%",
-    padding: theme.spacing(0, 6),
+    padding: theme.spacing(0, 18),
+
+    [theme.breakpoints.down("sm")]: {
+      padding: theme.spacing(0, 2),
+    },
   },
   title: {
     [theme.breakpoints.up("sm")]: {
@@ -60,6 +64,7 @@ const Title: FC<TitleProps> = (props) => {
         <FloatingIcons
           link={props.link}
           github={props.github}
+          linkedin={props.linkedin}
           linkLabel="Website"
           direction="row"
           top={0}
