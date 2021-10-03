@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import clsx from "clsx";
 import Display from "./Display";
 import Title from "./Components/Title";
-import Badge from "../../Badge";
+import Badges from "./Components/Badges";
 import Associated from "../../Experience/Associated";
 import MainContainer from "../../Shared/MainContainer";
 import TagOverlay from "../../Tag/Overlay";
@@ -29,20 +29,6 @@ const useStyles = makeStyles((theme) => ({
   },
   heading: {
     margin: theme.spacing(0, 1),
-  },
-  badges: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
-  badge: {
-    margin: theme.spacing(1, 0.5),
-    marginBottom: 0,
-
-    [theme.breakpoints.only("xs")]: {
-      margin: theme.spacing(0, 0.5),
-    },
   },
   main: {
     padding: theme.spacing(0, 2),
@@ -73,15 +59,7 @@ const Main: FC<MainProps> = (props) => {
       <Typography align="center" variant="subtitle1">
         {generateProjectTimeline(project)}
       </Typography>
-      {project.badges && (
-        <>
-          <div className={classes.badges}>
-            {project.badges.map((badge) => (
-              <Badge {...badge} key={badge.id} className={classes.badge} />
-            ))}
-          </div>
-        </>
-      )}
+      <Badges {...project} />
       <div className={classes.main}>
         <Display {...project} />
         {project.associated && (

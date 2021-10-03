@@ -5,7 +5,7 @@ import { ResolvedEducation } from "../../../../Utils/types";
 import { getAsset } from "../../../../Utils/Content/assets";
 
 // Material UI Imports
-import { makeStyles, Tooltip } from "@material-ui/core";
+import { Link, makeStyles, Tooltip } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   provider: {
@@ -50,13 +50,13 @@ const Provider: FC<ProviderProps> = (props) => {
     return (
       <div className={classes.provider}>
         <Tooltip title={title}>
-          <a
+          <Link
             href={props.provider.link}
             target="_blank"
             rel="noopener noreferrer"
           >
             {providerImage}
-          </a>
+          </Link>
         </Tooltip>
       </div>
     );

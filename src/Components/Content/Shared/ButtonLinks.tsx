@@ -4,6 +4,7 @@ import React, { cloneElement, FC } from "react";
 // Material UI Imports
 import {
   Button,
+  Link,
   makeStyles,
   Typography,
   useMediaQuery,
@@ -90,7 +91,7 @@ const ButtonLink: FC<ButtonLinkProps> = (props) => {
   if (!props.value) return null;
 
   return (
-    <a
+    <Link
       href={props.value}
       target="_blank"
       rel="noopener noreferrer"
@@ -104,7 +105,7 @@ const ButtonLink: FC<ButtonLinkProps> = (props) => {
           fontSize: "small",
         })}
       </Button>
-    </a>
+    </Link>
   );
 };
 
