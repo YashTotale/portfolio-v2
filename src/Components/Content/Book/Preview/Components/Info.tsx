@@ -1,12 +1,19 @@
 // React Imports
 import React, { FC } from "react";
 import Genres from "./Genres";
+import { useClosableSnackbar } from "../../../../../Hooks";
 import HorizontalDivider from "../../../../Atomic/Divider/Horizontal";
 import MatchHighlight from "../../../../Atomic/MatchHighlight";
 import { Book } from "../../../../../Utils/types";
 
+// Redux Imports
+import { useSelector } from "react-redux";
+import { setBooksSort, getBooksSort } from "../../../../../Redux";
+import { BookSort } from "../../../../../Redux/books.slice";
+import { useAppDispatch } from "../../../../../Store";
+
 // Material UI Imports
-import { Link, makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Tooltip, Typography } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
@@ -28,22 +35,6 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     width: "100%",
   },
-  item: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "flex-start",
-    flexWrap: "wrap",
-    margin: theme.spacing(0.5, 0),
-    width: "100%",
-  },
-  itemLabel: {
-    marginRight: theme.spacing(0.6),
-  },
-  itemValue: {
-    display: "flex",
-    alignItems: "center",
-    flexWrap: "wrap",
-  },
   rating: {
     marginRight: theme.spacing(0.25),
   },
@@ -61,7 +52,7 @@ const Info: FC<InfoProps> = (props) => {
       {(typeof props.rating === "number" || props.datesRead) && (
         <Section>
           {typeof props.rating === "number" && (
-            <Item label="My Rating">
+            <Item label="My Rating" sort="Highest Rated by Me">
               <Rating
                 value={props.rating}
                 readOnly
@@ -75,7 +66,10 @@ const Info: FC<InfoProps> = (props) => {
             </Item>
           )}
           {props.datesRead && (
-            <Item label={`Date${props.datesRead.length > 1 ? "s" : ""} Read`}>
+            <Item
+              label={`Date${props.datesRead.length > 1 ? "s" : ""} Read`}
+              sort="Recently Read"
+            >
               {props.datesRead.map((date, i) => (
                 <>
                   {i ? <> &bull; </> : null}
@@ -88,19 +82,23 @@ const Info: FC<InfoProps> = (props) => {
       )}
       <Section>
         {props.pages && (
-          <Item label="Pages" search={props.search}>
+          <Item label="Pages" search={props.search} sort="Most Pages">
             {props.pages.toLocaleString()}
           </Item>
         )}
         {props.yearPublished && (
-          <Item label="Year Published" search={props.search}>
+          <Item
+            label="Year Published"
+            search={props.search}
+            sort="Recently Published"
+          >
             {props.yearPublished}
           </Item>
         )}
         <Genres {...props} />
       </Section>
       <Section last>
-        <Item label="Avg Rating">
+        <Item label="Avg Rating" sort="Highest Average Rating">
           <>
             <Rating
               value={props.avgRating}
@@ -114,12 +112,12 @@ const Info: FC<InfoProps> = (props) => {
             /5)
           </>
         </Item>
-        <Item label="# of Ratings">
+        <Item label="# of Ratings" sort="Most Ratings">
           <MatchHighlight toMatch={props.search}>
             {props.numRatings.toLocaleString()}
           </MatchHighlight>
         </Item>
-        <Item label="# of Reviews">
+        <Item label="# of Reviews" sort="Most Reviews">
           <MatchHighlight toMatch={props.search}>
             {props.numReviews.toLocaleString()}
           </MatchHighlight>
@@ -144,30 +142,91 @@ const Section: FC<SectionProps> = ({ children, last }) => {
   );
 };
 
+const useItemStyles = makeStyles((theme) => ({
+  item: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
+    margin: theme.spacing(0.5, 0),
+    width: "100%",
+  },
+  itemLabelContainer: {
+    display: "flex",
+    alignItems: "center",
+    marginRight: theme.spacing(0.6),
+  },
+  itemLabel: {
+    display: "inline-block",
+    overflow: "hidden",
+    position: "relative",
+    cursor: "pointer",
+    "&&:after": {
+      content: "''",
+      position: "absolute",
+      bottom: 0,
+      left: "-1px",
+      width: "100%",
+      height: "0.1em",
+      backgroundColor: theme.palette.secondary.main,
+      transition: "transform 300ms",
+      opacity: 1,
+      transform: "translate3d(-100%, 0, 0)",
+    },
+    "&:hover::after, &:focus::after": {
+      transform: "translate3d(0, 0, 0)",
+    },
+  },
+  itemValue: {
+    display: "flex",
+    alignItems: "center",
+    flexWrap: "wrap",
+  },
+}));
+
 interface ItemProps {
   label: string;
-  link?: string;
   search?: string;
+  sort?: BookSort;
 }
 
-export const Item: FC<ItemProps> = ({ label, children, link, search }) => {
-  const classes = useStyles();
+export const Item: FC<ItemProps> = ({ label, children, search, sort }) => {
+  const dispatch = useAppDispatch();
+  const classes = useItemStyles();
+  const { enqueueSnackbar } = useClosableSnackbar();
+
+  const booksSort = useSelector(getBooksSort);
+  const alreadySorted = booksSort === sort;
 
   if (typeof children === "string" && search) {
     children = <MatchHighlight toMatch={search}>{children}</MatchHighlight>;
   }
 
-  if (link) {
-    children = (
-      <Link href={link} target="_blank" rel="noopener noreferrer">
-        {children}
-      </Link>
+  const labelEl =
+    sort && !alreadySorted ? (
+      <>
+        <Tooltip title={`Sort by '${sort}'`}>
+          <span
+            className={classes.itemLabel}
+            onClick={() => {
+              dispatch(setBooksSort(sort));
+              enqueueSnackbar(`Sorted Books by '${sort}''`, {
+                variant: "success",
+              });
+            }}
+          >
+            {label}
+          </span>
+        </Tooltip>
+        :
+      </>
+    ) : (
+      `${label}:`
     );
-  }
 
   return (
     <Typography className={classes.item}>
-      <strong className={classes.itemLabel}>{label}:</strong>{" "}
+      <strong className={classes.itemLabelContainer}>{labelEl}</strong>{" "}
       <span className={classes.itemValue}>{children ?? "N/A"}</span>
     </Typography>
   );

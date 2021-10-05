@@ -103,7 +103,6 @@ const Books: FC = () => {
           sort={{
             value: sort,
             values: BOOKS_SORT,
-
             onChange: (value) => dispatch(setBooksSort(value as BookSort)),
           }}
           related={[
