@@ -4,6 +4,7 @@ import Genres from "./Genres";
 import { useClosableSnackbar } from "../../../../../Hooks";
 import HorizontalDivider from "../../../../Atomic/Divider/Horizontal";
 import MatchHighlight from "../../../../Atomic/MatchHighlight";
+import DynamicUnderline from "../../../../Atomic/DynamicUnderline";
 import { Book } from "../../../../../Utils/types";
 
 // Redux Imports
@@ -13,7 +14,7 @@ import { BookSort } from "../../../../../Redux/books.slice";
 import { useAppDispatch } from "../../../../../Store";
 
 // Material UI Imports
-import { makeStyles, Tooltip, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import { Rating } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
@@ -204,22 +205,16 @@ export const Item: FC<ItemProps> = ({ label, children, search, sort }) => {
 
   const labelEl =
     sort && !alreadySorted ? (
-      <>
-        <Tooltip title={`Sort by '${sort}'`}>
-          <span
-            className={classes.itemLabel}
-            onClick={() => {
-              dispatch(setBooksSort(sort));
-              enqueueSnackbar(`Sorted Books by '${sort}''`, {
-                variant: "success",
-              });
-            }}
-          >
-            {label}
-          </span>
-        </Tooltip>
-        :
-      </>
+      <DynamicUnderline
+        tooltipLabel={`Sort by '${sort}'`}
+        label={label}
+        onClick={() => {
+          dispatch(setBooksSort(sort));
+          enqueueSnackbar(`Sorted Books by '${sort}''`, {
+            variant: "success",
+          });
+        }}
+      />
     ) : (
       `${label}:`
     );
