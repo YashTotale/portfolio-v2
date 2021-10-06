@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
   },
   subtitle: {
     marginBottom: theme.spacing(1),
+    maxHeight: theme.spacing(3.5),
   },
 }));
 
@@ -93,24 +94,21 @@ const Title: FC<TitleProps> = (props) => {
         className={classes.subtitle}
       >
         <DynamicUnderline
-          tooltipLabel={
-            alreadyFiltered
-              ? `Remove '${props.type}' filter`
-              : `Filter by '${props.type}'`
-          }
+          tooltipLabel={`Filter by '${props.type}'`}
+          tooltipLabelEnabled={`Remove '${props.type}' Filter`}
           onClick={() => {
-            dispatch(
-              setEducationTypeFilter(alreadyFiltered ? [] : [props.type])
-            );
-            enqueueSnackbar(
-              alreadyFiltered
-                ? `Removed '${props.type}' filter`
-                : `Filtered Education by '${props.type}'`,
-              {
-                variant: "success",
-              }
-            );
+            dispatch(setEducationTypeFilter([props.type]));
+            enqueueSnackbar(`Filtered Education by '${props.type}'`, {
+              variant: "success",
+            });
           }}
+          onRemove={() => {
+            dispatch(setEducationTypeFilter([]));
+            enqueueSnackbar(`Removed '${props.type}' Filter`, {
+              variant: "success",
+            });
+          }}
+          enabled={alreadyFiltered}
         >
           <MatchHighlight toMatch={props.search}>{props.type}</MatchHighlight>
         </DynamicUnderline>

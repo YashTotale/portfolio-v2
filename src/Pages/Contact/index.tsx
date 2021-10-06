@@ -136,7 +136,7 @@ const Contact: FC = () => {
       );
       await firestore.collection("contact").doc().set(data);
 
-      enqueueSnackbar("Message received! Check your inbox.", {
+      enqueueSnackbar("Message received! Check your inbox :)", {
         variant: "success",
       });
       reset({

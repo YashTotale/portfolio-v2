@@ -52,6 +52,7 @@ const Timeline = <T extends string>(props: TimelineProps<T>): JSX.Element => {
     >
       <DynamicUnderline
         tooltipLabel={`Sort by '${props.sort}'`}
+        tooltipLabelEnabled={`Currently Sorted by '${props.sort}'`}
         onClick={() => {
           dispatch(props.setCurrentSort(props.sort));
           enqueueSnackbar(
@@ -61,7 +62,7 @@ const Timeline = <T extends string>(props: TimelineProps<T>): JSX.Element => {
             }
           );
         }}
-        enabled={currentSort !== props.sort}
+        enabled={currentSort === props.sort}
       >
         <MatchHighlight toMatch={props.search}>{props.children}</MatchHighlight>
       </DynamicUnderline>

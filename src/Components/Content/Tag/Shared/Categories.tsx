@@ -84,7 +84,7 @@ const Category: FC<CategoryProps> = (props) => {
   const onFilter = () => {
     scrollToTop();
     dispatch(setTagsCategoryFilter([props.category]));
-    enqueueSnackbar(`Filtered Tags by ${props.category}`, {
+    enqueueSnackbar(`Filtered Tags by '${props.category}'`, {
       variant: "success",
     });
   };
@@ -92,7 +92,7 @@ const Category: FC<CategoryProps> = (props) => {
   const onUnfilter = () => {
     scrollToTop();
     dispatch(setTagsCategoryFilter([]));
-    enqueueSnackbar(`Removed ${props.category} filter`, {
+    enqueueSnackbar(`Removed '${props.category}' Filter`, {
       variant: "success",
     });
   };
@@ -116,8 +116,8 @@ const Category: FC<CategoryProps> = (props) => {
     <Tooltip
       title={
         alreadyFiltered
-          ? `Remove ${props.category} filter`
-          : `Filter by ${props.category}`
+          ? `Remove '${props.category}' Filter`
+          : `Filter by '${props.category}'`
       }
     >
       {chip}

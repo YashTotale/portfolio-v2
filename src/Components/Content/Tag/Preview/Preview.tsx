@@ -2,14 +2,22 @@
 import React, { cloneElement, FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
+import { useClosableSnackbar } from "../../../../Hooks";
 import Categories from "../Shared/Categories";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import DynamicImage from "../../../Atomic/DynamicImage";
+import DynamicUnderline from "../../../Atomic/DynamicUnderline";
 import StyledLink from "../../../Atomic/StyledLink";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
 import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
+import { ResolvedTag, SubType } from "../../../../Utils/types";
 import { getTag } from "../../../../Utils/Content/tags";
+
+// Redux Imports
+import { useDispatch, useSelector } from "react-redux";
+import { getTagsSort, setTagsSort } from "../../../../Redux";
+import { TagsSort } from "../../../../Redux/tags.slice";
 
 // Material UI Imports
 import { makeStyles, Typography, useTheme } from "@material-ui/core";
@@ -58,6 +66,45 @@ const useStyles = makeStyles((theme) => ({
     flex: 1,
   },
 }));
+
+interface RelatedData {
+  key: SubType<ResolvedTag, any[]>;
+  label?: string;
+  sort: TagsSort;
+  icon: JSX.Element;
+  noPlural?: boolean;
+}
+
+const related: RelatedData[] = [
+  {
+    key: "experience",
+    sort: "Most Related Experience",
+    icon: <Work />,
+  },
+  {
+    key: "education",
+    sort: "Most Related Education",
+    icon: <School />,
+    noPlural: true,
+  },
+  {
+    key: "projects",
+    label: "project",
+    sort: "Most Related Projects",
+    icon: <Build />,
+  },
+  {
+    key: "articles",
+    label: "article",
+    sort: "Most Related Articles",
+    icon: <Description />,
+  },
+  {
+    key: "certification",
+    sort: "Most Related Certifications",
+    icon: <AssignmentTurnedIn />,
+  },
+];
 
 export interface PreviewProps {
   id: string;
@@ -111,28 +158,16 @@ const Preview: FC<PreviewProps> = (props) => {
       </div>
       <HorizontalDivider flexItem />
       <div className={classes.info}>
-        <Related
-          value={tag.experience.length}
-          label="experience"
-          icon={<Work />}
-        />
-        <Related
-          value={tag.education.length}
-          label="education"
-          icon={<School />}
-          noPlural
-        />
-        <Related value={tag.projects.length} label="project" icon={<Build />} />
-        <Related
-          value={tag.articles.length}
-          label="article"
-          icon={<Description />}
-        />
-        <Related
-          value={tag.certification.length}
-          label="certification"
-          icon={<AssignmentTurnedIn />}
-        />
+        {related.map((r) => (
+          <Related
+            key={r.key}
+            value={tag[r.key].length}
+            label={r.label ?? r.key}
+            sort={r.sort}
+            icon={r.icon}
+            noPlural={r.noPlural}
+          />
+        ))}
         <Categories {...tag} search={props.search} paddingY={0.5} withClick />
       </div>
     </DynamicPaper>
@@ -148,12 +183,16 @@ const useRelatedStyles = makeStyles((theme) => ({
   icon: {
     marginRight: theme.spacing(0.75),
   },
+  label: {
+    maxHeight: theme.spacing(3.5),
+  },
 }));
 
 interface RelatedProps {
   value: number;
   label: string;
   icon: JSX.Element;
+  sort: TagsSort;
   noPlural?: boolean;
 }
 
@@ -161,9 +200,15 @@ const Related: FC<RelatedProps> = ({
   value,
   label,
   icon,
+  sort,
   noPlural = false,
 }) => {
+  const dispatch = useDispatch();
   const classes = useRelatedStyles();
+  const { enqueueSnackbar } = useClosableSnackbar();
+
+  const tagsSort = useSelector(getTagsSort);
+  const alreadySorted = tagsSort === sort;
 
   const plural = value !== 1;
   const text = (
@@ -182,7 +227,21 @@ const Related: FC<RelatedProps> = ({
   return (
     <div className={classes.container}>
       {iconToRender}
-      <Typography variant="subtitle1">{text}</Typography>
+      <Typography variant="subtitle1" className={classes.label}>
+        <DynamicUnderline
+          tooltipLabel={`Sort by '${sort}'`}
+          tooltipLabelEnabled={`Currently Sorted by '${sort}'`}
+          onClick={() => {
+            dispatch(setTagsSort(sort));
+            enqueueSnackbar(`Sorted Tags by '${sort}'`, {
+              variant: "success",
+            });
+          }}
+          enabled={alreadySorted}
+        >
+          {text}
+        </DynamicUnderline>
+      </Typography>
     </div>
   );
 };

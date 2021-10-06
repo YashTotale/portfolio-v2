@@ -207,13 +207,14 @@ export const Item: FC<ItemProps> = ({ label, children, search, sort }) => {
     <>
       <DynamicUnderline
         tooltipLabel={`Sort by '${sort}'`}
+        tooltipLabelEnabled={`Currently Sorted by '${sort}'`}
         onClick={() => {
           dispatch(setBooksSort(sort));
           enqueueSnackbar(`Sorted Books by '${sort}''`, {
             variant: "success",
           });
         }}
-        enabled={!alreadySorted}
+        enabled={alreadySorted}
       >
         {label}
       </DynamicUnderline>

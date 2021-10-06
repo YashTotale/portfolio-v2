@@ -131,7 +131,7 @@ const Reset: FC = () => {
 
   const reset = () => {
     dispatch(resetColors());
-    enqueueSnackbar("Reset Colors", {
+    enqueueSnackbar("Reset Default Colors", {
       variant: "success",
     });
   };
@@ -333,7 +333,7 @@ const ColorBtn: React.FC<ColorBtnProps> = ({
         [scheme]: color,
       })
     );
-    enqueueSnackbar(`${capitalize(scheme)} Color set to ${readableColor}`, {
+    enqueueSnackbar(`${capitalize(scheme)} Color set to '${readableColor}'`, {
       variant: "success",
     });
   };

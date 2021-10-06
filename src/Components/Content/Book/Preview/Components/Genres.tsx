@@ -53,7 +53,7 @@ const Genre: FC<GenreProps> = (props) => {
   const onFilter = () => {
     scrollToTop();
     dispatch(setBooksGenreFilter([props.genre]));
-    enqueueSnackbar(`Filtered Books by ${props.genre}`, {
+    enqueueSnackbar(`Filtered Books by '${props.genre}'`, {
       variant: "success",
     });
   };
@@ -61,7 +61,7 @@ const Genre: FC<GenreProps> = (props) => {
   const onUnfilter = () => {
     scrollToTop();
     dispatch(setBooksGenreFilter([]));
-    enqueueSnackbar(`Removed ${props.genre} filter`, {
+    enqueueSnackbar(`Removed '${props.genre}' Filter`, {
       variant: "success",
     });
   };
@@ -70,8 +70,8 @@ const Genre: FC<GenreProps> = (props) => {
     <Tooltip
       title={
         alreadyFiltered
-          ? `Remove ${props.genre} filter`
-          : `Filter by ${props.genre}`
+          ? `Remove '${props.genre}' Filter`
+          : `Filter by '${props.genre}'`
       }
     >
       <Chip
