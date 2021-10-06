@@ -1,29 +1,10 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
-export type Scheme = "primary" | "secondary";
+export const SCHEMES = ["primary", "secondary"] as const;
+export type Scheme = typeof SCHEMES[number];
 
-export const SCHEMES: Scheme[] = ["primary", "secondary"];
-
-export type Color =
-  | "red"
-  | "pink"
-  | "purple"
-  | "deepPurple"
-  | "indigo"
-  | "blue"
-  | "lightBlue"
-  | "cyan"
-  | "teal"
-  | "green"
-  | "lightGreen"
-  | "lime"
-  | "yellow"
-  | "amber"
-  | "orange"
-  | "deepOrange";
-
-export const COLORS: Color[] = [
+export const COLORS = [
   "red",
   "pink",
   "purple",
@@ -40,25 +21,10 @@ export const COLORS: Color[] = [
   "amber",
   "orange",
   "deepOrange",
-];
+] as const;
+export type Color = typeof COLORS[number];
 
-export type Shade =
-  | "50"
-  | "100"
-  | "200"
-  | "300"
-  | "400"
-  | "500"
-  | "600"
-  | "700"
-  | "800"
-  | "900"
-  | "A100"
-  | "A200"
-  | "A400"
-  | "A700";
-
-export const SHADES: Shade[] = [
+export const SHADES = [
   "50",
   "100",
   "200",
@@ -73,7 +39,8 @@ export const SHADES: Shade[] = [
   "A200",
   "A400",
   "A700",
-];
+] as const;
+export type Shade = typeof SHADES[number];
 
 export interface DisplayState {
   isDarkMode: boolean | null;

@@ -1,15 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
-export type BookSort =
-  | "Recently Read"
-  | "Recently Published"
-  | "Highest Average Rating"
-  | "Highest Rated by Me"
-  | "Most Pages"
-  | "Most Ratings"
-  | "Most Reviews";
-export const BOOKS_SORT: BookSort[] = [
+export const BOOKS_SORT = [
   "Recently Read",
   "Recently Published",
   "Highest Average Rating",
@@ -17,7 +9,8 @@ export const BOOKS_SORT: BookSort[] = [
   "Most Pages",
   "Most Ratings",
   "Most Reviews",
-];
+] as const;
+export type BookSort = typeof BOOKS_SORT[number];
 
 export interface BooksState {
   search: string;

@@ -162,7 +162,6 @@ export const sortArticles = createSorter<ArticlesSort, Article>(
       return aTitle.localeCompare(bTitle);
     },
     Newest: (a, b) => compareDates(a.published, b.published, "YYYY-MM-DD"),
-    Oldest: (a, b) => compareDates(a.published, b.published, "YYYY-MM-DD", -1),
   },
   getArticles()
 );

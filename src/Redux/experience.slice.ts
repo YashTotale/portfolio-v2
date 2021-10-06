@@ -1,17 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
-export type ExperienceSort =
-  | "Default"
-  | "Alphabetically"
-  | "Latest"
-  | "Earliest";
-export const EXPERIENCE_SORT: ExperienceSort[] = [
-  "Default",
-  "Alphabetically",
-  "Latest",
-  "Earliest",
-];
+export const EXPERIENCE_SORT = ["Default", "Alphabetically", "Latest"] as const;
+export type ExperienceSort = typeof EXPERIENCE_SORT[number];
 
 export interface ExperienceState {
   search: string;

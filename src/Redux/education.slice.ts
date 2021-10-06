@@ -1,17 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
-export type EducationSort =
-  | "Default"
-  | "Alphabetically"
-  | "Latest"
-  | "Earliest";
-export const EDUCATION_SORT: EducationSort[] = [
-  "Default",
-  "Alphabetically",
-  "Latest",
-  "Earliest",
-];
+export const EDUCATION_SORT = ["Default", "Alphabetically", "Latest"] as const;
+export type EducationSort = typeof EDUCATION_SORT[number];
 
 export interface EducationState {
   search: string;

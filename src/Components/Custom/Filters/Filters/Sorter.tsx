@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
 
 export interface SorterProps {
   value: string;
-  values: string[];
+  values: string[] | readonly string[];
   onChange: (value: string) => void;
 }
 
@@ -50,7 +50,7 @@ const Sorter: FC<SorterProps> = ({ value, values, onChange }) => {
           value={value}
           onChange={(e) => onChange(e.target.value as string)}
         >
-          {values.map((v, i) => (
+          {values.map((v: string, i: number) => (
             <MenuItem
               key={i}
               value={v}

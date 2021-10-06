@@ -1,12 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
-export type CertificationSort = "Latest" | "Earliest" | "Alphabetically";
-export const CERTIFICATION_SORT: CertificationSort[] = [
-  "Latest",
-  "Earliest",
-  "Alphabetically",
-];
+export const CERTIFICATION_SORT = ["Newest", "Alphabetically"] as const;
+export type CertificationSort = typeof CERTIFICATION_SORT[number];
 
 export interface CertificationState {
   search: string;

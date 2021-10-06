@@ -1,13 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
-export type ArticlesSort = "Default" | "Alphabetically" | "Newest" | "Oldest";
-export const ARTICLES_SORT: ArticlesSort[] = [
-  "Default",
-  "Alphabetically",
-  "Newest",
-  "Oldest",
-];
+export const ARTICLES_SORT = ["Default", "Alphabetically", "Newest"] as const;
+export type ArticlesSort = typeof ARTICLES_SORT[number];
 
 export interface ArticlesState {
   search: string;

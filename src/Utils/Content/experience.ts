@@ -247,7 +247,6 @@ export const sortExperience = createSorter<ExperienceSort, Experience>(
       return aTitle.localeCompare(bTitle);
     },
     Latest: (a, b) => sortByDate(a, b),
-    Earliest: (a, b) => sortByDate(a, b, -1),
   },
   getExperience()
 );

@@ -181,7 +181,6 @@ export const sortProjects = createSorter<ProjectsSort, Project>(
       return aTitle.localeCompare(bTitle);
     },
     Newest: (a, b) => sortByDate(a, b),
-    Oldest: (a, b) => sortByDate(a, b, -1),
   },
   getProjects()
 );

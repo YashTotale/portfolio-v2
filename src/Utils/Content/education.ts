@@ -192,7 +192,6 @@ export const sortEducation = createSorter<EducationSort, Education>(
     },
     Alphabetically: (a, b) => a.title.localeCompare(b.title),
     Latest: (a, b) => sortByDate(a, b),
-    Earliest: (a, b) => sortByDate(a, b, -1),
   },
   getEducation()
 );

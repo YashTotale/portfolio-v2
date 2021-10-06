@@ -48,25 +48,6 @@ export {
 export type { NavState } from "./nav.slice";
 
 /**
- * Popup Slice
- */
-
-export {
-  // -> Slice
-  default as popupSlice,
-  // -> Selectors
-  getPopupOpen,
-  getPopupType,
-  // -> Actions
-  // -> Reducer
-  popupReducer,
-  // -> State
-  initialPopupState,
-} from "./popup.slice";
-
-export type { PopupState } from "./popup.slice";
-
-/**
  * Experience Slice
  */
 

@@ -125,10 +125,8 @@ export function useSortedCertification(
 
 export const sortCertification = createSorter<CertificationSort, Certification>(
   {
-    Latest: (a, b) =>
+    Newest: (a, b) =>
       compareDates(a.date, b.date, ["MMM YYYY", "MMM DD, YYYY"]),
-    Earliest: (a, b) =>
-      compareDates(a.date, b.date, ["MMM YYYY", "MMM DD, YYYY"], -1),
     Alphabetically: (a, b) => a.title.localeCompare(b.title),
   },
   getCertification()
