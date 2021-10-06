@@ -51,7 +51,9 @@ const Timeline = <T extends string>(props: TimelineProps<T>): JSX.Element => {
       className={clsx(classes.element, props.className)}
     >
       <DynamicUnderline
-        tooltipLabel={`Sort by '${props.sort}'`}
+        tooltipLabel={`Sort ${capitalize(props.contentType)} by '${
+          props.sort
+        }'`}
         tooltipLabelEnabled={`Currently Sorted by '${props.sort}'`}
         onClick={() => {
           dispatch(props.setCurrentSort(props.sort));

@@ -117,7 +117,7 @@ const Category: FC<CategoryProps> = (props) => {
       title={
         alreadyFiltered
           ? `Remove '${props.category}' Filter`
-          : `Filter by '${props.category}'`
+          : `Filter Tags by '${props.category}'`
       }
     >
       {chip}

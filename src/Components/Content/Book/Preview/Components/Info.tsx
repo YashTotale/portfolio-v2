@@ -206,7 +206,7 @@ export const Item: FC<ItemProps> = ({ label, children, search, sort }) => {
   const labelEl = sort ? (
     <>
       <DynamicUnderline
-        tooltipLabel={`Sort by '${sort}'`}
+        tooltipLabel={`Sort Books by '${sort}'`}
         tooltipLabelEnabled={`Currently Sorted by '${sort}'`}
         onClick={() => {
           dispatch(setBooksSort(sort));

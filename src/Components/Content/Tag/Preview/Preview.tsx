@@ -229,7 +229,7 @@ const Related: FC<RelatedProps> = ({
       {iconToRender}
       <Typography variant="subtitle1" className={classes.label}>
         <DynamicUnderline
-          tooltipLabel={`Sort by '${sort}'`}
+          tooltipLabel={`Sort Tags by '${sort}'`}
           tooltipLabelEnabled={`Currently Sorted by '${sort}'`}
           onClick={() => {
             dispatch(setTagsSort(sort));

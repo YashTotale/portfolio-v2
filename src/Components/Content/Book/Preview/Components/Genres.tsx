@@ -71,7 +71,7 @@ const Genre: FC<GenreProps> = (props) => {
       title={
         alreadyFiltered
           ? `Remove '${props.genre}' Filter`
-          : `Filter by '${props.genre}'`
+          : `Filter Books by '${props.genre}'`
       }
     >
       <Chip
