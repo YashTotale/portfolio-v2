@@ -4,12 +4,12 @@ import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
 import FloatingIcons from "../../Shared/FloatingIcons";
+import Timeline from "../../Shared/Timeline";
+import Mini from "../../Shared/Mini";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import RichText from "../../../Custom/RichText";
-import MatchHighlight from "../../../Atomic/MatchHighlight";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
-import Mini from "../../Shared/Mini";
 import TagChip from "../../Tag/Mini";
 import {
   generateExperienceTitle,
@@ -20,13 +20,11 @@ import {
   getArticle,
 } from "../../../../Utils/Content/articles";
 
+// Redux Imports
+import { getArticlesSort, setArticlesSort } from "../../../../Redux";
+
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   article: {
@@ -90,7 +88,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     padding: theme.spacing(1),
   },
-  articlePublished: {
+  articleTimeline: {
     margin: theme.spacing(1, 0),
   },
 }));
@@ -143,14 +141,16 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         ))}
       </div>
       <HorizontalDivider />
-      <Typography
-        className={classes.articlePublished}
-        variant={isSizeXS ? "body2" : "body1"}
+      <Timeline
+        sort="Newest"
+        contentType="articles"
+        getCurrentSort={getArticlesSort}
+        setCurrentSort={setArticlesSort}
+        search={props.search}
+        className={classes.articleTimeline}
       >
-        <MatchHighlight toMatch={props.search}>
-          {generateArticlePublished(article)}
-        </MatchHighlight>
-      </Typography>
+        {generateArticlePublished(article)}
+      </Timeline>
     </DynamicPaper>
   );
 });

@@ -4,10 +4,10 @@ import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
 import Provider from "../Shared/Provider";
+import Timeline from "../../Shared/Timeline";
 import FloatingIcons from "../../Shared/FloatingIcons";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import RichText from "../../../Custom/RichText";
-import MatchHighlight from "../../../Atomic/MatchHighlight";
 import TagMini from "../../Tag/Mini";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
 import {
@@ -15,13 +15,11 @@ import {
   getSingleEducation,
 } from "../../../../Utils/Content/education";
 
+// Redux Imports
+import { getEducationSort, setEducationSort } from "../../../../Redux";
+
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 import { Description } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -120,15 +118,16 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
       )}
       <HorizontalDivider />
       <div className={classes.footer}>
-        <Typography
-          align="center"
-          variant={isSizeXS ? "body2" : "body1"}
+        <Timeline
+          sort="Latest"
+          contentType="education"
+          getCurrentSort={getEducationSort}
+          setCurrentSort={setEducationSort}
+          search={props.search}
           className={classes.timeline}
         >
-          <MatchHighlight toMatch={props.search}>
-            {generateEducationTimeline(education)}
-          </MatchHighlight>
-        </Typography>
+          {generateEducationTimeline(education)}
+        </Timeline>
         <FloatingIcons
           linkLabel="Website"
           link={education.link}

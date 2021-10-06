@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, ReactNode } from "react";
 
 // Material UI Imports
 import { makeStyles, Tooltip } from "@material-ui/core";
@@ -16,7 +16,7 @@ const useStyles = makeStyles((theme) => ({
       bottom: 0,
       left: "-1px",
       width: "100%",
-      height: "0.1em",
+      height: "2px",
       backgroundColor: theme.palette.secondary.main,
       transition: "transform 300ms",
       opacity: 1,
@@ -30,17 +30,20 @@ const useStyles = makeStyles((theme) => ({
 
 interface DynamicUnderlineProps {
   tooltipLabel: string;
-  label: string;
   onClick: () => void;
+  children: NonNullable<ReactNode>;
+  enabled?: boolean;
 }
 
 const DynamicUnderline: FC<DynamicUnderlineProps> = (props) => {
   const classes = useStyles();
 
+  if (props.enabled === false) return <>{props.children}</>;
+
   return (
     <Tooltip title={props.tooltipLabel}>
       <span className={classes.element} onClick={props.onClick}>
-        {props.label}
+        {props.children}
       </span>
     </Tooltip>
   );

@@ -3,11 +3,15 @@ import React, { FC } from "react";
 import clsx from "clsx";
 import TagChip from "../../Tag/Mini";
 import FloatingIcons from "../../Shared/FloatingIcons";
+import Timeline from "../../Shared/Timeline";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import MatchHighlight from "../../../Atomic/MatchHighlight";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
 import { ResolvedCertification } from "../../../../Utils/types";
+
+// Redux Imports
+import { getCertificationSort, setCertificationSort } from "../../../../Redux";
 
 // Material UI Imports
 import { Link, makeStyles, Typography } from "@material-ui/core";
@@ -112,9 +116,17 @@ const Preview: FC<PreviewProps> = (props) => {
             providerEl
           )}
         </Typography>
-        <Typography variant="body1" className={classes.date}>
-          <MatchHighlight toMatch={props.search}>{cert.date}</MatchHighlight>
-        </Typography>
+        <Timeline
+          sort="Newest"
+          contentType="certifications"
+          getCurrentSort={getCertificationSort}
+          setCurrentSort={setCertificationSort}
+          search={props.search}
+          withResize={false}
+          className={classes.date}
+        >
+          {cert.date}
+        </Timeline>
         {!!cert.tags.length && (
           <div className={classes.tags}>
             {cert.tags.map((tag) => (

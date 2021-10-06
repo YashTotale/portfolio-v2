@@ -4,12 +4,12 @@ import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
 import FloatingIcons from "../../Shared/FloatingIcons";
-import DynamicImage from "../../../Atomic/DynamicImage";
-import DynamicPaper from "../../../Atomic/DynamicPaper";
-import RichText from "../../../Custom/RichText";
-import MatchHighlight from "../../../Atomic/MatchHighlight";
+import Timeline from "../../Shared/Timeline";
 import Mini from "../../Shared/Mini";
 import TagMini from "../../Tag/Mini";
+import RichText from "../../../Custom/RichText";
+import DynamicImage from "../../../Atomic/DynamicImage";
+import DynamicPaper from "../../../Atomic/DynamicPaper";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
 import {
   generateExperienceTimeline,
@@ -18,13 +18,11 @@ import {
 import { getArticle } from "../../../../Utils/Content/articles";
 import { getProject } from "../../../../Utils/Content/projects";
 
+// Redux Imports
+import { getExperienceSort, setExperienceSort } from "../../../../Redux";
+
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -120,8 +118,8 @@ export interface PreviewProps {
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const isDark = theme.palette.type === "dark";
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const experience = getSingleExperience(props.id);
   if (!experience) return null;
@@ -188,23 +186,23 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         </>
       ) : null}
       {experience.tags.length && (
-        <>
-          <div className={classes.tags}>
-            {experience.tags.map((tag) => (
-              <TagMini key={tag.id} id={tag.id} search={props.search} />
-            ))}
-          </div>
-        </>
+        <div className={classes.tags}>
+          {experience.tags.map((tag) => (
+            <TagMini key={tag.id} id={tag.id} search={props.search} />
+          ))}
+        </div>
       )}
       <HorizontalDivider />
-      <Typography
-        variant={isSizeXS ? "body2" : "body1"}
+      <Timeline
+        sort="Latest"
+        contentType="experience"
+        getCurrentSort={getExperienceSort}
+        setCurrentSort={setExperienceSort}
+        search={props.search}
         className={classes.timeline}
       >
-        <MatchHighlight toMatch={props.search}>
-          {generateExperienceTimeline(experience)}
-        </MatchHighlight>
-      </Typography>
+        {generateExperienceTimeline(experience)}
+      </Timeline>
     </DynamicPaper>
   );
 });

@@ -1,11 +1,21 @@
 //React Imports
 import React, { FC } from "react";
 import { useLocation } from "react-router-dom";
+import { useClosableSnackbar } from "../../../../../Hooks";
 import StyledLink from "../../../../Atomic/StyledLink";
 import MatchHighlight from "../../../../Atomic/MatchHighlight";
+import DynamicUnderline from "../../../../Atomic/DynamicUnderline";
 import { useTitle } from "../../../../../Context/HeadContext";
 import { ResolvedEducation } from "../../../../../Utils/types";
 import { generateSearch } from "../../../../../Utils/funcs";
+
+// Redux Imports
+import { useSelector } from "react-redux";
+import {
+  getEducationTypeFilter,
+  setEducationTypeFilter,
+} from "../../../../../Redux";
+import { useAppDispatch } from "../../../../../Store";
 
 // Material UI Imports
 import {
@@ -44,7 +54,13 @@ type TitleProps = ResolvedEducation & {
 
 const Title: FC<TitleProps> = (props) => {
   const { slug, search } = props;
+  const dispatch = useAppDispatch();
   const classes = useStyles();
+  const { enqueueSnackbar } = useClosableSnackbar();
+
+  const typeFilter = useSelector(getEducationTypeFilter);
+  const alreadyFiltered =
+    typeFilter.length === 1 && typeFilter[0] === props.type;
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -76,7 +92,28 @@ const Title: FC<TitleProps> = (props) => {
         color="textSecondary"
         className={classes.subtitle}
       >
-        <MatchHighlight toMatch={props.search}>{props.type}</MatchHighlight>
+        <DynamicUnderline
+          tooltipLabel={
+            alreadyFiltered
+              ? `Remove '${props.type}' filter`
+              : `Filter by '${props.type}'`
+          }
+          onClick={() => {
+            dispatch(
+              setEducationTypeFilter(alreadyFiltered ? [] : [props.type])
+            );
+            enqueueSnackbar(
+              alreadyFiltered
+                ? `Removed '${props.type}' filter`
+                : `Filtered Education by '${props.type}'`,
+              {
+                variant: "success",
+              }
+            );
+          }}
+        >
+          <MatchHighlight toMatch={props.search}>{props.type}</MatchHighlight>
+        </DynamicUnderline>
       </Typography>
     </>
   );

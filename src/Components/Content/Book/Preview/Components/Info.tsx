@@ -203,21 +203,25 @@ export const Item: FC<ItemProps> = ({ label, children, search, sort }) => {
     children = <MatchHighlight toMatch={search}>{children}</MatchHighlight>;
   }
 
-  const labelEl =
-    sort && !alreadySorted ? (
+  const labelEl = sort ? (
+    <>
       <DynamicUnderline
         tooltipLabel={`Sort by '${sort}'`}
-        label={label}
         onClick={() => {
           dispatch(setBooksSort(sort));
           enqueueSnackbar(`Sorted Books by '${sort}''`, {
             variant: "success",
           });
         }}
-      />
-    ) : (
-      `${label}:`
-    );
+        enabled={!alreadySorted}
+      >
+        {label}
+      </DynamicUnderline>
+      :
+    </>
+  ) : (
+    `${label}:`
+  );
 
   return (
     <Typography className={classes.item}>

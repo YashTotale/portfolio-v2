@@ -3,10 +3,10 @@ import React, { forwardRef } from "react";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "../../Shared/FloatingIcons";
+import Timeline from "../../Shared/Timeline";
 import TagChip from "../../Tag/Mini";
 import Title from "./Components/Title";
 import RichText from "../../../Custom/RichText";
-import MatchHighlight from "../../../Atomic/MatchHighlight";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import Mini from "../../Shared/Mini";
@@ -20,13 +20,11 @@ import {
   getProject,
 } from "../../../../Utils/Content/projects";
 
+// Redux Imports
+import { getProjectsSort, setProjectsSort } from "../../../../Redux";
+
 //Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { makeStyles } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   project: {
@@ -105,9 +103,6 @@ export interface PreviewProps {
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
 
-  const theme = useTheme();
-  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
-
   const project = getProject(props.id);
   if (!project) return null;
 
@@ -148,14 +143,16 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         ))}
       </div>
       <HorizontalDivider />
-      <Typography
+      <Timeline
+        sort="Newest"
+        contentType="projects"
+        getCurrentSort={getProjectsSort}
+        setCurrentSort={setProjectsSort}
+        search={props.search}
         className={classes.projectTimeline}
-        variant={isSizeXS ? "body2" : "body1"}
       >
-        <MatchHighlight toMatch={props.search}>
-          {generateProjectTimeline(project)}
-        </MatchHighlight>
-      </Typography>
+        {generateProjectTimeline(project)}
+      </Timeline>
     </DynamicPaper>
   );
 });
