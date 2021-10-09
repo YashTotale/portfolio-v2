@@ -7,19 +7,30 @@ import {
   Options,
 } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, Document, INLINES } from "@contentful/rich-text-types";
-import TextRenderer from "./Components/TextRenderer";
 import StyledLink from "../../Atomic/StyledLink";
+import MatchHighlight from "../../Atomic/MatchHighlight";
 import { useTitle } from "../../../Context/HeadContext";
 import { generateSearch } from "../../../Utils/funcs";
 import { getTag } from "../../../Utils/Content/tags";
 import { getProject } from "../../../Utils/Content/projects";
-import { getSingleExperience } from "../../../Utils/Content/experience";
+import {
+  generateExperienceTitle,
+  getSingleExperience,
+} from "../../../Utils/Content/experience";
 import { getArticle } from "../../../Utils/Content/articles";
 
 // Material UI Imports
-import { Link, makeStyles, TypographyProps } from "@material-ui/core";
+import {
+  Link,
+  makeStyles,
+  Typography,
+  TypographyProps,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
+  text: {
+    fontWeight: "inherit",
+  },
   paragraph: {
     margin: theme.spacing(1, 0),
     "&:empty": {
@@ -47,11 +58,31 @@ const RichText: FC<RichTextProps> = (props) => {
   const location = useLocation();
   const title = useTitle();
 
+  const getData = (id: string): [string, string] | null => {
+    const project = getProject(id);
+    if (project) return [`/projects/${project.slug}`, project.title];
+
+    const experience = getSingleExperience(id);
+    if (experience)
+      return [
+        `/experience/${experience.slug}`,
+        generateExperienceTitle(experience),
+      ];
+
+    const tag = getTag(id);
+    if (tag) return [`/tags/${tag.slug}`, tag.title];
+
+    const article = getArticle(id);
+    if (article) return [`/articles/${article.slug}`, article.title];
+
+    return null;
+  };
+
   const options: Options = {
     renderText: (text) => (
-      <TextRenderer variant={variant} toMatch={toMatch}>
-        {text}
-      </TextRenderer>
+      <Typography component="span" variant={variant} className={classes.text}>
+        <MatchHighlight toMatch={toMatch}>{text}</MatchHighlight>
+      </Typography>
     ),
     renderNode: {
       [BLOCKS.PARAGRAPH]: (node, children) => (
@@ -97,27 +128,16 @@ const RichText: FC<RichTextProps> = (props) => {
         const entry = node.data.target;
         const id: string = entry.sys.id;
 
-        const getLink = (): string => {
-          const project = getProject(id);
-          if (project) return `/projects/${project.slug}`;
+        const data = getData(id);
+        if (!data) return children;
 
-          const experience = getSingleExperience(id);
-          if (experience) return `/experience/${experience.slug}`;
-
-          const tag = getTag(id);
-          if (tag) return `/tags/${tag.slug}`;
-
-          const article = getArticle(id);
-          if (article) return `/articles/${article.slug}`;
-
-          return "";
-        };
+        const [path] = data;
 
         return (
           <StyledLink
             variant={variant}
             to={{
-              pathname: getLink(),
+              pathname: path,
               search: generateSearch(
                 {
                   from_path: location.pathname,
@@ -126,8 +146,37 @@ const RichText: FC<RichTextProps> = (props) => {
                 title
               ),
             }}
+            toMatch={toMatch}
           >
             {children}
+          </StyledLink>
+        );
+      },
+      [INLINES.EMBEDDED_ENTRY]: (node, children) => {
+        const entry = node.data.target;
+        const id: string = entry.sys.id;
+
+        const data = getData(id);
+        if (!data) return children;
+
+        const [path, title] = data;
+
+        return (
+          <StyledLink
+            variant={variant}
+            to={{
+              pathname: path,
+              search: generateSearch(
+                {
+                  from_path: location.pathname,
+                  from_type: "embedded_entry",
+                },
+                title
+              ),
+            }}
+            toMatch={toMatch}
+          >
+            {title}
           </StyledLink>
         );
       },
