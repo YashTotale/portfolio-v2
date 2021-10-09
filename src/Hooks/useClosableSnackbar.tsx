@@ -1,50 +1,106 @@
 // React Imports
-import React, { ReactNode } from "react";
+import React, { FC, ReactNode } from "react";
 import {
   useSnackbar,
   OptionsObject,
   SnackbarKey,
-  ProviderContext,
+  SnackbarMessage,
 } from "notistack";
 
 // Material UI Imports
-import { IconButton } from "@material-ui/core";
+import { Button, IconButton, makeStyles } from "@material-ui/core";
 import { Clear } from "@material-ui/icons";
 
-const useClosableSnackbar = (): ProviderContext => {
-  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
+type NewOptions = OptionsObject & {
+  onUndo?: () => void;
+};
+interface NewProviderContext {
+  enqueueSnackbar: (
+    message: SnackbarMessage,
+    options?: NewOptions
+  ) => SnackbarKey;
+  closeSnackbar: (key?: SnackbarKey) => void;
+}
 
-  const closeButton = (key: SnackbarKey) => (
-    <IconButton onClick={() => closeSnackbar(key)} size="small">
-      <Clear fontSize="small" />
-    </IconButton>
-  );
+const useClosableSnackbar = (): NewProviderContext => {
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   const enqueueClosableSnackbar = (
     message: ReactNode,
-    options?: OptionsObject
+    options?: NewOptions
   ) => {
     const newOptions: OptionsObject = {
       ...options,
       action: (key: SnackbarKey) => {
-        if (options?.action) {
-          let action = options.action;
-          if (typeof options.action === "function")
-            action = options.action(key);
+        const action = options?.action
+          ? typeof options.action === "function"
+            ? options.action(key)
+            : options.action
+          : null;
 
-          return (
-            <>
-              {action}
-              {closeButton(key)}
-            </>
-          );
-        } else return closeButton(key);
+        return (
+          <>
+            {action}
+            <CloseButton onClick={() => closeSnackbar(key)} />
+            {options?.onUndo && (
+              <UndoButton
+                onClick={() => {
+                  options.onUndo!();
+                  closeSnackbar(key);
+                }}
+              />
+            )}
+          </>
+        );
       },
     };
     return enqueueSnackbar(message, newOptions);
   };
 
   return { enqueueSnackbar: enqueueClosableSnackbar, closeSnackbar };
+};
+
+const useButtonStyles = makeStyles((theme) => ({
+  whiteButton: {
+    color: theme.palette.common.white,
+  },
+}));
+
+interface CloseButtonProps {
+  onClick: () => void;
+}
+
+const CloseButton: FC<CloseButtonProps> = (props) => {
+  const classes = useButtonStyles();
+
+  return (
+    <IconButton
+      onClick={props.onClick}
+      size="small"
+      className={classes.whiteButton}
+    >
+      <Clear fontSize="small" />
+    </IconButton>
+  );
+};
+
+interface UndoButtonProps {
+  onClick: () => void;
+}
+
+const UndoButton: FC<UndoButtonProps> = (props) => {
+  const classes = useButtonStyles();
+
+  return (
+    <Button
+      className={classes.whiteButton}
+      onClick={props.onClick}
+      variant="text"
+      color="default"
+    >
+      Undo
+    </Button>
+  );
 };
 
 export default useClosableSnackbar;

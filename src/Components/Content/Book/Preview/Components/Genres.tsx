@@ -47,23 +47,37 @@ const Genre: FC<GenreProps> = (props) => {
   const { enqueueSnackbar } = useClosableSnackbar();
 
   const genreFilter = useSelector(getBooksGenreFilter);
-  const alreadyFiltered =
-    genreFilter.length === 1 && genreFilter[0] === props.genre;
+  const alreadyFiltered = genreFilter.includes(props.genre);
 
-  const onFilter = () => {
+  const onClick = () => {
+    const currentFilter = genreFilter;
     scrollToTop();
-    dispatch(setBooksGenreFilter([props.genre]));
-    enqueueSnackbar(`Filtered Books by '${props.genre}'`, {
-      variant: "success",
-    });
-  };
-
-  const onUnfilter = () => {
-    scrollToTop();
-    dispatch(setBooksGenreFilter([]));
-    enqueueSnackbar(`Removed '${props.genre}' Filter`, {
-      variant: "success",
-    });
+    dispatch(
+      setBooksGenreFilter(
+        alreadyFiltered
+          ? genreFilter.filter((g) => g !== props.genre)
+          : [...genreFilter, props.genre]
+      )
+    );
+    enqueueSnackbar(
+      alreadyFiltered
+        ? `Removed '${props.genre}' Filter`
+        : `Filtered Books by '${props.genre}'`,
+      {
+        variant: "success",
+        onUndo: () => {
+          dispatch(setBooksGenreFilter(currentFilter));
+          enqueueSnackbar(
+            `Reverted to Previous Genre Filter (${
+              currentFilter.length ? currentFilter.join(", ") : "None"
+            })`,
+            {
+              variant: "success",
+            }
+          );
+        },
+      }
+    );
   };
 
   return (
@@ -78,7 +92,7 @@ const Genre: FC<GenreProps> = (props) => {
         label={
           <MatchHighlight toMatch={props.search}>{props.genre}</MatchHighlight>
         }
-        onClick={alreadyFiltered ? onUnfilter : onFilter}
+        onClick={onClick}
         size="small"
         color={alreadyFiltered ? "primary" : "default"}
         className={classes.genre}

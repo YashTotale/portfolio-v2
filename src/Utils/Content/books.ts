@@ -97,7 +97,7 @@ export const getBookAuthors = (): Author[] => {
 
 export const checkGenres = (b: Book, genres: string[]): boolean => {
   if (!genres.length) return true;
-  return b.genres.some((genre) => genres.includes(genre));
+  return genres.every((g) => b.genres.includes(g));
 };
 
 export const checkAuthors = (b: Book, authors: string[]): boolean => {

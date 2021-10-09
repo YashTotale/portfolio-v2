@@ -209,9 +209,19 @@ export const Item: FC<ItemProps> = ({ label, children, search, sort }) => {
         tooltipLabel={`Sort Books by '${sort}'`}
         tooltipLabelEnabled={`Currently Sorted by '${sort}'`}
         onClick={() => {
+          const currentSort = booksSort;
           dispatch(setBooksSort(sort));
           enqueueSnackbar(`Sorted Books by '${sort}''`, {
             variant: "success",
+            onUndo: () => {
+              dispatch(setBooksSort(currentSort));
+              enqueueSnackbar(
+                `Reverted to Previous Books Sort (${currentSort})`,
+                {
+                  variant: "success",
+                }
+              );
+            },
           });
         }}
         enabled={alreadySorted}

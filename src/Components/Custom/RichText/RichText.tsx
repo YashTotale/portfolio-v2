@@ -59,6 +59,9 @@ const RichText: FC<RichTextProps> = (props) => {
   const title = useTitle();
 
   const getData = (id: string): [string, string] | null => {
+    const tag = getTag(id);
+    if (tag) return [`/tags/${tag.slug}`, tag.title];
+
     const project = getProject(id);
     if (project) return [`/projects/${project.slug}`, project.title];
 
@@ -68,9 +71,6 @@ const RichText: FC<RichTextProps> = (props) => {
         `/experience/${experience.slug}`,
         generateExperienceTitle(experience),
       ];
-
-    const tag = getTag(id);
-    if (tag) return [`/tags/${tag.slug}`, tag.title];
 
     const article = getArticle(id);
     if (article) return [`/articles/${article.slug}`, article.title];
