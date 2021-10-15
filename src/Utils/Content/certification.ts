@@ -7,6 +7,7 @@ import { compareDates, createResolver, createSorter } from "../funcs";
 // Redux Imports
 import { useSelector } from "react-redux";
 import {
+  CertificationState,
   getCertificationSearch,
   getCertificationSort,
   getCertificationTagFilter,
@@ -54,15 +55,15 @@ export const checkTags = (
   tags: string[]
 ): boolean => {
   if (!tags.length) return true;
-  return tags.some((tag) => c.tags.some((t) => t.title === tag));
+  return tags.every((tag) => c.tags.some((t) => t.title === tag));
 };
 
-export const checkProviders = (
+export const checkProvider = (
   c: ResolvedCertification,
-  providers: string[]
+  provider: CertificationState["providerFilter"]
 ): boolean => {
-  if (!providers.length) return true;
-  return providers.some((provider) => c.provider.title === provider);
+  if (provider === null) return true;
+  return provider === c.provider.title;
 };
 
 const searchCache: Record<string, Record<string, boolean>> = {};
@@ -99,7 +100,7 @@ export const useFilteredCertification = (): ResolvedCertification[] => {
 
   return certification.filter((e) => {
     if (!checkTags(e, tagFilter)) return false;
-    if (!checkProviders(e, providerFilter)) return false;
+    if (!checkProvider(e, providerFilter)) return false;
     if (!checkSearch(e, normalizedSearch)) return false;
 
     return true;

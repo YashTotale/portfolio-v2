@@ -43,24 +43,39 @@ interface Value {
   image?: string;
 }
 
-export interface RelatedProps {
+type SharedProps = {
   label: string;
-  value: string[];
   values: Value[];
   images?: string[];
-  onChange: (value: string[]) => void;
   onClear?: () => void;
   last?: boolean;
-}
+};
+
+type SingleRelated = SharedProps & {
+  value: string | null;
+  onChange: (value: string | null) => void;
+};
+
+type MultiRelated = SharedProps & {
+  value: string[];
+  onChange: (value: string[]) => void;
+};
+
+const isMultiValue = (props: RelatedProps): props is MultiRelated =>
+  Array.isArray(props.value);
+
+export type RelatedProps = SingleRelated | MultiRelated;
 
 const Related: FC<RelatedProps> = (props) => {
-  const { label, value, values, onChange } = props;
+  const { label, values, last, onClear } = props;
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const handleChange = (event: ChangeEvent<{ value: unknown }>) => {
-    onChange([...(event.target.value as string[])]);
+  const handleChange = (event: ChangeEvent<{ value: any }>) => {
+    isMultiValue(props)
+      ? props.onChange(event.target.value as string[])
+      : props.onChange(event.target.value as string);
   };
 
   return (
@@ -70,19 +85,33 @@ const Related: FC<RelatedProps> = (props) => {
         {
           label: "Clear",
           icon: <Clear />,
-          action: () => onChange([]),
-          disabled: value.length === 0,
+          action: () => {
+            onClear
+              ? onClear()
+              : isMultiValue(props)
+              ? props.onChange([])
+              : props.onChange(null);
+          },
+          disabled: isMultiValue(props)
+            ? props.value.length === 0
+            : !props.value,
         },
       ]}
-      last={props.last}
+      last={last}
     >
       <FormControl>
         {isSizeXS && <InputLabel>Related {label}</InputLabel>}
         <Select
-          multiple
-          value={value}
+          multiple={isMultiValue(props)}
+          value={props.value}
           onChange={handleChange}
-          renderValue={(val) => <>{(val as string[]).join(", ")}</>}
+          renderValue={(val) =>
+            isMultiValue(props) ? (
+              <>{(val as string[]).join(", ")}</>
+            ) : (
+              (val as string)
+            )
+          }
         >
           {values.map((v) => {
             const label = typeof v === "string" ? v : v.label;
@@ -94,7 +123,9 @@ const Related: FC<RelatedProps> = (props) => {
                 key={label}
                 value={label}
                 className={clsx({
-                  [classes.itemSelected]: value.includes(label),
+                  [classes.itemSelected]: isMultiValue(props)
+                    ? props.value.includes(label)
+                    : props.value === label,
                 })}
               >
                 {typeof image === "string" && (

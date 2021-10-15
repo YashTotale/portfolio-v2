@@ -8,7 +8,7 @@ export interface ExperienceState {
   search: string;
   sort: ExperienceSort;
   viewable: string[];
-  typeFilter: string[];
+  typeFilter: string | null;
   tagFilter: string[];
   projectFilter: string[];
 }
@@ -17,7 +17,7 @@ export const initialExperienceState: ExperienceState = {
   search: "",
   sort: EXPERIENCE_SORT[0],
   viewable: [],
-  typeFilter: [],
+  typeFilter: null,
   tagFilter: [],
   projectFilter: [],
 };

@@ -145,9 +145,7 @@ export const checkCategories = (
   categories: string[]
 ): boolean => {
   if (!categories.length) return true;
-  return (
-    t.categories?.some((category) => categories.includes(category)) ?? false
-  );
+  return categories.every((category) => t.categories?.includes(category));
 };
 
 export const checkExperience = (
@@ -156,7 +154,7 @@ export const checkExperience = (
 ): boolean => {
   if (!experiences.length) return true;
 
-  return experiences.some((experience) =>
+  return experiences.every((experience) =>
     t.experience.some((exp) => generateExperienceTitle(exp) === experience)
   );
 };
@@ -167,7 +165,7 @@ export const checkEducation = (
 ): boolean => {
   if (!education.length) return true;
 
-  return education.some((education) =>
+  return education.every((education) =>
     t.education.some((ed) => ed.title === education)
   );
 };
@@ -175,7 +173,7 @@ export const checkEducation = (
 export const checkProjects = (t: ResolvedTag, projects: string[]): boolean => {
   if (!projects.length) return true;
 
-  return projects.some((project) =>
+  return projects.every((project) =>
     t.projects.some((p) => p.title === project)
   );
 };
@@ -183,7 +181,7 @@ export const checkProjects = (t: ResolvedTag, projects: string[]): boolean => {
 export const checkArticles = (t: ResolvedTag, articles: string[]): boolean => {
   if (!articles.length) return true;
 
-  return articles.some((article) =>
+  return articles.every((article) =>
     t.articles.some((a) => a.title === article)
   );
 };

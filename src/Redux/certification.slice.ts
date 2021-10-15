@@ -7,15 +7,15 @@ export type CertificationSort = typeof CERTIFICATION_SORT[number];
 export interface CertificationState {
   search: string;
   sort: CertificationSort;
+  providerFilter: string | null;
   tagFilter: string[];
-  providerFilter: string[];
 }
 
 export const initialCertificationState: CertificationState = {
   search: "",
   sort: CERTIFICATION_SORT[0],
+  providerFilter: null,
   tagFilter: [],
-  providerFilter: [],
 };
 
 const certificationSlice = createSlice({

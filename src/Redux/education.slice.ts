@@ -8,18 +8,18 @@ export interface EducationState {
   search: string;
   sort: EducationSort;
   viewable: string[];
+  typeFilter: string | null;
+  providerFilter: string | null;
   tagFilter: string[];
-  typeFilter: string[];
-  providerFilter: string[];
 }
 
 export const initialEducationState: EducationState = {
   search: "",
   sort: EDUCATION_SORT[0],
   viewable: [],
+  typeFilter: null,
+  providerFilter: null,
   tagFilter: [],
-  typeFilter: [],
-  providerFilter: [],
 };
 
 const educationSlice = createSlice({

@@ -114,31 +114,38 @@ const Tags: FC = () => {
               label: "Categories",
               values: allCategories,
               value: categoryFilter,
-              onChange: (values) => dispatch(setTagsCategoryFilter(values)),
+              onChange: (values: Parameters<typeof setTagsCategoryFilter>[0]) =>
+                dispatch(setTagsCategoryFilter(values)),
             },
             {
               label: "Experience",
               values: allExperience,
               value: experienceFilter,
-              onChange: (values) => dispatch(setTagsExperienceFilter(values)),
+              onChange: (
+                values: Parameters<typeof setTagsExperienceFilter>[0]
+              ) => dispatch(setTagsExperienceFilter(values)),
             },
             {
               label: "Education",
               values: allEducation,
               value: educationFilter,
-              onChange: (values) => dispatch(setTagsEducationFilter(values)),
+              onChange: (
+                values: Parameters<typeof setTagsEducationFilter>[0]
+              ) => dispatch(setTagsEducationFilter(values)),
             },
             {
               label: "Projects",
               values: allProjects,
               value: projectFilter,
-              onChange: (values) => dispatch(setTagsProjectFilter(values)),
+              onChange: (values: Parameters<typeof setTagsProjectFilter>[0]) =>
+                dispatch(setTagsProjectFilter(values)),
             },
             {
               label: "Articles",
               values: allArticles,
               value: articleFilter,
-              onChange: (values) => dispatch(setTagsArticleFilter(values)),
+              onChange: (values: Parameters<typeof setTagsArticleFilter>[0]) =>
+                dispatch(setTagsArticleFilter(values)),
             },
           ]}
         />

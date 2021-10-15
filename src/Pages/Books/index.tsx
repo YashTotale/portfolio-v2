@@ -126,16 +126,18 @@ const Books: FC = () => {
           }}
           related={[
             {
+              label: "Author",
+              values: authors,
+              value: authorFilter,
+              onChange: (value: Parameters<typeof setBooksAuthorFilter>[0]) =>
+                dispatch(setBooksAuthorFilter(value)),
+            },
+            {
               label: "Genres",
               values: genres,
               value: genreFilter,
-              onChange: (value) => dispatch(setBooksGenreFilter(value)),
-            },
-            {
-              label: "Authors",
-              values: authors,
-              value: authorFilter,
-              onChange: (value) => dispatch(setBooksAuthorFilter(value)),
+              onChange: (value: Parameters<typeof setBooksGenreFilter>[0]) =>
+                dispatch(setBooksGenreFilter(value)),
             },
           ]}
         />

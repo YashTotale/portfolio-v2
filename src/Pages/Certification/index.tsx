@@ -101,17 +101,20 @@ const Certification: FC = () => {
           }}
           related={[
             {
+              label: "Provider",
+              values: allProviders,
+              value: providerFilter,
+              onChange: (
+                values: Parameters<typeof setCertificationProviderFilter>[0]
+              ) => dispatch(setCertificationProviderFilter(values)),
+            },
+            {
               label: "Tags",
               values: allTags,
               value: tagFilter,
-              onChange: (values) => dispatch(setCertificationTagFilter(values)),
-            },
-            {
-              label: "Providers",
-              values: allProviders,
-              value: providerFilter,
-              onChange: (values) =>
-                dispatch(setCertificationProviderFilter(values)),
+              onChange: (
+                values: Parameters<typeof setCertificationTagFilter>[0]
+              ) => dispatch(setCertificationTagFilter(values)),
             },
           ]}
         />

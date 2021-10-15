@@ -78,8 +78,7 @@ const Category: FC<CategoryProps> = (props) => {
   const { enqueueSnackbar } = useClosableSnackbar();
 
   const categoryFilter = useSelector(getTagsCategoryFilter);
-  const alreadyFiltered =
-    categoryFilter.length === 1 && categoryFilter[0] === props.category;
+  const alreadyFiltered = categoryFilter.includes(props.category);
 
   const onFilter = () => {
     scrollToTop();

@@ -22,6 +22,7 @@ import { getAsset } from "./assets";
 import { useSelector } from "react-redux";
 import {
   ExperienceSort,
+  ExperienceState,
   getExperienceProjectFilter,
   getExperienceSearch,
   getExperienceSort,
@@ -147,9 +148,12 @@ export const generateExperienceTimeline = (
   return `${start} - ${end}`;
 };
 
-export const checkTypes = (e: ResolvedExperience, types: string[]): boolean => {
-  if (!types.length) return true;
-  return types.includes(e.type);
+export const checkType = (
+  e: ResolvedExperience,
+  type: ExperienceState["typeFilter"]
+): boolean => {
+  if (type === null) return true;
+  return type === e.type;
 };
 
 export const checkProjects = (
@@ -157,14 +161,14 @@ export const checkProjects = (
   projects: string[]
 ): boolean => {
   if (!projects.length) return true;
-  return projects.some((project) =>
+  return projects.every((project) =>
     e.projects.some((p) => p.title === project)
   );
 };
 
 export const checkTags = (e: ResolvedExperience, tags: string[]): boolean => {
   if (!tags.length) return true;
-  return tags.some((tag) => e.tags.some((t) => t.title === tag));
+  return tags.every((tag) => e.tags.some((t) => t.title === tag));
 };
 
 const searchCache: Record<string, Record<string, boolean>> = {};
@@ -205,7 +209,7 @@ export const useFilteredExperience = (): ResolvedExperience[] => {
   const tagFilter = useSelector(getExperienceTagFilter);
 
   return experience.filter((e) => {
-    if (!checkTypes(e, typeFilter)) return false;
+    if (!checkType(e, typeFilter)) return false;
     if (!checkProjects(e, projectFilter)) return false;
     if (!checkTags(e, tagFilter)) return false;
     if (!checkSearch(e, normalizedSearch)) return false;

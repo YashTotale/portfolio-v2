@@ -16,6 +16,7 @@ import { useSelector } from "react-redux";
 import { getArticlesSort } from "../../Redux";
 import {
   ArticlesSort,
+  ArticlesState,
   getArticlesExperienceFilter,
   getArticlesSearch,
   getArticlesTagFilter,
@@ -72,19 +73,17 @@ export const generateArticlePublished = (
 
 export const checkExperience = (
   a: ResolvedArticle,
-  experiences: string[]
+  experience: ArticlesState["experienceFilter"]
 ): boolean => {
-  if (!experiences.length) return true;
+  if (experience === null) return true;
   if (!a.associated) return false;
 
-  return experiences.some(
-    (exp) => generateExperienceTitle(a.associated as Experience) === exp
-  );
+  return experience === generateExperienceTitle(a.associated as Experience);
 };
 
 export const checkTags = (a: ResolvedArticle, tags: string[]): boolean => {
   if (!tags.length) return true;
-  return tags.some((tag) => a.tags.some((t) => t.title === tag));
+  return tags.every((tag) => a.tags.some((t) => t.title === tag));
 };
 
 const searchCache: Record<string, Record<string, boolean>> = {};

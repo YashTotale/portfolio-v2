@@ -109,17 +109,19 @@ const ProjectsPage: FC = () => {
           }}
           related={[
             {
-              label: "Tags",
-              values: allTags,
-              value: tagFilter,
-              onChange: (values) => dispatch(setProjectsTagFilter(values)),
-            },
-            {
               label: "Experience",
               values: allExperience,
               value: experienceFilter,
-              onChange: (values) =>
-                dispatch(setProjectsExperienceFilter(values)),
+              onChange: (
+                values: Parameters<typeof setProjectsExperienceFilter>[0]
+              ) => dispatch(setProjectsExperienceFilter(values)),
+            },
+            {
+              label: "Tags",
+              values: allTags,
+              value: tagFilter,
+              onChange: (values: Parameters<typeof setProjectsTagFilter>[0]) =>
+                dispatch(setProjectsTagFilter(values)),
             },
           ]}
         />

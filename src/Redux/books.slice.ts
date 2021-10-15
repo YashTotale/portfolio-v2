@@ -15,15 +15,15 @@ export type BookSort = typeof BOOKS_SORT[number];
 export interface BooksState {
   search: string;
   sort: BookSort;
+  authorFilter: string | null;
   genreFilter: string[];
-  authorFilter: string[];
 }
 
 export const initialBooksState: BooksState = {
   search: "",
   sort: "Recently Read",
+  authorFilter: null,
   genreFilter: [],
-  authorFilter: [],
 };
 
 const booksSlice = createSlice({

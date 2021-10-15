@@ -109,17 +109,19 @@ const Articles: FC = () => {
           }}
           related={[
             {
-              label: "Tags",
-              values: allTags,
-              value: tagFilter,
-              onChange: (values) => dispatch(setArticlesTagFilter(values)),
-            },
-            {
               label: "Experience",
               values: allExperience,
               value: experienceFilter,
-              onChange: (values) =>
-                dispatch(setArticlesExperienceFilter(values)),
+              onChange: (
+                values: Parameters<typeof setArticlesExperienceFilter>[0]
+              ) => dispatch(setArticlesExperienceFilter(values)),
+            },
+            {
+              label: "Tags",
+              values: allTags,
+              value: tagFilter,
+              onChange: (values: Parameters<typeof setArticlesTagFilter>[0]) =>
+                dispatch(setArticlesTagFilter(values)),
             },
           ]}
         />

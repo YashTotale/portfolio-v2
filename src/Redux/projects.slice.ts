@@ -8,16 +8,16 @@ export interface ProjectsState {
   search: string;
   sort: ProjectsSort;
   viewable: string[];
+  experienceFilter: string | null;
   tagFilter: string[];
-  experienceFilter: string[];
 }
 
 export const initialProjectsState: ProjectsState = {
   search: "",
   sort: PROJECTS_SORT[0],
   viewable: [],
+  experienceFilter: null,
   tagFilter: [],
-  experienceFilter: [],
 };
 
 const projectsSlice = createSlice({

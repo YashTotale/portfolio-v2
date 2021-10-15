@@ -99,23 +99,28 @@ const Experience: FC = () => {
           }}
           related={[
             {
-              label: "Types",
+              label: "Type",
               values: allTypes,
               value: typeFilter,
-              onChange: (values) => dispatch(setExperienceTypeFilter(values)),
+              onChange: (
+                values: Parameters<typeof setExperienceTypeFilter>[0]
+              ) => dispatch(setExperienceTypeFilter(values)),
             },
             {
               label: "Tags",
               values: allTags,
               value: tagFilter,
-              onChange: (values) => dispatch(setExperienceTagFilter(values)),
+              onChange: (
+                values: Parameters<typeof setExperienceTagFilter>[0]
+              ) => dispatch(setExperienceTagFilter(values)),
             },
             {
               label: "Projects",
               values: allProjects,
               value: projectFilter,
-              onChange: (values) =>
-                dispatch(setExperienceProjectFilter(values)),
+              onChange: (
+                values: Parameters<typeof setExperienceProjectFilter>[0]
+              ) => dispatch(setExperienceProjectFilter(values)),
             },
           ]}
         />

@@ -60,8 +60,7 @@ const Title: FC<TitleProps> = (props) => {
   const { enqueueSnackbar } = useClosableSnackbar();
 
   const typeFilter = useSelector(getEducationTypeFilter);
-  const alreadyFiltered =
-    typeFilter.length === 1 && typeFilter[0] === props.type;
+  const alreadyFiltered = typeFilter === props.type;
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -97,13 +96,13 @@ const Title: FC<TitleProps> = (props) => {
           tooltipLabel={`Filter by '${props.type}'`}
           tooltipLabelEnabled={`Remove '${props.type}' Filter`}
           onClick={() => {
-            dispatch(setEducationTypeFilter([props.type]));
+            dispatch(setEducationTypeFilter(props.type));
             enqueueSnackbar(`Filtered Education by '${props.type}'`, {
               variant: "success",
             });
           }}
           onRemove={() => {
-            dispatch(setEducationTypeFilter([]));
+            dispatch(setEducationTypeFilter(null));
             enqueueSnackbar(`Removed '${props.type}' Filter`, {
               variant: "success",
             });

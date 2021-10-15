@@ -99,23 +99,27 @@ const Education: FC = () => {
           }}
           related={[
             {
+              label: "Type",
+              values: allTypes,
+              value: typeFilter,
+              onChange: (
+                values: Parameters<typeof setEducationTypeFilter>[0]
+              ) => dispatch(setEducationTypeFilter(values)),
+            },
+            {
+              label: "Provider",
+              values: allProviders,
+              value: providerFilter,
+              onChange: (
+                values: Parameters<typeof setEducationProviderFilter>[0]
+              ) => dispatch(setEducationProviderFilter(values)),
+            },
+            {
               label: "Tags",
               values: allTags,
               value: tagFilter,
-              onChange: (values) => dispatch(setEducationTagFilter(values)),
-            },
-            {
-              label: "Types",
-              values: allTypes,
-              value: typeFilter,
-              onChange: (values) => dispatch(setEducationTypeFilter(values)),
-            },
-            {
-              label: "Providers",
-              values: allProviders,
-              value: providerFilter,
-              onChange: (values) =>
-                dispatch(setEducationProviderFilter(values)),
+              onChange: (values: Parameters<typeof setEducationTagFilter>[0]) =>
+                dispatch(setEducationTagFilter(values)),
             },
           ]}
         />

@@ -13,6 +13,7 @@ import { getAsset } from "./assets";
 // Redux Imports
 import { useSelector } from "react-redux";
 import {
+  EducationState,
   getEducationSearch,
   getEducationSort,
   getEducationTagFilter,
@@ -107,20 +108,23 @@ export const generateEducationTimeline = (
 
 export const checkTags = (e: ResolvedEducation, tags: string[]): boolean => {
   if (!tags.length) return true;
-  return tags.some((tag) => e.tags.some((t) => t.title === tag));
+  return tags.every((tag) => e.tags.some((t) => t.title === tag));
 };
 
-export const checkTypes = (e: ResolvedEducation, types: string[]): boolean => {
-  if (!types.length) return true;
-  return types.some((type) => e.type === type);
-};
-
-export const checkProviders = (
-  c: ResolvedEducation,
-  providers: string[]
+export const checkType = (
+  e: ResolvedEducation,
+  type: EducationState["typeFilter"]
 ): boolean => {
-  if (!providers.length) return true;
-  return providers.some((provider) => c.provider?.title === provider);
+  if (type === null) return true;
+  return type === e.type;
+};
+
+export const checkProvider = (
+  c: ResolvedEducation,
+  provider: EducationState["providerFilter"]
+): boolean => {
+  if (provider === null) return true;
+  return provider === c.provider?.title;
 };
 
 const searchCache: Record<string, Record<string, boolean>> = {};
@@ -156,8 +160,8 @@ export const useFilteredEducation = (): ResolvedEducation[] => {
 
   return education.filter((e) => {
     if (!checkTags(e, tagFilter)) return false;
-    if (!checkTypes(e, typeFilter)) return false;
-    if (!checkProviders(e, providerFilter)) return false;
+    if (!checkType(e, typeFilter)) return false;
+    if (!checkProvider(e, providerFilter)) return false;
     if (!checkSearch(e, normalizedSearch)) return false;
 
     return true;

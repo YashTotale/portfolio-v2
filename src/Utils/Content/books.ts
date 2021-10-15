@@ -5,6 +5,7 @@ import { createSorter, compareDates } from "../funcs";
 // Redux Imports
 import { useSelector } from "react-redux";
 import {
+  BooksState,
   getBooksAuthorFilter,
   getBooksGenreFilter,
   getBooksSearch,
@@ -100,9 +101,12 @@ export const checkGenres = (b: Book, genres: string[]): boolean => {
   return genres.every((g) => b.genres.includes(g));
 };
 
-export const checkAuthors = (b: Book, authors: string[]): boolean => {
-  if (!authors.length) return true;
-  return authors.includes(b.author);
+export const checkAuthor = (
+  b: Book,
+  author: BooksState["authorFilter"]
+): boolean => {
+  if (author === null) return true;
+  return author === b.author;
 };
 
 const searchCache: Record<string, Record<string, boolean>> = {};
@@ -143,7 +147,7 @@ export const useFilteredBooks = (): Book[] => {
 
   return books.filter((b) => {
     if (!checkGenres(b, genreFilter)) return false;
-    if (!checkAuthors(b, authorFilter)) return false;
+    if (!checkAuthor(b, authorFilter)) return false;
     if (!checkSearch(b, normalizedSearch)) return false;
 
     return true;

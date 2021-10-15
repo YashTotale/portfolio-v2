@@ -21,6 +21,7 @@ import { getRawBadge } from "./badges";
 // Redux Imports
 import { useSelector } from "react-redux";
 import {
+  ProjectsState,
   getProjectsExperienceFilter,
   getProjectsSearch,
   getProjectsSort,
@@ -91,19 +92,17 @@ export const generateProjectTimeline = (
 
 export const checkExperience = (
   p: ResolvedProject,
-  experiences: string[]
+  experience: ProjectsState["experienceFilter"]
 ): boolean => {
-  if (!experiences.length) return true;
+  if (experience === null) return true;
   if (!p.associated) return false;
 
-  return experiences.some(
-    (exp) => generateExperienceTitle(p.associated as Experience) === exp
-  );
+  return experience === generateExperienceTitle(p.associated as Experience);
 };
 
 export const checkTags = (p: ResolvedProject, tags: string[]): boolean => {
   if (!tags.length) return true;
-  return tags.some((tag) => p.tags.some((t) => t.title === tag));
+  return tags.every((tag) => p.tags.some((t) => t.title === tag));
 };
 
 const searchCache: Record<string, Record<string, boolean>> = {};
