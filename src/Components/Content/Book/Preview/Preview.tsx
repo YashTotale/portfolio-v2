@@ -17,16 +17,6 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "stretch",
-    margin: theme.spacing(2),
-    width: "45%",
-
-    [theme.breakpoints.down("sm")]: {
-      width: "80%",
-    },
-    [theme.breakpoints.down("xs")]: {
-      width: "100%",
-      margin: theme.spacing(2, 0),
-    },
   },
   titleContainer: {
     display: "flex",
@@ -54,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     padding: theme.spacing(2),
+
+    [theme.breakpoints.only("md")]: {
+      padding: theme.spacing(2, 1),
+    },
 
     [theme.breakpoints.down("sm")]: {
       width: "100%",

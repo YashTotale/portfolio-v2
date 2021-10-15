@@ -48,25 +48,19 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     justifyContent: "center",
-    alignItems: "flex-start",
+    alignItems: "center",
     width: "100%",
-
-    [theme.breakpoints.down("sm")]: {
-      alignItems: "center",
-    },
   },
   books: {
-    display: "flex",
-    flexDirection: "row",
-    justifyContent: "flex-start",
-    alignItems: "stretch",
-    flexWrap: "wrap",
+    display: "grid",
+    gridTemplateColumns: "50% 50%",
+    columnGap: theme.spacing(4),
+    rowGap: theme.spacing(4),
     width: "100%",
-    marginLeft: theme.spacing(-2),
+    margin: theme.spacing(2, 0),
 
     [theme.breakpoints.down("sm")]: {
-      justifyContent: "center",
-      marginLeft: 0,
+      gridTemplateColumns: "100%",
     },
   },
   sectionDivider: {
