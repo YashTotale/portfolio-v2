@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
 import Filters from "../../Components/Custom/Filters";
@@ -30,11 +30,13 @@ import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import {
+  Button,
   makeStyles,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@material-ui/core";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -53,20 +55,43 @@ const useStyles = makeStyles((theme) => ({
   },
   books: {
     display: "grid",
-    gridTemplateColumns: "50% 50%",
+    gridTemplateColumns: "1fr 1fr",
     columnGap: theme.spacing(4),
     rowGap: theme.spacing(4),
     width: "100%",
     margin: theme.spacing(2, 0),
 
     [theme.breakpoints.down("sm")]: {
-      gridTemplateColumns: "100%",
+      gridTemplateColumns: "1fr",
     },
   },
   sectionDivider: {
     margin: theme.spacing(1, 0),
   },
+  showMoreBtn: {
+    marginTop: theme.spacing(2.5),
+  },
 }));
+
+interface Shelf {
+  id: string;
+  label: string;
+}
+
+const SHELVES: Shelf[] = [
+  {
+    id: "currently-reading",
+    label: "Currently Reading",
+  },
+  {
+    id: "to-read",
+    label: "Want to Read",
+  },
+  {
+    id: "read",
+    label: "Read",
+  },
+];
 
 const Books: FC = () => {
   const classes = useStyles();
@@ -115,15 +140,13 @@ const Books: FC = () => {
           ]}
         />
         {books.length ? (
-          <>
+          SHELVES.map((shelf) => (
             <Section
-              books={books}
-              shelf="currently-reading"
-              label="Currently Reading"
+              key={shelf.id}
+              label={shelf.label}
+              books={books.filter((book) => book.shelves.includes(shelf.id))}
             />
-            <Section books={books} shelf="to-read" label="Want to Read" />
-            <Section books={books} shelf="read" label="Read" />{" "}
-          </>
+          ))
         ) : (
           <Typography variant="h6">No books found</Typography>
         )}
@@ -132,21 +155,26 @@ const Books: FC = () => {
   );
 };
 
+const BOOK_INTERVAL = 10;
+
 interface SectionProps {
   books: Book[];
-  shelf: string;
   label: string;
 }
 
-const Section: FC<SectionProps> = ({ books, shelf, label }) => {
+const Section: FC<SectionProps> = ({ books, label }) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+  const [numShowMore, setShowMore] = useState(0);
 
   const search = useSelector(getBooksSearch);
-  const included = books.filter((book) => book.shelves.includes(shelf));
 
-  if (!included.length) return null;
+  if (!books.length) return null;
+
+  const defaultShown = books.slice(0, BOOK_INTERVAL);
+  const extra = books.slice(BOOK_INTERVAL, BOOK_INTERVAL + numShowMore);
+  const isShowingAll = defaultShown.length + extra.length === books.length;
 
   return (
     <>
@@ -154,11 +182,27 @@ const Section: FC<SectionProps> = ({ books, shelf, label }) => {
       <div className={classes.section}>
         <Typography variant={isSizeXS ? "h5" : "h4"}>{label}</Typography>
         <div className={classes.books}>
-          {included.map((book) => (
+          {defaultShown.map((book) => (
+            <BookPreview key={book.id} id={book.id} search={search} />
+          ))}
+          {extra.map((book) => (
             <BookPreview key={book.id} id={book.id} search={search} />
           ))}
         </div>
       </div>
+      {defaultShown.length !== books.length && (
+        <Button
+          variant="contained"
+          color="secondary"
+          onClick={() =>
+            setShowMore(isShowingAll ? 0 : BOOK_INTERVAL + numShowMore)
+          }
+          className={classes.showMoreBtn}
+        >
+          Show {isShowingAll ? "Less" : "More"}
+          {isShowingAll ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+        </Button>
+      )}
     </>
   );
 };
