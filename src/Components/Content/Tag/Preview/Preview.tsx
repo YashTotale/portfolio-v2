@@ -224,6 +224,20 @@ const Related: FC<RelatedProps> = ({
     color: "disabled",
   });
 
+  const onClick = () => {
+    const currentSort = tagsSort;
+    dispatch(setTagsSort(sort));
+    enqueueSnackbar(`Sorted Tags by '${sort}'`, {
+      variant: "success",
+      onUndo: () => {
+        dispatch(setTagsSort(currentSort));
+        enqueueSnackbar(`Reverted to Previous Tags Sort (${currentSort})`, {
+          variant: "success",
+        });
+      },
+    });
+  };
+
   return (
     <div className={classes.container}>
       {iconToRender}
@@ -231,12 +245,7 @@ const Related: FC<RelatedProps> = ({
         <DynamicUnderline
           tooltipLabel={`Sort Tags by '${sort}'`}
           tooltipLabelEnabled={`Currently Sorted by '${sort}'`}
-          onClick={() => {
-            dispatch(setTagsSort(sort));
-            enqueueSnackbar(`Sorted Tags by '${sort}'`, {
-              variant: "success",
-            });
-          }}
+          onClick={onClick}
           enabled={alreadySorted}
         >
           {text}

@@ -28,7 +28,7 @@ type TimelineProps<T extends string> = {
   sort: T;
   contentType: string;
   setCurrentSort: (sort: T) => any;
-  getCurrentSort: (state: RootState) => string;
+  getCurrentSort: (state: RootState) => T;
   children: string;
   withResize?: boolean;
   search?: string;
@@ -43,6 +43,24 @@ const Timeline = <T extends string>(props: TimelineProps<T>): JSX.Element => {
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+  const contentLabel = capitalize(props.contentType);
+
+  const onClick = () => {
+    const preCurrentSort = currentSort;
+    dispatch(props.setCurrentSort(props.sort));
+    enqueueSnackbar(`Sorted ${contentLabel} by '${props.sort}'`, {
+      variant: "success",
+      onUndo: () => {
+        dispatch(props.setCurrentSort(preCurrentSort));
+        enqueueSnackbar(
+          `Reverted to Previous ${contentLabel} Sort (${preCurrentSort})`,
+          {
+            variant: "success",
+          }
+        );
+      },
+    });
+  };
 
   return (
     <Typography
@@ -55,15 +73,7 @@ const Timeline = <T extends string>(props: TimelineProps<T>): JSX.Element => {
           props.sort
         }'`}
         tooltipLabelEnabled={`Currently Sorted by '${props.sort}'`}
-        onClick={() => {
-          dispatch(props.setCurrentSort(props.sort));
-          enqueueSnackbar(
-            `Sorted ${capitalize(props.contentType)} by '${props.sort}'`,
-            {
-              variant: "success",
-            }
-          );
-        }}
+        onClick={onClick}
         enabled={currentSort === props.sort}
       >
         <MatchHighlight toMatch={props.search}>{props.children}</MatchHighlight>

@@ -54,13 +54,7 @@ type TitleProps = ResolvedEducation & {
 };
 
 const Title: FC<TitleProps> = (props) => {
-  const { slug, search } = props;
-  const dispatch = useAppDispatch();
   const classes = useStyles();
-  const { enqueueSnackbar } = useClosableSnackbar();
-
-  const typeFilter = useSelector(getEducationTypeFilter);
-  const alreadyFiltered = typeFilter === props.type;
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -72,7 +66,7 @@ const Title: FC<TitleProps> = (props) => {
     <>
       <StyledLink
         to={{
-          pathname: `/education/${slug}`,
+          pathname: `/education/${props.slug}`,
           search: generateSearch(
             {
               from_path: location.pathname,
@@ -83,36 +77,80 @@ const Title: FC<TitleProps> = (props) => {
         }}
         variant={isSizeXS ? "h5" : "h4"}
         className={classes.title}
-        toMatch={search}
+        toMatch={props.search}
       >
         {props.title}
       </StyledLink>
-      <Typography
-        variant={isSizeXS ? "subtitle2" : "subtitle1"}
-        color="textSecondary"
-        className={classes.subtitle}
-      >
-        <DynamicUnderline
-          tooltipLabel={`Filter by '${props.type}'`}
-          tooltipLabelEnabled={`Remove '${props.type}' Filter`}
-          onClick={() => {
-            dispatch(setEducationTypeFilter(props.type));
-            enqueueSnackbar(`Filtered Education by '${props.type}'`, {
-              variant: "success",
-            });
-          }}
-          onRemove={() => {
-            dispatch(setEducationTypeFilter(null));
-            enqueueSnackbar(`Removed '${props.type}' Filter`, {
-              variant: "success",
-            });
-          }}
-          enabled={alreadyFiltered}
-        >
-          <MatchHighlight toMatch={props.search}>{props.type}</MatchHighlight>
-        </DynamicUnderline>
-      </Typography>
+      <Subtitle {...props} />
     </>
+  );
+};
+
+type SubtitleProps = ResolvedEducation & {
+  search?: string;
+};
+
+const Subtitle: FC<SubtitleProps> = (props) => {
+  const dispatch = useAppDispatch();
+  const classes = useStyles();
+  const { enqueueSnackbar } = useClosableSnackbar();
+
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+
+  const typeFilter = useSelector(getEducationTypeFilter);
+  const alreadyFiltered = typeFilter === props.type;
+
+  const onClick = () => {
+    const currentType = typeFilter;
+    dispatch(setEducationTypeFilter(props.type));
+    enqueueSnackbar(`Filtered Education by '${props.type}'`, {
+      variant: "success",
+      onUndo: () => {
+        dispatch(setEducationTypeFilter(currentType));
+        enqueueSnackbar(
+          `Reverted to Previous Education Filter (${currentType ?? "None"})`,
+          {
+            variant: "success",
+          }
+        );
+      },
+    });
+  };
+
+  const onRemove = () => {
+    const currentType = typeFilter;
+    dispatch(setEducationTypeFilter(null));
+    enqueueSnackbar(`Removed '${props.type}' Filter`, {
+      variant: "success",
+      onUndo: () => {
+        dispatch(setEducationTypeFilter(currentType));
+        enqueueSnackbar(
+          `Reverted to Previous Education Filter (${currentType})`,
+          {
+            variant: "success",
+          }
+        );
+      },
+    });
+  };
+
+  return (
+    <Typography
+      variant={isSizeXS ? "subtitle2" : "subtitle1"}
+      color="textSecondary"
+      className={classes.subtitle}
+    >
+      <DynamicUnderline
+        tooltipLabel={`Filter by '${props.type}'`}
+        tooltipLabelEnabled={`Remove '${props.type}' Filter`}
+        onClick={onClick}
+        onRemove={onRemove}
+        enabled={alreadyFiltered}
+      >
+        <MatchHighlight toMatch={props.search}>{props.type}</MatchHighlight>
+      </DynamicUnderline>
+    </Typography>
   );
 };
 
