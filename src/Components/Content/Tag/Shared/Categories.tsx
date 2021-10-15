@@ -80,20 +80,35 @@ const Category: FC<CategoryProps> = (props) => {
   const categoryFilter = useSelector(getTagsCategoryFilter);
   const alreadyFiltered = categoryFilter.includes(props.category);
 
-  const onFilter = () => {
+  const onClick = () => {
+    const currentFilter = categoryFilter;
     scrollToTop();
-    dispatch(setTagsCategoryFilter([props.category]));
-    enqueueSnackbar(`Filtered Tags by '${props.category}'`, {
-      variant: "success",
-    });
-  };
-
-  const onUnfilter = () => {
-    scrollToTop();
-    dispatch(setTagsCategoryFilter([]));
-    enqueueSnackbar(`Removed '${props.category}' Filter`, {
-      variant: "success",
-    });
+    dispatch(
+      setTagsCategoryFilter(
+        alreadyFiltered
+          ? categoryFilter.filter((c) => c !== props.category)
+          : [...categoryFilter, props.category]
+      )
+    );
+    enqueueSnackbar(
+      alreadyFiltered
+        ? `Removed '${props.category}' Filter`
+        : `Filtered Tags by '${props.category}'`,
+      {
+        variant: "success",
+        onUndo: () => {
+          dispatch(setTagsCategoryFilter(currentFilter));
+          enqueueSnackbar(
+            `Reverted to Previous Category Filter (${
+              currentFilter.length ? currentFilter.join(", ") : "None"
+            })`,
+            {
+              variant: "success",
+            }
+          );
+        },
+      }
+    );
   };
 
   const chip = (
@@ -101,9 +116,7 @@ const Category: FC<CategoryProps> = (props) => {
       label={
         <MatchHighlight toMatch={props.search}>{props.category}</MatchHighlight>
       }
-      onClick={
-        props.withClick ? (alreadyFiltered ? onUnfilter : onFilter) : undefined
-      }
+      onClick={props.withClick ? onClick : undefined}
       color={alreadyFiltered ? "primary" : "default"}
       className={classes.category}
     />
