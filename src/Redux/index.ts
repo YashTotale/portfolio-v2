@@ -16,6 +16,7 @@ export {
   toggleSidebar,
   changeColor,
   changeShade,
+  changeShadeAndColors,
   resetColors,
   // -> Reducer
   displayReducer,

@@ -6,6 +6,7 @@ import startCase from "lodash.startcase";
 import { useClosableSnackbar } from "../../Hooks";
 import { generatePageTitle } from "../../Utils/funcs";
 import { getTextColor } from "../../Utils/colors";
+import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -14,8 +15,9 @@ import {
   getShades,
   resetColors,
   changeColor,
-  getIsDefaultColors,
   changeShade,
+  changeShadeAndColors,
+  getIsDefaultColors,
 } from "../../Redux";
 import {
   Color,
@@ -40,7 +42,6 @@ import {
 } from "@material-ui/core";
 import * as muiColors from "@material-ui/core/colors";
 import { Check } from "@material-ui/icons";
-import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -129,10 +130,33 @@ const Reset: FC = () => {
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useClosableSnackbar();
 
+  const colors = useSelector(getColors);
+  const shades = useSelector(getShades);
+
   const reset = () => {
+    const currentColors = colors;
+    const currentShades = shades;
     dispatch(resetColors());
     enqueueSnackbar("Reset Default Colors", {
       variant: "success",
+      onUndo: () => {
+        dispatch(
+          changeShadeAndColors({
+            colors: currentColors,
+            shades: currentShades,
+          })
+        );
+        enqueueSnackbar(
+          `Reverted to Previous Colors (${startCase(currentColors.primary)} - ${
+            currentShades.primary
+          }, ${startCase(currentColors.secondary)} - ${
+            currentShades.secondary
+          })`,
+          {
+            variant: "success",
+          }
+        );
+      },
     });
   };
 
@@ -327,7 +351,8 @@ const ColorBtn: React.FC<ColorBtnProps> = ({
 
   const readableColor = startCase(color);
 
-  const handleClick = (event: React.ChangeEvent<HTMLInputElement>): void => {
+  const handleClick = () => {
+    const preCurrentColor = currentColor;
     dispatch(
       changeColor({
         [scheme]: color,
@@ -335,6 +360,21 @@ const ColorBtn: React.FC<ColorBtnProps> = ({
     );
     enqueueSnackbar(`${capitalize(scheme)} Color set to '${readableColor}'`, {
       variant: "success",
+      onUndo: () => {
+        dispatch(
+          changeColor({
+            [scheme]: preCurrentColor,
+          })
+        );
+        enqueueSnackbar(
+          `Reverted to Previous ${capitalize(scheme)} Color (${startCase(
+            preCurrentColor
+          )})`,
+          {
+            variant: "success",
+          }
+        );
+      },
     });
   };
 

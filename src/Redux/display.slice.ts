@@ -94,6 +94,23 @@ const displaySlice = createSlice({
         ...action.payload,
       },
     }),
+    changeShadeAndColors: (
+      state,
+      action: PayloadAction<{
+        colors: Partial<DisplayState["colors"]>;
+        shades: Partial<DisplayState["shades"]>;
+      }>
+    ) => ({
+      ...state,
+      colors: {
+        ...state.colors,
+        ...action.payload.colors,
+      },
+      shades: {
+        ...state.shades,
+        ...action.payload.shades,
+      },
+    }),
     resetColors: (state) => ({
       ...state,
       colors: initialDisplayState.colors,
@@ -108,6 +125,7 @@ export const {
   toggleSidebar,
   changeColor,
   changeShade,
+  changeShadeAndColors,
   resetColors,
 } = displaySlice.actions;
 
