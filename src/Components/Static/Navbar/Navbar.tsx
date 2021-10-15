@@ -96,6 +96,9 @@ const Navbar: FC = () => {
                     `Toggled ${isDarkMode ? "Light" : "Dark"} Mode`,
                     {
                       variant: "success",
+                      onUndo: () => {
+                        dispatch(toggleDarkMode());
+                      },
                     }
                   );
                 }}
