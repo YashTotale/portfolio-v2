@@ -25,6 +25,7 @@ import {
   Brightness4,
   Menu as MenuButton,
   Palette,
+  Settings,
 } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -104,6 +105,22 @@ const Navbar: FC = () => {
                 }}
               >
                 {isDarkMode ? <Brightness7 /> : <Brightness4 />}
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Settings">
+              <IconButton
+                component={Link}
+                to={{
+                  pathname: "/settings",
+                  search: generateSearch(
+                    {
+                      from_type: "navbar",
+                    },
+                    null
+                  ),
+                }}
+              >
+                <Settings />
               </IconButton>
             </Tooltip>
           </div>

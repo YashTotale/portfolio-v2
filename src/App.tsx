@@ -34,6 +34,7 @@ const CertificationPage = lazy(() => import("./Pages/Certification"));
 const BooksPage = lazy(() => import("./Pages/Books"));
 const Contact = lazy(() => import("./Pages/Contact"));
 const Colors = lazy(() => import("./Pages/Colors"));
+const Settings = lazy(() => import("./Pages/Settings"));
 const NotFound = lazy(() => import("./Pages/NotFound"));
 
 const useStyles = makeStyles((theme) => ({
@@ -115,6 +116,9 @@ const Routes: FC = () => {
             </Route>
             <Route exact path="/colors">
               <Colors />
+            </Route>
+            <Route exact path="/settings">
+              <Settings />
             </Route>
             <Route exact path="/">
               <Home />
