@@ -7,6 +7,7 @@ import { SIDEBAR_WIDTH } from "./Utils/constants";
 // Context
 import { HeadProvider } from "./Context/HeadContext";
 import { ClassnameProvider } from "./Context/ClassnameContext";
+import { UserProvider } from "./Context/UserContext";
 
 // Components
 import Navbar from "./Components/Static/Navbar";
@@ -59,10 +60,12 @@ const App: FC = () => {
   return (
     <HeadProvider>
       <ClassnameProvider>
-        <NavController />
-        <Navbar />
-        <Sidebar />
-        <Routes />
+        <UserProvider>
+          <NavController />
+          <Navbar />
+          <Sidebar />
+          <Routes />
+        </UserProvider>
       </ClassnameProvider>
     </HeadProvider>
   );
