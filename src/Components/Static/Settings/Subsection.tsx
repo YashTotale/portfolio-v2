@@ -1,10 +1,15 @@
 // React Imports
 import React, { cloneElement, FC } from "react";
 import clsx from "clsx";
+import HorizontalDivider from "../../Atomic/Divider/Horizontal";
 
 // Material UI Imports
-import { makeStyles, Typography } from "@material-ui/core";
-import HorizontalDivider from "../../Atomic/Divider/Horizontal";
+import {
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   subsection: {
@@ -19,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    padding: theme.spacing(2, 1),
+    padding: theme.spacing(2, 1, 0.5),
   },
   icon: {
     marginLeft: theme.spacing(1),
@@ -38,8 +43,12 @@ interface SubsectionProps {
 
 const Subsection: FC<SubsectionProps> = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+
   const icon = cloneElement(props.icon, {
     className: classes.icon,
+    fontSize: isSizeXS ? "small" : "default",
   });
 
   return (

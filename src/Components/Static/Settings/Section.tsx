@@ -18,12 +18,16 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor:
       theme.palette.type === "dark"
         ? theme.palette.grey[800]
-        : theme.palette.grey[300],
+        : theme.palette.grey[200],
   },
   title: {
     width: "100%",
     fontWeight: theme.typography.fontWeightMedium,
     padding: theme.spacing(2, 1),
+
+    [theme.breakpoints.only("xs")]: {
+      padding: theme.spacing(1),
+    },
   },
 }));
 
