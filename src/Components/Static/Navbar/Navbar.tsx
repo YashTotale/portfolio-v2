@@ -35,11 +35,13 @@ const useStyles = makeStyles((theme) => ({
   toolbar: {
     margin: 0,
     [theme.breakpoints.up("lg")]: {
-      marginLeft: SIDEBAR_WIDTH,
+      marginLeft: theme.direction === "ltr" ? SIDEBAR_WIDTH : 0,
+      marginRight: theme.direction === "rtl" ? SIDEBAR_WIDTH : 0,
     },
   },
-  rightIcons: {
-    marginLeft: "auto",
+  otherIcons: {
+    marginLeft: theme.direction === "ltr" ? "auto" : 0,
+    marginRight: theme.direction === "rtl" ? "auto" : 0,
   },
   avatar: {
     cursor: "pointer",
@@ -58,21 +60,24 @@ const Navbar: FC = () => {
 
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
   const isDarkMode = theme.palette.type === "dark";
+  const isLTR = theme.direction === "ltr";
+
+  const toggleSidebarButton = (
+    <div>
+      <Tooltip title="Toggle Sidebar">
+        <IconButton onClick={() => dispatch(toggleSidebar())}>
+          <MenuButton />
+        </IconButton>
+      </Tooltip>
+    </div>
+  );
 
   return (
     <>
       <AppBar elevation={trigger ? 4 : 1} className={classes.appbar}>
         <Toolbar className={classes.toolbar}>
-          <div>
-            {isSizeSmall && (
-              <Tooltip title="Toggle Sidebar">
-                <IconButton onClick={() => dispatch(toggleSidebar())}>
-                  <MenuButton />
-                </IconButton>
-              </Tooltip>
-            )}
-          </div>
-          <div className={classes.rightIcons}>
+          {isSizeSmall && isLTR && toggleSidebarButton}
+          <div className={classes.otherIcons}>
             <Tooltip title="Customize Colors">
               <IconButton
                 component={Link}
@@ -124,6 +129,7 @@ const Navbar: FC = () => {
               </IconButton>
             </Tooltip>
           </div>
+          {isSizeSmall && !isLTR && toggleSidebarButton}
         </Toolbar>
       </AppBar>
       <Toolbar />

@@ -7,16 +7,32 @@ import { generatePageTitle, generateSearch } from "../../Utils/funcs";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import Section from "../../Components/Static/Settings/Section";
 import Subsection from "../../Components/Static/Settings/Subsection";
-import Item, { SwitchItem } from "../../Components/Static/Settings/Item";
+import Item, {
+  SelectInput,
+  SwitchItem,
+} from "../../Components/Static/Settings/Item";
 import StyledLink from "../../Components/Atomic/StyledLink";
 
 // Redux Imports
-import { toggleDarkMode } from "../../Redux";
+import { useSelector } from "react-redux";
+import {
+  toggleDarkMode,
+  getSpacing,
+  changeSpacing,
+  getDirection,
+  changeDirection,
+} from "../../Redux";
+import {
+  DEFAULT_DIRECTION,
+  DEFAULT_SPACING,
+  DIRECTIONS,
+  SPACINGS,
+} from "../../Redux/display.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { makeStyles, Typography, useTheme } from "@material-ui/core";
-import { SettingsBrightness } from "@material-ui/icons";
+import { Computer, SettingsBrightness } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   divider: {
@@ -57,6 +73,9 @@ const DisplaySettings: FC = () => {
   const theme = useTheme();
   const isDarkMode = theme.palette.type === "dark";
 
+  const spacing = useSelector(getSpacing);
+  const direction = useSelector(getDirection);
+
   return (
     <Section title="Display">
       <Subsection title="Theme" icon={<SettingsBrightness />}>
@@ -83,6 +102,22 @@ const DisplaySettings: FC = () => {
               Colors Page
             </StyledLink>
           }
+        />
+      </Subsection>
+      <Subsection title="Miscellaneous" icon={<Computer />}>
+        <SelectInput
+          label="Spacing Factor"
+          value={spacing}
+          defaultValue={DEFAULT_SPACING}
+          values={SPACINGS}
+          onChange={(val) => dispatch(changeSpacing(val))}
+        />
+        <SelectInput
+          label="Direction"
+          value={direction}
+          defaultValue={DEFAULT_DIRECTION}
+          values={DIRECTIONS}
+          onChange={(val) => dispatch(changeDirection(val))}
         />
       </Subsection>
     </Section>

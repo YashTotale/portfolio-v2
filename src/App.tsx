@@ -41,7 +41,8 @@ const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(2),
     [theme.breakpoints.up("lg")]: {
-      marginLeft: SIDEBAR_WIDTH,
+      marginLeft: theme.direction === "ltr" ? SIDEBAR_WIDTH : 0,
+      marginRight: theme.direction === "rtl" ? SIDEBAR_WIDTH : 0,
     },
   },
   layout: {

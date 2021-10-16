@@ -1,5 +1,13 @@
+import { Direction } from "@material-ui/core";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
+
+export const SPACINGS = [6, 8, 10] as const;
+export const DEFAULT_SPACING = 8 as const;
+export type Spacing = typeof SPACINGS[number];
+
+export const DIRECTIONS = ["ltr", "rtl"] as const;
+export const DEFAULT_DIRECTION = "ltr" as const;
 
 export const SCHEMES = ["primary", "secondary"] as const;
 export type Scheme = typeof SCHEMES[number];
@@ -45,6 +53,8 @@ export type Shade = typeof SHADES[number];
 export interface DisplayState {
   isDarkMode: boolean | null;
   isSidebarOpen: boolean;
+  spacing: Spacing;
+  direction: Direction;
   colors: Record<Scheme, Color>;
   shades: Record<Scheme, Shade>;
 }
@@ -52,6 +62,8 @@ export interface DisplayState {
 export const initialDisplayState: DisplayState = {
   isDarkMode: null,
   isSidebarOpen: false,
+  spacing: DEFAULT_SPACING,
+  direction: DEFAULT_DIRECTION,
   colors: {
     primary: "lightBlue",
     secondary: "amber",
@@ -73,6 +85,17 @@ const displaySlice = createSlice({
     toggleSidebar: (state, action: PayloadAction<boolean | undefined>) => ({
       ...state,
       isSidebarOpen: action.payload ?? !state.isSidebarOpen,
+    }),
+    changeSpacing: (state, action: PayloadAction<DisplayState["spacing"]>) => ({
+      ...state,
+      spacing: action.payload,
+    }),
+    changeDirection: (
+      state,
+      action: PayloadAction<DisplayState["direction"]>
+    ) => ({
+      ...state,
+      direction: action.payload,
     }),
     changeColor: (
       state,
@@ -123,6 +146,8 @@ const displaySlice = createSlice({
 export const {
   toggleDarkMode,
   toggleSidebar,
+  changeSpacing,
+  changeDirection,
   changeColor,
   changeShade,
   changeShadeAndColors,
@@ -136,6 +161,12 @@ export const getIsDarkMode = (state: RootState): DisplayState["isDarkMode"] =>
 export const getIsSidebarOpen = (
   state: RootState
 ): DisplayState["isSidebarOpen"] => state.display.isSidebarOpen;
+
+export const getSpacing = (state: RootState): DisplayState["spacing"] =>
+  state.display.spacing;
+
+export const getDirection = (state: RootState): DisplayState["direction"] =>
+  state.display.direction;
 
 export const getColors = (state: RootState): DisplayState["colors"] =>
   state.display.colors;

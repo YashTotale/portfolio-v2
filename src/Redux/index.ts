@@ -8,12 +8,16 @@ export {
   // -> Selectors
   getIsDarkMode,
   getIsSidebarOpen,
+  getSpacing,
+  getDirection,
   getColors,
   getShades,
   getIsDefaultColors,
   // -> Actions
   toggleDarkMode,
   toggleSidebar,
+  changeSpacing,
+  changeDirection,
   changeColor,
   changeShade,
   changeShadeAndColors,
