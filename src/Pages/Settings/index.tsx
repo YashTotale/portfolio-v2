@@ -3,10 +3,12 @@ import React, { FC } from "react";
 import { Helmet } from "react-helmet";
 import { generatePageTitle } from "../../Utils/funcs";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
-import Profile from "../../Components/Static/Settings/Profile";
+import Section from "../../Components/Static/Settings/Section";
+import Subsection from "../../Components/Static/Settings/Subsection";
 
 // Material UI Imports
 import { makeStyles, Typography } from "@material-ui/core";
+import { SettingsBrightness } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
   divider: {
@@ -34,7 +36,9 @@ const Settings: FC = () => {
         <Typography align="center" variant="h4">
           Settings
         </Typography>
-        <Profile />
+        <Section title="Display">
+          <Subsection title="Theme" icon={<SettingsBrightness />}></Subsection>
+        </Section>
       </div>
     </>
   );
