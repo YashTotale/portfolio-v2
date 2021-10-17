@@ -6,7 +6,6 @@ import { SIDEBAR_WIDTH } from "./Utils/constants";
 
 // Context
 import { HeadProvider } from "./Context/HeadContext";
-import { ClassnameProvider } from "./Context/ClassnameContext";
 import { UserProvider } from "./Context/UserContext";
 
 // Components
@@ -59,14 +58,14 @@ const useStyles = makeStyles((theme) => ({
 const App: FC = () => {
   return (
     <HeadProvider>
-      <ClassnameProvider>
-        <UserProvider>
-          <NavController />
-          <Navbar />
-          <Sidebar />
-          <Routes />
-        </UserProvider>
-      </ClassnameProvider>
+      {/* <ClassnameProvider> */}
+      <UserProvider>
+        <NavController />
+        <Navbar />
+        <Sidebar />
+        <Routes />
+      </UserProvider>
+      {/* </ClassnameProvider> */}
     </HeadProvider>
   );
 };
