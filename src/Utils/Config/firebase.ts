@@ -32,6 +32,14 @@ export const useFirestore = (): firebase.firestore.Firestore => {
   return firestore;
 };
 
+let storage: firebase.storage.Storage;
+export const useStorage = (): firebase.storage.Storage => {
+  if (!storage) {
+    storage = firebase.storage();
+  }
+  return storage;
+};
+
 let analytics: firebase.analytics.Analytics;
 export const useAnalytics = (
   triggerCall = true
