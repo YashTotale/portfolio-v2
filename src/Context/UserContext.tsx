@@ -11,13 +11,17 @@ import React, {
 import "firebase/auth";
 import firebase, { useAuth } from "../Utils/Config/firebase";
 
-export interface User {
+interface UserInfo {
   name: string;
   email: string;
   picture: string;
 }
 
-const mapFirebaseUser = (user: firebase.User | null): User | null => {
+export interface User extends UserInfo {
+  updateName: (newName: string) => Promise<void>;
+}
+
+const mapFirebaseUser = (user: firebase.User | null): UserInfo | null => {
   if (user === null) return user;
   return {
     name: user.displayName ?? "",
@@ -30,16 +34,29 @@ const UserContext = createContext<User | null>(null);
 
 export const UserProvider: FC = ({ children }) => {
   const auth = useAuth();
-  const [user, setUser] = useState<User | null>(
+  const [user, setUser] = useState<UserInfo | null>(
     mapFirebaseUser(auth.currentUser)
   );
+
+  const updateName = async (newName: string) => {
+    await auth.currentUser!.updateProfile({
+      displayName: newName,
+    });
+    setUser({ ...user!, name: newName });
+  };
 
   useEffect(
     () => auth.onAuthStateChanged((user) => setUser(mapFirebaseUser(user))),
     [auth]
   );
 
-  return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
+  return (
+    <UserContext.Provider
+      value={user === null ? null : { ...user, updateName }}
+    >
+      {children}
+    </UserContext.Provider>
+  );
 };
 
 export const useUser = (): User | null => useContext(UserContext);

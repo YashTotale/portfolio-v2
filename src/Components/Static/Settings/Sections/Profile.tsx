@@ -1,7 +1,9 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, useState } from "react";
 import Section from "../Section";
 import { useClosableSnackbar } from "../../../../Hooks";
+import { User, useUser } from "../../../../Context/UserContext";
+import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
 
 // Firebase Imports
 import "firebase/auth";
@@ -9,16 +11,25 @@ import firebase, { useAuth } from "../../../../Utils/Config/firebase";
 import { StyledFirebaseAuth } from "react-firebaseui";
 
 // Material UI Imports
-import { Button, makeStyles, Typography } from "@material-ui/core";
-import { useUser } from "../../../../Context/UserContext";
-import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
+import {
+  Avatar,
+  Button,
+  CircularProgress,
+  InputAdornment,
+  makeStyles,
+  TextField,
+  Tooltip,
+  Typography,
+  useTheme,
+} from "@material-ui/core";
+import { Check, CloudUpload } from "@material-ui/icons";
 
 const Profile: FC = () => {
   const user = useUser();
 
   return (
     <Section title="Profile">
-      {user ? <LoggedIn /> : <NotLoggedIn />}
+      {user ? <LoggedIn user={user} /> : <NotLoggedIn />}
       <HorizontalDivider />
     </Section>
   );
@@ -26,21 +37,129 @@ const Profile: FC = () => {
 
 const useLoggedInStyles = makeStyles((theme) => ({
   container: {
-    margin: theme.spacing(2),
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "100%",
+    padding: theme.spacing(2),
+  },
+  info: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    margin: theme.spacing(0, 3, 2),
+
+    [theme.breakpoints.down("sm")]: {
+      flexDirection: "column",
+    },
+  },
+  avatar: {
+    height: theme.spacing(7),
+    width: theme.spacing(7),
+    margin: theme.spacing(1, 1.5),
+  },
+  input: {
+    margin: theme.spacing(1, 1.5),
+  },
+  saveIcon: {
+    cursor: "pointer",
+  },
+  savingSpinner: {
+    color: theme.palette.text.primary,
+  },
+  emailInput: {
+    cursor: "not-allowed",
   },
   logout: {
     borderColor: theme.palette.error.main,
     color: theme.palette.error.main,
+    marginLeft: "auto",
   },
 }));
 
-const LoggedIn: FC = () => {
+interface LoggedInProps {
+  user: User;
+}
+
+const LoggedIn: FC<LoggedInProps> = (props) => {
   const classes = useLoggedInStyles();
+  const theme = useTheme();
   const auth = useAuth();
   const { enqueueSnackbar } = useClosableSnackbar();
+  const [name, setName] = useState(props.user.name);
+  const [isNameSaving, setNameSaving] = useState(false);
+
+  const onNameSave = async () => {
+    setNameSaving(true);
+    try {
+      await props.user.updateName(name);
+      enqueueSnackbar("Saved Name", {
+        variant: "success",
+      });
+    } catch (e: any) {
+      const message = typeof e === "string" ? e : e.message;
+      enqueueSnackbar(message || "An error occurred. Please try again.", {
+        variant: "error",
+      });
+    } finally {
+      setNameSaving(false);
+    }
+  };
 
   return (
     <div className={classes.container}>
+      <div className={classes.info}>
+        <Avatar
+          variant="rounded"
+          src={props.user.picture}
+          className={classes.avatar}
+        />
+        <TextField
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          name="name"
+          type="text"
+          label="Name"
+          variant="outlined"
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                {name === props.user.name ? (
+                  <Tooltip title="Saved">
+                    <Check fontSize="small" />
+                  </Tooltip>
+                ) : isNameSaving ? (
+                  <CircularProgress
+                    size={theme.spacing(2.5)}
+                    className={classes.savingSpinner}
+                  />
+                ) : (
+                  <Tooltip title="Save Name">
+                    <CloudUpload
+                      fontSize="small"
+                      onClick={onNameSave}
+                      className={classes.saveIcon}
+                    />
+                  </Tooltip>
+                )}
+              </InputAdornment>
+            ),
+          }}
+          className={classes.input}
+        />
+        <TextField
+          value={props.user.email}
+          name="email"
+          type="email"
+          label="Email"
+          variant="outlined"
+          disabled
+          className={classes.input}
+          inputProps={{
+            className: classes.emailInput,
+          }}
+        />
+      </div>
       <Button
         variant="outlined"
         onClick={() => {

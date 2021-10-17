@@ -11,6 +11,7 @@ import {
 import ReCAPTCHA, { ReCAPTCHAProps } from "react-google-recaptcha";
 import emailjs from "emailjs-com";
 import { useAnalytics, useClosableSnackbar } from "../../Hooks";
+import { useUser } from "../../Context/UserContext";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 
@@ -79,11 +80,17 @@ const Contact: FC = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
   const firestore = useFirestore();
+  const user = useUser();
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const { formState, control, handleSubmit, reset } = useForm<Inputs>();
+  const { formState, control, handleSubmit, reset } = useForm<Inputs>({
+    defaultValues: {
+      name: user?.name,
+      email: user?.email,
+    },
+  });
   const [loading, setLoading] = useState(false);
 
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
@@ -144,7 +151,7 @@ const Contact: FC = () => {
         bugs: "",
       });
       recaptchaRef.current?.reset();
-    } catch (e) {
+    } catch (e: any) {
       const message =
         (typeof e === "string" ? e : e.message) ||
         "An error occurred. Please try again.";
