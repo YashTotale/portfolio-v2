@@ -3,6 +3,9 @@
     "rules": "firestore.rules",
     "indexes": "firestore.indexes.json"
   },
+  "storage": {
+    "rules": "firebase.storage.rules"
+  },
   "hosting": [
     {
       "target": "public",

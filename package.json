@@ -26,6 +26,8 @@
     "deploy:local": "serve -s build",
     "deploy:private": "firebase deploy --only hosting:private",
     "deploy:public": "firebase deploy --only hosting:public",
+    "deploy:firestore:rules": "firebase deploy --only firestore:rules",
+    "deploy:storage:rules": "firebase deploy --only storage:rules",
     "data": "TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' ts-node scripts/data/index.ts",
     "books": "npm run books:get && npm run books:upload",
     "books:get": "sh scripts/books/get-books.sh",

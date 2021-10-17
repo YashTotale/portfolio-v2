@@ -11,3 +11,4 @@
 .snyk linguist-language=YAML
 
 .firebaserc linguist-language=JSON
+firebase.storage.rules linguist-language=Cloud-Firestore-Security-Rules
