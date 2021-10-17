@@ -11,6 +11,7 @@ import {
 import ReCAPTCHA, { ReCAPTCHAProps } from "react-google-recaptcha";
 import emailjs from "emailjs-com";
 import { useAnalytics, useClosableSnackbar } from "../../Hooks";
+import { useUser } from "../../Context/UserContext";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 
@@ -33,12 +34,12 @@ import {
 import { Rating } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    marginTop: theme.spacing(0.5),
+  divider: {
+    margin: theme.spacing(1.5, 0, 1),
   },
   container: {
     width: "100%",
-    marginTop: theme.spacing(1.5),
+    marginTop: theme.spacing(2),
     padding: theme.spacing(2),
   },
   form: {
@@ -79,11 +80,17 @@ const Contact: FC = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
   const firestore = useFirestore();
+  const user = useUser();
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const { formState, control, handleSubmit, reset } = useForm<Inputs>();
+  const { formState, control, handleSubmit, reset } = useForm<Inputs>({
+    defaultValues: {
+      name: user?.name,
+      email: user?.email,
+    },
+  });
   const [loading, setLoading] = useState(false);
 
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
@@ -119,6 +126,7 @@ const Contact: FC = () => {
       Object.entries(inputs).filter(([_, v]) => v !== undefined)
     );
     data.timestamp = new Date();
+    data.user = user === null ? null : user.id;
     data["g-recaptcha-response"] = recaptcha;
 
     try {
@@ -144,7 +152,7 @@ const Contact: FC = () => {
         bugs: "",
       });
       recaptchaRef.current?.reset();
-    } catch (e) {
+    } catch (e: any) {
       const message =
         (typeof e === "string" ? e : e.message) ||
         "An error occurred. Please try again.";
@@ -171,8 +179,8 @@ const Contact: FC = () => {
       <Helmet>
         <title>{generatePageTitle("Contact")}</title>
       </Helmet>
-      <HorizontalDivider />
-      <Typography align="center" variant="h4" className={classes.title}>
+      <HorizontalDivider className={classes.divider} />
+      <Typography align="center" variant="h4">
         Let&apos;s get in touch!
       </Typography>
       <Paper className={classes.container}>

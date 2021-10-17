@@ -7,6 +7,7 @@ import { SIDEBAR_WIDTH } from "./Utils/constants";
 // Context
 import { HeadProvider } from "./Context/HeadContext";
 import { ClassnameProvider } from "./Context/ClassnameContext";
+import { UserProvider } from "./Context/UserContext";
 
 // Components
 import Navbar from "./Components/Static/Navbar";
@@ -34,13 +35,15 @@ const CertificationPage = lazy(() => import("./Pages/Certification"));
 const BooksPage = lazy(() => import("./Pages/Books"));
 const Contact = lazy(() => import("./Pages/Contact"));
 const Colors = lazy(() => import("./Pages/Colors"));
+const Settings = lazy(() => import("./Pages/Settings"));
 const NotFound = lazy(() => import("./Pages/NotFound"));
 
 const useStyles = makeStyles((theme) => ({
   root: {
     paddingTop: theme.spacing(2),
     [theme.breakpoints.up("lg")]: {
-      marginLeft: SIDEBAR_WIDTH,
+      marginLeft: theme.direction === "ltr" ? SIDEBAR_WIDTH : 0,
+      marginRight: theme.direction === "rtl" ? SIDEBAR_WIDTH : 0,
     },
   },
   layout: {
@@ -57,10 +60,12 @@ const App: FC = () => {
   return (
     <HeadProvider>
       <ClassnameProvider>
-        <NavController />
-        <Navbar />
-        <Sidebar />
-        <Routes />
+        <UserProvider>
+          <NavController />
+          <Navbar />
+          <Sidebar />
+          <Routes />
+        </UserProvider>
       </ClassnameProvider>
     </HeadProvider>
   );
@@ -115,6 +120,9 @@ const Routes: FC = () => {
             </Route>
             <Route exact path="/colors">
               <Colors />
+            </Route>
+            <Route exact path="/settings">
+              <Settings />
             </Route>
             <Route exact path="/">
               <Home />

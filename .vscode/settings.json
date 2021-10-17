@@ -15,6 +15,7 @@
     ".snyk": "yaml",
     ".imgbotconfig": "json",
 
-    ".firebaserc": "json"
+    ".firebaserc": "json",
+    "firebase.storage.rules": "firerules"
   }
 }

@@ -6,7 +6,14 @@ import LinkIcon from "../../Atomic/Icon/Link";
 import { BUILD_TIME } from "../../../Utils/constants";
 
 // Material UI Imports
-import { Box, Container, makeStyles, Typography } from "@material-ui/core";
+import {
+  Box,
+  Container,
+  makeStyles,
+  Typography,
+  useMediaQuery,
+  useTheme,
+} from "@material-ui/core";
 import { GitHub, LinkedIn, Mail } from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
@@ -56,6 +63,8 @@ const socials: Social[] = [
 
 const Footer: FC = () => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
     <Container component="footer" className={classes.footer}>
@@ -70,7 +79,7 @@ const Footer: FC = () => {
           />
         ))}
       </Box>
-      <Box mt={1}>
+      <Box mt={isSizeXS ? 2 : 1}>
         <Typography variant="body2" color="textSecondary" align="center">
           Copyright © Yash Totale {new Date().getFullYear()}
         </Typography>

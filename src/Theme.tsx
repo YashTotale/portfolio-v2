@@ -3,7 +3,15 @@ import React, { FC } from "react";
 
 //Redux Imports
 import { useSelector } from "react-redux";
-import { getColors, getIsDarkMode, getShades, toggleDarkMode } from "./Redux";
+import {
+  getColors,
+  getDirection,
+  getIsDarkMode,
+  getShades,
+  getSpacing,
+  toggleDarkMode,
+} from "./Redux";
+import { DEFAULT_DIRECTION, DEFAULT_SPACING } from "./Redux/display.slice";
 import { useAppDispatch } from "./Store";
 
 //Material UI Imports
@@ -14,6 +22,7 @@ import {
   CssBaseline,
 } from "@material-ui/core";
 import * as muiColors from "@material-ui/core/colors";
+import createSpacing from "@material-ui/core/styles/createSpacing";
 
 export const alternativeFont = "Arial, sans-serif";
 
@@ -21,6 +30,8 @@ const Theme: FC = ({ children }) => {
   const dispatch = useAppDispatch();
   const colors = useSelector(getColors);
   const shades = useSelector(getShades);
+  const spacing = useSelector(getSpacing);
+  const direction = useSelector(getDirection);
 
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
   const isDarkMode = useSelector(getIsDarkMode);
@@ -47,6 +58,8 @@ const Theme: FC = ({ children }) => {
         },
       },
     },
+    direction: direction ?? DEFAULT_DIRECTION,
+    spacing: createSpacing(spacing ?? DEFAULT_SPACING),
     palette: {
       type: isDarkMode ? "dark" : "light",
       primary: {
