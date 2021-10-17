@@ -4,7 +4,8 @@ import { Link, useLocation } from "react-router-dom";
 import { LocationDescriptor } from "history";
 
 // Material UI Imports
-import { ListItem, ListItemText, makeStyles, Theme } from "@material-ui/core";
+import { ListItem, ListItemText, Theme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 interface StyleProps {
   isActive: boolean;

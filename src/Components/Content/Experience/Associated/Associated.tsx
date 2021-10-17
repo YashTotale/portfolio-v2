@@ -19,12 +19,8 @@ import {
 } from "../../../../Utils/Content/experience";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { Typography, useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -104,7 +100,7 @@ const Associated: FC<AssociatedProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
-  const isDark = theme.palette.type === "dark";
+  const isDark = theme.palette.mode === "dark";
 
   const location = useLocation();
   const title = useTitle();

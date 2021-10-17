@@ -14,7 +14,8 @@ import MainContainer from "../../Shared/MainContainer";
 import { getTag } from "../../../../Utils/Content/tags";
 
 // Material UI Imports
-import { makeStyles, Paper } from "@material-ui/core";
+import { Paper } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   root: {

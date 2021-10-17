@@ -4,7 +4,8 @@ import clsx from "clsx";
 import HorizontalDivider from "../../Atomic/Divider/Horizontal";
 
 // Material UI Imports
-import { makeStyles, Typography } from "@material-ui/core";
+import { Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   section: {
@@ -16,8 +17,8 @@ const useStyles = makeStyles((theme) => ({
     borderTop: `2px solid ${theme.palette.text.disabled}`,
     margin: theme.spacing(2, 0),
     backgroundColor:
-      theme.palette.type === "dark"
-        ? theme.palette.grey[800]
+      theme.palette.mode === "dark"
+        ? theme.palette.grey[900]
         : theme.palette.grey[200],
   },
   title: {

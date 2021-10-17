@@ -14,8 +14,8 @@ import { BookSort } from "../../../../../Redux/books.slice";
 import { useAppDispatch } from "../../../../../Store";
 
 // Material UI Imports
-import { makeStyles, Typography } from "@material-ui/core";
-import { Rating } from "@material-ui/lab";
+import { Typography, Rating } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   info: {
@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     flexGrow: 1,
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
       alignItems: "center",
       justifyContent: "center",

@@ -11,7 +11,6 @@ import { useAppDispatch } from "../../../Store";
 
 // Material UI Imports
 import {
-  makeStyles,
   AppBar,
   IconButton,
   Toolbar,
@@ -19,19 +18,17 @@ import {
   useTheme,
   useMediaQuery,
   useScrollTrigger,
-} from "@material-ui/core";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import {
   Brightness7,
   Brightness4,
   Menu as MenuButton,
   Palette,
   Settings,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
-  appbar: {
-    backgroundColor: theme.palette.background.default,
-  },
   toolbar: {
     margin: 0,
     [theme.breakpoints.up("lg")]: {
@@ -58,14 +55,14 @@ const Navbar: FC = () => {
     threshold: 0,
   });
 
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
-  const isDarkMode = theme.palette.type === "dark";
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("lg"));
+  const isDarkMode = theme.palette.mode === "dark";
   const isLTR = theme.direction === "ltr";
 
   const toggleSidebarButton = (
     <div>
       <Tooltip title="Toggle Sidebar">
-        <IconButton onClick={() => dispatch(toggleSidebar())}>
+        <IconButton onClick={() => dispatch(toggleSidebar())} size="large">
           <MenuButton />
         </IconButton>
       </Tooltip>
@@ -74,7 +71,7 @@ const Navbar: FC = () => {
 
   return (
     <>
-      <AppBar elevation={trigger ? 4 : 1} className={classes.appbar}>
+      <AppBar elevation={trigger ? 4 : 1} color="default">
         <Toolbar className={classes.toolbar}>
           {isSizeSmall && isLTR && toggleSidebarButton}
           <div className={classes.otherIcons}>
@@ -90,6 +87,7 @@ const Navbar: FC = () => {
                     null
                   ),
                 }}
+                size="large"
               >
                 <Palette />
               </IconButton>
@@ -108,6 +106,7 @@ const Navbar: FC = () => {
                     }
                   );
                 }}
+                size="large"
               >
                 {isDarkMode ? <Brightness7 /> : <Brightness4 />}
               </IconButton>
@@ -124,6 +123,7 @@ const Navbar: FC = () => {
                     null
                   ),
                 }}
+                size="large"
               >
                 <Settings />
               </IconButton>

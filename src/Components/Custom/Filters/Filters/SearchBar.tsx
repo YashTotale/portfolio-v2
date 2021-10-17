@@ -4,8 +4,8 @@ import throttle from "lodash.throttle";
 import { Filter } from "./index";
 
 // Material UI Imports
-import { TextField, useMediaQuery, useTheme } from "@material-ui/core";
-import { Clear } from "@material-ui/icons";
+import { TextField, useMediaQuery, useTheme } from "@mui/material";
+import { Clear } from "@mui/icons-material";
 
 export interface SearchBarProps {
   defaultSearch: string;

@@ -6,8 +6,9 @@ import RichText from "../../../../Custom/RichText";
 import { ResolvedEducation } from "../../../../../Utils/types";
 
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
-import { Description as DescriptionIcon } from "@material-ui/icons";
+import { useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Description as DescriptionIcon } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   description: {

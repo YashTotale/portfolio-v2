@@ -14,13 +14,8 @@ import {
 } from "../../../../Utils/Content/articles";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Paper,
-  useTheme,
-  useMediaQuery,
-  Typography,
-} from "@material-ui/core";
+import { Paper, useTheme, useMediaQuery, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   article: {
@@ -40,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     margin: theme.spacing(1, 0),
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
   },
@@ -76,7 +71,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     flex: 1,
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
     },
   },
@@ -97,7 +92,7 @@ interface MainProps {
 const Main: FC<MainProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
   const article = getArticle(props.id);
 
   if (!article) return null;

@@ -10,13 +10,8 @@ import { useSelector } from "react-redux";
 import { RootState, useAppDispatch } from "../../../Store";
 
 // Material UI Imports
-import {
-  capitalize,
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { capitalize, Typography, useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   element: {

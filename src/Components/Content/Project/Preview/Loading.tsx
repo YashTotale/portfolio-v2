@@ -3,14 +3,14 @@ import React, { forwardRef } from "react";
 import clsx from "clsx";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   skeleton: {
-    width: `calc(50% - ${theme.spacing(4)}px)`,
+    width: `calc(50% - ${theme.spacing(4)})`,
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
     },
   },
@@ -26,7 +26,7 @@ const Loading = forwardRef<HTMLDivElement, LoadingProps>((props, ref) => {
   return (
     <Skeleton
       ref={ref}
-      variant="rect"
+      variant="rectangular"
       height={600}
       className={clsx(classes.skeleton, props.className)}
     />

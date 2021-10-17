@@ -8,7 +8,7 @@ import { generateSearch } from "../../../Utils/funcs";
 import "react-typist/dist/Typist.css";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   typist: {

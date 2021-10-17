@@ -5,7 +5,7 @@ import { LocationDescriptor } from "history";
 import MatchHighlight from "./MatchHighlight";
 
 // Material UI Imports
-import { Link, LinkProps } from "@material-ui/core";
+import { Link, LinkProps } from "@mui/material";
 
 interface StyledLinkProps {
   to: LocationDescriptor;

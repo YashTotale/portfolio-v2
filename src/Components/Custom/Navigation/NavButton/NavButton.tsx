@@ -8,12 +8,12 @@ import { LocationDescriptor } from "history";
 import {
   Button,
   capitalize,
-  makeStyles,
   Theme,
   Typography,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 type BtnType = "previous" | "next";
 
@@ -83,6 +83,7 @@ const NavButton: FC<NavButtonProps> = (props) => {
       <Button color="primary" className={classes.button}>
         <div className={classes.label}>
           <Typography
+            align={props.type === "previous" ? "left" : "right"}
             color="textSecondary"
             variant={isSizeXS ? "caption" : "body1"}
           >

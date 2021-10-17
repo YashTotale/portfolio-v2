@@ -5,7 +5,8 @@ import RichText from "../../../../Custom/RichText";
 import { ResolvedTag } from "../../../../../Utils/types";
 
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   description: {

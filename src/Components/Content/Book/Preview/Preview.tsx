@@ -9,7 +9,8 @@ import VerticalDivider from "../../../Atomic/Divider/Vertical";
 import { getRawBook } from "../../../../Utils/Content/books";
 
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -34,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
     height: "100%",
     overflow: "scroll",
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       flexDirection: "column",
       alignItems: "center",
     },
@@ -49,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
       padding: theme.spacing(2, 1),
     },
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
       padding: theme.spacing(1),
     },
@@ -88,7 +89,7 @@ export interface PreviewProps {
 const Preview: FC<PreviewProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
 
   const book = getRawBook(props.id);
 

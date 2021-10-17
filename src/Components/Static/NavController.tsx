@@ -9,8 +9,9 @@ import { addToHistory, modifyLastHistory } from "../../Redux";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { Fab, makeStyles, useScrollTrigger, Zoom } from "@material-ui/core";
-import { KeyboardArrowUp } from "@material-ui/icons";
+import { Fab, useScrollTrigger, Zoom } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { KeyboardArrowUp } from "@mui/icons-material";
 
 const NavController: FC = () => {
   const dispatch = useAppDispatch();

@@ -3,14 +3,8 @@ import React, { FC } from "react";
 import clsx from "clsx";
 
 // Material UI Imports
-import {
-  darken,
-  makeStyles,
-  Theme,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 type Direction = "row" | "column";
 
@@ -22,8 +16,8 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   container: {
     borderTop: `2px solid ${theme.palette.text.disabled}`,
     backgroundColor:
-      theme.palette.type === "dark"
-        ? darken(theme.palette.grey[800], 0.3)
+      theme.palette.mode === "dark"
+        ? theme.palette.grey[800]
         : theme.palette.grey[200],
     margin: theme.spacing(2, 0, 4),
     padding: theme.spacing(1, 2),
@@ -51,7 +45,7 @@ const MainContainer: FC<MainContainerProps> = (props) => {
     direction: props.direction ?? "row",
   });
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <div className={clsx(classes.container, props.className)}>

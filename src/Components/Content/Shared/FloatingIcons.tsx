@@ -3,14 +3,16 @@ import React, { FC } from "react";
 import LinkIcon from "../../Atomic/Icon/Link";
 
 // Material UI Imports
-import { makeStyles, Theme } from "@material-ui/core";
-import { GitHub, Launch, LinkedIn } from "@material-ui/icons";
+import { Theme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { GitHub, Launch, LinkedIn } from "@mui/icons-material";
 
 type Direction = "row" | "column";
 
 interface StyleProps {
   direction: Direction;
-  top: number;
+  top: number | string;
+  right: number | string;
 }
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
@@ -20,12 +22,13 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     alignItems: "center",
     justifyContent: "center",
     position: "absolute",
-    top: ({ top }) => theme.spacing(top),
-    right: theme.spacing(1),
+    top: ({ top }) => (typeof top === "string" ? top : theme.spacing(top)),
+    right: ({ right }) =>
+      typeof right === "string" ? right : theme.spacing(right),
   },
   iconButton: {
     [theme.breakpoints.only("xs")]: {
-      margin: theme.spacing(1),
+      margin: theme.spacing(0.25),
     },
   },
 }));
@@ -42,7 +45,8 @@ interface FloatingIconsProps {
   github?: string;
   linkedin?: string;
   direction?: Direction;
-  top?: number;
+  top?: number | string;
+  right?: number | string;
   icons?: Icon[];
 }
 
@@ -50,6 +54,7 @@ const FloatingIcons: FC<FloatingIconsProps> = (props) => {
   const classes = useStyles({
     direction: props.direction ?? "column",
     top: props.top ?? 1,
+    right: props.right ?? 1,
   });
 
   return (

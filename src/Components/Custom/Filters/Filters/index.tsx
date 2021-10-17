@@ -11,14 +11,15 @@ import ResponsiveIcon from "../../../Atomic/Icon/Responsive";
 import {
   Button,
   Collapse,
-  makeStyles,
+  lighten,
   Theme,
   Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
-import { ExpandLess } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { ExpandLess } from "@mui/icons-material";
 
 interface StyleProps {
   open: boolean;
@@ -33,7 +34,10 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     borderRadius: "10px",
     marginBottom: theme.spacing(1),
     overflow: "hidden",
-    backgroundColor: theme.palette.background.paper,
+    backgroundColor:
+      theme.palette.mode === "dark"
+        ? lighten(theme.palette.background.paper, 0.1)
+        : theme.palette.background.paper,
   },
   titleButton: {
     borderRadius: 0,
@@ -81,12 +85,16 @@ const Filters: FC<FiltersProps> = (props) => {
   return (
     <>
       <div className={clsx(classes.filters, props.className)}>
-        <Button className={classes.titleButton} onClick={() => setOpen(!open)}>
+        <Button
+          className={classes.titleButton}
+          onClick={() => setOpen(!open)}
+          color="inherit"
+        >
           <Typography align="center" variant="h6" className={classes.title}>
             Filters
           </Typography>
           <ExpandLess
-            fontSize={isSizeXS ? "small" : "default"}
+            fontSize={isSizeXS ? "small" : "medium"}
             className={classes.titleIcon}
           />
         </Button>
@@ -124,11 +132,11 @@ const useFilterStyles = makeStyles((theme) => ({
       width: "40%",
     },
 
-    [theme.breakpoints.down("md")]: {
+    [theme.breakpoints.down("lg")]: {
       width: "50%",
     },
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "75%",
     },
 

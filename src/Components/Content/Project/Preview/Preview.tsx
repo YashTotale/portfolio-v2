@@ -22,9 +22,7 @@ import {
 
 // Redux Imports
 import { getProjectsSort, setProjectsSort } from "../../../../Redux";
-
-//Material UI Imports
-import { makeStyles } from "@material-ui/core";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   project: {
@@ -32,9 +30,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    width: `calc(50% - ${theme.spacing(4)}px)`,
+    width: `calc(50% - ${theme.spacing(4)})`,
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
     },
   },

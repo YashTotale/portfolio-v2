@@ -14,7 +14,8 @@ import { ResolvedCertification } from "../../../../Utils/types";
 import { getCertificationSort, setCertificationSort } from "../../../../Redux";
 
 // Material UI Imports
-import { Link, makeStyles, Typography } from "@material-ui/core";
+import { Link, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   container: {

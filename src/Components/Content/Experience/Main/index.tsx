@@ -15,13 +15,8 @@ import {
 } from "../../../../Utils/Content/experience";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Paper,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { Paper, Typography, useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import ButtonLinks from "../../Shared/ButtonLinks";
 
 const useStyles = makeStyles((theme) => ({
@@ -42,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     margin: theme.spacing(1, 0),
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
   },
@@ -79,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(1),
     flex: 1,
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
     },
   },
@@ -103,8 +98,8 @@ interface MainProps {
 const Main: FC<MainProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
-  const isDark = theme.palette.type === "dark";
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
+  const isDark = theme.palette.mode === "dark";
 
   const experience = getSingleExperience(props.id);
   if (!experience) return null;

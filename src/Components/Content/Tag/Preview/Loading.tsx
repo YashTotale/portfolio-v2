@@ -3,8 +3,8 @@ import React, { FC } from "react";
 import clsx from "clsx";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   skeleton: {
@@ -28,7 +28,7 @@ const Loading: FC<LoadingProps> = (props) => {
 
   return (
     <Skeleton
-      variant="rect"
+      variant="rectangular"
       className={clsx(classes.skeleton, props.className)}
     />
   );

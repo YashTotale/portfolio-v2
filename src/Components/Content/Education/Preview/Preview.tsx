@@ -19,8 +19,9 @@ import {
 import { getEducationSort, setEducationSort } from "../../../../Redux";
 
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
-import { Description } from "@material-ui/icons";
+import { useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Description } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -64,10 +65,12 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     position: "relative",
     width: "100%",
-    minHeight: theme.spacing(7),
+    minHeight: theme.spacing(6),
 
     [theme.breakpoints.only("xs")]: {
-      minHeight: theme.spacing(6),
+      flexDirection: "column",
+      justifyContent: "start",
+      minHeight: theme.spacing(8),
     },
   },
   timeline: {
@@ -133,7 +136,8 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           link={education.link}
           github={education.github}
           direction="row"
-          top={0.5}
+          top={isSizeXS ? 3.5 : 0.5}
+          right={isSizeXS ? "auto" : undefined}
           icons={
             education.certificate && [
               {

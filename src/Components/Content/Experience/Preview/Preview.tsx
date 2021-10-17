@@ -22,7 +22,8 @@ import { getProject } from "../../../../Utils/Content/projects";
 import { getExperienceSort, setExperienceSort } from "../../../../Redux";
 
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -118,7 +119,7 @@ export interface PreviewProps {
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isDark = theme.palette.type === "dark";
+  const isDark = theme.palette.mode === "dark";
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const experience = getSingleExperience(props.id);

@@ -24,14 +24,14 @@ import {
   Button,
   capitalize,
   CircularProgress,
-  makeStyles,
   Paper,
   TextField,
   Typography,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
-import { Rating } from "@material-ui/lab";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Rating } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   divider: {
@@ -172,7 +172,7 @@ const Contact: FC = () => {
 
   useEffect(() => {
     setRecaptcha(null);
-  }, [theme.palette.type, isSizeXS]);
+  }, [theme.palette.mode, isSizeXS]);
 
   return (
     <>
@@ -220,9 +220,9 @@ const Contact: FC = () => {
             onChange={onRecaptchaChange}
             onErrored={onRecaptchaError}
             ref={recaptchaRef}
-            theme={theme.palette.type}
+            theme={theme.palette.mode}
             size={isSizeXS ? "compact" : "normal"}
-            key={`${theme.palette.type}${isSizeXS}`}
+            key={`${theme.palette.mode}${isSizeXS}`}
           />
           <Button
             variant="contained"

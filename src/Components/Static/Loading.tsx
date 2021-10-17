@@ -2,8 +2,9 @@
 import React from "react";
 
 //Material UI Imports
-import { makeStyles, Theme } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Theme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 
 const useStyles = makeStyles((theme: Theme) => ({
   loadingSkeleton: {
@@ -70,11 +71,11 @@ const Loading: React.FC = (props) => {
   return (
     <>
       <div className={classes.loadingSkeleton}>
-        <Skeleton className={classes.mainSkeleton} variant="rect" />
+        <Skeleton className={classes.mainSkeleton} variant="rectangular" />
         <div className={classes.rowSkeleton}>
           {[...Array(3)].map((x, i) => (
             <div key={i} className={classes.cellSkeleton}>
-              <Skeleton className={classes.boxSkeleton} variant="rect" />
+              <Skeleton className={classes.boxSkeleton} variant="rectangular" />
               {[...Array(4)].map((x, i) => {
                 return i ? (
                   <Skeleton
@@ -85,7 +86,7 @@ const Loading: React.FC = (props) => {
                 ) : (
                   <div key={i} className={classes.bioSkeleton}>
                     <Skeleton
-                      variant="circle"
+                      variant="circular"
                       className={classes.circleSkeleton}
                     />
                     <Skeleton

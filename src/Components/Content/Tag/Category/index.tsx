@@ -10,13 +10,8 @@ import { generateSearch } from "../../../../Utils/funcs";
 import { useSortedTags } from "../../../../Utils/Content/tags";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Theme,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 interface StyleProps {
   iconWidth: number;
@@ -58,8 +53,8 @@ interface CategoryProps {
 
 const Category: FC<CategoryProps> = (props) => {
   const theme = useTheme();
-  const isDark = theme.palette.type === "dark";
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isDark = theme.palette.mode === "dark";
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
 
   const iconWidth = isSizeSmall ? 50 : 75;
 

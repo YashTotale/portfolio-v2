@@ -8,8 +8,9 @@ import { getIsSidebarOpen, toggleSidebar } from "../../../Redux/display.slice";
 import { useAppDispatch } from "../../../Store";
 
 // Material UI Imports
-import { makeStyles, Drawer, useTheme, useMediaQuery } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Drawer, useTheme, useMediaQuery } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   skeleton: {
@@ -26,10 +27,12 @@ const Loading: FC = (props) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const theme = useTheme();
-  const isSmall = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmall = useMediaQuery(theme.breakpoints.down("lg"));
   const isSidebarOpen = useSelector(getIsSidebarOpen);
 
-  const skeleton = <Skeleton variant="rect" className={classes.skeleton} />;
+  const skeleton = (
+    <Skeleton variant="rectangular" className={classes.skeleton} />
+  );
 
   return isSmall ? (
     <Drawer

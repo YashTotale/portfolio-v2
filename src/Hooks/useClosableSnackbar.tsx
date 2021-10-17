@@ -8,8 +8,9 @@ import {
 } from "notistack";
 
 // Material UI Imports
-import { Button, IconButton, makeStyles } from "@material-ui/core";
-import { Clear } from "@material-ui/icons";
+import { Button, IconButton } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Clear } from "@mui/icons-material";
 
 type NewOptions = OptionsObject & {
   onUndo?: () => void;
@@ -96,7 +97,6 @@ const UndoButton: FC<UndoButtonProps> = (props) => {
       className={classes.whiteButton}
       onClick={props.onClick}
       variant="text"
-      color="default"
     >
       Undo
     </Button>

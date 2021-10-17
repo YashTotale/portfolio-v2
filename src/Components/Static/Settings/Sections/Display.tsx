@@ -26,15 +26,15 @@ import {
 import { useAppDispatch } from "../../../../Store";
 
 // Material UI Imports
-import { useTheme } from "@material-ui/core";
-import { Computer, SettingsBrightness } from "@material-ui/icons";
+import { useTheme } from "@mui/material";
+import { Computer, SettingsBrightness } from "@mui/icons-material";
 
 const Display: FC = () => {
   const dispatch = useAppDispatch();
   const location = useLocation();
   const title = useTitle();
   const theme = useTheme();
-  const isDarkMode = theme.palette.type === "dark";
+  const isDarkMode = theme.palette.mode === "dark";
 
   const spacing = useSelector(getSpacing);
   const direction = useSelector(getDirection);

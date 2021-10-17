@@ -8,6 +8,8 @@ coverage/
 dist/
 out/
 build/
+temp-build/
+bundle-report/
 
 # misc
 .husky/_

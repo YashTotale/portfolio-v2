@@ -7,7 +7,8 @@ import { useTitle } from "../Context/HeadContext";
 import { generatePageTitle, generateSearch } from "../Utils/funcs";
 
 // Material UI Imports
-import { makeStyles, Button, Typography, capitalize } from "@material-ui/core";
+import { Button, Typography, capitalize } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   notFound: {
@@ -39,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
   number: {
     textShadow: `-8px 0px 0px ${
-      theme.palette.common[theme.palette.type === "dark" ? "black" : "white"]
+      theme.palette.common[theme.palette.mode === "dark" ? "black" : "white"]
     }`,
   },
   link: {

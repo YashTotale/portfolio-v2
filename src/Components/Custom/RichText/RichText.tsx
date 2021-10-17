@@ -20,12 +20,8 @@ import {
 import { getArticle } from "../../../Utils/Content/articles";
 
 // Material UI Imports
-import {
-  Link,
-  makeStyles,
-  Typography,
-  TypographyProps,
-} from "@material-ui/core";
+import { Link, Typography, TypographyProps } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   text: {

@@ -9,12 +9,12 @@ import { BUILD_TIME } from "../../../Utils/constants";
 import {
   Box,
   Container,
-  makeStyles,
   Typography,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
-import { GitHub, LinkedIn, Mail } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { GitHub, LinkedIn, Mail } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   footer: {

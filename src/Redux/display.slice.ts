@@ -1,4 +1,4 @@
-import { Direction } from "@material-ui/core";
+import { Direction } from "@mui/material";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 

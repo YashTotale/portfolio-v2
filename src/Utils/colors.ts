@@ -1,5 +1,5 @@
 // External Imports
-import { getContrastRatio, Theme } from "@material-ui/core";
+import { getContrastRatio, Theme } from "@mui/material";
 
 export const getTextColor = (theme: Theme, color: string): string => {
   const white = theme.palette.common.white;

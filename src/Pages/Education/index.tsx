@@ -36,7 +36,8 @@ import { EDUCATION_SORT, EducationSort } from "../../Redux/education.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { makeStyles, Typography, useTheme } from "@material-ui/core";
+import { Typography, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -66,7 +67,7 @@ const Education: FC = () => {
   const dispatch = useAppDispatch();
 
   const theme = useTheme();
-  const isDarkMode = theme.palette.type === "dark";
+  const isDarkMode = theme.palette.mode === "dark";
 
   const allTypes = getEducationTypes();
   const allTags = getTagsAsRelated("education", isDarkMode);

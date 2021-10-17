@@ -3,7 +3,6 @@ import React, { FC } from "react";
 
 // Material UI Imports
 import {
-  makeStyles,
   MenuItem,
   MenuItemProps,
   Select,
@@ -14,7 +13,8 @@ import {
   Typography,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   item: {
@@ -100,6 +100,7 @@ export const SelectInput = <T extends MenuItemProps["value"]>(
         defaultValue={props.defaultValue}
         value={props.value}
         onChange={(e) => props.onChange(e.target.value as T)}
+        size="small"
       >
         {props.values.map((val: T, i: number) => (
           <MenuItem key={i} value={val}>

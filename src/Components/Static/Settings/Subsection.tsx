@@ -4,12 +4,8 @@ import clsx from "clsx";
 import HorizontalDivider from "../../Atomic/Divider/Horizontal";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { Typography, useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   subsection: {

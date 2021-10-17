@@ -13,7 +13,8 @@ import {
 } from "../../../../Utils/Content/projects";
 
 // Material UI Imports
-import { makeStyles, Typography, Paper } from "@material-ui/core";
+import { Typography, Paper } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   project: {

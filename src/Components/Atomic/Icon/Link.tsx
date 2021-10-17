@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import ResponsiveIcon from "./Responsive";
 
 // Material UI Imports
-import { IconButton, Tooltip } from "@material-ui/core";
+import { IconButton, Tooltip } from "@mui/material";
 
 interface LinkIconProps {
   label: string;
@@ -31,7 +31,11 @@ const LinkIcon: FC<LinkIconProps> = ({
 
   return (
     <Tooltip title={label}>
-      {withResize ? <ResponsiveIcon {...props} /> : <IconButton {...props} />}
+      {withResize ? (
+        <ResponsiveIcon {...props} />
+      ) : (
+        <IconButton {...props} size="large" />
+      )}
     </Tooltip>
   );
 };

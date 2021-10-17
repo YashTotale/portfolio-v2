@@ -26,7 +26,8 @@ import {
 } from "../../../../Redux";
 
 // Material UI Imports
-import { Divider, List, makeStyles, Toolbar } from "@material-ui/core";
+import { Divider, List, Toolbar } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import {
   HomeOutlined,
   WorkOutline,
@@ -37,7 +38,7 @@ import {
   BookOutlined,
   ChatBubbleOutline,
   AssignmentTurnedInOutlined,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {

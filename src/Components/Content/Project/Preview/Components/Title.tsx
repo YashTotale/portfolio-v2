@@ -7,7 +7,8 @@ import { ResolvedProject } from "../../../../../Utils/types";
 import { generateSearch } from "../../../../../Utils/funcs";
 
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   projectTitle: {

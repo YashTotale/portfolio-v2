@@ -12,12 +12,8 @@ import { generatePageTitle } from "../../Utils/funcs";
 import { getDescription } from "../../Utils/Content/main";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { Typography, useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   home: {
@@ -54,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
 const Home: FC = () => {
   const classes = useStyles();
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
 
   const description = getDescription();
 

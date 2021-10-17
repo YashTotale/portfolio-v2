@@ -5,7 +5,8 @@ import { ResolvedEducation } from "../../../../Utils/types";
 import { getAsset } from "../../../../Utils/Content/assets";
 
 // Material UI Imports
-import { Link, makeStyles, Tooltip } from "@material-ui/core";
+import { Link, Tooltip } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   provider: {

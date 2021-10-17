@@ -3,7 +3,7 @@ import React, { FC, ReactElement, useEffect } from "react";
 import { Waypoint } from "react-waypoint";
 
 // Material UI Imports
-import { useMediaQuery, useTheme } from "@material-ui/core";
+import { useMediaQuery, useTheme } from "@mui/material";
 
 type TrackerProps = Waypoint.WaypointProps & {
   children: ReactElement;
@@ -22,7 +22,7 @@ const Tracker: FC<TrackerProps> = (props) => {
   } = props;
 
   const theme = useTheme();
-  const isMedium = useMediaQuery(theme.breakpoints.down("md"));
+  const isMedium = useMediaQuery(theme.breakpoints.down("lg"));
 
   useEffect(() => {
     if (!trackOnMedium && isMedium && canRemoveAll) {

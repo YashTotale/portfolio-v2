@@ -1,11 +1,11 @@
 // React Imports
 import React, { FC } from "react";
+import { capitalize } from "lodash";
 import Badge from "../../../Badge";
 import { ResolvedProject } from "../../../../../Utils/types";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
-import { capitalize } from "lodash";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   badges: {

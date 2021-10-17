@@ -8,13 +8,8 @@ import { useTitle } from "../../../../Context/HeadContext";
 import { generateSearch } from "../../../../Utils/funcs";
 
 // Material UI Imports
-import {
-  Avatar,
-  makeStyles,
-  Typography,
-  Button,
-  useTheme,
-} from "@material-ui/core";
+import { Avatar, Typography, Button, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   link: {
@@ -27,10 +22,10 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "none",
     width: "100%",
     height: "100%",
-  },
-  label: {
-    display: "flex",
-    justifyContent: "flex-start",
+    borderColor:
+      theme.palette.mode === "dark"
+        ? theme.palette.grey[600]
+        : theme.palette.grey[400],
   },
   avatar: {
     padding: theme.spacing(0.5),
@@ -63,7 +58,7 @@ export interface MiniProps {
 const Mini: FC<MiniProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isDark = theme.palette.type === "dark";
+  const isDark = theme.palette.mode === "dark";
 
   const location = useLocation();
   const title = useTitle();
@@ -89,13 +84,7 @@ const Mini: FC<MiniProps> = (props) => {
       }}
       className={clsx(classes.link, props.className)}
     >
-      <Button
-        className={classes.button}
-        classes={{
-          label: classes.label,
-        }}
-        variant="outlined"
-      >
+      <Button className={classes.button} color="inherit" variant="outlined">
         <Avatar
           alt={image.title}
           src={`${image.file.url}?h=40`}

@@ -12,7 +12,8 @@ import { getBooksGenreFilter, setBooksGenreFilter } from "../../../../../Redux";
 import { useAppDispatch } from "../../../../../Store";
 
 // Material UI Imports
-import { Chip, Tooltip, makeStyles } from "@material-ui/core";
+import { Chip, Tooltip } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 type GenresProps = Book & {
   search?: string;

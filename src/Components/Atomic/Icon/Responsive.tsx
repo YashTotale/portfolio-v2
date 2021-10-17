@@ -7,7 +7,7 @@ import {
   IconButtonProps,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
+} from "@mui/material";
 
 type ResponsiveIconProps = Omit<IconButtonProps, "children"> & {
   children: JSX.Element;

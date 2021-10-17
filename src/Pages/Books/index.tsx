@@ -29,14 +29,9 @@ import { BookSort, BOOKS_SORT } from "../../Redux/books.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import {
-  Button,
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
-import { KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
+import { Button, Typography, useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -61,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     margin: theme.spacing(2, 0),
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       gridTemplateColumns: "1fr",
     },
   },

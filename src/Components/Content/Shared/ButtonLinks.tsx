@@ -5,12 +5,12 @@ import React, { cloneElement, FC } from "react";
 import {
   Button,
   Link,
-  makeStyles,
   Typography,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
-import { GitHub, Launch, LinkedIn } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { GitHub, Launch, LinkedIn } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   links: {
@@ -41,7 +41,7 @@ interface ButtonLinksProps {
 const ButtonLinks: FC<ButtonLinksProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
 
   if (!props.link && !props.github) return null;
   if (!isSizeSmall) return null;
@@ -99,7 +99,7 @@ const ButtonLink: FC<ButtonLinkProps> = (props) => {
       rel="noopener noreferrer"
       className={classes.link}
     >
-      <Button variant="outlined" className={classes.linkButton}>
+      <Button variant="outlined" className={classes.linkButton} color="inherit">
         <Typography variant="body2" className={classes.linkText}>
           View {props.label}
         </Typography>

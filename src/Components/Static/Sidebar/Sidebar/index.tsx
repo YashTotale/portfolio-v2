@@ -9,7 +9,13 @@ import { getIsSidebarOpen, toggleSidebar } from "../../../../Redux";
 import { useAppDispatch } from "../../../../Store";
 
 // Material UI Imports
-import { Drawer, makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import {
+  Drawer,
+  SwipeableDrawer,
+  useMediaQuery,
+  useTheme,
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   drawer: {
@@ -29,26 +35,27 @@ const Sidebar: FC = () => {
   const theme = useTheme();
 
   const isSidebarOpen = useSelector(getIsSidebarOpen);
-  const isSmall = useMediaQuery(theme.breakpoints.down("md"));
+  const isSmall = useMediaQuery(theme.breakpoints.down("lg"));
 
   return (
     <nav className={classes.drawer}>
       {isSmall ? (
-        <Drawer
+        <SwipeableDrawer
           variant="temporary"
-          anchor="left"
+          anchor={theme.direction === "ltr" ? "left" : "right"}
           open={isSidebarOpen}
           onClose={() => dispatch(toggleSidebar(false))}
+          onOpen={() => dispatch(toggleSidebar(true))}
           classes={{
             paper: classes.drawerPaper,
           }}
         >
           <Contents />
-        </Drawer>
+        </SwipeableDrawer>
       ) : (
         <Drawer
           variant="permanent"
-          anchor="left"
+          anchor={theme.direction === "ltr" ? "left" : "right"}
           open
           classes={{
             paper: classes.drawerPaper,

@@ -8,12 +8,8 @@ import {
 } from "../../../../../Utils/Content/experience";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { Typography, useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   titleContainer: {
@@ -25,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     padding: theme.spacing(0, 18),
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       padding: theme.spacing(0, 2),
     },
   },
@@ -42,7 +38,7 @@ type TitleProps = ResolvedExperience;
 const Title: FC<TitleProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <div className={classes.titleContainer}>

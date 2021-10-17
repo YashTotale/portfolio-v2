@@ -2,7 +2,8 @@
 import React, { FC, ReactNode } from "react";
 
 // Material UI Imports
-import { makeStyles, Theme, Tooltip } from "@material-ui/core";
+import { Theme, Tooltip } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 interface StyleProps {
   enabled: boolean;

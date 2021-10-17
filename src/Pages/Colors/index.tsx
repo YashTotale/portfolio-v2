@@ -33,15 +33,15 @@ import { useAppDispatch } from "../../Store";
 import {
   Button,
   capitalize,
-  makeStyles,
   Radio,
   Slider,
   Theme,
   Tooltip,
   Typography,
-} from "@material-ui/core";
-import * as muiColors from "@material-ui/core/colors";
-import { Check } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import * as muiColors from "@mui/material/colors";
+import { Check } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -233,7 +233,7 @@ const ShadeSlider: FC<ShadeSliderProps> = (props) => {
     );
   }, 1000);
 
-  const handleSlide = (e: React.ChangeEvent<any>, index: number | number[]) => {
+  const handleSlide = (e: Event, index: number | number[]) => {
     const i = typeof index === "number" ? index : index[0];
     const newShade = SHADES[i];
     if (newShade !== shade) {
@@ -307,14 +307,14 @@ const useColorBtnStyles = makeStyles<Theme, ColorBtnStyleProps>((theme) => {
       backgroundColor: ({ color }) => color,
       border: `1px solid ${
         theme.palette.text[
-          theme.palette.type === "dark" ? "primary" : "disabled"
+          theme.palette.mode === "dark" ? "primary" : "disabled"
         ]
       }`,
     },
     radioIconSelected: {
       border: ({ isCurrentColor }) =>
         isCurrentColor
-          ? `4px solid ${theme.palette.type === "dark" ? white : black}`
+          ? `4px solid ${theme.palette.mode === "dark" ? white : black}`
           : "none",
       display: "flex",
       justifyContent: "center",

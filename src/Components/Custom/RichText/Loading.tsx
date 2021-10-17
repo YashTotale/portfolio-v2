@@ -2,8 +2,9 @@
 import React, { FC } from "react";
 
 // Material UI Imports
-import { makeStyles, Theme, TypographyProps } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Theme, TypographyProps } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 
 interface StyleProps {
   variant?: TypographyProps["variant"];

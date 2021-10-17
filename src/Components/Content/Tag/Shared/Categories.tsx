@@ -14,7 +14,8 @@ import {
 import { useAppDispatch } from "../../../../Store";
 
 // Material UI Imports
-import { Chip, makeStyles, Theme, Tooltip } from "@material-ui/core";
+import { Chip, Theme, Tooltip } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 interface StyleProps {
   paddingX: number;

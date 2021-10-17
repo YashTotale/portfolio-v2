@@ -31,7 +31,8 @@ import { ArticlesSort, ARTICLES_SORT } from "../../Redux/articles.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { makeStyles, Typography, useTheme } from "@material-ui/core";
+import { Typography, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -47,7 +48,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "stretch",
     flexWrap: "wrap",
-    width: `calc(100% + ${theme.spacing(4)}px)`,
+    width: `calc(100% + ${theme.spacing(4)})`,
 
     "&:after": {
       content: "''",
@@ -78,7 +79,7 @@ const Articles: FC = () => {
   const dispatch = useAppDispatch();
 
   const theme = useTheme();
-  const isDarkMode = theme.palette.type === "dark";
+  const isDarkMode = theme.palette.mode === "dark";
 
   const allTags = getTagsAsRelated("articles", isDarkMode);
   const allExperience = getExperienceAsRelated("articles", isDarkMode);

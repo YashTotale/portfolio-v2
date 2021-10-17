@@ -24,7 +24,8 @@ import {
 import { getArticlesSort, setArticlesSort } from "../../../../Redux";
 
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   article: {
@@ -32,9 +33,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "center",
     justifyContent: "center",
-    width: `calc(50% - ${theme.spacing(4)}px)`,
+    width: `calc(50% - ${theme.spacing(4)})`,
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
     },
   },

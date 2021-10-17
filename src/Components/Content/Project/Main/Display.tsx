@@ -7,7 +7,8 @@ import DynamicImage from "../../../Atomic/DynamicImage";
 import { ResolvedProject } from "../../../../Utils/types";
 
 // Material UI Imports
-import { makeStyles, useMediaQuery, useTheme } from "@material-ui/core";
+import { useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   projectInfo: {
@@ -16,11 +17,11 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     marginTop: theme.spacing(1),
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       justifyContent: "space-between",
     },
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
   },
@@ -55,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-start",
     flex: 1,
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
       alignItems: "center",
     },
@@ -65,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
 const Display: FC<ResolvedProject> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <div className={classes.projectInfo}>

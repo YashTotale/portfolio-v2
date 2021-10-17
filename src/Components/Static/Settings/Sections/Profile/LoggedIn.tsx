@@ -15,13 +15,13 @@ import {
   Button,
   CircularProgress,
   InputAdornment,
-  makeStyles,
   TextField,
   Tooltip,
   useMediaQuery,
   useTheme,
-} from "@material-ui/core";
-import { Check, CloudUpload } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Check, CloudUpload } from "@mui/icons-material";
 import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
@@ -38,14 +38,14 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     margin: theme.spacing(0, 3, 2),
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
   },
   input: {
     margin: theme.spacing(1, 1.5),
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       width: "100%",
       margin: theme.spacing(1, 0),
     },
@@ -60,11 +60,9 @@ const useStyles = makeStyles((theme) => ({
     cursor: "not-allowed",
   },
   logout: {
-    borderColor: theme.palette.error.main,
-    color: theme.palette.error.main,
     marginLeft: "auto",
 
-    [theme.breakpoints.down("sm")]: {
+    [theme.breakpoints.down("md")]: {
       marginLeft: 0,
     },
   },
@@ -273,6 +271,7 @@ const SignOutButton: FC = () => {
   return (
     <Button
       variant="outlined"
+      color="error"
       onClick={() => {
         auth.signOut().then(() =>
           enqueueSnackbar("Signed Out", {

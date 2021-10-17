@@ -11,7 +11,7 @@ import { generatePageTitle } from "../../Utils/funcs";
 import { getTag, useSortedTags } from "../../Utils/Content/tags";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   container: {

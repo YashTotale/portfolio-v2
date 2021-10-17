@@ -6,14 +6,14 @@ import { Filter } from "./index";
 // Material UI Imports
 import {
   FormControl,
-  makeStyles,
   MenuItem,
   Select,
   InputLabel,
   useTheme,
   useMediaQuery,
-} from "@material-ui/core";
-import { Replay } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Replay } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   itemSelected: {

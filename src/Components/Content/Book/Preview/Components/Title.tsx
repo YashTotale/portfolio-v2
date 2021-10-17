@@ -4,7 +4,8 @@ import MatchHighlight from "../../../../Atomic/MatchHighlight";
 import { Book } from "../../../../../Utils/types";
 
 // Material UI Imports
-import { Link, makeStyles, Typography } from "@material-ui/core";
+import { Link, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   title: {

@@ -10,7 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getLastNav, popHistory } from "../../../Redux";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   topNav: {

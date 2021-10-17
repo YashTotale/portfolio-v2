@@ -7,14 +7,14 @@ import { generateSidebarPath } from "./Contents";
 // Material UI Imports
 import {
   List,
-  makeStyles,
   ListItem,
   ListItemText,
   Collapse,
   Theme,
   ListItemIcon,
-} from "@material-ui/core";
-import { ExpandLess } from "@material-ui/icons";
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { ExpandLess } from "@mui/icons-material";
 
 interface StyleProps {
   open: boolean;
@@ -70,7 +70,7 @@ const Category: FC<CategoryProps> = ({ label, to, icon, children }) => {
           <ListItemIcon className={classes.listItemIcon}>
             {cloneElement(icon, {
               fontSize: "small",
-              color: isActive ? "primary" : "action",
+              color: isActive ? "primary" : "inherit",
             })}
           </ListItemIcon>
           <ListItemText

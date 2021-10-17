@@ -4,13 +4,8 @@ import FloatingIcons from "../../../Shared/FloatingIcons";
 import { ResolvedProject } from "../../../../../Utils/types";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Theme,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
+import { Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 interface StyleProps {
   icons: string[];
@@ -34,7 +29,7 @@ type TitleProps = ResolvedProject;
 
 const Title: FC<TitleProps> = (props) => {
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
 
   const icons: string[] = [props.github, props.link].filter(
     (icon): icon is string => typeof icon === "string"

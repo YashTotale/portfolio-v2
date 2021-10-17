@@ -3,7 +3,8 @@ import React, { FC } from "react";
 import clsx from "clsx";
 
 // Material UI Imports
-import { Divider, makeStyles, Theme } from "@material-ui/core";
+import { Divider, Theme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 interface StyleProps {
   width: number;

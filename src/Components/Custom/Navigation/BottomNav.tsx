@@ -6,7 +6,7 @@ import { useTitle } from "../../../Context/HeadContext";
 import { generateSearch } from "../../../Utils/funcs";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   bottomNav: {

@@ -4,7 +4,8 @@ import clsx from "clsx";
 import { Badge as BadgeFields } from "../../../Utils/types";
 
 // Material UI Imports
-import { Link, makeStyles } from "@material-ui/core";
+import { Link } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   badge: {},

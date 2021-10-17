@@ -3,7 +3,8 @@ import React, { forwardRef } from "react";
 import clsx from "clsx";
 
 // Material UI Imports
-import { makeStyles, Paper, PaperProps, Theme } from "@material-ui/core";
+import { Paper, PaperProps, Theme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 interface StyleProps {
   elevation: number;
@@ -18,7 +19,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     }),
     "&:hover": {
       boxShadow: ({ elevationOnHover }) => theme.shadows[elevationOnHover],
-      transform: `scale(1.01) translate(0, -${theme.spacing(0.5)}px)`,
+      transform: `scale(1.01) translate(0, -${theme.spacing(0.5)})`,
     },
   },
 }));

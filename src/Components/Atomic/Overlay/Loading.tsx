@@ -4,8 +4,8 @@ import clsx from "clsx";
 import { OverlayProps, Size, SIZES } from "./Overlay";
 
 // Material UI Imports
-import { makeStyles, Theme, useTheme } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Theme, useTheme, Skeleton } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 interface StyleProps {
   size: Size;
@@ -15,7 +15,7 @@ interface StyleProps {
 
 const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   skeleton: ({ size }) => ({
-    border: `${theme.spacing(0.5)}px solid ${theme.palette.text.primary}`,
+    border: `${theme.spacing(0.5)} solid ${theme.palette.text.primary}`,
     borderRadius: ({ borderRadius }) => borderRadius,
     padding: ({ padding }) => padding,
 
@@ -56,7 +56,7 @@ const Loading: FC<OverlayProps> = (props) => {
 
   return (
     <Skeleton
-      variant="rect"
+      variant="rectangular"
       className={clsx(classes.skeleton, props.className)}
     />
   );

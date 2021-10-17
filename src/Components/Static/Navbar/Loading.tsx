@@ -3,8 +3,8 @@ import React, { FC } from "react";
 import { SIDEBAR_WIDTH } from "../../../Utils/constants";
 
 // Material UI Imports
-import { makeStyles } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   skeleton: {
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
 const Loading: FC = (props) => {
   const classes = useStyles();
 
-  return <Skeleton variant="rect" className={classes.skeleton} />;
+  return <Skeleton variant="rectangular" className={classes.skeleton} />;
 };
 
 export default Loading;

@@ -20,14 +20,15 @@ import { getTagsSort, setTagsSort } from "../../../../Redux";
 import { TagsSort } from "../../../../Redux/tags.slice";
 
 // Material UI Imports
-import { makeStyles, Typography, useTheme } from "@material-ui/core";
+import { Typography, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 import {
   AssignmentTurnedIn,
   Build,
   Description,
   School,
   Work,
-} from "@material-ui/icons";
+} from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -123,7 +124,7 @@ const Preview: FC<PreviewProps> = (props) => {
 
   if (!tag) return null;
 
-  const isDark = theme.palette.type === "dark";
+  const isDark = theme.palette.mode === "dark";
   const icon = isDark ? tag.darkIcon : tag.lightIcon;
 
   const generateLink = (type: string) => ({
@@ -181,7 +182,7 @@ const useRelatedStyles = makeStyles((theme) => ({
     margin: theme.spacing(0.5, 0),
   },
   icon: {
-    marginRight: theme.spacing(0.75),
+    marginRight: theme.spacing(1),
   },
   label: {
     maxHeight: theme.spacing(3.5),

@@ -5,13 +5,9 @@ import FloatingIcons from "../../../Shared/FloatingIcons";
 import { ResolvedEducation } from "../../../../../Utils/types";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useMediaQuery,
-  useTheme,
-} from "@material-ui/core";
-import { Description } from "@material-ui/icons";
+import { Typography, useMediaQuery, useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Description } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   titleContainer: {
@@ -40,7 +36,7 @@ type TitleProps = ResolvedEducation & {
 const Title: FC<TitleProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("sm"));
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
 
   return (
     <div className={classes.titleContainer}>

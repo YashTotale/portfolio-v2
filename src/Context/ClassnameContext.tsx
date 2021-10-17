@@ -1,7 +1,8 @@
 // React Imports
 import React, { FC } from "react";
-import { createGenerateClassName, StylesProvider } from "@material-ui/core";
-import { StylesOptions } from "@material-ui/styles/StylesProvider";
+import createGenerateClassName from "@mui/styles/createGenerateClassName";
+import StylesProvider from "@mui/styles/StylesProvider";
+import { StylesOptions } from "@mui/styles/StylesProvider";
 
 let counter = 0;
 

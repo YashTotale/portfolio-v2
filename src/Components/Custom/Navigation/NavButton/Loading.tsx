@@ -4,8 +4,9 @@ import clsx from "clsx";
 import { NavButtonProps } from "./NavButton";
 
 // Material UI Imports
-import { makeStyles, Theme } from "@material-ui/core";
-import { Skeleton } from "@material-ui/lab";
+import { Theme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Skeleton } from "@mui/material";
 
 interface StyleProps {
   type: NavButtonProps["type"];
@@ -35,7 +36,7 @@ const Loading: FC<NavButtonProps> = (props) => {
 
   return (
     <Skeleton
-      variant="rect"
+      variant="rectangular"
       className={clsx(classes.skeleton, props.className)}
     />
   );

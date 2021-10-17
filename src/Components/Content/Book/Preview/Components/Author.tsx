@@ -4,23 +4,14 @@ import MatchHighlight from "../../../../Atomic/MatchHighlight";
 import { Book } from "../../../../../Utils/types";
 
 // Material UI Imports
-import { Link, makeStyles } from "@material-ui/core";
-
-const useStyles = makeStyles((theme) => ({
-  author: {
-    color:
-      theme.palette.type === "dark"
-        ? theme.palette.grey[300]
-        : theme.palette.grey[700],
-  },
-}));
+import { Link, useTheme } from "@mui/material";
 
 type AuthorProps = Book & {
   search?: string;
 };
 
 const Author: FC<AuthorProps> = (props) => {
-  const classes = useStyles();
+  const theme = useTheme();
 
   return (
     <Link
@@ -28,7 +19,11 @@ const Author: FC<AuthorProps> = (props) => {
       target="_blank"
       rel="noopener noreferrer"
       variant="subtitle1"
-      className={classes.author}
+      color={
+        theme.palette.mode === "dark"
+          ? theme.palette.grey[300]
+          : theme.palette.grey[800]
+      }
     >
       <MatchHighlight toMatch={props.search}>{props.author}</MatchHighlight>
     </Link>

@@ -36,7 +36,8 @@ import { ExperienceSort, EXPERIENCE_SORT } from "../../Redux/experience.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { makeStyles, useTheme, Typography } from "@material-ui/core";
+import { useTheme, Typography } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -66,7 +67,7 @@ const Experience: FC = () => {
   const dispatch = useAppDispatch();
 
   const theme = useTheme();
-  const isDarkMode = theme.palette.type === "dark";
+  const isDarkMode = theme.palette.mode === "dark";
 
   const allTypes = getExperienceTypes();
   const allTags = getTagsAsRelated("experience", isDarkMode);

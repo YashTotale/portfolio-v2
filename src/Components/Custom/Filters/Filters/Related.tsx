@@ -1,12 +1,11 @@
 // React Imports
-import React, { FC, ChangeEvent } from "react";
+import React, { FC } from "react";
 import clsx from "clsx";
 import { Filter } from "./index";
 
 // Material UI Imports
 import {
   FormControl,
-  makeStyles,
   MenuItem,
   Select,
   useMediaQuery,
@@ -15,8 +14,10 @@ import {
   ListItemAvatar,
   Avatar,
   Typography,
-} from "@material-ui/core";
-import { Clear } from "@material-ui/icons";
+  SelectChangeEvent,
+} from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
+import { Clear } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   itemSelected: {
@@ -72,9 +73,9 @@ const Related: FC<RelatedProps> = (props) => {
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const handleChange = (event: ChangeEvent<{ value: any }>) => {
+  const handleChange = (event: SelectChangeEvent<string | string[] | null>) => {
     isMultiValue(props)
-      ? props.onChange(event.target.value as string[])
+      ? props.onChange((event.target.value as unknown) as string[])
       : props.onChange(event.target.value as string);
   };
 
@@ -105,12 +106,9 @@ const Related: FC<RelatedProps> = (props) => {
           multiple={isMultiValue(props)}
           value={props.value}
           onChange={handleChange}
-          renderValue={(val) =>
-            isMultiValue(props) ? (
-              <>{(val as string[]).join(", ")}</>
-            ) : (
-              (val as string)
-            )
+          size={isSizeXS ? "small" : "medium"}
+          renderValue={(value) =>
+            Array.isArray(value) ? value.join(", ") : value
           }
         >
           {values.map((v) => {

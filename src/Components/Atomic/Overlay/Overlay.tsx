@@ -5,13 +5,8 @@ import { Link, LinkProps } from "react-router-dom";
 import { Asset } from "contentful";
 
 // Material UI Imports
-import {
-  makeStyles,
-  Typography,
-  useTheme,
-  Theme,
-  useMediaQuery,
-} from "@material-ui/core";
+import { Typography, useTheme, Theme, useMediaQuery } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 export type Size = "medium" | "small";
 export const SIZES = [175, 150, 150, 125, 100, 75];
@@ -62,7 +57,7 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
     alignItems: "center",
     justifySelf: "center",
     position: "relative",
-    border: `${theme.spacing(0.5)}px solid ${theme.palette.text.primary}`,
+    border: `${theme.spacing(0.5)} solid ${theme.palette.text.primary}`,
     borderRadius: ({ borderRadius }) => borderRadius,
     padding: ({ padding }) => padding,
     width: "100%",
@@ -94,8 +89,8 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
       duration: "0.4s",
     }),
     // Clipping
-    maxHeight: `calc(100% - ${theme.spacing(2)}px)`,
-    maxWidth: `calc(100% - ${theme.spacing(2)}px)`,
+    maxHeight: `calc(100% - ${theme.spacing(2)})`,
+    maxWidth: `calc(100% - ${theme.spacing(2)})`,
     textOverflow: "ellipsis",
     overflowX: "hidden",
     overflowY: "scroll",

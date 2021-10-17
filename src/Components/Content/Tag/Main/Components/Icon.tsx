@@ -4,7 +4,8 @@ import DynamicImage from "../../../../Atomic/DynamicImage";
 import { ResolvedTag } from "../../../../../Utils/types";
 
 // Material UI Imports
-import { makeStyles, useTheme } from "@material-ui/core";
+import { useTheme } from "@mui/material";
+import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
   icon: {
@@ -38,7 +39,7 @@ const Icon: FC<IconProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
 
-  const isDark = theme.palette.type === "dark";
+  const isDark = theme.palette.mode === "dark";
   const icon = isDark ? props.darkIcon : props.lightIcon;
 
   return (
