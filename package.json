@@ -112,6 +112,7 @@
     "webpack-bundle-analyzer": "^4.4.2"
   },
   "reactSnap": {
+    "inlineCss": true,
     "puppeteerArgs": [
       "--no-sandbox",
       "--disable-setuid-sandbox",
