@@ -161,7 +161,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           />
         </div>
       </div>
-      {experience.projects.length || experience.articles.length ? (
+      {!!experience.projects.length || !!experience.articles.length ? (
         <>
           <div className={classes.minis}>
             {experience.projects.map((project) => (
@@ -185,7 +185,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           </div>
         </>
       ) : null}
-      {experience.tags.length && (
+      {!!experience.tags.length && (
         <div className={classes.tags}>
           {experience.tags.map((tag) => (
             <TagMini key={tag.id} id={tag.id} search={props.search} />

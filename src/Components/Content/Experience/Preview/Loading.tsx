@@ -9,7 +9,7 @@ import { Skeleton } from "@material-ui/lab";
 const useStyles = makeStyles((theme) => ({
   skeleton: {
     margin: theme.spacing(2, 0),
-    height: 700,
+    height: 550,
     width: "100%",
   },
 }));

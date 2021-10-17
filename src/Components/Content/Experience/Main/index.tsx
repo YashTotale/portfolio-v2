@@ -159,11 +159,17 @@ const Main: FC<MainProps> = (props) => {
             ))}
           </MainContainer>
         )}
-        <MainContainer title="Related Tags" direction="row">
-          {experience.tags.map((tag) => (
-            <TagOverlay key={tag.id} id={tag.id} className={classes.overlay} />
-          ))}
-        </MainContainer>
+        {!!experience.tags.length && (
+          <MainContainer title="Related Tags" direction="row">
+            {experience.tags.map((tag) => (
+              <TagOverlay
+                key={tag.id}
+                id={tag.id}
+                className={classes.overlay}
+              />
+            ))}
+          </MainContainer>
+        )}
       </div>
     </Paper>
   );
