@@ -18,6 +18,7 @@ import {
   makeStyles,
   TextField,
   Tooltip,
+  useMediaQuery,
   useTheme,
 } from "@material-ui/core";
 import { Check, CloudUpload } from "@material-ui/icons";
@@ -43,6 +44,11 @@ const useStyles = makeStyles((theme) => ({
   },
   input: {
     margin: theme.spacing(1, 1.5),
+
+    [theme.breakpoints.down("sm")]: {
+      width: "100%",
+      margin: theme.spacing(1, 0),
+    },
   },
   saveIcon: {
     cursor: "pointer",
@@ -57,6 +63,10 @@ const useStyles = makeStyles((theme) => ({
     borderColor: theme.palette.error.main,
     color: theme.palette.error.main,
     marginLeft: "auto",
+
+    [theme.breakpoints.down("sm")]: {
+      marginLeft: 0,
+    },
   },
 }));
 
@@ -66,6 +76,8 @@ interface LoggedInProps {
 
 const LoggedIn: FC<LoggedInProps> = (props) => {
   const classes = useStyles();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
     <div className={classes.container}>
@@ -78,6 +90,7 @@ const LoggedIn: FC<LoggedInProps> = (props) => {
           type="email"
           label="Email"
           variant="outlined"
+          size={isSizeXS ? "small" : "medium"}
           disabled
           className={classes.input}
           inputProps={{
@@ -95,8 +108,8 @@ const useProfilePictureStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: theme.spacing(7),
-    width: theme.spacing(7),
+    height: 56,
+    width: 56,
     margin: theme.spacing(1, 1.5),
     cursor: "pointer",
     position: "relative",
@@ -192,6 +205,7 @@ const ProfilePicture: FC<LoggedInProps> = (props) => {
 const NameField: FC<LoggedInProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const { enqueueSnackbar } = useClosableSnackbar();
   const [name, setName] = useState(props.user.name);
   const [isNameSaving, setNameSaving] = useState(false);
@@ -221,6 +235,7 @@ const NameField: FC<LoggedInProps> = (props) => {
       type="text"
       label="Name"
       variant="outlined"
+      size={isSizeXS ? "small" : "medium"}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">

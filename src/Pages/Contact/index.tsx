@@ -34,12 +34,12 @@ import {
 import { Rating } from "@material-ui/lab";
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    marginTop: theme.spacing(0.5),
+  divider: {
+    margin: theme.spacing(1.5, 0, 1),
   },
   container: {
     width: "100%",
-    marginTop: theme.spacing(1.5),
+    marginTop: theme.spacing(2),
     padding: theme.spacing(2),
   },
   form: {
@@ -179,8 +179,8 @@ const Contact: FC = () => {
       <Helmet>
         <title>{generatePageTitle("Contact")}</title>
       </Helmet>
-      <HorizontalDivider />
-      <Typography align="center" variant="h4" className={classes.title}>
+      <HorizontalDivider className={classes.divider} />
+      <Typography align="center" variant="h4">
         Let&apos;s get in touch!
       </Typography>
       <Paper className={classes.container}>
