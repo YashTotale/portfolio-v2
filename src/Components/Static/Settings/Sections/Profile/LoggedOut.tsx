@@ -30,6 +30,7 @@ const NotLoggedIn: FC = () => {
           signInOptions: [
             firebase.auth.GoogleAuthProvider.PROVIDER_ID,
             firebase.auth.GithubAuthProvider.PROVIDER_ID,
+            firebase.auth.FacebookAuthProvider.PROVIDER_ID,
           ],
           signInFlow: "popup",
           callbacks: {
