@@ -1,6 +1,6 @@
 // React Imports
 import { useEffect } from "react";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 import { getSearch } from "../Utils/funcs";
 
 // Firebase Imports
