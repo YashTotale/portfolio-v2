@@ -27,7 +27,10 @@ const NotLoggedIn: FC = () => {
       <StyledFirebaseAuth
         firebaseAuth={auth}
         uiConfig={{
-          signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+          signInOptions: [
+            firebase.auth.GoogleAuthProvider.PROVIDER_ID,
+            firebase.auth.GithubAuthProvider.PROVIDER_ID,
+          ],
           signInFlow: "popup",
           callbacks: {
             signInSuccessWithAuthResult(result) {
