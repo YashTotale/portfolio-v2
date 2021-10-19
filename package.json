@@ -18,7 +18,7 @@
   },
   "scripts": {
     "make": "bash ./scripts/make.sh",
-    "build": "bash ./scripts/build.sh",
+    "build": "react-scripts build --stats",
     "eject": "react-scripts eject",
     "start": "NODE_ENV=development react-scripts start",
     "test": "react-scripts test --passWithNoTests",
