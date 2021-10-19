@@ -5,11 +5,15 @@ import FloatingIcons from "../../../Shared/FloatingIcons";
 import { ResolvedEducation } from "../../../../../Utils/types";
 
 // Material UI Imports
-import { Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import { Description } from "@mui/icons-material";
 
-const useStyles = makeStyles((theme) => ({
+interface StyleProps {
+  hasProviderOrLinks: boolean;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   titleContainer: {
     display: "flex",
     flexDirection: "column",
@@ -17,14 +21,16 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     position: "relative",
     width: "100%",
-    padding: theme.spacing(0, 18),
+    padding: ({ hasProviderOrLinks }) =>
+      hasProviderOrLinks ? theme.spacing(0, 18) : theme.spacing(0, 2),
 
     [theme.breakpoints.only("sm")]: {
-      padding: theme.spacing(0, 9),
+      padding: ({ hasProviderOrLinks }) =>
+        hasProviderOrLinks ? theme.spacing(0, 9) : theme.spacing(0, 2),
     },
 
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(0, 8),
+      padding: () => theme.spacing(0, 2),
     },
   },
 }));
@@ -34,13 +40,16 @@ type TitleProps = ResolvedEducation & {
 };
 
 const Title: FC<TitleProps> = (props) => {
-  const classes = useStyles();
+  const classes = useStyles({
+    hasProviderOrLinks:
+      !!props.provider || !!(props.link || props.github || props.certificate),
+  });
   const theme = useTheme();
   const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
     <div className={classes.titleContainer}>
-      <Provider {...props} />
       <Typography variant={isSizeSmall ? "h5" : "h4"} align="center">
         {props.title}
       </Typography>
@@ -51,6 +60,7 @@ const Title: FC<TitleProps> = (props) => {
       >
         {props.type}
       </Typography>
+      <Provider {...props} position={isSizeXS ? "static" : "absolute"} />
       {!isSizeSmall && (
         <FloatingIcons
           link={props.link}

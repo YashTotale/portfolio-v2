@@ -3,25 +3,17 @@ import React, { forwardRef } from "react";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
+import Footer from "./Components/Footer";
 import Provider from "../Shared/Provider";
-import Timeline from "../../Shared/Timeline";
-import FloatingIcons from "../../Shared/FloatingIcons";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import RichText from "../../../Custom/RichText";
 import TagMini from "../../Tag/Mini";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
-import {
-  generateEducationTimeline,
-  getSingleEducation,
-} from "../../../../Utils/Content/education";
-
-// Redux Imports
-import { getEducationSort, setEducationSort } from "../../../../Redux";
+import { getSingleEducation } from "../../../../Utils/Content/education";
 
 // Material UI Imports
 import { useMediaQuery, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import { Description } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -59,23 +51,6 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     padding: theme.spacing(1, 2),
   },
-  footer: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    position: "relative",
-    width: "100%",
-    minHeight: theme.spacing(6),
-
-    [theme.breakpoints.only("xs")]: {
-      flexDirection: "column",
-      justifyContent: "start",
-      minHeight: theme.spacing(8),
-    },
-  },
-  timeline: {
-    margin: theme.spacing(1),
-  },
 }));
 
 export interface PreviewProps {
@@ -87,6 +62,7 @@ export interface PreviewProps {
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
   const theme = useTheme();
+  const isSizeSmall = useMediaQuery(theme.breakpoints.down("md"));
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const education = getSingleEducation(props.id);
@@ -98,8 +74,11 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
       className={clsx(classes.container, props.className)}
     >
       <div className={classes.display}>
-        <Provider {...education} />
         <Title {...education} search={props.search} />
+        <Provider
+          {...education}
+          position={isSizeSmall ? "static" : "absolute"}
+        />
       </div>
       <div className={classes.info}>
         <div className={classes.description}>
@@ -120,35 +99,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         </>
       )}
       <HorizontalDivider />
-      <div className={classes.footer}>
-        <Timeline
-          sort="Latest"
-          contentType="education"
-          getCurrentSort={getEducationSort}
-          setCurrentSort={setEducationSort}
-          search={props.search}
-          className={classes.timeline}
-        >
-          {generateEducationTimeline(education)}
-        </Timeline>
-        <FloatingIcons
-          linkLabel="Website"
-          link={education.link}
-          github={education.github}
-          direction="row"
-          top={isSizeXS ? 3.5 : 0.5}
-          right={isSizeXS ? "auto" : undefined}
-          icons={
-            education.certificate && [
-              {
-                label: "Certificate",
-                value: education.certificate.file.url,
-                icon: <Description />,
-              },
-            ]
-          }
-        />
-      </div>
+      <Footer {...education} search={props.search} />
     </DynamicPaper>
   );
 });

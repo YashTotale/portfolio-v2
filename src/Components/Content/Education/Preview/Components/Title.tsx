@@ -18,10 +18,14 @@ import {
 import { useAppDispatch } from "../../../../../Store";
 
 // Material UI Imports
-import { Typography, useMediaQuery, useTheme } from "@mui/material";
+import { Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 
-const useStyles = makeStyles((theme) => ({
+interface StyleProps {
+  hasProvider: boolean;
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   title: {
     whiteSpace: "nowrap",
     overflow: "hidden",
@@ -29,19 +33,20 @@ const useStyles = makeStyles((theme) => ({
     textAlign: "center",
     width: "100%",
     marginTop: theme.spacing(1),
-    padding: theme.spacing(0, 12),
+    padding: ({ hasProvider }) =>
+      hasProvider ? theme.spacing(0, 12) : theme.spacing(0, 2),
 
-    [theme.breakpoints.only("sm")]: {
-      padding: theme.spacing(0, 9),
-    },
-
-    [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(0, 8),
+    [theme.breakpoints.down("md")]: {
+      padding: () => theme.spacing(0, 2),
     },
   },
   subtitle: {
-    marginBottom: theme.spacing(1),
+    margin: theme.spacing(1),
     maxHeight: theme.spacing(3.5),
+
+    [theme.breakpoints.down("md")]: {
+      marginBottom: 0,
+    },
   },
 }));
 
@@ -50,7 +55,9 @@ type TitleProps = ResolvedEducation & {
 };
 
 const Title: FC<TitleProps> = (props) => {
-  const classes = useStyles();
+  const classes = useStyles({
+    hasProvider: !!props.provider,
+  });
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -77,22 +84,19 @@ const Title: FC<TitleProps> = (props) => {
       >
         {props.title}
       </StyledLink>
-      <Subtitle {...props} />
+      <Subtitle {...props} classes={classes} />
     </>
   );
 };
 
 type SubtitleProps = ResolvedEducation & {
   search?: string;
+  classes: ReturnType<typeof useStyles>;
 };
 
 const Subtitle: FC<SubtitleProps> = (props) => {
   const dispatch = useAppDispatch();
-  const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
-
-  const theme = useTheme();
-  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const typeFilter = useSelector(getEducationTypeFilter);
   const alreadyFiltered = typeFilter === props.type;
@@ -133,9 +137,9 @@ const Subtitle: FC<SubtitleProps> = (props) => {
 
   return (
     <Typography
-      variant={isSizeXS ? "subtitle2" : "subtitle1"}
+      variant="body1"
       color="textSecondary"
-      className={classes.subtitle}
+      className={props.classes.subtitle}
     >
       <DynamicUnderline
         tooltipLabel={`Filter by '${props.type}'`}

@@ -5,23 +5,35 @@ import { ResolvedEducation } from "../../../../Utils/types";
 import { getAsset } from "../../../../Utils/Content/assets";
 
 // Material UI Imports
-import { Link, Tooltip } from "@mui/material";
+import { Link, Theme, Tooltip } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
+import { Properties } from "csstype";
 
-const useStyles = makeStyles((theme) => ({
+interface StyleProps {
+  position: Properties["position"];
+}
+
+const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
   provider: {
     display: "flex",
     justifyContent: "stretch",
     alignItems: "stretch",
-    position: "absolute",
-    left: theme.spacing(1),
+    position: ({ position }) => position,
+    left: ({ position }) =>
+      position === "absolute" ? theme.spacing(1) : "auto",
     maxWidth: 65,
     maxHeight: 65,
     padding: theme.spacing(1),
 
+    [theme.breakpoints.only("sm")]: {
+      maxWidth: 55,
+      maxHeight: 55,
+    },
+
     [theme.breakpoints.only("xs")]: {
-      maxWidth: 45,
-      maxHeight: 45,
+      maxWidth: 40,
+      maxHeight: 40,
+      padding: theme.spacing(0.5),
     },
   },
   providerImage: {
@@ -30,10 +42,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-type ProviderProps = ResolvedEducation;
+type ProviderProps = ResolvedEducation & {
+  position?: Properties["position"];
+};
 
 const Provider: FC<ProviderProps> = (props) => {
-  const classes = useStyles();
+  const classes = useStyles({
+    position: props.position ?? "absolute",
+  });
 
   if (!props.provider) return null;
 
