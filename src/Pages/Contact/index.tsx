@@ -275,9 +275,9 @@ const InputField: FC<InputFieldProps> = (props) => {
   const textareaProps = { multiline: true, rows: 2, rowsMax: 20 };
   const error = formState.errors[props.name];
 
-  const required = props.required ?? "This field is required";
   const label =
-    props.label ?? `${capitalize(props.name)}${required ? "*" : ""}`;
+    props.label ??
+    `${capitalize(props.name)}${props.required !== false ? "*" : ""}`;
 
   return (
     <TextField
