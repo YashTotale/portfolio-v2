@@ -206,29 +206,15 @@ const EmailPassword: FC = () => {
         </Button>
       </form>
       <Typography variant="body2" className={classes.bottomText}>
-        {isSignIn ? (
-          <>
-            Don&apos;t have an account?{" "}
-            <Link
-              component="button"
-              onClick={() => setIsSignIn(false)}
-              className={classes.changeSignIn}
-            >
-              Register!
-            </Link>
-          </>
-        ) : (
-          <>
-            Already have an account?{" "}
-            <Link
-              component="button"
-              onClick={() => setIsSignIn(true)}
-              className={classes.changeSignIn}
-            >
-              Sign In!
-            </Link>
-          </>
-        )}
+        {isSignIn ? "Don't" : "Already"} have an account?{" "}
+        <Link
+          component="button"
+          variant="body2"
+          onClick={() => setIsSignIn(!isSignIn)}
+          className={classes.changeSignIn}
+        >
+          {isSignIn ? "Register" : "Sign In"}!
+        </Link>
       </Typography>
     </div>
   );
