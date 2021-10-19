@@ -1,26 +1,27 @@
 // React Imports
 import React, { FC } from "react";
+
+// Material UI Imports
+import { GenerateId } from "jss";
 import createGenerateClassName from "@mui/styles/createGenerateClassName";
 import StylesProvider from "@mui/styles/StylesProvider";
-import { StylesOptions } from "@mui/styles/StylesProvider";
 
-let counter = 0;
+const generateClassNameOptions = (): GenerateId => {
+  const isDev = process.env.NODE_ENV === "development";
+  const isReactSnap = navigator.userAgent === "ReactSnap";
 
-const generateClassName: StylesOptions["generateClassName"] = (rule, sheet) => {
-  const randomStr =
-    Math.random().toString(36).substring(2, 4) +
-    Math.random().toString(36).substring(2, 4);
-
-  return `jss-${counter++}-${randomStr}`;
+  return createGenerateClassName(
+    isDev
+      ? {}
+      : {
+          productionPrefix: isReactSnap ? "snap" : "jss",
+        }
+  );
 };
 
 export const ClassnameProvider: FC = ({ children }) => {
-  const isDev = process.env.NODE_ENV === "development";
-
   return (
-    <StylesProvider
-      generateClassName={isDev ? createGenerateClassName() : generateClassName}
-    >
+    <StylesProvider generateClassName={generateClassNameOptions()}>
       {children}
     </StylesProvider>
   );
