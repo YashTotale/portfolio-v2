@@ -12,6 +12,7 @@ import { UserProvider } from "./Context/UserContext";
 // Components
 import Navbar from "./Components/Static/Navbar";
 import Footer from "./Components/Static/Footer";
+import Popup from "./Components/Static/Popup";
 import Sidebar from "./Components/Static/Sidebar";
 import NavController from "./Components/Static/NavController";
 import Loading from "./Components/Static/Loading";
@@ -63,6 +64,7 @@ const App: FC = () => {
         <UserProvider>
           <NavController />
           <Navbar />
+          <Popup />
           <Sidebar />
           <Routes />
         </UserProvider>

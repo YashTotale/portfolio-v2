@@ -8,11 +8,17 @@ import "firebase/auth";
 import firebase, { useAuth } from "../../../../../Utils/Config/firebase";
 import { StyledFirebaseAuth } from "react-firebaseui";
 
+// Redux Imports
+import { changePopupState } from "../../../../../Redux";
+import { PopupState } from "../../../../../Redux/display.slice";
+import { useAppDispatch } from "../../../../../Store";
+
 // Material UI Imports
 import makeStyles from "@mui/styles/makeStyles";
 import {
   Button,
   CircularProgress,
+  FormHelperText,
   IconButton,
   InputAdornment,
   Link,
@@ -87,6 +93,7 @@ interface SignInInputs {
 
 const EmailPassword: FC = () => {
   const classes = useStyles();
+  const dispatch = useAppDispatch();
   const auth = useAuth();
   const { register, formState, handleSubmit } = useForm<SignInInputs>({
     mode: "onChange",
@@ -185,6 +192,16 @@ const EmailPassword: FC = () => {
             required: "Password is required",
           })}
         />
+        <FormHelperText className={classes.forgotPassword}>
+          <Link
+            component="button"
+            onClick={() =>
+              dispatch(changePopupState(PopupState.FORGOT_PASSWORD))
+            }
+          >
+            Forgot Password?
+          </Link>
+        </FormHelperText>
         <Button
           variant="contained"
           type="submit"

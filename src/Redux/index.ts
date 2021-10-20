@@ -8,6 +8,7 @@ export {
   // -> Selectors
   getIsDarkMode,
   getIsSidebarOpen,
+  getPopupState,
   getSpacing,
   getDirection,
   getColors,
@@ -16,6 +17,7 @@ export {
   // -> Actions
   toggleDarkMode,
   toggleSidebar,
+  changePopupState,
   changeSpacing,
   changeDirection,
   changeColor,

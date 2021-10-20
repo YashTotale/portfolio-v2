@@ -44,7 +44,7 @@ const Subsection: FC<SubsectionProps> = (props) => {
 
   const icon = cloneElement(props.icon, {
     className: classes.icon,
-    fontSize: isSizeXS ? "small" : "default",
+    fontSize: isSizeXS ? "small" : "medium",
   });
 
   return (

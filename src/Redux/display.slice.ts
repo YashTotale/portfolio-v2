@@ -50,9 +50,15 @@ export const SHADES = [
 ] as const;
 export type Shade = typeof SHADES[number];
 
+export enum PopupState {
+  FORGOT_PASSWORD = "forgot_password",
+  CLOSED = "none",
+}
+
 export interface DisplayState {
   isDarkMode: boolean | null;
   isSidebarOpen: boolean;
+  popupState: PopupState;
   spacing: Spacing;
   direction: Direction;
   colors: Record<Scheme, Color>;
@@ -62,6 +68,7 @@ export interface DisplayState {
 export const initialDisplayState: DisplayState = {
   isDarkMode: null,
   isSidebarOpen: false,
+  popupState: PopupState.CLOSED,
   spacing: DEFAULT_SPACING,
   direction: DEFAULT_DIRECTION,
   colors: {
@@ -85,6 +92,13 @@ const displaySlice = createSlice({
     toggleSidebar: (state, action: PayloadAction<boolean | undefined>) => ({
       ...state,
       isSidebarOpen: action.payload ?? !state.isSidebarOpen,
+    }),
+    changePopupState: (
+      state,
+      action: PayloadAction<DisplayState["popupState"]>
+    ) => ({
+      ...state,
+      popupState: action.payload,
     }),
     changeSpacing: (state, action: PayloadAction<DisplayState["spacing"]>) => ({
       ...state,
@@ -146,6 +160,7 @@ const displaySlice = createSlice({
 export const {
   toggleDarkMode,
   toggleSidebar,
+  changePopupState,
   changeSpacing,
   changeDirection,
   changeColor,
@@ -161,6 +176,9 @@ export const getIsDarkMode = (state: RootState): DisplayState["isDarkMode"] =>
 export const getIsSidebarOpen = (
   state: RootState
 ): DisplayState["isSidebarOpen"] => state.display.isSidebarOpen;
+
+export const getPopupState = (state: RootState): DisplayState["popupState"] =>
+  state.display.popupState;
 
 export const getSpacing = (state: RootState): DisplayState["spacing"] =>
   state.display.spacing;
