@@ -17,7 +17,7 @@ import { generatePageTitle } from "../../Utils/funcs";
 
 // Firebase Imports
 import "firebase/firestore";
-import { useFirestore } from "../../Utils/Config/firebase";
+import { getFirestore } from "../../Utils/Config/firebase";
 
 // Material UI Imports
 import {
@@ -79,7 +79,7 @@ interface Inputs {
 const Contact: FC = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
-  const firestore = useFirestore();
+  const firestore = getFirestore();
   const user = useUser();
 
   const theme = useTheme();

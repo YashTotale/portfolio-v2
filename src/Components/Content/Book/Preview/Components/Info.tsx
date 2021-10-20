@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, Fragment } from "react";
 import Genres from "./Genres";
 import { useClosableSnackbar } from "../../../../../Hooks";
 import HorizontalDivider from "../../../../Atomic/Divider/Horizontal";
@@ -72,10 +72,10 @@ const Info: FC<InfoProps> = (props) => {
               sort="Recently Read"
             >
               {props.datesRead.map((date, i) => (
-                <>
+                <Fragment key={i}>
                   {i ? <> &bull; </> : null}
                   <MatchHighlight key={i}>{date}</MatchHighlight>
-                </>
+                </Fragment>
               ))}
             </Item>
           )}

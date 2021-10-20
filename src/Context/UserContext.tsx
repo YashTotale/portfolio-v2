@@ -9,7 +9,7 @@ import React, {
 
 // Firebase Imports
 import "firebase/auth";
-import firebase, { useAuth } from "../Utils/Config/firebase";
+import firebase, { getAuth } from "../Utils/Config/firebase";
 
 interface UserInfo {
   name: string;
@@ -36,7 +36,7 @@ const mapFirebaseUser = (user: firebase.User | null): UserInfo | null => {
 const UserContext = createContext<User | null>(null);
 
 export const UserProvider: FC = ({ children }) => {
-  const auth = useAuth();
+  const auth = getAuth();
   const [user, setUser] = useState<UserInfo | null>(
     mapFirebaseUser(auth.currentUser)
   );

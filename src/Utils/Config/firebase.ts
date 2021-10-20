@@ -17,7 +17,7 @@ firebase.initializeApp(config);
 export const performance = firebase.performance();
 
 let auth: firebase.auth.Auth;
-export const useAuth = (): firebase.auth.Auth => {
+export const getAuth = (): firebase.auth.Auth => {
   if (!auth) {
     auth = firebase.auth();
   }
@@ -25,7 +25,7 @@ export const useAuth = (): firebase.auth.Auth => {
 };
 
 let firestore: firebase.firestore.Firestore;
-export const useFirestore = (): firebase.firestore.Firestore => {
+export const getFirestore = (): firebase.firestore.Firestore => {
   if (!firestore) {
     firestore = firebase.firestore();
   }
@@ -33,7 +33,7 @@ export const useFirestore = (): firebase.firestore.Firestore => {
 };
 
 let storage: firebase.storage.Storage;
-export const useStorage = (): firebase.storage.Storage => {
+export const getStorage = (): firebase.storage.Storage => {
   if (!storage) {
     storage = firebase.storage();
   }
@@ -41,7 +41,7 @@ export const useStorage = (): firebase.storage.Storage => {
 };
 
 let analytics: firebase.analytics.Analytics;
-export const useAnalytics = (
+export const getAnalytics = (
   triggerCall = true
 ): firebase.analytics.Analytics => {
   if (!analytics && triggerCall) {

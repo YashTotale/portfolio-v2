@@ -5,7 +5,7 @@ import { useClosableSnackbar } from "../../../Hooks";
 
 // Firebase Imports
 import "firebase/auth";
-import { useAuth } from "../../../Utils/Config/firebase";
+import { getAuth } from "../../../Utils/Config/firebase";
 
 // Redux Imports
 import { changePopupState } from "../../../Redux";
@@ -46,7 +46,7 @@ interface Inputs {
 const ForgotPassword: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const auth = useAuth();
+  const auth = getAuth();
   const { enqueueSnackbar } = useClosableSnackbar();
   const { formState, register, handleSubmit } = useForm<Inputs>({
     mode: "onChange",

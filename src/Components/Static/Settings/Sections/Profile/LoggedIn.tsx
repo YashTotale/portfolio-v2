@@ -8,7 +8,7 @@ import { User } from "../../../../../Context/UserContext";
 // Firebase Imports
 import "firebase/auth";
 import "firebase/storage";
-import { useAuth, useStorage } from "../../../../../Utils/Config/firebase";
+import { getAuth, getStorage } from "../../../../../Utils/Config/firebase";
 
 // Material UI Imports
 import {
@@ -123,7 +123,7 @@ const useProfilePictureStyles = makeStyles((theme) => ({
 const ProfilePicture: FC<LoggedInProps> = (props) => {
   const classes = useProfilePictureStyles();
   const theme = useTheme();
-  const storage = useStorage();
+  const storage = getStorage();
   const { enqueueSnackbar } = useClosableSnackbar();
   const [uploading, setUploading] = useState(false);
 
@@ -320,7 +320,7 @@ const EmailField: FC<LoggedInProps> = (props) => {
 
 const SignOutButton: FC = () => {
   const classes = useStyles();
-  const auth = useAuth();
+  const auth = getAuth();
   const { enqueueSnackbar } = useClosableSnackbar();
 
   const onClick = async () => {

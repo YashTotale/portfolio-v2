@@ -5,7 +5,7 @@ import { useClosableSnackbar } from "../../../../../Hooks";
 
 // Firebase Imports
 import "firebase/auth";
-import firebase, { useAuth } from "../../../../../Utils/Config/firebase";
+import firebase, { getAuth } from "../../../../../Utils/Config/firebase";
 import { StyledFirebaseAuth } from "react-firebaseui";
 
 // Redux Imports
@@ -94,7 +94,7 @@ interface SignInInputs {
 const EmailPassword: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const auth = useAuth();
+  const auth = getAuth();
   const { register, formState, handleSubmit } = useForm<SignInInputs>({
     mode: "onChange",
   });
@@ -240,7 +240,7 @@ const EmailPassword: FC = () => {
 
 const OAuthProviders: FC = () => {
   const classes = useStyles();
-  const auth = useAuth();
+  const auth = getAuth();
   const { enqueueSnackbar } = useClosableSnackbar();
 
   return (

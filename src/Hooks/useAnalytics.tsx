@@ -5,7 +5,7 @@ import { getSearch } from "../Utils/funcs";
 
 // Firebase Imports
 import "firebase/analytics";
-import { useAnalytics as useFirebaseAnalytics } from "../Utils/Config/firebase";
+import { getAnalytics } from "../Utils/Config/firebase";
 
 const useAnalytics = (title: string | null | undefined): void => {
   const location = useLocation();
@@ -14,7 +14,7 @@ const useAnalytics = (title: string | null | undefined): void => {
   const isDev = process.env.NODE_ENV === "development";
   const isReactSnap = navigator.userAgent === "ReactSnap";
 
-  const analytics = useFirebaseAnalytics(!isReactSnap);
+  const analytics = getAnalytics(!isReactSnap);
 
   useEffect(() => {
     if (title && !isReactSnap) {
