@@ -12,10 +12,10 @@ import "firebase/auth";
 import firebase, { useAuth } from "../Utils/Config/firebase";
 
 interface UserInfo {
-  id: string;
   name: string;
   email: string;
   picture: string;
+  raw: firebase.User;
 }
 
 export interface User extends UserInfo {
@@ -26,10 +26,10 @@ export interface User extends UserInfo {
 const mapFirebaseUser = (user: firebase.User | null): UserInfo | null => {
   if (user === null) return user;
   return {
-    id: user.uid,
     name: user.displayName ?? "",
     email: user.email ?? "",
     picture: user.photoURL ?? "",
+    raw: user,
   };
 };
 

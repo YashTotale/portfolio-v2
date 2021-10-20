@@ -126,7 +126,7 @@ const Contact: FC = () => {
       Object.entries(inputs).filter(([_, v]) => v !== undefined)
     );
     data.timestamp = new Date();
-    data.user = user === null ? null : user.id;
+    data.user = user === null ? null : user.raw.uid;
     data["g-recaptcha-response"] = recaptcha;
 
     try {

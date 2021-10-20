@@ -195,6 +195,7 @@ const EmailPassword: FC = () => {
         <FormHelperText className={classes.forgotPassword}>
           <Link
             component="button"
+            type="button"
             onClick={() =>
               dispatch(changePopupState(PopupState.FORGOT_PASSWORD))
             }

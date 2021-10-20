@@ -1,5 +1,6 @@
 // React Imports
 import React, { FC, useState } from "react";
+import clsx from "clsx";
 import { getExtension } from "mime";
 import { useClosableSnackbar } from "../../../../../Hooks";
 import { User } from "../../../../../Context/UserContext";
@@ -22,7 +23,6 @@ import {
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import { Check, CloudUpload } from "@mui/icons-material";
-import clsx from "clsx";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -74,27 +74,13 @@ interface LoggedInProps {
 
 const LoggedIn: FC<LoggedInProps> = (props) => {
   const classes = useStyles();
-  const theme = useTheme();
-  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   return (
     <div className={classes.container}>
       <div className={classes.info}>
         <ProfilePicture {...props} />
         <NameField {...props} />
-        <TextField
-          value={props.user.email}
-          name="email"
-          type="email"
-          label="Email"
-          variant="outlined"
-          size={isSizeXS ? "small" : "medium"}
-          disabled
-          className={classes.input}
-          inputProps={{
-            className: classes.emailInput,
-          }}
-        />
+        <EmailField {...props} />
       </div>
       <SignOutButton />
     </div>
@@ -159,7 +145,9 @@ const ProfilePicture: FC<LoggedInProps> = (props) => {
       const ext = getExtension(file.type);
       const ref = storage
         .ref()
-        .child(`users/${props.user.id}/profile_picture${ext ? `.${ext}` : ""}`);
+        .child(
+          `users/${props.user.raw.uid}/profile_picture${ext ? `.${ext}` : ""}`
+        );
       const upload = await ref.put(file);
       const url = await upload.ref.getDownloadURL();
       await props.user.updatePicture(url);
@@ -263,22 +251,90 @@ const NameField: FC<LoggedInProps> = (props) => {
   );
 };
 
+const EmailField: FC<LoggedInProps> = (props) => {
+  const classes = useStyles();
+  const { enqueueSnackbar } = useClosableSnackbar();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+  const [isSending, setIsSending] = useState(false);
+
+  const onVerify = async () => {
+    setIsSending(true);
+    try {
+      await props.user.raw.sendEmailVerification({
+        url: window.location.href,
+      });
+      enqueueSnackbar(`Verification email sent to ${props.user.email}`, {
+        variant: "success",
+      });
+    } catch (e: any) {
+      const message = typeof e === "string" ? e : e.message;
+      enqueueSnackbar(message || "An error occurred. Please try again.", {
+        variant: "error",
+      });
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  return (
+    <TextField
+      value={props.user.email}
+      name="email"
+      type="email"
+      label="Email"
+      variant="outlined"
+      size={isSizeXS ? "small" : "medium"}
+      disabled
+      className={classes.input}
+      inputProps={{
+        className: classes.emailInput,
+      }}
+      InputProps={{
+        endAdornment: props.user.email ? (
+          <InputAdornment position="end">
+            {props.user.raw.emailVerified ? (
+              <Tooltip title="Verified">
+                <Check fontSize="small" />
+              </Tooltip>
+            ) : isSending ? (
+              <CircularProgress
+                size={theme.spacing(2.5)}
+                className={classes.savingSpinner}
+              />
+            ) : (
+              <Tooltip title="Verify Email">
+                <CloudUpload
+                  fontSize="small"
+                  onClick={onVerify}
+                  className={classes.saveIcon}
+                />
+              </Tooltip>
+            )}
+          </InputAdornment>
+        ) : undefined,
+      }}
+    />
+  );
+};
+
 const SignOutButton: FC = () => {
   const classes = useStyles();
   const auth = useAuth();
   const { enqueueSnackbar } = useClosableSnackbar();
 
+  const onClick = async () => {
+    await auth.signOut();
+    enqueueSnackbar("Signed Out", {
+      variant: "success",
+    });
+  };
+
   return (
     <Button
       variant="outlined"
       color="error"
-      onClick={() => {
-        auth.signOut().then(() =>
-          enqueueSnackbar("Signed Out", {
-            variant: "success",
-          })
-        );
-      }}
+      onClick={onClick}
       className={classes.logout}
     >
       Sign Out
