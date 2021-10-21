@@ -46,7 +46,7 @@ jobs:
         run: npm run make
 
       - name: Deploy Firestore Security Rules
-        if: steps.changes.outputs.firestore_rules == 'true' && ${{ github.event_name == 'push' }}
+        if: ${{ (steps.changes.outputs.firestore_rules == 'true') && (github.event_name == 'push') }}
         uses: w9jds/firebase-action@master
         with:
           args: deploy --only firestore:rules
@@ -54,7 +54,7 @@ jobs:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Deploy Firebase Storage Security Rules
-        if: steps.changes.outputs.firestore_rules == 'true' && ${{ github.event_name == 'push' }}
+        if: ${{ (steps.changes.outputs.firestore_rules == 'true') && (github.event_name == 'push') }}
         uses: w9jds/firebase-action@master
         with:
           args: deploy --only storage:rules
