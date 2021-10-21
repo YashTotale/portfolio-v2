@@ -78,7 +78,7 @@
     "@types/lodash.startcase": "^4.4.6",
     "@types/lodash.throttle": "^4.1.6",
     "@types/mime": "^2.0.3",
-    "@types/node": "^14.14.34",
+    "@types/node": "^16.11.2",
     "@types/prettier": "^2.2.3",
     "@types/preval.macro": "^3.0.0",
     "@types/react": "^17.0.3",
