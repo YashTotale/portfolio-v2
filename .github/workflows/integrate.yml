@@ -23,6 +23,16 @@ jobs:
         with:
           node-version: 15.x
 
+      - name: Check Changed Files
+        uses: dorny/paths-filter@v2
+        id: changes
+        with:
+          filters: |
+            firestore_rules:
+              - 'firestore.rules'
+            storage_rules:
+              - 'firebase.storage.rules'
+
       - name: Install Dependencies
         run: npm ci
 
@@ -35,7 +45,24 @@ jobs:
       - name: Build Project
         run: npm run make
 
+      - name: Deploy Firestore Security Rules
+        if: steps.changes.outputs.firestore_rules == 'true' && ${{ github.event_name == 'push' }}
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only firestore:rules
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
+      - name: Deploy Firebase Storage Security Rules
+        if: steps.changes.outputs.firestore_rules == 'true' && ${{ github.event_name == 'push' }}
+        uses: w9jds/firebase-action@master
+        with:
+          args: deploy --only storage:rules
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
+
       - name: Deploy Bundle Report Website
+        if: ${{ github.event_name == 'push' }}
         run: curl "${{ secrets.BUNDLE_DEPLOY_URL }}"
 
       - name: Deploy to Firebase Hosting
