@@ -177,7 +177,7 @@ const Contact: FC = () => {
       });
       recaptchaRef.current?.reset();
     } catch (e: any) {
-      const message =
+      const message: string =
         (typeof e === "string" ? e : e.message) ||
         "An error occurred. Please try again.";
 

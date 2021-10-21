@@ -10,6 +10,11 @@ import { useSelector } from "react-redux";
 import { getDoc, setDoc } from "../Redux";
 import { useAppDispatch } from "../Store";
 
+// Internal Imports
+import { UserDoc } from "./user.controller";
+import { BookDoc } from "./books.controller";
+import { ContactError } from "./contact.controller";
+
 export type WithId<T> = T & {
   id: string;
 };
@@ -18,23 +23,27 @@ export type Nullable<T> = T | undefined | null;
 
 export type DocumentData = firebase.firestore.DocumentData;
 
-export enum Collection {
-  Users = "users",
-  Books = "books",
-  Contact = "contact",
-  ContactErrors = "contact-errors",
+export interface Schema {
+  users: UserDoc;
+  books: BookDoc;
+  contact: Record<string, any>;
+  "contact-errors": ContactError;
 }
 
-export const createDocSnapshot = <T extends DocumentData>(
-  collection: Collection
-): ((id: string) => Nullable<WithId<T>>) => {
+export type Collection = keyof Schema;
+
+export const createDocSnapshot = <T extends Collection>(
+  collection: T
+): ((id: string) => Nullable<WithId<Schema[T]>>) => {
   const useDocSnapshot = (id: string) => {
     const firestore = getFirestore();
     const dispatch = useAppDispatch();
-    const data = useSelector(getDoc<Nullable<WithId<T>>>(collection, id));
+    const data = useSelector(
+      getDoc<Nullable<WithId<Schema[T]>>>(collection, id)
+    );
 
     const setData = useCallback(
-      (d: Nullable<WithId<T>>) =>
+      (d: Nullable<WithId<Schema[T]>>) =>
         dispatch(
           setDoc({
             collection,
@@ -55,7 +64,7 @@ export const createDocSnapshot = <T extends DocumentData>(
             if (!snap.exists) {
               setData(null);
             } else {
-              const data = snap.data() as T;
+              const data = snap.data() as Schema[T];
               setData({ ...data, id: snap.id });
             }
           });
@@ -67,29 +76,29 @@ export const createDocSnapshot = <T extends DocumentData>(
   return useDocSnapshot;
 };
 
-export const createDoc = async <T extends DocumentData>(
-  collection: Collection,
-  data: T,
+export const createDoc = async <T extends Collection>(
+  collection: T,
+  data: Schema[T],
   id?: string
-): Promise<T> => {
+): Promise<Schema[T]> => {
   const firestore = getFirestore();
   await firestore.collection(collection).doc(id).set(data);
   return data;
 };
 
-export const updateDoc = async (
-  collection: Collection,
+export const updateDoc = async <T extends Collection>(
+  collection: T,
   id: string,
-  data: firebase.firestore.UpdateData
+  data: Partial<Record<keyof Schema[T], any>>
 ): Promise<void> => {
   const firestore = getFirestore();
   return await firestore.collection(collection).doc(id).update(data);
 };
 
-export const updateOrCreateDoc = async (
-  collection: Collection,
+export const updateOrCreateDoc = async <T extends Collection>(
+  collection: T,
   id: string,
-  data: DocumentData
+  data: Partial<Record<keyof Schema[T], any>>
 ): Promise<void> => {
   const firestore = getFirestore();
   return await firestore

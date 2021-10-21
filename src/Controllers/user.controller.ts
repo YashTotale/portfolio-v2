@@ -4,7 +4,6 @@ import { useUser } from "../Context/UserContext";
 // Firebase Imports
 import "firebase/auth";
 import {
-  Collection,
   createDoc,
   createDocSnapshot,
   Nullable,
@@ -14,6 +13,8 @@ import {
 import firebase from "../Utils/Config/firebase";
 import { uploadFile } from "./storage.helpers";
 
+const collection = "users" as const;
+
 export interface UserDoc {
   name: string;
   email: string;
@@ -22,14 +23,14 @@ export interface UserDoc {
 
 export const useUserDoc = (): Nullable<WithId<UserDoc>> => {
   const user = useUser();
-  const useDocHook = createDocSnapshot<UserDoc>(Collection.Users);
+  const useDocHook = createDocSnapshot(collection);
   const doc = useDocHook(user?.uid ?? "");
   return doc;
 };
 
 export const createUser = (user: firebase.User): Promise<UserDoc> =>
-  createDoc<UserDoc>(
-    Collection.Users,
+  createDoc(
+    collection,
     {
       name: user.displayName ?? "",
       email: user.email ?? "",
@@ -41,7 +42,7 @@ export const createUser = (user: firebase.User): Promise<UserDoc> =>
 export const updateUserName = (
   userId: string,
   newName: string
-): Promise<void> => updateDoc(Collection.Users, userId, { name: newName });
+): Promise<void> => updateDoc(collection, userId, { name: newName });
 
 export const uploadUserPicture = async (
   file: File,
@@ -51,5 +52,5 @@ export const uploadUserPicture = async (
     path: `users/${userId}`,
     fileName: "profile_picture",
   });
-  return await updateDoc(Collection.Users, userId, { picture: url });
+  return await updateDoc(collection, userId, { picture: url });
 };

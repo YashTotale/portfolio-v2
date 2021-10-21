@@ -1,9 +1,14 @@
 // Firebase Imports
-import { Collection, createDoc, DocumentData } from "./firestore.helpers";
+import { createDoc, DocumentData, Schema } from "./firestore.helpers";
 
 export const createContactDoc = (data: DocumentData): Promise<DocumentData> =>
-  createDoc(Collection.Contact, data);
+  createDoc("contact", data);
+
+export interface ContactError {
+  error: string;
+  data: Schema["contact"];
+}
 
 export const createContactErrorDoc = (
-  data: DocumentData
-): Promise<DocumentData> => createDoc(Collection.ContactErrors, data);
+  data: ContactError
+): Promise<ContactError> => createDoc("contact-errors", data);

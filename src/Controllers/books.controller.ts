@@ -1,24 +1,25 @@
 // Firebase Imports
 import {
-  Collection,
   createDocSnapshot,
   updateDoc,
   updateOrCreateDoc,
 } from "./firestore.helpers";
 import firebase from "../Utils/Config/firebase";
 
+const collection = "books" as const;
+
 export interface BookDoc {
   likes: string[];
 }
 
-export const useBookDoc = createDocSnapshot<BookDoc>(Collection.Books);
+export const useBookDoc = createDocSnapshot(collection);
 
 export const removeBookLike = (bookId: string, userId: string): Promise<void> =>
-  updateDoc(Collection.Books, bookId, {
+  updateDoc(collection, bookId, {
     likes: firebase.firestore.FieldValue.arrayRemove(userId),
   });
 
 export const addBookLike = (bookId: string, userId: string): Promise<void> =>
-  updateOrCreateDoc(Collection.Books, bookId, {
+  updateOrCreateDoc(collection, bookId, {
     likes: firebase.firestore.FieldValue.arrayUnion(userId),
   });
