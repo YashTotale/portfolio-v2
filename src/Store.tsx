@@ -12,21 +12,13 @@ import {
 import { Provider, useDispatch } from "react-redux";
 
 // Redux Persist Imports
-import {
-  persistStore,
-  persistReducer,
-  FLUSH,
-  REHYDRATE,
-  PAUSE,
-  PERSIST,
-  PURGE,
-  REGISTER,
-} from "redux-persist";
+import { persistStore, persistReducer } from "redux-persist";
 import { PersistGate } from "redux-persist/lib/integration/react";
 import storage from "redux-persist/lib/storage";
 
 // Reducer Imports
 import { displayReducer, DisplayState } from "./Redux/display.slice";
+import { firebaseReducer, FirebaseState } from "./Redux/firebase.slice";
 import { navReducer, NavState } from "./Redux/nav.slice";
 import { experienceReducer, ExperienceState } from "./Redux/experience.slice";
 import { educationReducer, EducationState } from "./Redux/education.slice";
@@ -41,6 +33,7 @@ import { booksReducer, BooksState } from "./Redux/books.slice";
 
 interface State {
   display: DisplayState;
+  firebase: FirebaseState;
   nav: NavState;
   experience: ExperienceState;
   education: EducationState;
@@ -53,6 +46,7 @@ interface State {
 
 const reducers = combineReducers<State>({
   display: displayReducer,
+  firebase: firebaseReducer,
   nav: navReducer,
   experience: experienceReducer,
   education: educationReducer,
@@ -78,9 +72,7 @@ const extraArgument = {};
 const store = configureStore({
   reducer: persistedReducer,
   middleware: getDefaultMiddleware({
-    serializableCheck: {
-      ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-    },
+    serializableCheck: false,
     thunk: {
       extraArgument,
     },

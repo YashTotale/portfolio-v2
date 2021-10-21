@@ -1,5 +1,6 @@
 // React Imports
-import React, { FC, useState, useEffect, useRef } from "react";
+import React, { FC, useState, useEffect, useRef, ReactNode } from "react";
+import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import {
   Control,
@@ -11,13 +12,17 @@ import {
 import ReCAPTCHA, { ReCAPTCHAProps } from "react-google-recaptcha";
 import emailjs from "emailjs-com";
 import { useAnalytics, useClosableSnackbar } from "../../Hooks";
-import { useUser } from "../../Context/UserContext";
+import { useTitle } from "../../Context/HeadContext";
+import StyledLink from "../../Components/Atomic/StyledLink";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
-import { generatePageTitle } from "../../Utils/funcs";
+import { generatePageTitle, generateSearch } from "../../Utils/funcs";
 
 // Firebase Imports
-import "firebase/firestore";
-import { getFirestore } from "../../Utils/Config/firebase";
+import { useUserDoc } from "../../Controllers/user.controller";
+import {
+  createContactDoc,
+  createContactErrorDoc,
+} from "../../Controllers/contact.controller";
 
 // Material UI Imports
 import {
@@ -25,13 +30,15 @@ import {
   capitalize,
   CircularProgress,
   Paper,
+  Rating,
   TextField,
+  Tooltip,
   Typography,
   useMediaQuery,
   useTheme,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import { Rating } from "@mui/material";
+import { InfoOutlined } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   divider: {
@@ -79,22 +86,40 @@ interface Inputs {
 const Contact: FC = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
-  const firestore = getFirestore();
-  const user = useUser();
+  const userDoc = useUserDoc();
+  const location = useLocation();
+  const title = useTitle();
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const { formState, control, handleSubmit, reset } = useForm<Inputs>({
+  const {
+    formState,
+    control,
+    handleSubmit,
+    reset,
+    getValues,
+    setValue,
+  } = useForm<Inputs>({
     defaultValues: {
-      name: user?.name,
-      email: user?.email,
+      name: userDoc?.name,
+      email: userDoc?.email,
     },
   });
   const [loading, setLoading] = useState(false);
 
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [recaptcha, setRecaptcha] = useState<string | null>(null);
+
+  useEffect(() => {
+    const values = getValues();
+    if (!values.name && userDoc?.name) setValue("name", userDoc.name);
+  }, [userDoc?.name, getValues, setValue]);
+
+  useEffect(() => {
+    const values = getValues();
+    if (!values.email && userDoc?.email) setValue("email", userDoc.email);
+  }, [userDoc?.email, getValues, setValue]);
 
   useAnalytics("Contact");
 
@@ -126,7 +151,7 @@ const Contact: FC = () => {
       Object.entries(inputs).filter(([_, v]) => v !== undefined)
     );
     data.timestamp = new Date();
-    data.user = user === null ? null : user.raw.uid;
+    data.user = userDoc ? userDoc.id : null;
     data["g-recaptcha-response"] = recaptcha;
 
     try {
@@ -142,8 +167,7 @@ const Contact: FC = () => {
         data,
         process.env.REACT_APP_EMAIL_USER_ID ?? ""
       );
-      await firestore.collection("contact").doc().set(data);
-
+      await createContactDoc(data);
       enqueueSnackbar("Message received! Check your inbox :)", {
         variant: "success",
       });
@@ -157,7 +181,7 @@ const Contact: FC = () => {
         (typeof e === "string" ? e : e.message) ||
         "An error occurred. Please try again.";
 
-      firestore.collection("contact-errors").doc().set({
+      createContactErrorDoc({
         error: message,
         data,
       });
@@ -174,6 +198,33 @@ const Contact: FC = () => {
     setRecaptcha(null);
   }, [theme.palette.mode, isSizeXS]);
 
+  const infoAdornment = (
+    <Tooltip
+      title={
+        <>
+          {userDoc ? "Pre-filled by your" : "Can be pre-filled by"}{" "}
+          <StyledLink
+            to={{
+              pathname: "/settings",
+              hash: "#profile",
+              search: generateSearch(
+                {
+                  from_path: location.pathname,
+                  from_type: "contact_field_info",
+                },
+                title
+              ),
+            }}
+          >
+            {userDoc ? "profile information" : "signing in"}
+          </StyledLink>
+        </>
+      }
+    >
+      <InfoOutlined />
+    </Tooltip>
+  );
+
   return (
     <>
       <Helmet>
@@ -185,8 +236,18 @@ const Contact: FC = () => {
       </Typography>
       <Paper className={classes.container}>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-          <InputField name="name" type="text" control={control} />
-          <InputField name="email" type="email" control={control} />
+          <InputField
+            name="name"
+            type="text"
+            control={control}
+            endAdornment={infoAdornment}
+          />
+          <InputField
+            name="email"
+            type="email"
+            control={control}
+            endAdornment={infoAdornment}
+          />
           <InputField name="message" type="text" control={control} textarea />
           <InputField
             name="bugs"
@@ -258,6 +319,7 @@ interface InputFieldProps {
   label?: string;
   required?: boolean;
   textarea?: boolean;
+  endAdornment?: ReactNode;
 }
 
 const InputField: FC<InputFieldProps> = (props) => {
@@ -290,6 +352,9 @@ const InputField: FC<InputFieldProps> = (props) => {
       error={!!error}
       helperText={error?.message}
       className={classes.input}
+      InputProps={{
+        endAdornment: props.endAdornment,
+      }}
       fullWidth
     />
   );

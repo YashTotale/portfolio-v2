@@ -33,6 +33,25 @@ export {
 export type { DisplayState } from "./display.slice";
 
 /**
+ * Firebase Slice
+ */
+
+export {
+  // -> Slice
+  default as firebaseSlice,
+  // -> Selectors
+  getDoc,
+  // -> Actions
+  setDoc,
+  // -> Reducer
+  firebaseReducer,
+  // -> State
+  initialFirebaseState,
+} from "./firebase.slice";
+
+export type { FirebaseState } from "./firebase.slice";
+
+/**
  * Nav Slice
  */
 

@@ -50,15 +50,15 @@ const Likes: FC<LikesProps> = (props) => {
   const user = useUser();
   const bookDoc = useBookDoc(props.id);
 
-  const isLiked = user && bookDoc?.likes.includes(user.raw.uid);
+  const isLiked = user && bookDoc?.likes.includes(user.uid);
   const numLikes = bookDoc?.likes?.length ?? 0;
 
   const onClick = async () => {
     if (user) {
       if (isLiked) {
-        await removeBookLike(props.id, user.raw.uid);
+        await removeBookLike(props.id, user.uid);
       } else {
-        await addBookLike(props.id, user.raw.uid);
+        await addBookLike(props.id, user.uid);
       }
     } else {
       dispatch(changePopupState(PopupState.SIGN_IN_REQUIRED));

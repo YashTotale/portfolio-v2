@@ -1,14 +1,16 @@
 // React Imports
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import clsx from "clsx";
-import { getExtension } from "mime";
 import { useClosableSnackbar } from "../../../../../Hooks";
-import { User } from "../../../../../Context/UserContext";
 
 // Firebase Imports
-import "firebase/auth";
-import "firebase/storage";
-import { getAuth, getStorage } from "../../../../../Utils/Config/firebase";
+import {
+  updateUserName,
+  uploadUserPicture,
+  useUserDoc,
+} from "../../../../../Controllers/user.controller";
+import { validateFileSize } from "../../../../../Controllers/storage.helpers";
+import firebase, { getAuth } from "../../../../../Utils/Config/firebase";
 
 // Material UI Imports
 import {
@@ -69,18 +71,23 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface LoggedInProps {
-  user: User;
+  user: firebase.User;
+}
+
+interface FieldProps extends LoggedInProps {
+  userDoc: ReturnType<typeof useUserDoc>;
 }
 
 const LoggedIn: FC<LoggedInProps> = (props) => {
   const classes = useStyles();
+  const userDoc = useUserDoc();
 
   return (
     <div className={classes.container}>
       <div className={classes.info}>
-        <ProfilePicture {...props} />
-        <NameField {...props} />
-        <EmailField {...props} />
+        <ProfilePicture {...props} userDoc={userDoc} />
+        <NameField {...props} userDoc={userDoc} />
+        <EmailField {...props} userDoc={userDoc} />
       </div>
       <SignOutButton />
     </div>
@@ -120,10 +127,9 @@ const useProfilePictureStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfilePicture: FC<LoggedInProps> = (props) => {
+const ProfilePicture: FC<FieldProps> = (props) => {
   const classes = useProfilePictureStyles();
   const theme = useTheme();
-  const storage = getStorage();
   const { enqueueSnackbar } = useClosableSnackbar();
   const [uploading, setUploading] = useState(false);
 
@@ -135,22 +141,8 @@ const ProfilePicture: FC<LoggedInProps> = (props) => {
 
     try {
       setUploading(true);
-      const size = file.size / 1000 / 1000; // Size in MB
-      if (size > 5) {
-        const formattedSize = size.toFixed(1);
-        throw new Error(
-          `File size must be less than 5 MB (Uploaded file size was ${formattedSize} MB)`
-        );
-      }
-      const ext = getExtension(file.type);
-      const ref = storage
-        .ref()
-        .child(
-          `users/${props.user.raw.uid}/profile_picture${ext ? `.${ext}` : ""}`
-        );
-      const upload = await ref.put(file);
-      const url = await upload.ref.getDownloadURL();
-      await props.user.updatePicture(url);
+      validateFileSize(file, 5);
+      await uploadUserPicture(file, props.user.uid);
       enqueueSnackbar("Uploaded New Profile Picture", {
         variant: "success",
       });
@@ -180,7 +172,7 @@ const ProfilePicture: FC<LoggedInProps> = (props) => {
       <Tooltip title="Upload New Picture">
         <Avatar
           variant="rounded"
-          src={props.user.picture}
+          src={props.userDoc?.picture}
           className={clsx(classes.avatar, uploading && classes.avatarDimmed)}
         />
       </Tooltip>
@@ -188,18 +180,24 @@ const ProfilePicture: FC<LoggedInProps> = (props) => {
   );
 };
 
-const NameField: FC<LoggedInProps> = (props) => {
+const NameField: FC<FieldProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const { enqueueSnackbar } = useClosableSnackbar();
-  const [name, setName] = useState(props.user.name);
+  const [name, setName] = useState(props.userDoc?.name ?? "");
   const [isNameSaving, setNameSaving] = useState(false);
+
+  useEffect(() => {
+    if (props.userDoc && props.userDoc.name !== name)
+      setName(props.userDoc.name);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [props.userDoc?.name]);
 
   const onNameSave = async () => {
     setNameSaving(true);
     try {
-      await props.user.updateName(name);
+      await updateUserName(props.user.uid, name);
       enqueueSnackbar("Saved Name", {
         variant: "success",
       });
@@ -225,7 +223,7 @@ const NameField: FC<LoggedInProps> = (props) => {
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
-            {name === props.user.name ? (
+            {name === (props.userDoc?.name ?? "") ? (
               <Tooltip title="Saved">
                 <Check fontSize="small" />
               </Tooltip>
@@ -251,7 +249,7 @@ const NameField: FC<LoggedInProps> = (props) => {
   );
 };
 
-const EmailField: FC<LoggedInProps> = (props) => {
+const EmailField: FC<FieldProps> = (props) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
   const theme = useTheme();
@@ -261,7 +259,7 @@ const EmailField: FC<LoggedInProps> = (props) => {
   const onVerify = async () => {
     setIsSending(true);
     try {
-      await props.user.raw.sendEmailVerification({
+      await props.user.sendEmailVerification({
         url: window.location.href,
       });
       enqueueSnackbar(`Verification email sent to ${props.user.email}`, {
@@ -293,7 +291,7 @@ const EmailField: FC<LoggedInProps> = (props) => {
       InputProps={{
         endAdornment: props.user.email ? (
           <InputAdornment position="end">
-            {props.user.raw.emailVerified ? (
+            {props.user.emailVerified ? (
               <Tooltip title="Verified">
                 <Check fontSize="small" />
               </Tooltip>

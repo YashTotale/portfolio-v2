@@ -3,8 +3,10 @@ import React, { FC } from "react";
 import LoggedIn from "./LoggedIn";
 import NotLoggedIn from "./LoggedOut";
 import Section from "../../Section";
-import { useUser } from "../../../../../Context/UserContext";
 import HorizontalDivider from "../../../../Atomic/Divider/Horizontal";
+
+// Firebase Imports
+import { useUser } from "../../../../../Context/UserContext";
 
 const Profile: FC = () => {
   const user = useUser();

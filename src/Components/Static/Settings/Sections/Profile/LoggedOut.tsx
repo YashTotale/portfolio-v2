@@ -4,8 +4,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useClosableSnackbar } from "../../../../../Hooks";
 
 // Firebase Imports
-import "firebase/auth";
 import firebase, { getAuth } from "../../../../../Utils/Config/firebase";
+import { createUser } from "../../../../../Controllers/user.controller";
 import { StyledFirebaseAuth } from "react-firebaseui";
 
 // Redux Imports
@@ -107,20 +107,24 @@ const EmailPassword: FC = () => {
     setLoading(true);
 
     try {
-      const credential = isSignIn
-        ? await auth.signInWithEmailAndPassword(inputs.email, inputs.password)
-        : await auth.createUserWithEmailAndPassword(
-            inputs.email,
-            inputs.password
-          );
-      enqueueSnackbar(
-        `${isSignIn ? "Signed in" : "Registered"} as ${
-          credential.user?.displayName ?? credential.user?.email
-        }`,
-        {
+      if (isSignIn) {
+        const { user } = await auth.signInWithEmailAndPassword(
+          inputs.email,
+          inputs.password
+        );
+        enqueueSnackbar(`Signed in as ${user?.email ?? inputs.email}`, {
           variant: "success",
-        }
-      );
+        });
+      } else {
+        const { user } = await auth.createUserWithEmailAndPassword(
+          inputs.email,
+          inputs.password
+        );
+        user && (await createUser(user));
+        enqueueSnackbar(`Registered as ${user?.email ?? inputs.email}`, {
+          variant: "success",
+        });
+      }
     } catch (e: any) {
       const message = typeof e === "string" ? e : e.message;
       enqueueSnackbar(message || "An error occurred. Please try again.", {
@@ -258,14 +262,16 @@ const OAuthProviders: FC = () => {
         callbacks: {
           signInSuccessWithAuthResult(result) {
             const isNew = result.additionalUserInfo.isNewUser;
-            const { name, email } = result.additionalUserInfo.profile;
+            const { displayName, email } = result.user;
 
             if (isNew) {
-              enqueueSnackbar(`Registered as ${name ?? email}`, {
-                variant: "success",
+              createUser(result.user).then(() => {
+                enqueueSnackbar(`Registered as ${displayName ?? email}`, {
+                  variant: "success",
+                });
               });
             } else {
-              enqueueSnackbar(`Signed in as ${name ?? email}`, {
+              enqueueSnackbar(`Signed in as ${displayName ?? email}`, {
                 variant: "success",
               });
             }

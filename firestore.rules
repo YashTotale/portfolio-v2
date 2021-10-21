@@ -1,6 +1,10 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isOwner(uid) {
+      return request.auth.uid == uid;
+    }
+
     function isSignedIn() {
       return request.auth != null;
     }
@@ -8,6 +12,12 @@ service cloud.firestore {
     match /{document=**} {
       allow read: if false;
       allow write: if false;
+    }
+
+    match /users/{docId} {
+      allow read: if isSignedIn();
+      allow write: if isOwner(docId);
+      allow delete: if false;
     }
 
     match /contact/{docId} {
