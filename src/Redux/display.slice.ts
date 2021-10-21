@@ -52,6 +52,7 @@ export type Shade = typeof SHADES[number];
 
 export enum PopupState {
   FORGOT_PASSWORD = "forgot_password",
+  SIGN_IN_REQUIRED = "sign_in_required",
   CLOSED = "none",
 }
 

@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import ForgotPassword from "./ForgotPassword";
+import SignInRequired from "./SignInRequired";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -20,6 +21,9 @@ const Popup: FC = () => {
     switch (popupState) {
       case PopupState.FORGOT_PASSWORD: {
         return <ForgotPassword />;
+      }
+      case PopupState.SIGN_IN_REQUIRED: {
+        return <SignInRequired />;
       }
       default: {
         return null;

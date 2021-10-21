@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import Title from "./Components/Title";
 import Author from "./Components/Author";
+import Likes from "./Components/Likes";
 import Info from "./Components/Info";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
@@ -25,7 +26,13 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     margin: theme.spacing(1, 0),
+    padding: theme.spacing(0, 5.5),
     width: "100%",
+    position: "relative",
+
+    [theme.breakpoints.only("xs")]: {
+      padding: 0,
+    },
   },
   main: {
     display: "flex",
@@ -100,6 +107,7 @@ const Preview: FC<PreviewProps> = (props) => {
       <div className={classes.titleContainer}>
         <Title {...book} search={props.search} />
         <Author {...book} search={props.search} />
+        <Likes {...book} />
       </div>
       <HorizontalDivider />
       <div className={classes.main}>

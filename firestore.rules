@@ -1,6 +1,10 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
     match /{document=**} {
       allow read: if false;
       allow write: if false;
@@ -16,6 +20,12 @@ service cloud.firestore {
     	allow read: if false;
       allow write: if false;
       allow create: if true;
+    }
+
+    match /books/{docId} {
+      allow read: if true;
+      allow write: if isSignedIn();
+      allow delete: if false;
     }
   }
 }
