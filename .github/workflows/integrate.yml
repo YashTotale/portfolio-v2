@@ -47,15 +47,15 @@ jobs:
 
       - name: Deploy Firestore Security Rules
         if: ${{ (steps.changes.outputs.firestore_rules == 'true') && (github.event_name == 'push') }}
-        uses: w9jds/firebase-action@master
+        uses: w9jds/firebase-action@v2.0.0
         with:
           args: deploy --only firestore:rules
         env:
           FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
 
       - name: Deploy Firebase Storage Security Rules
-        if: ${{ (steps.changes.outputs.firestore_rules == 'true') && (github.event_name == 'push') }}
-        uses: w9jds/firebase-action@master
+        if: ${{ (steps.changes.outputs.storage_rules == 'true') && (github.event_name == 'push') }}
+        uses: w9jds/firebase-action@v2.0.0
         with:
           args: deploy --only storage:rules
         env:
