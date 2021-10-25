@@ -26,7 +26,7 @@ import { EducationSort } from "../../Redux/education.slice";
 import education from "../../Data/education.json";
 
 export const getEducation = (): Education[] => {
-  return (Object.values(education) as unknown) as Education[];
+  return Object.values(education) as unknown as Education[];
 };
 
 export const getSingleEducation = createResolver(
@@ -51,7 +51,7 @@ export const getRawEducation = (
   identifier: string,
   isSlug = false
 ): Education | null => {
-  const all = (education as unknown) as Record<string, Education>;
+  const all = education as unknown as Record<string, Education>;
   const single = !isSlug
     ? all[identifier]
     : Object.values(all).find((e) => e.slug === identifier);

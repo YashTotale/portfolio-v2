@@ -93,19 +93,13 @@ const Contact: FC = () => {
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const {
-    formState,
-    control,
-    handleSubmit,
-    reset,
-    getValues,
-    setValue,
-  } = useForm<Inputs>({
-    defaultValues: {
-      name: userDoc?.name,
-      email: userDoc?.email,
-    },
-  });
+  const { formState, control, handleSubmit, reset, getValues, setValue } =
+    useForm<Inputs>({
+      defaultValues: {
+        name: userDoc?.name,
+        email: userDoc?.email,
+      },
+    });
   const [loading, setLoading] = useState(false);
 
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);

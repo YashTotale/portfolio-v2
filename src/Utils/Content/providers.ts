@@ -7,7 +7,7 @@ import { getAsset } from "./assets";
 import providers from "../../Data/provider.json";
 
 export const getProviders = (): Provider[] => {
-  return (Object.values(providers) as unknown) as Provider[];
+  return Object.values(providers) as unknown as Provider[];
 };
 
 export const getProvider = createResolver(
@@ -22,7 +22,7 @@ export const getProvider = createResolver(
 );
 
 export const getRawProvider = (identifier: string): Provider | null => {
-  const all = (providers as unknown) as Record<string, Provider>;
+  const all = providers as unknown as Record<string, Provider>;
   const single = all[identifier];
 
   if (!single) return null;

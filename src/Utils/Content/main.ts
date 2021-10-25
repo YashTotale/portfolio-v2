@@ -9,7 +9,7 @@ import { Main } from "../types";
 import { getAsset } from "./assets";
 
 export const getMain = (): Main => {
-  return (main as unknown) as Main;
+  return main as unknown as Main;
 };
 
 export const getDescription = (): Main["description"] => {

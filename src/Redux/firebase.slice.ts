@@ -45,9 +45,10 @@ const firebaseSlice = createSlice({
 export const { setDoc } = firebaseSlice.actions;
 
 // Selectors
-export const getDoc = <T>(collection: CollectionName, docId: string) => (
-  state: RootState
-): T => state.firebase.firestore[collection][docId];
+export const getDoc =
+  <T>(collection: CollectionName, docId: string) =>
+  (state: RootState): T =>
+    state.firebase.firestore[collection][docId];
 
 // Reducer
 export const firebaseReducer = firebaseSlice.reducer;

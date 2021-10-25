@@ -75,7 +75,7 @@ const Related: FC<RelatedProps> = (props) => {
 
   const handleChange = (event: SelectChangeEvent<string | string[] | null>) => {
     isMultiValue(props)
-      ? props.onChange((event.target.value as unknown) as string[])
+      ? props.onChange(event.target.value as unknown as string[])
       : props.onChange(event.target.value as string);
   };
 

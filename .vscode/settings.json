@@ -17,5 +17,6 @@
 
     ".firebaserc": "json",
     "firebase.storage.rules": "firerules"
-  }
+  },
+  "typescript.tsdk": "node_modules/typescript/lib"
 }

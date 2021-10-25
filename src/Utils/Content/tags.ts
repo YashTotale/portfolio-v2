@@ -34,11 +34,11 @@ import {
 import tags from "../../Data/tag.json";
 
 export const getTags = (): Tag[] => {
-  return (Object.values(tags) as unknown) as Tag[];
+  return Object.values(tags) as unknown as Tag[];
 };
 
 export const getRawTag = (identifier: string, isSlug = false): Tag | null => {
-  const all = (tags as unknown) as Record<string, Tag>;
+  const all = tags as unknown as Record<string, Tag>;
   const single = !isSlug
     ? all[identifier]
     : Object.values(all).find((p) => p.slug === identifier);

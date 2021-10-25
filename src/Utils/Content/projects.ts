@@ -33,7 +33,7 @@ import {
 import projects from "../../Data/project.json";
 
 export const getProjects = (): Project[] => {
-  return (Object.values(projects) as unknown) as Project[];
+  return Object.values(projects) as unknown as Project[];
 };
 
 export const getProject = createResolver(
@@ -65,7 +65,7 @@ export const getRawProject = (
   identifier: string,
   isSlug = false
 ): Project | null => {
-  const all = (projects as unknown) as Record<string, Project>;
+  const all = projects as unknown as Record<string, Project>;
   const single = !isSlug
     ? all[identifier]
     : Object.values(all).find((p) => p.slug === identifier);
