@@ -3,12 +3,12 @@ name: Integrate Cloud Functions
 on:
   push:
     paths:
-      - "./functions/**/**"
+      - "functions/**"
     branches:
       - master
   pull_request:
     paths:
-      - "./functions/**/**"
+      - "functions/**"
     branches:
       - master
 

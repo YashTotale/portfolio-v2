@@ -27,12 +27,7 @@
     "no-cond-assign": "error",
     "no-duplicate-case": "error",
     "no-duplicate-imports": "error",
-    "no-empty": [
-      "error",
-      {
-        "allowEmptyCatch": true
-      }
-    ],
+    "no-empty": ["error", { "allowEmptyCatch": true }],
     "no-invalid-this": "error",
     "no-new-wrappers": "error",
     "no-param-reassign": "error",
