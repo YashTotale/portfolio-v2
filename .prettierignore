@@ -14,4 +14,8 @@ lib/
 
 # misc
 .husky/_
+
+# secret
 .env
+service-account.json
+.runtimeconfig.json

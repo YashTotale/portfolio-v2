@@ -3,3 +3,7 @@ node_modules/
 
 # production
 lib/
+
+# secret
+service-account.json
+.runtimeconfig.json
