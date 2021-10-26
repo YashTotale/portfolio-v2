@@ -3,7 +3,7 @@ import { getExtension } from "mime";
 
 // Firebase Imports
 import "firebase/storage";
-import { getStorage } from "../Utils/Config/firebase";
+import { getStorage } from "../../Utils/Config/firebase";
 
 export const validateFileSize = (file: File, mb = 5): void => {
   const size = file.size / 1000 / 1000; // Size in MB

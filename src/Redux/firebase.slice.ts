@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Collection as CollectionName } from "../Controllers/firestore.helpers";
+import { Collection as CollectionName } from "../Controllers/helpers/firestore";
 import { RootState } from "../Store";
 
 type Collection = Record<string, any>;
@@ -12,8 +12,6 @@ export const initialFirebaseState: FirebaseState = {
   firestore: {
     users: {},
     books: {},
-    contact: {},
-    "contact-errors": {},
   },
 };
 

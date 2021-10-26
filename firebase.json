@@ -32,6 +32,22 @@
     "predeploy": [
       "npm --prefix \"$RESOURCE_DIR\" run lint",
       "npm --prefix \"$RESOURCE_DIR\" run compile"
-    ]
+    ],
+    "source": "functions"
+  },
+  "emulators": {
+    "hosting": {
+      "enabled": false
+    },
+    "functions": {
+      "port": 5001
+    },
+    "firestore": {
+      "enabled": false
+    },
+    "ui": {
+      "enabled": true,
+      "port": 4000
+    }
   }
 }

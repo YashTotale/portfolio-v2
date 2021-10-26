@@ -1,14 +1,8 @@
 // Firebase Imports
-import { createDoc, DocumentData, Schema } from "./firestore.helpers";
+import firebase from "../Utils/Config/firebase";
+import { httpsCallable } from "./helpers/functions";
 
-export const createContactDoc = (data: DocumentData): Promise<DocumentData> =>
-  createDoc("contact", data);
-
-export interface ContactError {
-  error: string;
-  data: Schema["contact"];
-}
-
-export const createContactErrorDoc = (
-  data: ContactError
-): Promise<ContactError> => createDoc("contact-errors", data);
+export const sendContactEmail = async (
+  data: Record<string, any>
+): Promise<firebase.functions.HttpsCallableResult> =>
+  await httpsCallable("sendContactEmail", data);

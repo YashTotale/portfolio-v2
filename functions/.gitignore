@@ -11,3 +11,4 @@ lib/
 
 # Secret
 service-account.json
+.runtimeconfig.json

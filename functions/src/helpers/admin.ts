@@ -13,3 +13,6 @@ admin.initializeApp({
 });
 
 export const firestore = admin.firestore();
+firestore.settings({
+  ignoreUndefinedProperties: true,
+});
