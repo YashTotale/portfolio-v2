@@ -20,6 +20,10 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
+      - name: Setup Firebase Service Account
+        working-directory: functions
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > 'src/service-account.json'
+
       - name: Setup Node
         uses: actions/setup-node@v2.1.4
         with:
