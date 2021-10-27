@@ -15,21 +15,8 @@ service cloud.firestore {
     }
 
     match /users/{docId} {
-      allow read: if isSignedIn();
-      allow write: if isOwner(docId);
-      allow delete: if false;
-    }
-
-    match /contact/{docId} {
-    	allow read: if false;
-      allow write: if false;
-      allow create: if true;
-    }
-
-    match /contact-errors/{docId} {
-    	allow read: if false;
-      allow write: if false;
-      allow create: if true;
+      allow read: if isOwner(docId);
+      allow update: if isOwner(docId);
     }
 
     match /books/{docId} {

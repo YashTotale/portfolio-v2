@@ -5,13 +5,13 @@ import { useUser } from "../Context/UserContext";
 import "firebase/auth";
 import firebase from "../Utils/Config/firebase";
 import {
-  createDoc,
   createDocSnapshot,
   Nullable,
   updateDoc,
   WithId,
 } from "./helpers/firestore";
 import { uploadFile } from "./helpers/storage";
+import { httpsCallable } from "./helpers/functions";
 
 const collection = "users" as const;
 
@@ -28,16 +28,14 @@ export const useUserDoc = (): Nullable<WithId<UserDoc>> => {
   return doc;
 };
 
-export const createUser = (user: firebase.User): Promise<UserDoc> =>
-  createDoc(
-    collection,
-    {
-      name: user.displayName ?? "",
-      email: user.email ?? "",
-      picture: user.photoURL ?? "",
-    },
-    user.uid
-  );
+export const createUser = async (
+  user: firebase.User
+): Promise<firebase.functions.HttpsCallableResult> =>
+  await httpsCallable("createUserDoc", {
+    name: user.displayName ?? "",
+    email: user.email ?? "",
+    picture: user.photoURL ?? "",
+  });
 
 export const updateUserName = (
   userId: string,

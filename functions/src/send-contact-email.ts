@@ -21,7 +21,7 @@ type FormattedData = Omit<Data, "timestamp"> & {
   timestamp: Date;
 };
 
-const dataSchema = Joi.object<Data>({
+const dataSchema = Joi.object<Data, true>({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
   message: Joi.string().required(),
