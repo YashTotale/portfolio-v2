@@ -5,7 +5,7 @@ import { Badge } from "../types";
 import badges from "../../Data/badge.json";
 
 export const getRawBadge = (id: string): Badge | null => {
-  const all = (badges as unknown) as Record<string, Badge>;
+  const all = badges as unknown as Record<string, Badge>;
   const single = all[id];
 
   if (!single) return null;

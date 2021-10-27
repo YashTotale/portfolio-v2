@@ -10,7 +10,6 @@ import {
   useForm,
 } from "react-hook-form";
 import ReCAPTCHA, { ReCAPTCHAProps } from "react-google-recaptcha";
-import emailjs from "emailjs-com";
 import { useAnalytics, useClosableSnackbar } from "../../Hooks";
 import { useTitle } from "../../Context/HeadContext";
 import StyledLink from "../../Components/Atomic/StyledLink";
@@ -19,10 +18,7 @@ import { generatePageTitle, generateSearch } from "../../Utils/funcs";
 
 // Firebase Imports
 import { useUserDoc } from "../../Controllers/user.controller";
-import {
-  createContactDoc,
-  createContactErrorDoc,
-} from "../../Controllers/contact.controller";
+import { sendContactEmail } from "../../Controllers/contact.controller";
 
 // Material UI Imports
 import {
@@ -93,19 +89,13 @@ const Contact: FC = () => {
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const {
-    formState,
-    control,
-    handleSubmit,
-    reset,
-    getValues,
-    setValue,
-  } = useForm<Inputs>({
-    defaultValues: {
-      name: userDoc?.name,
-      email: userDoc?.email,
-    },
-  });
+  const { formState, control, handleSubmit, reset, getValues, setValue } =
+    useForm<Inputs>({
+      defaultValues: {
+        name: userDoc?.name,
+        email: userDoc?.email,
+      },
+    });
   const [loading, setLoading] = useState(false);
 
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
@@ -150,8 +140,7 @@ const Contact: FC = () => {
     const data = Object.fromEntries(
       Object.entries(inputs).filter(([_, v]) => v !== undefined)
     );
-    data.timestamp = new Date();
-    data.user = userDoc ? userDoc.id : null;
+    data.timestamp = Date.now();
     data["g-recaptcha-response"] = recaptcha;
 
     try {
@@ -161,13 +150,8 @@ const Contact: FC = () => {
         throw new Error("Please complete the ReCAPTCHA challenge.");
       }
 
-      await emailjs.send(
-        process.env.REACT_APP_EMAIL_SERVICE_ID ?? "",
-        process.env.REACT_APP_EMAIL_TEMPLATE_ID ?? "",
-        data,
-        process.env.REACT_APP_EMAIL_USER_ID ?? ""
-      );
-      await createContactDoc(data);
+      await sendContactEmail(data);
+
       enqueueSnackbar("Message received! Check your inbox :)", {
         variant: "success",
       });
@@ -180,11 +164,6 @@ const Contact: FC = () => {
       const message: string =
         (typeof e === "string" ? e : e.message) ||
         "An error occurred. Please try again.";
-
-      createContactErrorDoc({
-        error: message,
-        data,
-      });
 
       enqueueSnackbar(message, {
         variant: "error",

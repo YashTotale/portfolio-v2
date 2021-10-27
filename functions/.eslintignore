@@ -1,21 +1,9 @@
 # dependencies
 node_modules/
 
-# testing
-coverage/
-
 # production
-dist/
-out/
-build/
-temp-build/
-bundle-report/
 lib/
 
-# misc
-.husky/_
-
 # secret
-.env
 service-account.json
 .runtimeconfig.json

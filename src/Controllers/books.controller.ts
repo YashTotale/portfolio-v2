@@ -3,7 +3,7 @@ import {
   createDocSnapshot,
   updateDoc,
   updateOrCreateDoc,
-} from "./firestore.helpers";
+} from "./helpers/firestore";
 import firebase from "../Utils/Config/firebase";
 
 const collection = "books" as const;

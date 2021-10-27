@@ -32,6 +32,17 @@ export const getFirestore = (): firebase.firestore.Firestore => {
   return firestore;
 };
 
+let functions: firebase.functions.Functions;
+export const getFunctions = (): firebase.functions.Functions => {
+  if (!functions) {
+    functions = firebase.functions();
+    if (process.env.NODE_ENV !== "production") {
+      functions.useEmulator("localhost", 5001);
+    }
+  }
+  return functions;
+};
+
 let storage: firebase.storage.Storage;
 export const getStorage = (): firebase.storage.Storage => {
   if (!storage) {

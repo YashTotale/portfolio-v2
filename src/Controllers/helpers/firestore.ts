@@ -3,17 +3,16 @@ import { useCallback, useEffect } from "react";
 
 // Firebase Imports
 import "firebase/firestore";
-import firebase, { getFirestore } from "../Utils/Config/firebase";
+import firebase, { getFirestore } from "../../Utils/Config/firebase";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getDoc, setDoc } from "../Redux";
-import { useAppDispatch } from "../Store";
+import { getDoc, setDoc } from "../../Redux";
+import { useAppDispatch } from "../../Store";
 
 // Internal Imports
-import { UserDoc } from "./user.controller";
-import { BookDoc } from "./books.controller";
-import { ContactError } from "./contact.controller";
+import { UserDoc } from "../user.controller";
+import { BookDoc } from "../books.controller";
 
 export type WithId<T> = T & {
   id: string;
@@ -26,8 +25,6 @@ export type DocumentData = firebase.firestore.DocumentData;
 export interface Schema {
   users: UserDoc;
   books: BookDoc;
-  contact: Record<string, any>;
-  "contact-errors": ContactError;
 }
 
 export type Collection = keyof Schema;

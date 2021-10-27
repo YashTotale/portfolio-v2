@@ -1,0 +1,14 @@
+# Compiled JavaScript files
+**/*.js
+**/*.js.map
+
+# Dependencies
+node_modules/
+
+# TypeScript Output
+typings/
+lib/
+
+# Secret
+service-account.json
+.runtimeconfig.json

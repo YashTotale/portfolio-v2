@@ -26,7 +26,7 @@ import {
 import articles from "../../Data/article.json";
 
 export const getArticles = (): Article[] => {
-  return (Object.values(articles) as unknown) as Article[];
+  return Object.values(articles) as unknown as Article[];
 };
 
 export const getArticle = createResolver(
@@ -52,7 +52,7 @@ export const getRawArticle = (
   identifier: string,
   isSlug = false
 ): Article | null => {
-  const all = (articles as unknown) as Record<string, Article>;
+  const all = articles as unknown as Record<string, Article>;
   const single = !isSlug
     ? all[identifier]
     : Object.values(all).find((a) => a.slug === identifier);

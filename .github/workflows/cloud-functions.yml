@@ -1,0 +1,52 @@
+name: Integrate Cloud Functions
+
+on:
+  push:
+    paths:
+      - "functions/**"
+    branches:
+      - master
+  pull_request:
+    paths:
+      - "functions/**"
+    branches:
+      - master
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Setup Firebase Service Account
+        working-directory: functions
+        run: echo '${{ secrets.FIREBASE_SERVICE_ACCOUNT }}' > 'src/service-account.json'
+
+      - name: Setup Node
+        uses: actions/setup-node@v2.1.4
+        with:
+          node-version: 12.x
+
+      - name: Install Dependencies
+        working-directory: functions
+        run: npm ci
+
+      - name: Lint Firebase Cloud Functions
+        if: ${{ github.event_name == 'pull_request' }}
+        working-directory: functions
+        run: npm run lint
+
+      - name: Build Firebase Cloud Functions
+        if: ${{ github.event_name == 'pull_request' }}
+        working-directory: functions
+        run: npm run compile
+
+      - name: Deploy Firebase Cloud Functions
+        if: ${{ github.event_name == 'push' }}
+        uses: w9jds/firebase-action@v2.0.0
+        with:
+          args: deploy --only functions
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}

@@ -3,15 +3,15 @@ import { useUser } from "../Context/UserContext";
 
 // Firebase Imports
 import "firebase/auth";
+import firebase from "../Utils/Config/firebase";
 import {
   createDoc,
   createDocSnapshot,
   Nullable,
   updateDoc,
   WithId,
-} from "./firestore.helpers";
-import firebase from "../Utils/Config/firebase";
-import { uploadFile } from "./storage.helpers";
+} from "./helpers/firestore";
+import { uploadFile } from "./helpers/storage";
 
 const collection = "users" as const;
 

@@ -13,3 +13,6 @@ bundle-report/
 
 # misc
 .husky/_
+
+# other
+functions/

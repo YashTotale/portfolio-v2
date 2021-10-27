@@ -9,7 +9,7 @@ import {
   uploadUserPicture,
   useUserDoc,
 } from "../../../../../Controllers/user.controller";
-import { validateFileSize } from "../../../../../Controllers/storage.helpers";
+import { validateFileSize } from "../../../../../Controllers/helpers/storage";
 import firebase, { getAuth } from "../../../../../Utils/Config/firebase";
 
 // Material UI Imports

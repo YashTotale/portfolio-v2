@@ -34,7 +34,7 @@ import {
 import experience from "../../Data/experience.json";
 
 export const getExperience = (): Experience[] => {
-  return (Object.values(experience) as unknown) as Experience[];
+  return Object.values(experience) as unknown as Experience[];
 };
 
 export const getSingleExperience = createResolver(
@@ -71,7 +71,7 @@ export const getRawExperience = (
   identifier: string,
   isSlug = false
 ): Experience | null => {
-  const all = (experience as unknown) as Record<string, Experience>;
+  const all = experience as unknown as Record<string, Experience>;
   const single = !isSlug
     ? all[identifier]
     : Object.values(all).find((e) => e.slug === identifier);
