@@ -11,17 +11,21 @@ interface Data {
   name: string;
   email: string;
   message: string;
-  timestamp: Date;
+  timestamp: number;
   "g-recaptcha-response": string;
   bugs?: string;
   rating?: number | null;
 }
 
+type FormattedData = Omit<Data, "timestamp"> & {
+  timestamp: Date;
+};
+
 const dataSchema = Joi.object<Data>({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
   message: Joi.string().required(),
-  timestamp: Joi.date().required(),
+  timestamp: Joi.number().required(),
   "g-recaptcha-response": Joi.string().required(),
   bugs: Joi.string().optional(),
   rating: Joi.number().optional().allow(null),
@@ -31,31 +35,59 @@ const sendContactEmail = onCall<Data>({
   name: "Send Contact Email",
   schema: dataSchema,
   handler: async (data, context) => {
+    const formattedData: FormattedData = {
+      ...data,
+      timestamp: new Date(data.timestamp),
+    };
+
     try {
-      const formattedData = {
-        service_id: functions.config().email.service_id,
-        template_id: functions.config().email.template_id,
-        user_id: functions.config().email.user_id,
-        accessToken: functions.config().email.access_token,
-        template_params: data,
-      };
-      await axios.post(
-        "https://api.emailjs.com/api/v1.0/email/send",
-        formattedData
-      );
+      await verifyRecaptcha(formattedData["g-recaptcha-response"]);
+      await postEmail(formattedData);
       await firestore
         .collection("contact")
         .doc()
-        .set({ ...data, user: context.auth?.uid });
+        .set({
+          ...formattedData,
+          user: context.auth?.uid,
+        });
     } catch (e: any) {
       const message = typeof e === "string" ? e : e.message;
       await firestore
         .collection("contact-errors")
         .doc()
-        .set({ data, error: message, user: context.auth?.uid });
+        .set({ data: formattedData, error: message, user: context.auth?.uid });
       throw e;
     }
   },
 });
+
+const verifyRecaptcha = async (recaptchaResponse: string) => {
+  functions.logger.info("Verifying ReCAPTCHA...");
+  const res = await axios.post(
+    `https://www.google.com/recaptcha/api/siteverify?secret=${
+      functions.config().email.recaptcha_secret_key
+    }&response=${recaptchaResponse}`
+  );
+  if (!res.data.success) {
+    const errors = res.data["error-codes"].join(", ");
+    throw new Error(
+      `ReCAPTCHA Verification Failed (${errors}). Please try again.`
+    );
+  }
+  functions.logger.info("Verified ReCAPTCHA!");
+};
+
+const postEmail = async (data: FormattedData) => {
+  functions.logger.info("Sending Email...");
+  const postData = {
+    service_id: functions.config().email.service_id,
+    template_id: functions.config().email.template_id,
+    user_id: functions.config().email.user_id,
+    accessToken: functions.config().email.access_token,
+    template_params: data,
+  };
+  await axios.post("https://api.emailjs.com/api/v1.0/email/send", postData);
+  functions.logger.info("Sent Email!");
+};
 
 export default sendContactEmail;

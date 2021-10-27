@@ -12,14 +12,20 @@ export const onCall = <T>(options: OnCallOptions<T>) =>
   functions.https.onCall(async (data: T, context) => {
     functions.logger.log(`Running ${options.name}`);
 
-    if (options.schema) {
-      functions.logger.info("Validating data...");
-      const validationResult = options.schema.validate(data);
-      if (validationResult.error) {
-        functions.logger.error("Validation Error", validationResult.error);
-        throw validationResult.error;
+    try {
+      if (options.schema) {
+        functions.logger.info("Validating data...");
+        const validationResult = options.schema.validate(data);
+        if (validationResult.error) {
+          functions.logger.error("Validation Error", validationResult.error);
+          throw validationResult.error;
+        }
+        functions.logger.info("Validating data!");
       }
-    }
 
-    await options.handler(data, context);
+      return await options.handler(data, context);
+    } catch (e: any) {
+      functions.logger.error(e.message);
+      throw new functions.https.HttpsError(e.code ?? "internal", e.message);
+    }
   });

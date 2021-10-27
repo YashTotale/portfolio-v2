@@ -140,7 +140,7 @@ const Contact: FC = () => {
     const data = Object.fromEntries(
       Object.entries(inputs).filter(([_, v]) => v !== undefined)
     );
-    data.timestamp = new Date();
+    data.timestamp = Date.now();
     data["g-recaptcha-response"] = recaptcha;
 
     try {
