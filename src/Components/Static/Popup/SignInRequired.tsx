@@ -25,10 +25,10 @@ const SignInRequired: FC = () => {
 
   return (
     <>
-      <DialogTitle>Sign In Required</DialogTitle>
+      <DialogTitle>Authentication Required</DialogTitle>
       <DialogContent>
         <DialogContentText>
-          You need to sign in to perform this action.
+          You must sign in or register to perform this action.
         </DialogContentText>
       </DialogContent>
       <DialogActions>

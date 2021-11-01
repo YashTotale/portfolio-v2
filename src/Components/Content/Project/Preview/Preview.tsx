@@ -1,5 +1,6 @@
 //React Imports
 import React, { forwardRef } from "react";
+import { Link, useLocation } from "react-router-dom";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "../../Shared/FloatingIcons";
@@ -7,10 +8,12 @@ import Timeline from "../../Shared/Timeline";
 import TagChip from "../../Tag/Mini";
 import Title from "./Components/Title";
 import RichText from "../../../Custom/RichText";
+import { useTitle } from "../../../../Context/HeadContext";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import Mini from "../../Shared/Mini";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
+import { generateSearch } from "../../../../Utils/funcs";
 import {
   generateExperienceTitle,
   getSingleExperience,
@@ -22,6 +25,8 @@ import {
 
 // Redux Imports
 import { getProjectsSort, setProjectsSort } from "../../../../Redux";
+
+// Material UI Imports
 import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,9 +50,10 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
-  projectImage: {
+  projectImageLink: {
     margin: theme.spacing(2, 0),
-
+  },
+  projectImage: {
     [theme.breakpoints.only("xl")]: {
       width: 200,
     },
@@ -100,9 +106,22 @@ export interface PreviewProps {
 
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
+  const location = useLocation();
+  const title = useTitle();
 
   const project = getProject(props.id);
   if (!project) return null;
+
+  const generateLink = (type: string) => ({
+    pathname: `/projects/${project.slug}`,
+    search: generateSearch(
+      {
+        from_path: location.pathname,
+        from_type: type,
+      },
+      title
+    ),
+  });
 
   return (
     <DynamicPaper ref={ref} className={clsx(classes.project, props.className)}>
@@ -112,12 +131,17 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           linkLabel="Project"
           github={project.github}
         />
-        <DynamicImage
-          src={`${project.image.file.url}?w=200`}
-          alt={project.image.title}
-          className={classes.projectImage}
-        />
-        <Title {...project} search={props.search} />
+        <Link
+          to={generateLink("preview_image")}
+          className={classes.projectImageLink}
+        >
+          <DynamicImage
+            src={`${project.image.file.url}?w=200`}
+            alt={project.image.title}
+            className={classes.projectImage}
+          />
+        </Link>
+        <Title {...project} generateLink={generateLink} search={props.search} />
       </div>
       <div className={classes.projectDescription}>
         <RichText

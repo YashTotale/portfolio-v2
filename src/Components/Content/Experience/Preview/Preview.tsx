@@ -1,6 +1,7 @@
 // React Imports
 import React, { forwardRef } from "react";
 import clsx from "clsx";
+import { Link, useLocation } from "react-router-dom";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
 import FloatingIcons from "../../Shared/FloatingIcons";
@@ -8,9 +9,11 @@ import Timeline from "../../Shared/Timeline";
 import Mini from "../../Shared/Mini";
 import TagMini from "../../Tag/Mini";
 import RichText from "../../../Custom/RichText";
+import { useTitle } from "../../../../Context/HeadContext";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
+import { generateSearch } from "../../../../Utils/funcs";
 import {
   generateExperienceTimeline,
   getSingleExperience,
@@ -43,9 +46,10 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     borderBottom: `1px solid ${theme.palette.text.disabled}`,
   },
-  image: {
+  imageLink: {
     margin: theme.spacing(2, 0, 1),
-
+  },
+  image: {
     [theme.breakpoints.only("xl")]: {
       width: 225,
     },
@@ -118,6 +122,9 @@ export interface PreviewProps {
 
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
+  const location = useLocation();
+  const title = useTitle();
+
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -126,6 +133,16 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   if (!experience) return null;
 
   const image = isDark ? experience.darkImage : experience.lightImage;
+  const generateLink = (type: string) => ({
+    pathname: `/experience/${experience.slug}`,
+    search: generateSearch(
+      {
+        from_path: location.pathname,
+        from_type: type,
+      },
+      title
+    ),
+  });
 
   return (
     <DynamicPaper
@@ -140,12 +157,18 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           linkedin={experience.linkedin}
           direction={isSizeXS ? "column" : "row"}
         />
-        <DynamicImage
-          src={`${image.file.url}?w=300`}
-          alt={image.title}
-          className={classes.image}
+        <Link to={generateLink("preview_image")} className={classes.imageLink}>
+          <DynamicImage
+            src={`${image.file.url}?w=300`}
+            alt={image.title}
+            className={classes.image}
+          />
+        </Link>
+        <Title
+          {...experience}
+          generateLink={generateLink}
+          search={props.search}
         />
-        <Title {...experience} search={props.search} />
       </div>
       <div className={classes.info}>
         <div className={classes.description}>

@@ -1,10 +1,8 @@
 //React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
+import { LocationDescriptor } from "history";
 import StyledLink from "../../../../Atomic/StyledLink";
-import { useTitle } from "../../../../../Context/HeadContext";
 import { ResolvedExperience } from "../../../../../Utils/types";
-import { generateSearch } from "../../../../../Utils/funcs";
 import {
   generateExperienceSubtitle,
   generateExperienceTitle,
@@ -32,32 +30,21 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type TitleProps = ResolvedExperience & {
+  generateLink: (type: string) => LocationDescriptor<unknown>;
   search?: string;
 };
 
 const Title: FC<TitleProps> = (props) => {
-  const { slug, search } = props;
+  const { search } = props;
   const classes = useStyles();
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const location = useLocation();
-  const pageTitle = useTitle();
-
   return (
     <>
       <StyledLink
-        to={{
-          pathname: `/experience/${slug}`,
-          search: generateSearch(
-            {
-              from_path: location.pathname,
-              from_type: "preview_title",
-            },
-            pageTitle
-          ),
-        }}
+        to={props.generateLink("preview_title")}
         variant={isSizeXS ? "h5" : "h4"}
         className={classes.title}
         toMatch={search}

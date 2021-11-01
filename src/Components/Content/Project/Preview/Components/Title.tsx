@@ -1,10 +1,8 @@
 //React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
+import { LocationDescriptor } from "history";
 import StyledLink from "../../../../Atomic/StyledLink";
-import { useTitle } from "../../../../../Context/HeadContext";
 import { ResolvedProject } from "../../../../../Utils/types";
-import { generateSearch } from "../../../../../Utils/funcs";
 
 // Material UI Imports
 import { useMediaQuery, useTheme } from "@mui/material";
@@ -22,31 +20,20 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type TitleProps = ResolvedProject & {
+  generateLink: (type: string) => LocationDescriptor<unknown>;
   search?: string;
 };
 
 const Title: FC<TitleProps> = (props) => {
-  const { slug, title, search } = props;
+  const { title, search } = props;
   const classes = useStyles();
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const location = useLocation();
-  const pageTitle = useTitle();
-
   return (
     <StyledLink
-      to={{
-        pathname: `/projects/${slug}`,
-        search: generateSearch(
-          {
-            from_path: location.pathname,
-            from_type: "preview_title",
-          },
-          pageTitle
-        ),
-      }}
+      to={props.generateLink("preview_title")}
       variant={isSizeXS ? "h5" : "h4"}
       className={classes.projectTitle}
       toMatch={search}
