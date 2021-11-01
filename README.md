@@ -1,10 +1,10 @@
-<p align="center"><img alt="Icon" width="150" src="https://yashtotale.web.app/logo512.png"/></p>
+<p align="center"><img alt="Icon" width="150" src="https://yashtotale.dev/logo512.png"/></p>
 
 <h1 align="center">Welcome to Yash's Portfolio Website 👋</h1>
 
 <p align="center">
 <a href="https://github.com/YashTotale/portfolio-v2/actions/workflows/integrate.yml"><img src="https://img.shields.io/github/workflow/status/YashTotale/portfolio-v2/Node%20CI?logo=github&logoColor=FFFFFF&labelColor=000000&label=Build&style=flat-square" alt="Build" /></a>
-<a href="https://yashtotale.web.app/"><img src="https://img.shields.io/website?url=https%3A%2F%2Fyashtotale.web.app%2F&labelColor=000000&label=Website&style=flat-square" alt="Website"/></a>
+<a href="https://yashtotale.dev/"><img src="https://img.shields.io/website?url=https%3A%2F%2Fyashtotale.dev%2F&labelColor=000000&label=Website&style=flat-square" alt="Website"/></a>
 <a href="https://github.com/YashTotale/portfolio-v2/actions/workflows/deploy.yml"><img src="https://img.shields.io/github/workflow/status/YashTotale/portfolio-v2/Deploy%20Website?logo=firebase&logoColor=FFFFFF&labelColor=000000&label=Deploy&style=flat-square" alt="Deploy" /></a>
 <a href="https://lgtm.com/projects/g/YashTotale/portfolio-v2/context:javascript"><img src="https://img.shields.io/lgtm/grade/javascript/github/YashTotale/portfolio-v2?logo=lgtm&logoColor=FFFFFF&labelColor=000000&label=Code%20Quality&style=flat-square" alt="Code Quality" /></a>
 <a href="https://yasht-portfolio-bundle-analyzer.onrender.com/"><img src="https://img.shields.io/website?url=https%3A%2F%2Fyasht-portfolio-bundle-analyzer.onrender.com%2F&labelColor=000000&label=Bundle%20Reports&style=flat-square" alt="Bundle Reports"/></a>
@@ -154,7 +154,7 @@ if (navigator.userAgent !== "ReactSnap") {
 
 Give a ⭐️ if this project helped you! Since this project is licensed under the [MIT License](https://github.com/YashTotale/portfolio-v2/blob/master/LICENSE.md), you can use my code in your own projects or portfolio websites 🙂
 
-Feel free to reach out to me via [email](mailto:totalyash@gmail.com) or through the [contact form](https://yashtotale.web.app/contact) of this site!
+Feel free to reach out to me via [email](mailto:totalyash@gmail.com) or through the [contact form](https://yashtotale.dev/contact) of this site!
 
 ## ✍ Author
 
