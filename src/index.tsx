@@ -1,12 +1,3 @@
-/* eslint-disable import/first */
-import { isDev } from "./Utils/constants";
-
-// Temporary measure: redirect to main url
-if (!isDev && window.location.href.includes("yashtotale.web.app"))
-  window.location.replace(
-    window.location.href.replace("yashtotale.web.app", "yashtotale.dev")
-  );
-
 //React Imports
 import React, { FC } from "react";
 import { hydrate, render } from "react-dom";
