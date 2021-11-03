@@ -1,46 +1,46 @@
-// React Imports
-import { useUser } from "../Context/UserContext";
+// Internal Imports
+import { Nullable } from "../../types/general";
 
 // Firebase Imports
-import "firebase/auth";
 import firebase from "../Utils/Config/firebase";
-import {
-  createDocSnapshot,
-  Nullable,
-  updateDoc,
-  WithId,
-} from "./helpers/firestore";
+import { useUser } from "../Context/UserContext";
+import { createDocSnapshot, updateDoc } from "./helpers/firestore";
 import { uploadFile } from "./helpers/storage";
 import { httpsCallable } from "./helpers/functions";
+import { WithId, PublicUserDoc, ImmutableUserDoc } from "../../types/firestore";
 
-const collection = "users" as const;
+const publicCollection = "users" as const;
+const immutableCollection = "users_immutable" as const;
 
-export interface UserDoc {
-  name: string;
-  email: string;
-  picture: string;
-}
-
-export const useUserDoc = (): Nullable<WithId<UserDoc>> => {
+export const useUserDoc = (): Nullable<
+  WithId<PublicUserDoc & ImmutableUserDoc>
+> => {
   const user = useUser();
-  const useDocHook = createDocSnapshot(collection);
-  const doc = useDocHook(user?.uid ?? "");
-  return doc;
+  const usePublicData = createDocSnapshot(publicCollection);
+  const useImmutableData = createDocSnapshot(immutableCollection);
+
+  const publicData = usePublicData(user?.uid ?? "");
+  const privateData = useImmutableData(user?.uid ?? "");
+
+  if (!publicData || !privateData) return null;
+  return { ...publicData, ...privateData };
 };
 
 export const createUser = async (
   user: firebase.User
-): Promise<firebase.functions.HttpsCallableResult> =>
-  await httpsCallable("createUserDoc", {
+): Promise<firebase.functions.HttpsCallableResult> => {
+  const data: PublicUserDoc & ImmutableUserDoc = {
     name: user.displayName ?? "",
     email: user.email ?? "",
     picture: user.photoURL ?? "",
-  });
+  };
+  return await httpsCallable("createUserDoc", data);
+};
 
 export const updateUserName = (
   userId: string,
   newName: string
-): Promise<void> => updateDoc(collection, userId, { name: newName });
+): Promise<void> => updateDoc(publicCollection, userId, { name: newName });
 
 export const uploadUserPicture = async (
   file: File,
@@ -50,5 +50,5 @@ export const uploadUserPicture = async (
     path: `users/${userId}`,
     fileName: "profile_picture",
   });
-  return await updateDoc(collection, userId, { picture: url });
+  return await updateDoc(publicCollection, userId, { picture: url });
 };

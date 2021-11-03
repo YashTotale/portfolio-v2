@@ -6,22 +6,13 @@ import axios from "axios";
 // Internal Imports
 import { onCall } from "./helpers/functions";
 import { firestore } from "./helpers/admin";
+import { ContactData } from "../../types/contact";
 
-interface Data {
-  name: string;
-  email: string;
-  message: string;
-  timestamp: number;
-  "g-recaptcha-response": string;
-  bugs?: string;
-  rating?: number | null;
-}
-
-type FormattedData = Omit<Data, "timestamp"> & {
+type FormattedData = Omit<ContactData, "timestamp"> & {
   timestamp: Date;
 };
 
-const dataSchema = Joi.object<Data, true>({
+const dataSchema = Joi.object<ContactData, true>({
   name: Joi.string().required(),
   email: Joi.string().email().required(),
   message: Joi.string().required(),
@@ -31,7 +22,7 @@ const dataSchema = Joi.object<Data, true>({
   rating: Joi.number().optional().allow(null),
 });
 
-const sendContactEmail = onCall<Data>({
+const sendContactEmail = onCall<ContactData>({
   name: "Send Contact Email",
   schema: dataSchema,
   handler: async (data, context) => {

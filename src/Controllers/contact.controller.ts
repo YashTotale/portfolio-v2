@@ -1,8 +1,9 @@
 // Firebase Imports
 import firebase from "../Utils/Config/firebase";
 import { httpsCallable } from "./helpers/functions";
+import { ContactData } from "../../types/contact";
 
 export const sendContactEmail = async (
-  data: Record<string, any>
+  data: ContactData
 ): Promise<firebase.functions.HttpsCallableResult> =>
-  await httpsCallable("sendContactEmail", data);
+  await httpsCallable<ContactData>("sendContactEmail", data);

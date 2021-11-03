@@ -4,14 +4,9 @@ import { firestore } from "./helpers/admin";
 
 // Internal Imports
 import { onCall } from "./helpers/functions";
+import { PublicUserDoc, ImmutableUserDoc } from "../../types/firestore";
 
-interface UserDoc {
-  name: string;
-  email: string;
-  picture: string;
-}
-
-type CreateUserData = UserDoc;
+type CreateUserData = PublicUserDoc & ImmutableUserDoc;
 
 const createUserDataSchema = Joi.object<CreateUserData, true>({
   name: Joi.string().required().allow(""),
@@ -27,9 +22,25 @@ export const createUserDoc = onCall<CreateUserData>({
       throw new Error("Cannot create user doc as the user is not logged in.");
     }
 
-    const ref = firestore
+    const publicData = {
+      name: data.name,
+      picture: data.picture,
+    };
+    const publicRef = firestore
       .collection("users")
-      .doc(context.auth.uid) as FirebaseFirestore.DocumentReference<UserDoc>;
-    await ref.create(data);
+      .doc(
+        context.auth.uid
+      ) as FirebaseFirestore.DocumentReference<PublicUserDoc>;
+    await publicRef.create(publicData);
+
+    const immutableData = {
+      email: data.email,
+    };
+    const immutableRef = firestore
+      .collection("users_immutable")
+      .doc(
+        context.auth.uid
+      ) as FirebaseFirestore.DocumentReference<ImmutableUserDoc>;
+    await immutableRef.create(immutableData);
   },
 });

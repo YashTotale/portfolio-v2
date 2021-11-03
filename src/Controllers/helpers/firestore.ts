@@ -4,43 +4,26 @@ import { useCallback, useEffect } from "react";
 // Firebase Imports
 import "firebase/firestore";
 import firebase, { getFirestore } from "../../Utils/Config/firebase";
+import { Collections, Schema } from "../../../types/firestore";
 
 // Redux Imports
 import { useSelector } from "react-redux";
 import { getDoc, setDoc } from "../../Redux";
+import { ReduxDoc } from "../../Redux/firebase.slice";
 import { useAppDispatch } from "../../Store";
-
-// Internal Imports
-import { UserDoc } from "../user.controller";
-import { BookDoc } from "../books.controller";
-
-export type WithId<T> = T & {
-  id: string;
-};
-
-export type Nullable<T> = T | undefined | null;
 
 export type DocumentData = firebase.firestore.DocumentData;
 
-export interface Schema {
-  users: UserDoc;
-  books: BookDoc;
-}
-
-export type Collection = keyof Schema;
-
-export const createDocSnapshot = <T extends Collection>(
+export const createDocSnapshot = <T extends Collections>(
   collection: T
-): ((id: string) => Nullable<WithId<Schema[T]>>) => {
+): ((id: string) => ReduxDoc<T>) => {
   const useDocSnapshot = (id: string) => {
     const firestore = getFirestore();
     const dispatch = useAppDispatch();
-    const data = useSelector(
-      getDoc<Nullable<WithId<Schema[T]>>>(collection, id)
-    );
+    const data = useSelector(getDoc(collection, id));
 
     const setData = useCallback(
-      (d: Nullable<WithId<Schema[T]>>) =>
+      (d: ReduxDoc<T>) =>
         dispatch(
           setDoc({
             collection,
@@ -73,7 +56,7 @@ export const createDocSnapshot = <T extends Collection>(
   return useDocSnapshot;
 };
 
-export const createDoc = async <T extends Collection>(
+export const createDoc = async <T extends Collections>(
   collection: T,
   data: Schema[T],
   id?: string
@@ -83,7 +66,7 @@ export const createDoc = async <T extends Collection>(
   return data;
 };
 
-export const updateDoc = async <T extends Collection>(
+export const updateDoc = async <T extends Collections>(
   collection: T,
   id: string,
   data: Partial<Record<keyof Schema[T], any>>
@@ -92,7 +75,7 @@ export const updateDoc = async <T extends Collection>(
   return await firestore.collection(collection).doc(id).update(data);
 };
 
-export const updateOrCreateDoc = async <T extends Collection>(
+export const updateOrCreateDoc = async <T extends Collections>(
   collection: T,
   id: string,
   data: Partial<Record<keyof Schema[T], any>>

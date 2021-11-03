@@ -15,8 +15,12 @@ service cloud.firestore {
     }
 
     match /users/{docId} {
-      allow read: if isOwner(docId);
+      allow read: if true;
       allow update: if isOwner(docId);
+    }
+
+    match /users_immutable/{docId} {
+      allow read: if isOwner(docId);
     }
 
     match /books/{docId} {

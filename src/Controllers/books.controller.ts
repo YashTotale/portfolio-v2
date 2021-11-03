@@ -1,16 +1,12 @@
 // Firebase Imports
+import firebase from "../Utils/Config/firebase";
 import {
   createDocSnapshot,
   updateDoc,
   updateOrCreateDoc,
 } from "./helpers/firestore";
-import firebase from "../Utils/Config/firebase";
 
 const collection = "books" as const;
-
-export interface BookDoc {
-  likes: string[];
-}
 
 export const useBookDoc = createDocSnapshot(collection);
 

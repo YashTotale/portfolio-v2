@@ -15,6 +15,7 @@ import { useTitle } from "../../Context/HeadContext";
 import StyledLink from "../../Components/Atomic/StyledLink";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle, generateSearch } from "../../Utils/funcs";
+import { ContactData } from "../../../types/contact";
 
 // Firebase Imports
 import { useUserDoc } from "../../Controllers/user.controller";
@@ -136,19 +137,18 @@ const Contact: FC = () => {
   const onSubmit: SubmitHandler<Inputs> = async (inputs, e) => {
     inputs.bugs = inputs.bugs || undefined;
 
-    // Remove undefined values
-    const data = Object.fromEntries(
-      Object.entries(inputs).filter(([_, v]) => v !== undefined)
-    );
-    data.timestamp = Date.now();
-    data["g-recaptcha-response"] = recaptcha;
-
     try {
       setLoading(true);
 
-      if (data["g-recaptcha-response"] === null) {
+      if (recaptcha === null) {
         throw new Error("Please complete the ReCAPTCHA challenge.");
       }
+
+      const data: ContactData = {
+        ...inputs,
+        "g-recaptcha-response": recaptcha,
+        timestamp: Date.now(),
+      };
 
       await sendContactEmail(data);
 

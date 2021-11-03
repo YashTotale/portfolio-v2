@@ -1,16 +1,27 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Collection as CollectionName } from "../Controllers/helpers/firestore";
+import { Nullable } from "../../types/general";
+import {
+  WithId,
+  Collections,
+  Collections as CollectionName,
+  Schema,
+} from "../../types/firestore";
 import { RootState } from "../Store";
 
-type Collection = Record<string, any>;
+export type ReduxDoc<Property extends Collections> = Nullable<
+  WithId<Schema[Property]>
+>;
 
 export type FirebaseState = {
-  firestore: Record<CollectionName, Collection>;
+  firestore: {
+    [Property in Collections]: Record<string, ReduxDoc<Property>>;
+  };
 };
 
 export const initialFirebaseState: FirebaseState = {
   firestore: {
     users: {},
+    users_immutable: {},
     books: {},
   },
 };
@@ -24,7 +35,7 @@ const firebaseSlice = createSlice({
       action: PayloadAction<{
         collection: CollectionName;
         docId: string;
-        data: any;
+        data: ReduxDoc<any>;
       }>
     ) => ({
       ...state,
@@ -44,9 +55,9 @@ export const { setDoc } = firebaseSlice.actions;
 
 // Selectors
 export const getDoc =
-  <T>(collection: CollectionName, docId: string) =>
-  (state: RootState): T =>
-    state.firebase.firestore[collection][docId];
+  <T extends CollectionName>(collection: T, docId: string) =>
+  (state: RootState): ReduxDoc<T> =>
+    state.firebase.firestore[collection][docId] as ReduxDoc<T>;
 
 // Reducer
 export const firebaseReducer = firebaseSlice.reducer;
