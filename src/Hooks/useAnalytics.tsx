@@ -2,6 +2,7 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { getSearch } from "../Utils/funcs";
+import { isDev } from "../Utils/constants";
 
 // Firebase Imports
 import "firebase/analytics";
@@ -11,13 +12,10 @@ const useAnalytics = (title: string | null | undefined): void => {
   const location = useLocation();
   const search = getSearch(location.search);
 
-  const isDev = process.env.NODE_ENV === "development";
-  const isReactSnap = navigator.userAgent === "ReactSnap";
-
-  const analytics = getAnalytics(!isReactSnap);
+  const analytics = getAnalytics();
 
   useEffect(() => {
-    if (title && !isReactSnap) {
+    if (title) {
       const data: Record<string, string> = {
         page_title: title,
         ...search,
@@ -27,7 +25,7 @@ const useAnalytics = (title: string | null | undefined): void => {
 
       analytics.logEvent("page_view", data);
     }
-  }, [title, search, analytics, isDev, isReactSnap]);
+  }, [title, search, analytics]);
 };
 
 export default useAnalytics;
