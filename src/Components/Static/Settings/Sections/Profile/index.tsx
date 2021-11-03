@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import LoggedIn from "./LoggedIn";
+import LoggedIn, { SignOutButton } from "./LoggedIn";
 import NotLoggedIn from "./LoggedOut";
 import Section from "../../Section";
 import HorizontalDivider from "../../../../Atomic/Divider/Horizontal";
@@ -12,7 +12,7 @@ const Profile: FC = () => {
   const user = useUser();
 
   return (
-    <Section title="Profile">
+    <Section title="Profile" rightAction={user ? <SignOutButton /> : undefined}>
       {user ? <LoggedIn user={user} /> : <NotLoggedIn />}
       <HorizontalDivider />
     </Section>

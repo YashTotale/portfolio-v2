@@ -29,20 +29,18 @@ import { Check, CloudUpload } from "@mui/icons-material";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    flexDirection: "column",
+    justifyContent: "center",
     alignItems: "center",
     width: "100%",
     padding: theme.spacing(2),
-  },
-  info: {
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-    margin: theme.spacing(0, 3, 2),
 
     [theme.breakpoints.down("md")]: {
       flexDirection: "column",
     },
+  },
+  info: {
+    display: "flex",
+    flexDirection: "column",
   },
   input: {
     margin: theme.spacing(1, 1.5),
@@ -61,13 +59,6 @@ const useStyles = makeStyles((theme) => ({
   emailInput: {
     cursor: "not-allowed",
   },
-  logout: {
-    marginLeft: "auto",
-
-    [theme.breakpoints.down("md")]: {
-      marginLeft: 0,
-    },
-  },
 }));
 
 interface LoggedInProps {
@@ -84,12 +75,11 @@ const LoggedIn: FC<LoggedInProps> = (props) => {
 
   return (
     <div className={classes.container}>
+      <ProfilePicture {...props} userDoc={userDoc} />
       <div className={classes.info}>
-        <ProfilePicture {...props} userDoc={userDoc} />
         <NameField {...props} userDoc={userDoc} />
         <EmailField {...props} userDoc={userDoc} />
       </div>
-      <SignOutButton />
     </div>
   );
 };
@@ -99,8 +89,8 @@ const useProfilePictureStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    height: 56,
-    width: 56,
+    height: 100,
+    width: 100,
     margin: theme.spacing(1, 1.5),
     cursor: "pointer",
     position: "relative",
@@ -171,7 +161,7 @@ const ProfilePicture: FC<FieldProps> = (props) => {
       )}
       <Tooltip title="Upload New Picture">
         <Avatar
-          variant="rounded"
+          variant="circular"
           src={props.userDoc?.picture}
           className={clsx(classes.avatar, uploading && classes.avatarDimmed)}
         />
@@ -218,7 +208,7 @@ const NameField: FC<FieldProps> = (props) => {
       name="name"
       type="text"
       label="Name"
-      variant="outlined"
+      variant="standard"
       size={isSizeXS ? "small" : "medium"}
       InputProps={{
         endAdornment: (
@@ -281,7 +271,7 @@ const EmailField: FC<FieldProps> = (props) => {
       name="email"
       type="email"
       label="Email"
-      variant="outlined"
+      variant="standard"
       size={isSizeXS ? "small" : "medium"}
       disabled
       className={classes.input}
@@ -316,10 +306,25 @@ const EmailField: FC<FieldProps> = (props) => {
   );
 };
 
-const SignOutButton: FC = () => {
-  const classes = useStyles();
-  const auth = getAuth();
+const useSignOutButtonStyles = makeStyles((theme) => ({
+  logout: {
+    position: "absolute",
+    marginLeft: "auto",
+    right: theme.spacing(1),
+
+    [theme.breakpoints.down("md")]: {
+      marginLeft: 0,
+    },
+  },
+}));
+
+export const SignOutButton: FC = () => {
+  const classes = useSignOutButtonStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
+  const auth = getAuth();
+
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const onClick = async () => {
     await auth.signOut();
@@ -332,6 +337,7 @@ const SignOutButton: FC = () => {
     <Button
       variant="outlined"
       color="error"
+      size={isSizeXS ? "small" : "medium"}
       onClick={onClick}
       className={classes.logout}
     >

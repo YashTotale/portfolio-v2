@@ -21,6 +21,12 @@ const useStyles = makeStyles((theme) => ({
         ? theme.palette.grey[900]
         : theme.palette.grey[200],
   },
+  titleContainer: {
+    display: "flex",
+    alignItems: "center",
+    position: "relative",
+    width: "100%",
+  },
   title: {
     width: "100%",
     fontWeight: theme.typography.fontWeightMedium,
@@ -34,6 +40,7 @@ const useStyles = makeStyles((theme) => ({
 
 interface SectionProps {
   title: string;
+  rightAction?: JSX.Element;
   className?: string;
 }
 
@@ -42,13 +49,16 @@ const Section: FC<SectionProps> = (props) => {
 
   return (
     <div className={classes.section}>
-      <Typography
-        align="center"
-        variant="h5"
-        className={clsx(classes.title, props.className)}
-      >
-        {props.title}
-      </Typography>
+      <div className={classes.titleContainer}>
+        <Typography
+          align="center"
+          variant="h5"
+          className={clsx(classes.title, props.className)}
+        >
+          {props.title}
+        </Typography>
+        {props.rightAction}
+      </div>
       <HorizontalDivider />
       {props.children}
     </div>
