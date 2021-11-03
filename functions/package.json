@@ -4,8 +4,8 @@
   "main": "lib/index.js",
   "scripts": {
     "lint": "eslint \"src/**/*\"",
-    "compile": "tsc",
-    "compile:watch": "tsc --watch",
+    "compile": "rm -rf lib && tsc",
+    "compile:watch": "rm -rf lib && tsc --watch",
     "emulate": "firebase emulators:start --only functions",
     "serve": "concurrently 'npm:compile:watch' 'npm:emulate' -c 'blue.bold,green.bold'",
     "start": "npm run compile && firebase functions:shell",
