@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
-import LoggedIn, { SignOutButton } from "./LoggedIn";
+import LoggedIn from "./LoggedIn";
+import SignOutButton from "./LoggedIn/SignOut";
 import NotLoggedIn from "./LoggedOut";
 import Section from "../../Section";
 import HorizontalDivider from "../../../../Atomic/Divider/Horizontal";
