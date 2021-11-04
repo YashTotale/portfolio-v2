@@ -12,9 +12,11 @@ const createUserDataSchema = Joi.object<CreateUserData, true>({
   name: Joi.string().required().allow(""),
   email: Joi.string().required().allow(""),
   picture: Joi.string().required().allow(""),
-});
+})
+  .strict(true)
+  .unknown(false);
 
-export const createUserDoc = onCall<CreateUserData>({
+const createUserDoc = onCall<CreateUserData>({
   name: "Create User Doc",
   schema: createUserDataSchema,
   handler: async (data, context) => {
@@ -44,3 +46,5 @@ export const createUserDoc = onCall<CreateUserData>({
     await immutableRef.create(immutableData);
   },
 });
+
+export default createUserDoc;

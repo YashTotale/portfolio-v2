@@ -53,6 +53,9 @@ const useStyles = makeStyles((theme) => ({
   saveIcon: {
     cursor: "pointer",
   },
+  saveIconDisabled: {
+    cursor: "not-allowed",
+  },
   savingSpinner: {
     color: theme.palette.text.primary,
   },
@@ -223,11 +226,12 @@ const NameField: FC<FieldProps> = (props) => {
                 className={classes.savingSpinner}
               />
             ) : (
-              <Tooltip title="Save Name">
+              <Tooltip title={name ? "Save Name" : "Enter a name to save"}>
                 <CloudUpload
+                  color={name ? "action" : "disabled"}
                   fontSize="small"
-                  onClick={onNameSave}
-                  className={classes.saveIcon}
+                  onClick={name ? onNameSave : undefined}
+                  className={classes[name ? "saveIcon" : "saveIconDisabled"]}
                 />
               </Tooltip>
             )}

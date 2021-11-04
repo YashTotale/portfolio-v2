@@ -20,7 +20,9 @@ const dataSchema = Joi.object<ContactData, true>({
   "g-recaptcha-response": Joi.string().required(),
   bugs: Joi.string().optional(),
   rating: Joi.number().optional().allow(null),
-});
+})
+  .strict(true)
+  .unknown(false);
 
 const sendContactEmail = onCall<ContactData>({
   name: "Send Contact Email",

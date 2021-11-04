@@ -1,7 +1,3 @@
-# Compiled JavaScript files
-**/*.js
-**/*.js.map
-
 # Dependencies
 node_modules/
 
