@@ -135,7 +135,7 @@ const ProfilePicture: FC<FieldProps> = (props) => {
     try {
       setUploading(true);
       validateFileSize(file, 5);
-      await uploadUserPicture(file, props.user.uid);
+      await uploadUserPicture(file, props.user);
       enqueueSnackbar("Uploaded New Profile Picture", {
         variant: "success",
       });
@@ -190,7 +190,7 @@ const NameField: FC<FieldProps> = (props) => {
   const onNameSave = async () => {
     setNameSaving(true);
     try {
-      await updateUserName(props.user.uid, name);
+      await updateUserName(props.user, name);
       enqueueSnackbar("Saved Name", {
         variant: "success",
       });

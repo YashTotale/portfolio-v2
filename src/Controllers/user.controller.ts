@@ -37,18 +37,26 @@ export const createUser = async (
   return await httpsCallable("createUserDoc", data);
 };
 
-export const updateUserName = (
-  userId: string,
+export const updateUserName = async (
+  user: firebase.User,
   newName: string
-): Promise<void> => updateDoc(publicCollection, userId, { name: newName });
+): Promise<void> => {
+  await updateDoc(publicCollection, user.uid, { name: newName });
+  await user.updateProfile({
+    displayName: newName,
+  });
+};
 
 export const uploadUserPicture = async (
   file: File,
-  userId: string
+  user: firebase.User
 ): Promise<void> => {
   const url = await uploadFile(file, {
-    path: `users/${userId}`,
+    path: `users/${user.uid}`,
     fileName: "profile_picture",
   });
-  return await updateDoc(publicCollection, userId, { picture: url });
+  await updateDoc(publicCollection, user.uid, { picture: url });
+  await user.updateProfile({
+    photoURL: url,
+  });
 };
