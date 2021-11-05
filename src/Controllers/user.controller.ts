@@ -54,8 +54,7 @@ export const uploadUserPicture = async (
   user: firebase.User
 ): Promise<void> => {
   const url = await uploadFile(file, {
-    path: `users/${user.uid}`,
-    fileName: "profile_picture",
+    path: `users/${user.uid}/profile_pictures`,
   });
   await Promise.all([
     updateDoc(publicCollection, user.uid, { picture: url }),

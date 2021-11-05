@@ -24,7 +24,7 @@ service cloud.firestore {
     }
 
     match /books/{docId} {
-      allow read: if true;
+      allow read;
       allow write: if isSignedIn();
       allow delete: if false;
     }

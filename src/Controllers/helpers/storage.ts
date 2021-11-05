@@ -25,12 +25,14 @@ export const uploadFile = async (
   options: UploadOptions
 ): Promise<string> => {
   const storage = getStorage();
-  const ext = getExtension(file.type);
+
+  const fileName = options.fileName ?? file.name;
+  const originalExt = fileName.split(".").pop();
+  const contentExt = getExtension(file.type);
+
   const ref = storage
     .ref()
-    .child(
-      `${options.path}/${options.fileName ?? file.name}${ext ? `.${ext}` : ""}`
-    );
+    .child(`${options.path}/${fileName}${originalExt ? "" : contentExt}`);
   const upload = await ref.put(file);
   const url = await upload.ref.getDownloadURL();
   return url;

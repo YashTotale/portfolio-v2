@@ -17,11 +17,13 @@ service firebase.storage {
       allow read, write: if false;
     }
 
-    match /users/{userId}/{docId} {
-      allow read: if true;
-      allow write: if isOwner(userId)
+    match /users/{userId} {
+      match /profile_pictures/{fileId} {
+         allow read: if true;
+         allow write: if isOwner(userId)
                    && isImage()
                    && isUnderMB(5);
+      }
     }
   }
 }
