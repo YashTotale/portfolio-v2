@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC, useState } from "react";
 import clsx from "clsx";
-import { FieldProps } from "./index";
+import { ProfileProps } from "./index";
 import { useClosableSnackbar } from "../../../../../../Hooks";
 
 // Material UI Imports
@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Email: FC<FieldProps> = (props) => {
+const Email: FC<ProfileProps> = (props) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
   const theme = useTheme();

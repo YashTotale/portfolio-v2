@@ -21,10 +21,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     width: "100%",
-    padding: theme.spacing(0.75, 6.5),
+    padding: theme.spacing(0.75, 6.5, 0.75, 0),
 
     [theme.breakpoints.only("xs")]: {
-      padding: theme.spacing(0.5, 3, 0.75, 6),
+      padding: theme.spacing(0.5, 3, 0.75, 0),
     },
   },
   label: {

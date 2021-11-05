@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC, useState } from "react";
 import clsx from "clsx";
-import { FieldProps } from "./index";
+import { ProfileProps } from "./index";
 import { useClosableSnackbar } from "../../../../../../Hooks";
 
 // Firebase Imports
@@ -45,7 +45,7 @@ const useProfilePictureStyles = makeStyles((theme) => ({
   },
 }));
 
-const ProfilePicture: FC<FieldProps> = (props) => {
+const ProfilePicture: FC<ProfileProps> = (props) => {
   const classes = useProfilePictureStyles();
   const theme = useTheme();
   const { enqueueSnackbar } = useClosableSnackbar();

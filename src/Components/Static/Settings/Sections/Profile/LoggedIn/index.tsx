@@ -3,6 +3,8 @@ import React, { FC } from "react";
 import ProfilePicture from "./ProfilePicture";
 import Name from "./Name";
 import Email from "./Email";
+import LikedBooks from "./LikedBooks";
+import HorizontalDivider from "../../../../../Atomic/Divider/Horizontal";
 
 // Firebase Imports
 import firebase from "../../../../../../Utils/Config/firebase";
@@ -18,7 +20,14 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
-    padding: theme.spacing(2),
+  },
+  userInfo: {
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+    padding: theme.spacing(2, 0),
   },
 }));
 
@@ -26,7 +35,7 @@ interface LoggedInProps {
   user: firebase.User;
 }
 
-export interface FieldProps extends LoggedInProps {
+export interface ProfileProps extends LoggedInProps {
   userDoc: NonNullable<ReturnType<typeof useUserDoc>>;
 }
 
@@ -36,11 +45,20 @@ const LoggedIn: FC<LoggedInProps> = (props) => {
 
   if (!userDoc) return null;
 
+  const profileProps = {
+    ...props,
+    userDoc,
+  };
+
   return (
     <div className={classes.container}>
-      <ProfilePicture {...props} userDoc={userDoc} />
-      <Name {...props} userDoc={userDoc} />
-      <Email {...props} userDoc={userDoc} />
+      <div className={classes.userInfo}>
+        <ProfilePicture {...profileProps} />
+        <Name {...profileProps} />
+        <Email {...profileProps} />
+      </div>
+      <HorizontalDivider />
+      <LikedBooks {...profileProps} />
     </div>
   );
 };

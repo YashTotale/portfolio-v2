@@ -29,6 +29,14 @@ const useStyles = makeStyles((theme) => ({
     flexGrow: 1,
     marginLeft: theme.spacing(1.5),
   },
+  children: {
+    width: "100%",
+    paddingLeft: theme.spacing(6.5),
+
+    [theme.breakpoints.only("xs")]: {
+      paddingLeft: theme.spacing(6),
+    },
+  },
 }));
 
 interface SubsectionProps {
@@ -59,7 +67,7 @@ const Subsection: FC<SubsectionProps> = (props) => {
           {props.title}
         </Typography>
       </div>
-      {props.children}
+      <div className={classes.children}>{props.children}</div>
       <HorizontalDivider />
     </div>
   );

@@ -112,7 +112,12 @@ const Preview: FC<PreviewProps> = (props) => {
       <HorizontalDivider />
       <div className={classes.main}>
         <div className={classes.imageContainer}>
-          <img src={book.image} alt={book.title} className={classes.image} />
+          <img
+            src={book.image}
+            alt={book.title}
+            title={book.title}
+            className={classes.image}
+          />
         </div>
         {isSizeSmall ? <HorizontalDivider height={2} /> : <VerticalDivider />}
         <Info {...book} search={props.search} />

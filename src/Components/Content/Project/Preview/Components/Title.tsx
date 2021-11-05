@@ -37,6 +37,7 @@ const Title: FC<TitleProps> = (props) => {
       variant={isSizeXS ? "h5" : "h4"}
       className={classes.projectTitle}
       toMatch={search}
+      withTitle
     >
       {title}
     </StyledLink>

@@ -14,6 +14,7 @@ interface StyledLinkProps {
   color?: LinkProps["color"];
   align?: LinkProps["align"];
   toMatch?: string;
+  withTitle?: boolean;
   className?: string;
 }
 
@@ -26,6 +27,7 @@ const StyledLink: FC<StyledLinkProps> = (props) => {
     color = "primary",
     align,
     toMatch = "",
+    withTitle = false,
     className,
   } = props;
 
@@ -38,6 +40,7 @@ const StyledLink: FC<StyledLinkProps> = (props) => {
       variant={variant}
       align={align}
       onClick={onClick}
+      title={withTitle && typeof children === "string" ? children : undefined}
     >
       {typeof children === "string" ? (
         <MatchHighlight toMatch={toMatch}>{children}</MatchHighlight>

@@ -4,15 +4,13 @@ import { useCallback, useEffect } from "react";
 // Firebase Imports
 import "firebase/firestore";
 import firebase, { getFirestore } from "../../Utils/Config/firebase";
-import { Collections, Schema } from "../../../types/firestore";
+import { Collections, Schema, WithId } from "../../../types/firestore";
 
 // Redux Imports
 import { useSelector } from "react-redux";
 import { getDoc, setDoc } from "../../Redux";
 import { ReduxDoc } from "../../Redux/firebase.slice";
 import { useAppDispatch } from "../../Store";
-
-export type DocumentData = firebase.firestore.DocumentData;
 
 export const createDocSnapshot = <T extends Collections>(
   collection: T
@@ -85,4 +83,23 @@ export const updateOrCreateDoc = async <T extends Collections>(
     .collection(collection)
     .doc(id)
     .set(data, { merge: true });
+};
+
+type QueryOptions<T extends Collections> = {
+  field: keyof Schema[T];
+  operation: firebase.firestore.WhereFilterOp;
+  value: any;
+};
+
+export const queryCollection = async <T extends Collections>(
+  collection: T,
+  options: QueryOptions<T>
+): Promise<WithId<Schema[T]>[]> => {
+  const firestore = getFirestore();
+  const query = (await firestore
+    .collection(collection)
+    .where(options.field as string, options.operation, options.value)
+    .get()) as firebase.firestore.QuerySnapshot<Schema[T]>;
+
+  return query.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 };

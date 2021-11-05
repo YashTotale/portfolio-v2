@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC, useEffect, useState } from "react";
 import clsx from "clsx";
-import { FieldProps } from "./index";
+import { ProfileProps } from "./index";
 import { useClosableSnackbar } from "../../../../../../Hooks";
 
 // Firebase Imports
@@ -56,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Name: FC<FieldProps> = (props) => {
+const Name: FC<ProfileProps> = (props) => {
   const classes = useStyles();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
