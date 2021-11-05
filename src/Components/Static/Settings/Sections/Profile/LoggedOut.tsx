@@ -25,7 +25,13 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import { Lock, Mail, Visibility, VisibilityOff } from "@mui/icons-material";
+import {
+  Lock,
+  Mail,
+  Person,
+  Visibility,
+  VisibilityOff,
+} from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -35,7 +41,7 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
     margin: theme.spacing(2),
   },
-  emailPassword: {
+  formContainer: {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
@@ -87,6 +93,7 @@ const NotLoggedIn: FC = () => {
 };
 
 interface SignInInputs {
+  name: string;
   email: string;
   password: string;
 }
@@ -120,10 +127,19 @@ const EmailPassword: FC = () => {
           inputs.email,
           inputs.password
         );
-        user && (await createUser(user));
-        enqueueSnackbar(`Registered as ${user?.email ?? inputs.email}`, {
-          variant: "success",
-        });
+        if (user) {
+          await user.updateProfile({
+            displayName: inputs.name,
+          });
+          await createUser(user);
+          enqueueSnackbar(`Registered as ${user?.email ?? inputs.email}`, {
+            variant: "success",
+          });
+        } else {
+          throw new Error(
+            "An error occurred while registering. Please try again."
+          );
+        }
       }
     } catch (e: any) {
       const message = typeof e === "string" ? e : e.message;
@@ -136,8 +152,29 @@ const EmailPassword: FC = () => {
   };
 
   return (
-    <div className={classes.emailPassword}>
+    <div className={classes.formContainer}>
       <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+        {!isSignIn && (
+          <TextField
+            type="text"
+            label="Name"
+            error={!!formState.errors.name}
+            helperText={formState.errors.name?.message}
+            className={classes.textField}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Person fontSize="small" />
+                </InputAdornment>
+              ),
+            }}
+            fullWidth
+            {...register("name", {
+              required: "Name is required",
+              shouldUnregister: true,
+            })}
+          />
+        )}
         <TextField
           type="email"
           label="Email"

@@ -9,8 +9,8 @@ import { PublicUserDoc, ImmutableUserDoc } from "../../types/firestore";
 type CreateUserData = PublicUserDoc & ImmutableUserDoc;
 
 const createUserDataSchema = Joi.object<CreateUserData, true>({
-  name: Joi.string().required().allow(""),
-  email: Joi.string().required().allow(""),
+  name: Joi.string().required(),
+  email: Joi.string().required(),
   picture: Joi.string().required().allow(""),
 })
   .strict(true)
