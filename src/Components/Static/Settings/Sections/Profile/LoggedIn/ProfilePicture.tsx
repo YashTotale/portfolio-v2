@@ -25,8 +25,8 @@ const useProfilePictureStyles = makeStyles((theme) => ({
   },
   fileInput: {
     position: "absolute",
-    left: "0px",
-    top: "0px",
+    left: 0,
+    top: 0,
     opacity: 0,
     width: "100%",
     height: "100%",

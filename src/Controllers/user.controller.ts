@@ -41,10 +41,12 @@ export const updateUserName = async (
   user: firebase.User,
   newName: string
 ): Promise<void> => {
-  await updateDoc(publicCollection, user.uid, { name: newName });
-  await user.updateProfile({
-    displayName: newName,
-  });
+  await Promise.all([
+    updateDoc(publicCollection, user.uid, { name: newName }),
+    user.updateProfile({
+      displayName: newName,
+    }),
+  ]);
 };
 
 export const uploadUserPicture = async (
@@ -55,8 +57,10 @@ export const uploadUserPicture = async (
     path: `users/${user.uid}`,
     fileName: "profile_picture",
   });
-  await updateDoc(publicCollection, user.uid, { picture: url });
-  await user.updateProfile({
-    photoURL: url,
-  });
+  await Promise.all([
+    updateDoc(publicCollection, user.uid, { picture: url }),
+    user.updateProfile({
+      photoURL: url,
+    }),
+  ]);
 };

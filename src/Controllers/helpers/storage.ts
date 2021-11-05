@@ -6,7 +6,7 @@ import "firebase/storage";
 import { getStorage } from "../../Utils/Config/firebase";
 
 export const validateFileSize = (file: File, mb = 5): void => {
-  const size = file.size / 1000 / 1000; // Size in MB
+  const size = file.size / 1024 / 1024; // Size in MB
   if (size > mb) {
     const formattedSize = size.toFixed(1);
     throw new Error(

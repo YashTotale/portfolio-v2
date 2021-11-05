@@ -5,13 +5,23 @@ service firebase.storage {
       return request.auth.uid == uid;
     }
 
+    function isImage() {
+      return request.resource.contentType.matches('image/.*');
+    }
+
+    function isUnderMB(mb) {
+      return request.resource.size < mb * 1024 * 1024
+    }
+
     match /{allPaths=**} {
       allow read, write: if false;
     }
 
     match /users/{userId}/{docId} {
       allow read: if true;
-      allow write: if isOwner(userId);
+      allow write: if isOwner(userId)
+                   && isImage()
+                   && isUnderMB(5);
     }
   }
 }
