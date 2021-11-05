@@ -36,14 +36,12 @@ interface LoggedInProps {
 }
 
 export interface ProfileProps extends LoggedInProps {
-  userDoc: NonNullable<ReturnType<typeof useUserDoc>>;
+  userDoc: ReturnType<typeof useUserDoc>;
 }
 
 const LoggedIn: FC<LoggedInProps> = (props) => {
   const classes = useStyles();
   const userDoc = useUserDoc();
-
-  if (!userDoc) return null;
 
   const profileProps = {
     ...props,

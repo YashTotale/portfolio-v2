@@ -12,6 +12,7 @@ import {
   CircularProgress,
   IconButton,
   Input,
+  Skeleton,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -62,7 +63,7 @@ const Name: FC<ProfileProps> = (props) => {
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const { enqueueSnackbar } = useClosableSnackbar();
 
-  const savedName = props.userDoc.name;
+  const savedName = props.userDoc?.name ?? "";
   const [name, setName] = useState(savedName);
   const [isEditing, setIsEditing] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -89,6 +90,8 @@ const Name: FC<ProfileProps> = (props) => {
       setIsSaving(false);
     }
   };
+
+  if (!props.userDoc) return <Loading />;
 
   if (!isEditing) {
     return (
@@ -155,6 +158,24 @@ const Name: FC<ProfileProps> = (props) => {
         />
       )}
     </div>
+  );
+};
+
+const useLoadingStyles = makeStyles((theme) => ({
+  loading: {
+    margin: theme.spacing(1, 0),
+  },
+}));
+
+const Loading: FC = () => {
+  const classes = useLoadingStyles();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+
+  return (
+    <Skeleton variant="rectangular" className={classes.loading}>
+      <Typography variant={isSizeXS ? "h6" : "h5"}>Filler Username</Typography>
+    </Skeleton>
   );
 };
 

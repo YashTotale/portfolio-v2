@@ -8,6 +8,7 @@ import { useClosableSnackbar } from "../../../../../../Hooks";
 import {
   CircularProgress,
   IconButton,
+  Skeleton,
   Tooltip,
   Typography,
   useMediaQuery,
@@ -53,8 +54,10 @@ const Email: FC<ProfileProps> = (props) => {
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const [isSending, setIsSending] = useState(false);
-  const email = props.userDoc.email;
 
+  if (!props.userDoc) return <Loading />;
+
+  const email = props.userDoc.email;
   const onVerify = async () => {
     setIsSending(true);
     try {
@@ -108,6 +111,26 @@ const Email: FC<ProfileProps> = (props) => {
         />
       )}
     </div>
+  );
+};
+
+const useLoadingStyles = makeStyles((theme) => ({
+  loading: {
+    margin: theme.spacing(0.5, 0),
+  },
+}));
+
+const Loading: FC = () => {
+  const classes = useLoadingStyles();
+  const theme = useTheme();
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
+
+  return (
+    <Skeleton variant="rectangular" className={classes.loading}>
+      <Typography variant={isSizeXS ? "subtitle2" : "subtitle1"}>
+        long_filler@username.test
+      </Typography>
+    </Skeleton>
   );
 };
 

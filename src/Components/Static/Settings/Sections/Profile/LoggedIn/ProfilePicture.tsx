@@ -9,10 +9,16 @@ import { uploadUserPicture } from "../../../../../../Controllers/user.controller
 import { validateFileSize } from "../../../../../../Controllers/helpers/storage";
 
 // Material UI Imports
-import { Avatar, CircularProgress, Tooltip, useTheme } from "@mui/material";
+import {
+  Avatar,
+  CircularProgress,
+  Skeleton,
+  Tooltip,
+  useTheme,
+} from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 
-const useProfilePictureStyles = makeStyles((theme) => ({
+const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     justifyContent: "center",
@@ -46,7 +52,7 @@ const useProfilePictureStyles = makeStyles((theme) => ({
 }));
 
 const ProfilePicture: FC<ProfileProps> = (props) => {
-  const classes = useProfilePictureStyles();
+  const classes = useStyles();
   const theme = useTheme();
   const { enqueueSnackbar } = useClosableSnackbar();
   const [uploading, setUploading] = useState(false);
@@ -74,6 +80,8 @@ const ProfilePicture: FC<ProfileProps> = (props) => {
     }
   };
 
+  if (!props.userDoc) return <Loading />;
+
   return (
     <label htmlFor="profile-picture-upload" className={classes.container}>
       <input
@@ -90,11 +98,30 @@ const ProfilePicture: FC<ProfileProps> = (props) => {
       <Tooltip title="Upload New Picture">
         <Avatar
           variant="circular"
-          src={props.userDoc?.picture}
+          src={props.userDoc.picture}
           className={clsx(classes.avatar, uploading && classes.avatarDimmed)}
         />
       </Tooltip>
     </label>
+  );
+};
+
+const useLoadingStyles = makeStyles((theme) => ({
+  loading: {
+    margin: theme.spacing(1, 1.5),
+  },
+}));
+
+const Loading: FC = () => {
+  const classes = useLoadingStyles();
+
+  return (
+    <Skeleton
+      variant="circular"
+      height={100}
+      width={100}
+      className={classes.loading}
+    />
   );
 };
 
