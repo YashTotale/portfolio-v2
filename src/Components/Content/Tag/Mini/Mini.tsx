@@ -1,10 +1,8 @@
 //React Imports
 import React, { FC } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import clsx from "clsx";
 import MatchHighlight from "../../../Atomic/MatchHighlight";
-import { useTitle } from "../../../../Context/HeadContext";
-import { generateSearch } from "../../../../Utils/funcs";
 import { getTag } from "../../../../Utils/Content/tags";
 
 //Material UI Imports
@@ -31,9 +29,6 @@ const Mini: FC<MiniProps> = (props) => {
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const isDark = theme.palette.mode === "dark";
 
-  const location = useLocation();
-  const title = useTitle();
-
   if (!tag) return null;
 
   const icon = isDark ? tag.darkIcon : tag.lightIcon;
@@ -56,16 +51,7 @@ const Mini: FC<MiniProps> = (props) => {
         />
       }
       component={Link}
-      to={{
-        pathname: `/tags/${tag.slug}`,
-        search: generateSearch(
-          {
-            from_path: location.pathname,
-            from_type: "mini",
-          },
-          title
-        ),
-      }}
+      to={`/tags/${tag.slug}`}
       color="secondary"
       variant="outlined"
     />

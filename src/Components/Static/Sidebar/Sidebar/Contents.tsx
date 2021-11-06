@@ -1,10 +1,8 @@
 // React Imports
 import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { LocationDescriptor } from "history";
 import Category from "./Category";
 import Item from "./Item";
-import { generateSearch } from "../../../../Utils/funcs";
 import {
   generateExperienceSubtitle,
   generateExperienceTitle,
@@ -49,16 +47,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const generateSidebarPath = (p: string): LocationDescriptor => ({
-  pathname: p,
-  search: generateSearch(
-    {
-      from_type: "sidebar",
-    },
-    null
-  ),
-});
-
 const Contents: FC = () => {
   const classes = useStyles();
   const location = useLocation();
@@ -80,38 +68,20 @@ const Contents: FC = () => {
   return (
     <>
       <Toolbar className={classes.toolbar}>
-        <Link
-          to={{
-            pathname: "/",
-            search: generateSearch(
-              {
-                from_type: "sidebar_icon",
-              },
-              null
-            ),
-          }}
-        >
+        <Link to="/">
           <img src="/logo192.png" alt="Website Logo" height={40} />
         </Link>
       </Toolbar>
       <Divider />
       <List disablePadding className={classes.list}>
-        <Category
-          label="Home"
-          to={generateSidebarPath("/")}
-          icon={<HomeOutlined />}
-        />
-        <Category
-          label="Experience"
-          to={generateSidebarPath("/experience")}
-          icon={<WorkOutline />}
-        >
+        <Category label="Home" to="/" icon={<HomeOutlined />} />
+        <Category label="Experience" to="/experience" icon={<WorkOutline />}>
           {experience.map((exp) => (
             <Item
               key={exp.id}
               label={generateExperienceTitle(exp)}
               secondary={generateExperienceSubtitle(exp)}
-              to={generateSidebarPath(`/experience/${exp.slug}`)}
+              to={`/experience/${exp.slug}`}
               highlighted={
                 experienceViewable.includes(exp.id) &&
                 location.pathname === "/experience"
@@ -119,16 +89,12 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
-        <Category
-          label="Education"
-          to={generateSidebarPath("/education")}
-          icon={<SchoolOutlined />}
-        >
+        <Category label="Education" to="/education" icon={<SchoolOutlined />}>
           {education.map((ed) => (
             <Item
               key={ed.id}
               label={ed.title}
-              to={generateSidebarPath(`/education/${ed.slug}`)}
+              to={`/education/${ed.slug}`}
               highlighted={
                 educationViewable.includes(ed.id) &&
                 location.pathname === "/education"
@@ -136,16 +102,12 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
-        <Category
-          label="Projects"
-          to={generateSidebarPath("/projects")}
-          icon={<BuildOutlined />}
-        >
+        <Category label="Projects" to="/projects" icon={<BuildOutlined />}>
           {projects.map((project) => (
             <Item
               key={project.id}
               label={project.title}
-              to={generateSidebarPath(`/projects/${project.slug}`)}
+              to={`/projects/${project.slug}`}
               highlighted={
                 projectsViewable.includes(project.id) &&
                 location.pathname === "/projects"
@@ -155,14 +117,14 @@ const Contents: FC = () => {
         </Category>
         <Category
           label="Articles"
-          to={generateSidebarPath("/articles")}
+          to="/articles"
           icon={<DescriptionOutlined />}
         >
           {articles.map((article) => (
             <Item
               key={article.id}
               label={article.title}
-              to={generateSidebarPath(`/articles/${article.slug}`)}
+              to={`/articles/${article.slug}`}
               highlighted={
                 articlesViewable.includes(article.id) &&
                 location.pathname === "/articles"
@@ -170,34 +132,18 @@ const Contents: FC = () => {
             />
           ))}
         </Category>
-        <Category
-          label="Tags"
-          to={generateSidebarPath("/tags")}
-          icon={<LabelOutlined />}
-        >
+        <Category label="Tags" to="/tags" icon={<LabelOutlined />}>
           {tags.map((tag) => (
-            <Item
-              key={tag.id}
-              label={tag.title}
-              to={generateSidebarPath(`/tags/${tag.slug}`)}
-            />
+            <Item key={tag.id} label={tag.title} to={`/tags/${tag.slug}`} />
           ))}
         </Category>
         <Category
           label="Certifications"
-          to={generateSidebarPath("/certifications")}
+          to="/certifications"
           icon={<AssignmentTurnedInOutlined />}
         />
-        <Category
-          label="Books"
-          to={generateSidebarPath("/books")}
-          icon={<BookOutlined />}
-        />
-        <Category
-          label="Contact"
-          to={generateSidebarPath("/contact")}
-          icon={<ChatBubbleOutline />}
-        />
+        <Category label="Books" to="/books" icon={<BookOutlined />} />
+        <Category label="Contact" to="/contact" icon={<ChatBubbleOutline />} />
       </List>
     </>
   );

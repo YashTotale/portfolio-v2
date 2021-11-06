@@ -1,6 +1,6 @@
 // React Imports
 import React, { cloneElement, FC } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { useClosableSnackbar } from "../../../../Hooks";
 import Categories from "../Shared/Categories";
@@ -9,8 +9,6 @@ import DynamicImage from "../../../Atomic/DynamicImage";
 import DynamicUnderline from "../../../Atomic/DynamicUnderline";
 import StyledLink from "../../../Atomic/StyledLink";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
-import { useTitle } from "../../../../Context/HeadContext";
-import { generateSearch } from "../../../../Utils/funcs";
 import { ResolvedTag, SubType } from "../../../../Utils/types";
 import { getTag } from "../../../../Utils/Content/tags";
 
@@ -119,29 +117,15 @@ const Preview: FC<PreviewProps> = (props) => {
   const theme = useTheme();
   const tag = getTag(props.id);
 
-  const location = useLocation();
-  const title = useTitle();
-
   if (!tag) return null;
 
   const isDark = theme.palette.mode === "dark";
   const icon = isDark ? tag.darkIcon : tag.lightIcon;
 
-  const generateLink = (type: string) => ({
-    pathname: `/tags/${tag.slug}`,
-    search: generateSearch(
-      {
-        from_path: location.pathname,
-        from_type: type,
-      },
-      title
-    ),
-  });
-
   return (
     <DynamicPaper className={clsx(classes.container, props.className)}>
       <div className={classes.display}>
-        <Link to={generateLink("preview_image")} className={classes.iconLink}>
+        <Link to={`/tags/${tag.slug}`} className={classes.iconLink}>
           <DynamicImage
             src={`${icon.file.url}?h=200`}
             alt={icon.title}
@@ -149,7 +133,7 @@ const Preview: FC<PreviewProps> = (props) => {
           />
         </Link>
         <StyledLink
-          to={generateLink("preview_title")}
+          to={`/tags/${tag.slug}`}
           variant="h5"
           className={classes.title}
           toMatch={props.search}

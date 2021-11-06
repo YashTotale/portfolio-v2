@@ -1,6 +1,5 @@
 // React Imports
 import React, { FC, useState, useEffect, useRef, ReactNode } from "react";
-import { useLocation } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import {
   Control,
@@ -11,10 +10,9 @@ import {
 } from "react-hook-form";
 import ReCAPTCHA, { ReCAPTCHAProps } from "react-google-recaptcha";
 import { useAnalytics, useClosableSnackbar } from "../../Hooks";
-import { useTitle } from "../../Context/HeadContext";
 import StyledLink from "../../Components/Atomic/StyledLink";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
-import { generatePageTitle, generateSearch } from "../../Utils/funcs";
+import { generatePageTitle } from "../../Utils/funcs";
 import { ContactData } from "../../../types/contact";
 
 // Firebase Imports
@@ -84,8 +82,6 @@ const Contact: FC = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
   const userDoc = useUserDoc();
-  const location = useLocation();
-  const title = useTitle();
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -102,6 +98,8 @@ const Contact: FC = () => {
   const recaptchaRef = useRef<ReCAPTCHA | null>(null);
   const [recaptcha, setRecaptcha] = useState<string | null>(null);
 
+  useAnalytics("Contact");
+
   useEffect(() => {
     const values = getValues();
     if (!values.name && userDoc?.name) setValue("name", userDoc.name);
@@ -111,8 +109,6 @@ const Contact: FC = () => {
     const values = getValues();
     if (!values.email && userDoc?.email) setValue("email", userDoc.email);
   }, [userDoc?.email, getValues, setValue]);
-
-  useAnalytics("Contact");
 
   const isError = !!Object.keys(formState.errors).length || recaptcha === null;
 
@@ -186,13 +182,6 @@ const Contact: FC = () => {
             to={{
               pathname: "/settings",
               hash: "#profile",
-              search: generateSearch(
-                {
-                  from_path: location.pathname,
-                  from_type: "contact_field_info",
-                },
-                title
-              ),
             }}
           >
             {userDoc ? "profile information" : "signing in"}

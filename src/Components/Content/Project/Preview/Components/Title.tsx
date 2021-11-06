@@ -1,6 +1,5 @@
 //React Imports
 import React, { FC } from "react";
-import { LocationDescriptor } from "history";
 import StyledLink from "../../../../Atomic/StyledLink";
 import { ResolvedProject } from "../../../../../Utils/types";
 
@@ -20,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type TitleProps = ResolvedProject & {
-  generateLink: (type: string) => LocationDescriptor<unknown>;
   search?: string;
 };
 
@@ -33,7 +31,7 @@ const Title: FC<TitleProps> = (props) => {
 
   return (
     <StyledLink
-      to={props.generateLink("preview_title")}
+      to={`/projects/${props.slug}`}
       variant={isSizeXS ? "h5" : "h4"}
       className={classes.projectTitle}
       toMatch={search}

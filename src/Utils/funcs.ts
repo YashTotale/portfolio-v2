@@ -91,26 +91,6 @@ export const createResolver = <T>(resolveFunc: Resolver<T>): Resolver<T> => {
   };
 };
 
-export const generateSearch = (
-  obj: Record<string, string>,
-  title: string | null
-): string => {
-  const params = new URLSearchParams(obj);
-  if (title) params.set("from_title", getPageTitle(title));
-  return params.toString();
-};
-
-export const getSearch = (s: string): Record<string, string> => {
-  const params = new URLSearchParams(s);
-  const obj: Record<string, string> = {};
-
-  params.forEach((value, key) => {
-    obj[key] = value;
-  });
-
-  return obj;
-};
-
 const toAppend = " — Yash Totale";
 
 export const generatePageTitle = (t: string): string => `${t}${toAppend}`;

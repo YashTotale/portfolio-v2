@@ -1,6 +1,5 @@
 //React Imports
 import React, { FC } from "react";
-import { LocationDescriptor } from "history";
 import StyledLink from "../../../../Atomic/StyledLink";
 import { ResolvedExperience } from "../../../../../Utils/types";
 import {
@@ -30,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type TitleProps = ResolvedExperience & {
-  generateLink: (type: string) => LocationDescriptor<unknown>;
   search?: string;
 };
 
@@ -44,7 +42,7 @@ const Title: FC<TitleProps> = (props) => {
   return (
     <>
       <StyledLink
-        to={props.generateLink("preview_title")}
+        to={`/experience/${props.slug}`}
         variant={isSizeXS ? "h5" : "h4"}
         className={classes.title}
         toMatch={search}

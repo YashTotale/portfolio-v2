@@ -1,10 +1,7 @@
 // React Imports
 import React, { FC, useState, useEffect } from "react";
-import { useLocation } from "react-router-dom";
 import Typist from "react-typist";
 import StyledLink from "../../Atomic/StyledLink";
-import { useTitle } from "../../../Context/HeadContext";
-import { generateSearch } from "../../../Utils/funcs";
 import "react-typist/dist/Typist.css";
 
 // Material UI Imports
@@ -20,23 +17,9 @@ const Typer: FC = () => {
   const classes = useStyles();
   const [count, setCount] = useState(1);
 
-  const location = useLocation();
-  const title = useTitle();
-
   useEffect(() => {
     setCount(1);
   }, [count]);
-
-  const generateTo = (path: string) => ({
-    pathname: path,
-    search: generateSearch(
-      {
-        from_path: location.pathname,
-        from_type: "home_typer",
-      },
-      title
-    ),
-  });
 
   return count ? (
     <Typist
@@ -47,22 +30,22 @@ const Typer: FC = () => {
         blink: true,
       }}
     >
-      <StyledLink to={generateTo("/experience")}>experience</StyledLink>
+      <StyledLink to="/experience">experience</StyledLink>
       <Typist.Backspace count={"experience".length} delay={2000} />
 
-      <StyledLink to={generateTo("/education")}>education</StyledLink>
+      <StyledLink to="/education">education</StyledLink>
       <Typist.Backspace count={"education".length} delay={2000} />
 
-      <StyledLink to={generateTo("/projects")}>projects</StyledLink>
+      <StyledLink to="/projects">projects</StyledLink>
       <Typist.Backspace count={"projects".length} delay={2000} />
 
-      <StyledLink to={generateTo("/articles")}>articles</StyledLink>
+      <StyledLink to="/articles">articles</StyledLink>
       <Typist.Backspace count={"articles".length} delay={2000} />
 
-      <StyledLink to={generateTo("/certifications")}>certifications</StyledLink>
+      <StyledLink to="/certifications">certifications</StyledLink>
       <Typist.Backspace count={"certifications".length} delay={2000} />
 
-      <StyledLink to={generateTo("/books")}>books</StyledLink>
+      <StyledLink to="/books">books</StyledLink>
       <Typist.Backspace count={"books".length} delay={2000} />
     </Typist>
   ) : (

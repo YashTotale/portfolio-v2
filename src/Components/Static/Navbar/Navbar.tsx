@@ -3,7 +3,6 @@ import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import { useClosableSnackbar } from "../../../Hooks";
 import { SIDEBAR_WIDTH } from "../../../Utils/constants";
-import { generateSearch } from "../../../Utils/funcs";
 
 // Redux Imports
 import { toggleDarkMode, toggleSidebar } from "../../../Redux";
@@ -76,19 +75,7 @@ const Navbar: FC = () => {
           {isSizeSmall && isLTR && toggleSidebarButton}
           <div className={classes.otherIcons}>
             <Tooltip title="Customize Colors">
-              <IconButton
-                component={Link}
-                to={{
-                  pathname: "/colors",
-                  search: generateSearch(
-                    {
-                      from_type: "navbar",
-                    },
-                    null
-                  ),
-                }}
-                size="large"
-              >
+              <IconButton component={Link} to="/colors" size="large">
                 <Palette />
               </IconButton>
             </Tooltip>
@@ -112,19 +99,7 @@ const Navbar: FC = () => {
               </IconButton>
             </Tooltip>
             <Tooltip title="Settings">
-              <IconButton
-                component={Link}
-                to={{
-                  pathname: "/settings",
-                  search: generateSearch(
-                    {
-                      from_type: "navbar",
-                    },
-                    null
-                  ),
-                }}
-                size="large"
-              >
+              <IconButton component={Link} to="/settings" size="large">
                 <Settings />
               </IconButton>
             </Tooltip>

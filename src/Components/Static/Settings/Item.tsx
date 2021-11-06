@@ -83,15 +83,15 @@ export const SwitchItem: FC<SwitchItemProps> = (props) => {
   );
 };
 
-type SelectInputProps<T extends MenuItemProps["value"]> = ExtendItem & {
+type SelectItemProps<T extends MenuItemProps["value"]> = ExtendItem & {
   value: T;
   values: T[] | readonly T[];
   onChange: (value: T) => void;
   defaultValue?: T;
 };
 
-export const SelectInput = <T extends MenuItemProps["value"]>(
-  props: SelectInputProps<T>
+export const SelectItem = <T extends MenuItemProps["value"]>(
+  props: SelectItemProps<T>
 ): JSX.Element => (
   <Item
     {...props}

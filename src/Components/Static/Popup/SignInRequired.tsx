@@ -1,8 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import { Link, useLocation } from "react-router-dom";
-import { useTitle } from "../../../Context/HeadContext";
-import { generateSearch } from "../../../Utils/funcs";
+import { Link } from "react-router-dom";
 
 // Redux Imports
 import { changePopupState } from "../../../Redux";
@@ -20,8 +18,6 @@ import {
 
 const SignInRequired: FC = () => {
   const dispatch = useAppDispatch();
-  const location = useLocation();
-  const title = useTitle();
 
   return (
     <>
@@ -39,13 +35,6 @@ const SignInRequired: FC = () => {
           to={{
             pathname: "/settings",
             hash: "#profile",
-            search: generateSearch(
-              {
-                from_path: location.pathname,
-                from_type: "sign_in_popup",
-              },
-              title
-            ),
           }}
         >
           Go to Sign In

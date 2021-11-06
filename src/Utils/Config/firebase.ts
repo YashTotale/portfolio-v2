@@ -28,6 +28,9 @@ let firestore: firebase.firestore.Firestore;
 export const getFirestore = (): firebase.firestore.Firestore => {
   if (!firestore) {
     firestore = firebase.firestore();
+    if (process.env.NODE_ENV !== "production") {
+      firestore.useEmulator("localhost", 8080);
+    }
   }
   return firestore;
 };

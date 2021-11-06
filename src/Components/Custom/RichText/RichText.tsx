@@ -1,6 +1,5 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
 import clsx from "clsx";
 import {
   documentToReactComponents,
@@ -9,8 +8,6 @@ import {
 import { BLOCKS, Document, INLINES } from "@contentful/rich-text-types";
 import StyledLink from "../../Atomic/StyledLink";
 import MatchHighlight from "../../Atomic/MatchHighlight";
-import { useTitle } from "../../../Context/HeadContext";
-import { generateSearch } from "../../../Utils/funcs";
 import { getTag } from "../../../Utils/Content/tags";
 import { getProject } from "../../../Utils/Content/projects";
 import {
@@ -51,8 +48,6 @@ export interface RichTextProps {
 const RichText: FC<RichTextProps> = (props) => {
   const { richText, toMatch, variant = "body2", ulClass } = props;
   const classes = useStyles();
-  const location = useLocation();
-  const title = useTitle();
 
   const getData = (id: string): [string, string] | null => {
     const tag = getTag(id);
@@ -103,19 +98,7 @@ const RichText: FC<RichTextProps> = (props) => {
             {children}
           </Link>
         ) : (
-          <StyledLink
-            variant={variant}
-            to={{
-              pathname: url,
-              search: generateSearch(
-                {
-                  from_path: location.pathname,
-                  from_type: "hyperlink",
-                },
-                title
-              ),
-            }}
-          >
+          <StyledLink variant={variant} to={url}>
             {children}
           </StyledLink>
         );
@@ -127,24 +110,11 @@ const RichText: FC<RichTextProps> = (props) => {
         const data = getData(id);
         if (!data) return children;
 
-        const [path] = data;
+        const [path, title] = data;
 
         return (
-          <StyledLink
-            variant={variant}
-            to={{
-              pathname: path,
-              search: generateSearch(
-                {
-                  from_path: location.pathname,
-                  from_type: "entry_hyperlink",
-                },
-                title
-              ),
-            }}
-            toMatch={toMatch}
-          >
-            {children}
+          <StyledLink variant={variant} to={path} toMatch={toMatch}>
+            {children ?? title}
           </StyledLink>
         );
       },
@@ -158,20 +128,7 @@ const RichText: FC<RichTextProps> = (props) => {
         const [path, title] = data;
 
         return (
-          <StyledLink
-            variant={variant}
-            to={{
-              pathname: path,
-              search: generateSearch(
-                {
-                  from_path: location.pathname,
-                  from_type: "embedded_entry",
-                },
-                title
-              ),
-            }}
-            toMatch={toMatch}
-          >
+          <StyledLink variant={variant} to={path} toMatch={toMatch}>
             {title}
           </StyledLink>
         );

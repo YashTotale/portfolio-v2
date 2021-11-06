@@ -2,10 +2,8 @@
 import React, { FC } from "react";
 import { Asset } from "contentful";
 import clsx from "clsx";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import MatchHighlight from "../../../Atomic/MatchHighlight";
-import { useTitle } from "../../../../Context/HeadContext";
-import { generateSearch } from "../../../../Utils/funcs";
 
 // Material UI Imports
 import { Avatar, Typography, Button, useTheme } from "@mui/material";
@@ -60,9 +58,6 @@ const Mini: FC<MiniProps> = (props) => {
   const theme = useTheme();
   const isDark = theme.palette.mode === "dark";
 
-  const location = useLocation();
-  const title = useTitle();
-
   if (!props.content) return null;
 
   const image = (props.content.image ??
@@ -72,16 +67,7 @@ const Mini: FC<MiniProps> = (props) => {
 
   return (
     <Link
-      to={{
-        pathname: `/${props.basePath}/${props.content.slug}`,
-        search: generateSearch(
-          {
-            from_path: location.pathname,
-            from_type: "mini",
-          },
-          title
-        ),
-      }}
+      to={`/${props.basePath}/${props.content.slug}`}
       className={clsx(classes.link, props.className)}
     >
       <Button className={classes.button} color="inherit" variant="outlined">

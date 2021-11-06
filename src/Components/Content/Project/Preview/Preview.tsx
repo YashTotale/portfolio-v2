@@ -1,6 +1,6 @@
 //React Imports
 import React, { forwardRef } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import FloatingIcons from "../../Shared/FloatingIcons";
@@ -8,12 +8,10 @@ import Timeline from "../../Shared/Timeline";
 import TagChip from "../../Tag/Mini";
 import Title from "./Components/Title";
 import RichText from "../../../Custom/RichText";
-import { useTitle } from "../../../../Context/HeadContext";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import Mini from "../../Shared/Mini";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
-import { generateSearch } from "../../../../Utils/funcs";
 import {
   generateExperienceTitle,
   getSingleExperience,
@@ -106,22 +104,9 @@ export interface PreviewProps {
 
 const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
   const classes = useStyles();
-  const location = useLocation();
-  const title = useTitle();
 
   const project = getProject(props.id);
   if (!project) return null;
-
-  const generateLink = (type: string) => ({
-    pathname: `/projects/${project.slug}`,
-    search: generateSearch(
-      {
-        from_path: location.pathname,
-        from_type: type,
-      },
-      title
-    ),
-  });
 
   return (
     <DynamicPaper ref={ref} className={clsx(classes.project, props.className)}>
@@ -132,7 +117,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           github={project.github}
         />
         <Link
-          to={generateLink("preview_image")}
+          to={`/projects/${project.slug}`}
           className={classes.projectImageLink}
         >
           <DynamicImage
@@ -141,7 +126,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
             className={classes.projectImage}
           />
         </Link>
-        <Title {...project} generateLink={generateLink} search={props.search} />
+        <Title {...project} search={props.search} />
       </div>
       <div className={classes.projectDescription}>
         <RichText

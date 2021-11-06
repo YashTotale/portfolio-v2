@@ -6,7 +6,7 @@
     "lint": "eslint \"src/**/*\"",
     "compile": "rm -rf lib && tsc",
     "compile:watch": "tsc --watch",
-    "emulate": "firebase emulators:start --only functions",
+    "emulate": "firebase emulators:start --only functions,firestore",
     "preserve": "npm run compile",
     "serve": "concurrently 'npm:compile:watch' 'npm:emulate' -c 'blue.bold,green.bold'",
     "start": "npm run compile && firebase functions:shell",

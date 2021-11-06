@@ -1,12 +1,9 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
 import clsx from "clsx";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import Overlay from "../../../Atomic/Overlay";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
-import { useTitle } from "../../../../Context/HeadContext";
-import { generateSearch } from "../../../../Utils/funcs";
 import { useSortedTags } from "../../../../Utils/Content/tags";
 
 // Material UI Imports
@@ -62,9 +59,6 @@ const Category: FC<CategoryProps> = (props) => {
     iconWidth,
   });
 
-  const location = useLocation();
-  const title = useTitle();
-
   const tags = useSortedTags(true);
 
   const included = tags.filter((tag) =>
@@ -85,16 +79,7 @@ const Category: FC<CategoryProps> = (props) => {
           return (
             <Overlay
               key={tag.id}
-              to={{
-                pathname: `/tags/${tag.slug}`,
-                search: generateSearch(
-                  {
-                    from_path: location.pathname,
-                    from_title: "home_skill_set",
-                  },
-                  title
-                ),
-              }}
+              to={`/tags/${tag.slug}`}
               icon={icon}
               size="small"
               label={tag.title}

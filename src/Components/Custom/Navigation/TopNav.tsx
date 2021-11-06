@@ -1,9 +1,7 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
 import NavButton from "./NavButton";
-import { useTitle } from "../../../Context/HeadContext";
-import { generateSearch, getPageTitle } from "../../../Utils/funcs";
+import { getPageTitle } from "../../../Utils/funcs";
 
 // Redux Imports
 import { useDispatch, useSelector } from "react-redux";
@@ -30,9 +28,6 @@ const TopNav: FC<TopNavProps> = (props) => {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  const location = useLocation();
-  const title = useTitle();
-
   const lastNav = useSelector(getLastNav);
 
   return (
@@ -40,32 +35,14 @@ const TopNav: FC<TopNavProps> = (props) => {
       {lastNav && (
         <NavButton
           label={getPageTitle(lastNav.title)}
-          to={{
-            pathname: lastNav.pathname || "/",
-            search: generateSearch(
-              {
-                from_path: location.pathname,
-                from_type: "back_nav_button",
-              },
-              title
-            ),
-          }}
+          to={lastNav.pathname || "/"}
           onClick={() => dispatch(popHistory())}
           type="previous"
           typeLabel="Back"
         />
       )}
       <NavButton
-        to={{
-          pathname: `/${props.allPath}`,
-          search: generateSearch(
-            {
-              from_path: location.pathname,
-              from_type: "top_nav_button",
-            },
-            title
-          ),
-        }}
+        to={`/${props.allPath}`}
         label={`All ${props.allLabel}`}
         type="next"
         typeLabel=""

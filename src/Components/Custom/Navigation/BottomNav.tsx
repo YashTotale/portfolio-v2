@@ -1,9 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
 import NavButton from "./NavButton";
-import { useTitle } from "../../../Context/HeadContext";
-import { generateSearch } from "../../../Utils/funcs";
 
 // Material UI Imports
 import makeStyles from "@mui/styles/makeStyles";
@@ -30,23 +27,12 @@ interface BottomNavProps {
 
 const BottomNav: FC<BottomNavProps> = (props) => {
   const classes = useStyles();
-  const location = useLocation();
-  const title = useTitle();
 
   return (
     <div className={classes.bottomNav}>
       {props.prevContent && (
         <NavButton
-          to={{
-            pathname: `/${props.basePath}/${props.prevContent.slug}`,
-            search: generateSearch(
-              {
-                from_path: location.pathname,
-                from_type: "prev_nav_button",
-              },
-              title
-            ),
-          }}
+          to={`/${props.basePath}/${props.prevContent.slug}`}
           label={props.prevContent.title}
           type="previous"
           typeLabel={`Previous ${props.label}`}
@@ -54,16 +40,7 @@ const BottomNav: FC<BottomNavProps> = (props) => {
       )}
       {props.nextContent && (
         <NavButton
-          to={{
-            pathname: `/${props.basePath}/${props.nextContent.slug}`,
-            search: generateSearch(
-              {
-                from_path: location.pathname,
-                from_type: "next_nav_button",
-              },
-              title
-            ),
-          }}
+          to={`/${props.basePath}/${props.nextContent.slug}`}
           label={props.nextContent.title}
           type="next"
           typeLabel={`Next ${props.label}`}

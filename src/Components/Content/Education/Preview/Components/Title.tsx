@@ -1,13 +1,10 @@
 //React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
 import { useClosableSnackbar } from "../../../../../Hooks";
 import StyledLink from "../../../../Atomic/StyledLink";
 import MatchHighlight from "../../../../Atomic/MatchHighlight";
 import DynamicUnderline from "../../../../Atomic/DynamicUnderline";
-import { useTitle } from "../../../../../Context/HeadContext";
 import { ResolvedEducation } from "../../../../../Utils/types";
-import { generateSearch } from "../../../../../Utils/funcs";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -62,22 +59,10 @@ const Title: FC<TitleProps> = (props) => {
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const location = useLocation();
-  const pageTitle = useTitle();
-
   return (
     <>
       <StyledLink
-        to={{
-          pathname: `/education/${props.slug}`,
-          search: generateSearch(
-            {
-              from_path: location.pathname,
-              from_type: "preview_title",
-            },
-            pageTitle
-          ),
-        }}
+        to={`/education/${props.slug}`}
         variant={isSizeXS ? "h5" : "h4"}
         className={classes.title}
         toMatch={props.search}

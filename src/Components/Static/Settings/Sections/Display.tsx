@@ -1,11 +1,8 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
-import { useTitle } from "../../../../Context/HeadContext";
-import { generateSearch } from "../../../../Utils/funcs";
 import Section from "../Section";
 import Subsection from "../Subsection";
-import Item, { SelectInput, SwitchItem } from "../Item";
+import Item, { SelectItem, SwitchItem } from "../Item";
 import StyledLink from "../../../Atomic/StyledLink";
 
 // Redux Imports
@@ -31,8 +28,6 @@ import { Computer, SettingsBrightness } from "@mui/icons-material";
 
 const Display: FC = () => {
   const dispatch = useAppDispatch();
-  const location = useLocation();
-  const title = useTitle();
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
 
@@ -49,33 +44,18 @@ const Display: FC = () => {
         />
         <Item
           label="Customize Colors"
-          action={
-            <StyledLink
-              to={{
-                pathname: "/colors",
-                search: generateSearch(
-                  {
-                    from_path: location.pathname,
-                    from_type: "settings",
-                  },
-                  title
-                ),
-              }}
-            >
-              Colors Page
-            </StyledLink>
-          }
+          action={<StyledLink to="/colors">Colors Page</StyledLink>}
         />
       </Subsection>
       <Subsection title="Miscellaneous" icon={<Computer />}>
-        <SelectInput
+        <SelectItem
           label="Spacing Factor"
           value={spacing}
           defaultValue={DEFAULT_SPACING}
           values={SPACINGS}
           onChange={(val) => dispatch(changeSpacing(val))}
         />
-        <SelectInput
+        <SelectItem
           label="Direction"
           value={direction}
           defaultValue={DEFAULT_DIRECTION}

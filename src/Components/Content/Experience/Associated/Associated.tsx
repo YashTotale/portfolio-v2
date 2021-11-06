@@ -1,6 +1,5 @@
 // React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import RichText from "../../../Custom/RichText";
@@ -9,8 +8,6 @@ import StyledLink from "../../../Atomic/StyledLink";
 import MatchHighlight from "../../../Atomic/MatchHighlight";
 import VerticalDivider from "../../../Atomic/Divider/Vertical";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
-import { useTitle } from "../../../../Context/HeadContext";
-import { generateSearch } from "../../../../Utils/funcs";
 import {
   generateExperienceSubtitle,
   generateExperienceTimeline,
@@ -102,9 +99,6 @@ const Associated: FC<AssociatedProps> = (props) => {
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const isDark = theme.palette.mode === "dark";
 
-  const location = useLocation();
-  const title = useTitle();
-
   const exp = getSingleExperience(props.id);
   if (!exp) return null;
 
@@ -122,16 +116,7 @@ const Associated: FC<AssociatedProps> = (props) => {
         <StyledLink
           variant="h6"
           align="center"
-          to={{
-            pathname: `/experience/${exp.slug}`,
-            search: generateSearch(
-              {
-                from_path: location.pathname,
-                from_type: "associated",
-              },
-              title
-            ),
-          }}
+          to={`/experience/${exp.slug}`}
           className={classes.title}
           toMatch={props.search}
         >

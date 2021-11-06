@@ -1,10 +1,7 @@
 //React Imports
 import React, { FC } from "react";
-import { useLocation } from "react-router-dom";
 import StyledLink from "../../../../Atomic/StyledLink";
-import { useTitle } from "../../../../../Context/HeadContext";
 import { ResolvedArticle } from "../../../../../Utils/types";
-import { generateSearch } from "../../../../../Utils/funcs";
 
 // Material UI Imports
 import { useMediaQuery, useTheme } from "@mui/material";
@@ -32,21 +29,9 @@ const Title: FC<TitleProps> = (props) => {
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const location = useLocation();
-  const pageTitle = useTitle();
-
   return (
     <StyledLink
-      to={{
-        pathname: `/articles/${slug}`,
-        search: generateSearch(
-          {
-            from_path: location.pathname,
-            from_type: "preview_title",
-          },
-          pageTitle
-        ),
-      }}
+      to={`/articles/${slug}`}
       variant={isSizeXS ? "h5" : "h4"}
       className={classes.articleTitle}
       toMatch={search}

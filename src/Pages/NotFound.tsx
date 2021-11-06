@@ -1,10 +1,9 @@
 // React Imports
 import React, { FC } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../Hooks";
-import { useTitle } from "../Context/HeadContext";
-import { generatePageTitle, generateSearch } from "../Utils/funcs";
+import { generatePageTitle } from "../Utils/funcs";
 
 // Material UI Imports
 import { Button, Typography, capitalize } from "@mui/material";
@@ -64,9 +63,6 @@ const NotFound: FC<NotFoundProps> = ({
 }) => {
   const classes = useStyles();
 
-  const location = useLocation();
-  const title = useTitle();
-
   const pageTitle = `404: ${capitalize(name)} Not Found`;
   useAnalytics(pageTitle);
 
@@ -87,19 +83,7 @@ const NotFound: FC<NotFoundProps> = ({
         <Typography variant="h2" align="center" className={classes.subheading}>
           The {name} you requested was not found
         </Typography>
-        <Link
-          to={{
-            pathname: redirect,
-            search: generateSearch(
-              {
-                from_path: location.pathname,
-                from_type: "not_found_button",
-              },
-              title
-            ),
-          }}
-          className={classes.link}
-        >
+        <Link to={redirect} className={classes.link}>
           <Button
             variant="contained"
             color="primary"
