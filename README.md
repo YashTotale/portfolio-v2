@@ -63,6 +63,10 @@
    npm start
    ```
 
+7. Start local Firebase emulators
+
+   This is only required if you plan to use any features involving Cloud Functions or Firestore. Refer to the [Functions](https://github.com/YashTotale/portfolio-v2/tree/master/functions) directory for steps.
+
 ## 🏆 Goals
 
 As you may have noticed, this is my second attempt at a portfolio website. The [first one](https://github.com/YashTotale/portfolio-v1) was ... a total failure. **600+ commits** in, I realized that I had overcomplicated and under-planned the project. Instead of focusing on a clean and intuitive UI, I had gotten bogged down in adding relatively useless features that I thought were cool (like dynamic [Wikipedia](https://github.com/YashTotale/portfolio-v1/blob/master/src/Scripts/getTerms.ts) & [LinkedIn](https://github.com/YashTotale/portfolio-v1/blob/master/src/Scripts/getLinkedin.ts) integration). So, to avoid another failure, I set a few goals ahead of time:
