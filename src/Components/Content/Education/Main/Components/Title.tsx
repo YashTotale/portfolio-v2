@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import Provider from "../../Shared/Provider";
 import FloatingIcons from "../../../Shared/FloatingIcons";
 import { ResolvedEducation } from "../../../../../Utils/types";
+import { generateEducationTimeline } from "../../../../../Utils/Content/education";
 
 // Material UI Imports
 import { Theme, Typography, useMediaQuery, useTheme } from "@mui/material";
@@ -53,12 +54,11 @@ const Title: FC<TitleProps> = (props) => {
       <Typography variant={isSizeSmall ? "h5" : "h4"} align="center">
         {props.title}
       </Typography>
-      <Typography
-        variant={isSizeSmall ? "subtitle1" : "h6"}
-        align="center"
-        color="textSecondary"
-      >
+      <Typography variant={isSizeSmall ? "subtitle1" : "h6"} align="center">
         {props.type}
+      </Typography>
+      <Typography align="center" variant="subtitle1" color="textSecondary">
+        {generateEducationTimeline(props)}
       </Typography>
       <Provider {...props} position={isSizeXS ? "static" : "absolute"} />
       {!isSizeSmall && (

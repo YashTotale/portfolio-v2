@@ -24,6 +24,9 @@ import makeStyles from "@mui/styles/makeStyles";
 const useStyles = makeStyles((theme) => ({
   text: {
     fontWeight: "inherit",
+    "&:empty": {
+      display: "none",
+    },
   },
   paragraph: {
     margin: theme.spacing(1, 0),
@@ -71,15 +74,15 @@ const RichText: FC<RichTextProps> = (props) => {
   };
 
   const options: Options = {
-    renderText: (text) => (
-      <Typography component="span" variant={variant} className={classes.text}>
-        <MatchHighlight toMatch={toMatch}>{text}</MatchHighlight>
-      </Typography>
-    ),
+    renderText: (text) =>
+      text ? (
+        <Typography component="span" variant={variant} className={classes.text}>
+          <MatchHighlight toMatch={toMatch}>{text}</MatchHighlight>
+        </Typography>
+      ) : null,
     renderNode: {
-      [BLOCKS.PARAGRAPH]: (node, children) => (
-        <p className={classes.paragraph}>{children}</p>
-      ),
+      [BLOCKS.PARAGRAPH]: (node, children) =>
+        children ? <p className={classes.paragraph}>{children}</p> : null,
       [BLOCKS.UL_LIST]: (node, children) => (
         <ul className={clsx(classes.unorderedList, ulClass)}>{children}</ul>
       ),

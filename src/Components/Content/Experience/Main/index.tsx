@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "stretch",
     justifyContent: "center",
-    padding: theme.spacing(2, 0, 1),
+    padding: theme.spacing(1, 0),
     width: "100%",
   },
   main: {
@@ -130,7 +130,11 @@ const Main: FC<MainProps> = (props) => {
               ulClass={classes.responsibilities}
             />
           </div>
-          <ButtonLinks link={experience.link} github={experience.github} />
+          <ButtonLinks
+            link={experience.link}
+            github={experience.github}
+            linkedin={experience.linkedin}
+          />
         </div>
         {!!experience.projects.length && (
           <MainContainer title="Related Projects">
