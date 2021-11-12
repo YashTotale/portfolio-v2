@@ -13,6 +13,25 @@ import { Fab, useScrollTrigger, Zoom } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import { KeyboardArrowUp } from "@mui/icons-material";
 
+export const Paths = {
+  Home: "/",
+  Experience: "/experience",
+  SingleExperience: (slug?: string): string => `/experience/${slug ?? ":slug"}`,
+  Education: "/education",
+  SingleEducation: (slug?: string): string => `/education/${slug ?? ":slug"}`,
+  Projects: "/projects",
+  Project: (slug?: string): string => `/projects/${slug ?? ":slug"}`,
+  Articles: "/articles",
+  Article: (slug?: string): string => `/articles/${slug ?? ":slug"}`,
+  Tags: "/tags",
+  Tag: (slug?: string): string => `/tags/${slug ?? ":slug"}`,
+  Certifications: "/certifications",
+  Books: "/books",
+  Contact: "/contact",
+  Colors: "/colors",
+  Settings: "/settings",
+};
+
 const NavController: FC = () => {
   const dispatch = useAppDispatch();
   const [prevPath, setPrevPath] = useState<string | null>(null);

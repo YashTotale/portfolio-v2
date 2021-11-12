@@ -19,7 +19,7 @@ interface Content {
 }
 
 interface BottomNavProps {
-  basePath: string;
+  pathFunc: (slug: string) => string;
   label: string;
   prevContent?: Content;
   nextContent?: Content;
@@ -32,7 +32,7 @@ const BottomNav: FC<BottomNavProps> = (props) => {
     <div className={classes.bottomNav}>
       {props.prevContent && (
         <NavButton
-          to={`/${props.basePath}/${props.prevContent.slug}`}
+          to={props.pathFunc(props.prevContent.slug)}
           label={props.prevContent.title}
           type="previous"
           typeLabel={`Previous ${props.label}`}
@@ -40,7 +40,7 @@ const BottomNav: FC<BottomNavProps> = (props) => {
       )}
       {props.nextContent && (
         <NavButton
-          to={`/${props.basePath}/${props.nextContent.slug}`}
+          to={props.pathFunc(props.nextContent.slug)}
           label={props.nextContent.title}
           type="next"
           typeLabel={`Next ${props.label}`}

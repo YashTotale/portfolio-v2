@@ -1,11 +1,13 @@
 // React Imports
 import React, { forwardRef } from "react";
+import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
 import FloatingIcons from "../../Shared/FloatingIcons";
 import Timeline from "../../Shared/Timeline";
 import Mini from "../../Shared/Mini";
+import { Paths } from "../../../Static/NavController";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import RichText from "../../../Custom/RichText";
@@ -48,9 +50,12 @@ const useStyles = makeStyles((theme) => ({
     position: "relative",
     borderBottom: `1px solid ${theme.palette.divider}`,
   },
-  articleImage: {
+  articleImageLink: {
     margin: theme.spacing(2, 0),
     maxWidth: "65%",
+  },
+  articleImage: {
+    width: "100%",
     objectFit: "contain",
 
     [theme.breakpoints.only("xl")]: {
@@ -112,11 +117,16 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
     <DynamicPaper ref={ref} className={clsx(classes.article, props.className)}>
       <div className={classes.articleTop}>
         <FloatingIcons link={article.link} linkLabel="Article" />
-        <DynamicImage
-          src={`${article.image.file.url}?h=300`}
-          alt={article.image.title}
-          className={classes.articleImage}
-        />
+        <Link
+          to={Paths.Article(article.slug)}
+          className={classes.articleImageLink}
+        >
+          <DynamicImage
+            src={`${article.image.file.url}?h=300`}
+            alt={article.image.title}
+            className={classes.articleImage}
+          />
+        </Link>
         <Title {...article} search={props.search} />
       </div>
       <div className={classes.articleDescription}>
@@ -130,7 +140,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         <div className={classes.associatedContainer}>
           <Mini
             content={getSingleExperience(article.associated.id)}
-            basePath="experience"
+            pathFunc={Paths.SingleExperience}
             titleFunc={generateExperienceTitle}
             search={props.search}
           />

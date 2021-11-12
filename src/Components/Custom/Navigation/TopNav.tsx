@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import NavButton from "./NavButton";
+import { Paths } from "../../Static/NavController";
 import { getPageTitle } from "../../../Utils/funcs";
 
 // Redux Imports
@@ -35,14 +36,14 @@ const TopNav: FC<TopNavProps> = (props) => {
       {lastNav && (
         <NavButton
           label={getPageTitle(lastNav.title)}
-          to={lastNav.pathname || "/"}
+          to={lastNav.pathname || Paths.Home}
           onClick={() => dispatch(popHistory())}
           type="previous"
           typeLabel="Back"
         />
       )}
       <NavButton
-        to={`/${props.allPath}`}
+        to={props.allPath}
         label={`All ${props.allLabel}`}
         type="next"
         typeLabel=""

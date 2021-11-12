@@ -6,6 +6,7 @@ import {
   Options,
 } from "@contentful/rich-text-react-renderer";
 import { BLOCKS, Document, INLINES } from "@contentful/rich-text-types";
+import { Paths } from "../../Static/NavController";
 import StyledLink from "../../Atomic/StyledLink";
 import MatchHighlight from "../../Atomic/MatchHighlight";
 import { getTag } from "../../../Utils/Content/tags";
@@ -51,20 +52,20 @@ const RichText: FC<RichTextProps> = (props) => {
 
   const getData = (id: string): [string, string] | null => {
     const tag = getTag(id);
-    if (tag) return [`/tags/${tag.slug}`, tag.title];
+    if (tag) return [Paths.Tag(tag.slug), tag.title];
 
     const project = getProject(id);
-    if (project) return [`/projects/${project.slug}`, project.title];
+    if (project) return [Paths.Project(project.slug), project.title];
 
     const experience = getSingleExperience(id);
     if (experience)
       return [
-        `/experience/${experience.slug}`,
+        Paths.SingleExperience(experience.slug),
         generateExperienceTitle(experience),
       ];
 
     const article = getArticle(id);
-    if (article) return [`/articles/${article.slug}`, article.title];
+    if (article) return [Paths.Article(article.slug), article.title];
 
     return null;
   };

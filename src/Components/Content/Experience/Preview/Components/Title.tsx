@@ -1,5 +1,6 @@
 //React Imports
 import React, { FC } from "react";
+import { Paths } from "../../../../Static/NavController";
 import StyledLink from "../../../../Atomic/StyledLink";
 import { ResolvedExperience } from "../../../../../Utils/types";
 import {
@@ -29,7 +30,6 @@ type TitleProps = ResolvedExperience & {
 };
 
 const Title: FC<TitleProps> = (props) => {
-  const { search } = props;
   const classes = useStyles();
 
   const theme = useTheme();
@@ -38,10 +38,10 @@ const Title: FC<TitleProps> = (props) => {
   return (
     <>
       <StyledLink
-        to={`/experience/${props.slug}`}
+        to={Paths.SingleExperience(props.slug)}
         variant={isSizeXS ? "h5" : "h4"}
         className={classes.title}
-        toMatch={search}
+        toMatch={props.search}
       >
         {generateExperienceTitle(props)}
       </StyledLink>

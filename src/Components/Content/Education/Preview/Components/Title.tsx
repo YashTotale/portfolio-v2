@@ -1,6 +1,7 @@
 //React Imports
 import React, { FC } from "react";
 import { useClosableSnackbar } from "../../../../../Hooks";
+import { Paths } from "../../../../Static/NavController";
 import StyledLink from "../../../../Atomic/StyledLink";
 import MatchHighlight from "../../../../Atomic/MatchHighlight";
 import DynamicUnderline from "../../../../Atomic/DynamicUnderline";
@@ -62,7 +63,7 @@ const Title: FC<TitleProps> = (props) => {
   return (
     <>
       <StyledLink
-        to={`/education/${props.slug}`}
+        to={Paths.SingleEducation(props.slug)}
         variant={isSizeXS ? "h5" : "h4"}
         className={classes.title}
         toMatch={props.search}

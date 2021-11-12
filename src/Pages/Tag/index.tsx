@@ -5,6 +5,7 @@ import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
 import NotFound from "../NotFound";
 import TagMain from "../../Components/Content/Tag/Main";
+import { Paths } from "../../Components/Static/NavController";
 import TopNav from "../../Components/Custom/Navigation/TopNav";
 import BottomNav from "../../Components/Custom/Navigation/BottomNav";
 import { generatePageTitle } from "../../Utils/funcs";
@@ -36,7 +37,9 @@ const Tag: FC = () => {
   useAnalytics(tag?.title);
 
   if (!tag)
-    return <NotFound name="tag" redirect="/tags" redirectName="Tags Page" />;
+    return (
+      <NotFound name="tag" redirect={Paths.Tags} redirectName="Tags Page" />
+    );
 
   const tagIndex = sortedTags.findIndex((t) => t.id === tag.id);
   const prevTag = sortedTags[tagIndex - 1];
@@ -48,10 +51,10 @@ const Tag: FC = () => {
         <title>{generatePageTitle(tag.title)}</title>
       </Helmet>
       <div className={classes.container}>
-        <TopNav allPath="tags" allLabel="Tags" />
+        <TopNav allPath={Paths.Tags} allLabel="Tags" />
         <TagMain id={tag.id} />
         <BottomNav
-          basePath="tags"
+          pathFunc={Paths.Tag}
           label="Tag"
           prevContent={prevTag}
           nextContent={nextTag}

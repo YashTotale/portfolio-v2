@@ -10,6 +10,7 @@ import {
 } from "react-hook-form";
 import ReCAPTCHA, { ReCAPTCHAProps } from "react-google-recaptcha";
 import { useAnalytics, useClosableSnackbar } from "../../Hooks";
+import { Paths } from "../../Components/Static/NavController";
 import StyledLink from "../../Components/Atomic/StyledLink";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
@@ -180,7 +181,7 @@ const Contact: FC = () => {
           {userDoc ? "Pre-filled by your" : "Can be pre-filled by"}{" "}
           <StyledLink
             to={{
-              pathname: "/settings",
+              pathname: Paths.Settings,
               hash: "#profile",
             }}
           >

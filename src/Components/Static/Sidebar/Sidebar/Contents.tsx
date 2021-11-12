@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import Category from "./Category";
 import Item from "./Item";
+import { Paths } from "../../NavController";
 import {
   generateExperienceSubtitle,
   generateExperienceTitle,
@@ -68,82 +69,94 @@ const Contents: FC = () => {
   return (
     <>
       <Toolbar className={classes.toolbar}>
-        <Link to="/">
+        <Link to={Paths.Home}>
           <img src="/logo192.png" alt="Website Logo" height={40} />
         </Link>
       </Toolbar>
       <Divider />
       <List disablePadding className={classes.list}>
-        <Category label="Home" to="/" icon={<HomeOutlined />} />
-        <Category label="Experience" to="/experience" icon={<WorkOutline />}>
+        <Category label="Home" to={Paths.Home} icon={<HomeOutlined />} />
+        <Category
+          label="Experience"
+          to={Paths.Experience}
+          icon={<WorkOutline />}
+        >
           {experience.map((exp) => (
             <Item
               key={exp.id}
               label={generateExperienceTitle(exp)}
               secondary={generateExperienceSubtitle(exp)}
-              to={`/experience/${exp.slug}`}
+              to={Paths.SingleExperience(exp.slug)}
               highlighted={
                 experienceViewable.includes(exp.id) &&
-                location.pathname === "/experience"
+                location.pathname === Paths.Experience
               }
             />
           ))}
         </Category>
-        <Category label="Education" to="/education" icon={<SchoolOutlined />}>
+        <Category
+          label="Education"
+          to={Paths.Education}
+          icon={<SchoolOutlined />}
+        >
           {education.map((ed) => (
             <Item
               key={ed.id}
               label={ed.title}
-              to={`/education/${ed.slug}`}
+              to={Paths.SingleEducation(ed.slug)}
               highlighted={
                 educationViewable.includes(ed.id) &&
-                location.pathname === "/education"
+                location.pathname === Paths.Education
               }
             />
           ))}
         </Category>
-        <Category label="Projects" to="/projects" icon={<BuildOutlined />}>
+        <Category label="Projects" to={Paths.Projects} icon={<BuildOutlined />}>
           {projects.map((project) => (
             <Item
               key={project.id}
               label={project.title}
-              to={`/projects/${project.slug}`}
+              to={Paths.Project(project.slug)}
               highlighted={
                 projectsViewable.includes(project.id) &&
-                location.pathname === "/projects"
+                location.pathname === Paths.Projects
               }
             />
           ))}
         </Category>
         <Category
           label="Articles"
-          to="/articles"
+          to={Paths.Articles}
           icon={<DescriptionOutlined />}
         >
           {articles.map((article) => (
             <Item
               key={article.id}
               label={article.title}
-              to={`/articles/${article.slug}`}
+              to={Paths.Article(article.slug)}
               highlighted={
                 articlesViewable.includes(article.id) &&
-                location.pathname === "/articles"
+                location.pathname === Paths.Articles
               }
             />
           ))}
         </Category>
-        <Category label="Tags" to="/tags" icon={<LabelOutlined />}>
+        <Category label="Tags" to={Paths.Tags} icon={<LabelOutlined />}>
           {tags.map((tag) => (
-            <Item key={tag.id} label={tag.title} to={`/tags/${tag.slug}`} />
+            <Item key={tag.id} label={tag.title} to={Paths.Tag(tag.slug)} />
           ))}
         </Category>
         <Category
           label="Certifications"
-          to="/certifications"
+          to={Paths.Certifications}
           icon={<AssignmentTurnedInOutlined />}
         />
-        <Category label="Books" to="/books" icon={<BookOutlined />} />
-        <Category label="Contact" to="/contact" icon={<ChatBubbleOutline />} />
+        <Category label="Books" to={Paths.Books} icon={<BookOutlined />} />
+        <Category
+          label="Contact"
+          to={Paths.Contact}
+          icon={<ChatBubbleOutline />}
+        />
       </List>
     </>
   );

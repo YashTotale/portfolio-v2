@@ -1,10 +1,13 @@
 // React Imports
 import React, { FC } from "react";
 import BaseOverlay from "../../Atomic/Overlay";
+import { Paths } from "../../Static/NavController";
 import {
   generateExperienceTitle,
   getSingleExperience,
 } from "../../../Utils/Content/experience";
+
+// Material UI Imports
 import { useTheme } from "@mui/material";
 
 interface OverlayProps {
@@ -23,7 +26,7 @@ const Overlay: FC<OverlayProps> = (props) => {
 
   return (
     <BaseOverlay
-      to={`/experience/${experience.slug}`}
+      to={Paths.SingleExperience(experience.slug)}
       icon={image}
       label={generateExperienceTitle(experience)}
       className={props.className}

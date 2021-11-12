@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../Hooks";
 import { generatePageTitle } from "../Utils/funcs";
+import { Paths } from "../Components/Static/NavController";
 
 // Material UI Imports
 import { Button, Typography, capitalize } from "@mui/material";
@@ -59,7 +60,7 @@ interface NotFoundProps {
 const NotFound: FC<NotFoundProps> = ({
   name = "page",
   redirectName = "Home Page",
-  redirect = "/",
+  redirect = Paths.Home,
 }) => {
   const classes = useStyles();
 

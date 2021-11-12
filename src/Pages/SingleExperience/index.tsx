@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
 import NotFound from "../NotFound";
+import { Paths } from "../../Components/Static/NavController";
 import TopNav from "../../Components/Custom/Navigation/TopNav";
 import BottomNav from "../../Components/Custom/Navigation/BottomNav";
 import ExperienceMain from "../../Components/Content/Experience/Main";
@@ -42,7 +43,7 @@ const SingleExperience: FC = () => {
     return (
       <NotFound
         name="experience"
-        redirect="/experience"
+        redirect={Paths.Experience}
         redirectName="Experience Page"
       />
     );
@@ -59,10 +60,10 @@ const SingleExperience: FC = () => {
         <title>{generatePageTitle(experience.title)}</title>
       </Helmet>
       <div className={classes.container}>
-        <TopNav allPath="experience" allLabel="Experience" />
+        <TopNav allPath={Paths.Experience} allLabel="Experience" />
         <ExperienceMain id={experience.id} />
         <BottomNav
-          basePath="experience"
+          pathFunc={Paths.SingleExperience}
           label="Experience"
           prevContent={prevExperience}
           nextContent={nextExperience}

@@ -1,5 +1,6 @@
 //React Imports
 import React, { FC } from "react";
+import { Paths } from "../../../../Static/NavController";
 import StyledLink from "../../../../Atomic/StyledLink";
 import { ResolvedProject } from "../../../../../Utils/types";
 
@@ -23,7 +24,7 @@ type TitleProps = ResolvedProject & {
 };
 
 const Title: FC<TitleProps> = (props) => {
-  const { title, search } = props;
+  const { title, search, slug } = props;
   const classes = useStyles();
 
   const theme = useTheme();
@@ -31,7 +32,7 @@ const Title: FC<TitleProps> = (props) => {
 
   return (
     <StyledLink
-      to={`/projects/${props.slug}`}
+      to={Paths.Project(slug)}
       variant={isSizeXS ? "h5" : "h4"}
       className={classes.projectTitle}
       toMatch={search}

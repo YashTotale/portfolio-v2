@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC, useState, useEffect } from "react";
 import Typist from "react-typist";
+import { Paths } from "../NavController";
 import StyledLink from "../../Atomic/StyledLink";
 import "react-typist/dist/Typist.css";
 
@@ -30,22 +31,22 @@ const Typer: FC = () => {
         blink: true,
       }}
     >
-      <StyledLink to="/experience">experience</StyledLink>
+      <StyledLink to={Paths.Experience}>experience</StyledLink>
       <Typist.Backspace count={"experience".length} delay={2000} />
 
-      <StyledLink to="/education">education</StyledLink>
+      <StyledLink to={Paths.Education}>education</StyledLink>
       <Typist.Backspace count={"education".length} delay={2000} />
 
-      <StyledLink to="/projects">projects</StyledLink>
+      <StyledLink to={Paths.Projects}>projects</StyledLink>
       <Typist.Backspace count={"projects".length} delay={2000} />
 
-      <StyledLink to="/articles">articles</StyledLink>
+      <StyledLink to={Paths.Articles}>articles</StyledLink>
       <Typist.Backspace count={"articles".length} delay={2000} />
 
-      <StyledLink to="/certifications">certifications</StyledLink>
+      <StyledLink to={Paths.Certifications}>certifications</StyledLink>
       <Typist.Backspace count={"certifications".length} delay={2000} />
 
-      <StyledLink to="/books">books</StyledLink>
+      <StyledLink to={Paths.Books}>books</StyledLink>
       <Typist.Backspace count={"books".length} delay={2000} />
     </Typist>
   ) : (

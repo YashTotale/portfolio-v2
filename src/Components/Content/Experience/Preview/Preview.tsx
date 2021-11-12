@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { Link } from "react-router-dom";
 import { Document } from "@contentful/rich-text-types";
 import Title from "./Components/Title";
+import { Paths } from "../../../Static/NavController";
 import FloatingIcons from "../../Shared/FloatingIcons";
 import Timeline from "../../Shared/Timeline";
 import Mini from "../../Shared/Mini";
@@ -140,7 +141,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           direction={isSizeXS ? "column" : "row"}
         />
         <Link
-          to={`/experience/${experience.slug}`}
+          to={Paths.SingleExperience(experience.slug)}
           className={classes.imageLink}
         >
           <DynamicImage
@@ -173,7 +174,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
               <Mini
                 key={project.id}
                 content={getProject(project.id)}
-                basePath="projects"
+                pathFunc={Paths.Project}
                 search={props.search}
                 className={classes.mini}
               />
@@ -182,7 +183,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
               <Mini
                 key={article.id}
                 content={getArticle(article.id)}
-                basePath="articles"
+                pathFunc={Paths.Article}
                 search={props.search}
                 className={classes.mini}
               />

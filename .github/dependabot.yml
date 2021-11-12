@@ -10,3 +10,11 @@ updates:
       timezone: "America/Los_Angeles"
     labels:
       - "dependencies"
+  - package-ecosystem: "npm"
+    directory: "/functions"
+    schedule:
+      interval: "daily"
+      time: "07:15"
+      timezone: "America/Los_Angeles"
+    labels:
+      - "dependencies"

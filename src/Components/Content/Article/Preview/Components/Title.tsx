@@ -1,5 +1,6 @@
 //React Imports
 import React, { FC } from "react";
+import { Paths } from "../../../../Static/NavController";
 import StyledLink from "../../../../Atomic/StyledLink";
 import { ResolvedArticle } from "../../../../../Utils/types";
 
@@ -31,7 +32,7 @@ const Title: FC<TitleProps> = (props) => {
 
   return (
     <StyledLink
-      to={`/articles/${slug}`}
+      to={Paths.Article(slug)}
       variant={isSizeXS ? "h5" : "h4"}
       className={classes.articleTitle}
       toMatch={search}

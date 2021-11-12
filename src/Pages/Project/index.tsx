@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
 import NotFound from "../NotFound";
+import { Paths } from "../../Components/Static/NavController";
 import ProjectMain from "../../Components/Content/Project/Main";
 import TopNav from "../../Components/Custom/Navigation/TopNav";
 import BottomNav from "../../Components/Custom/Navigation/BottomNav";
@@ -39,7 +40,7 @@ const Project: FC = () => {
     return (
       <NotFound
         name="project"
-        redirect="/projects"
+        redirect={Paths.Projects}
         redirectName="Projects Page"
       />
     );
@@ -54,10 +55,10 @@ const Project: FC = () => {
         <title>{generatePageTitle(project.title)}</title>
       </Helmet>
       <div className={classes.container}>
-        <TopNav allPath="projects" allLabel="Projects" />
+        <TopNav allPath={Paths.Projects} allLabel="Projects" />
         <ProjectMain id={project.id} />
         <BottomNav
-          basePath="projects"
+          pathFunc={Paths.Project}
           label="Project"
           prevContent={prevProject}
           nextContent={nextProject}

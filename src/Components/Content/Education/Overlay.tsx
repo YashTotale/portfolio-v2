@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import BaseOverlay from "../../Atomic/Overlay";
+import { Paths } from "../../Static/NavController";
 import { getSingleEducation } from "../../../Utils/Content/education";
 import { getDefaultEducationImage } from "../../../Utils/Content/main";
 import { getAsset } from "../../../Utils/Content/assets";
@@ -18,7 +19,7 @@ const Overlay: FC<OverlayProps> = (props) => {
 
   return (
     <BaseOverlay
-      to={`/education/${education.slug}`}
+      to={Paths.SingleEducation(education.slug)}
       icon={
         education.provider ? getAsset(education.provider.image) : defaultImage
       }

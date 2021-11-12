@@ -48,7 +48,7 @@ interface Content {
 
 export interface MiniProps {
   content: Content | null;
-  basePath: string;
+  pathFunc: (slug: string) => string;
   titleFunc?: (content: any) => string;
   search?: string;
   className?: string;
@@ -67,7 +67,7 @@ const Mini: FC<MiniProps> = (props) => {
 
   return (
     <Link
-      to={`/${props.basePath}/${props.content.slug}`}
+      to={props.pathFunc(props.content.slug)}
       className={clsx(classes.link, props.className)}
     >
       <Button className={classes.button} color="inherit" variant="outlined">

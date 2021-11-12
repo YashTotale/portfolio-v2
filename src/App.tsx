@@ -13,7 +13,7 @@ import Navbar from "./Components/Static/Navbar";
 import Footer from "./Components/Static/Footer";
 import Popup from "./Components/Static/Popup";
 import Sidebar from "./Components/Static/Sidebar";
-import NavController from "./Components/Static/NavController";
+import NavController, { Paths } from "./Components/Static/NavController";
 import Loading from "./Components/Static/Loading";
 
 // Material UI Imports
@@ -78,52 +78,52 @@ const Routes: FC = () => {
       <div className={classes.layout}>
         <Suspense fallback={<Loading />}>
           <Switch>
-            <Route exact path="/experience">
+            <Route exact path={Paths.Experience}>
               <ExperiencePage />
             </Route>
-            <Route exact path="/experience/:slug">
+            <Route exact path={Paths.SingleExperience()}>
               <SingleExperiencePage />
             </Route>
-            <Route exact path="/education">
+            <Route exact path={Paths.Education}>
               <EducationPage />
             </Route>
-            <Route exact path="/education/:slug">
+            <Route exact path={Paths.SingleEducation()}>
               <SingleEducationPage />
             </Route>
-            <Route exact path="/projects">
+            <Route exact path={Paths.Projects}>
               <ProjectsPage />
             </Route>
-            <Route exact path="/projects/:slug">
+            <Route exact path={Paths.Project()}>
               <ProjectPage />
             </Route>
-            <Route exact path="/articles">
+            <Route exact path={Paths.Articles}>
               <ArticlesPage />
             </Route>
-            <Route exact path="/articles/:slug">
+            <Route exact path={Paths.Article()}>
               <ArticlePage />
             </Route>
-            <Route exact path="/tags">
+            <Route exact path={Paths.Tags}>
               <TagsPage />
             </Route>
-            <Route exact path="/tags/:slug">
+            <Route exact path={Paths.Tag()}>
               <TagPage />
             </Route>
-            <Route exact path="/certifications">
+            <Route exact path={Paths.Certifications}>
               <CertificationPage />
             </Route>
-            <Route exact path="/books">
+            <Route exact path={Paths.Books}>
               <BooksPage />
             </Route>
-            <Route exact path="/contact">
+            <Route exact path={Paths.Contact}>
               <Contact />
             </Route>
-            <Route exact path="/colors">
+            <Route exact path={Paths.Colors}>
               <Colors />
             </Route>
-            <Route exact path="/settings">
+            <Route exact path={Paths.Settings}>
               <Settings />
             </Route>
-            <Route exact path="/">
+            <Route exact path={Paths.Home}>
               <Home />
             </Route>
             <Route path="*">

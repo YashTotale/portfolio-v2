@@ -12,12 +12,13 @@ import { WithId, PublicUserDoc, ImmutableUserDoc } from "../../types/firestore";
 const publicCollection = "users" as const;
 const immutableCollection = "users_immutable" as const;
 
+const usePublicData = createDocSnapshot(publicCollection);
+const useImmutableData = createDocSnapshot(immutableCollection);
+
 export const useUserDoc = (): Nullable<
   WithId<PublicUserDoc & ImmutableUserDoc>
 > => {
   const user = useUser();
-  const usePublicData = createDocSnapshot(publicCollection);
-  const useImmutableData = createDocSnapshot(immutableCollection);
 
   const publicData = usePublicData(user?.uid ?? "");
   const privateData = useImmutableData(user?.uid ?? "");

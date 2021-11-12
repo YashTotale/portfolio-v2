@@ -2,6 +2,7 @@
 import React, { cloneElement, FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { LocationDescriptor } from "history";
+import { Paths } from "../../NavController";
 
 // Material UI Imports
 import {
@@ -62,7 +63,7 @@ const Category: FC<CategoryProps> = ({ label, to, icon, children }) => {
   return (
     <li className={classes.listItemContainer}>
       <Link
-        to={pathname === curr && children ? "/" : to}
+        to={pathname === curr && children ? Paths.Home : to}
         className={classes.link}
       >
         <ListItem button className={classes.listItem}>

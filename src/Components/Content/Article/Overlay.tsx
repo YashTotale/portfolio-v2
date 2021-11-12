@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import BaseOverlay from "../../Atomic/Overlay";
+import { Paths } from "../../Static/NavController";
 import { getArticle } from "../../../Utils/Content/articles";
 
 interface OverlayProps {
@@ -14,7 +15,7 @@ const Overlay: FC<OverlayProps> = (props) => {
 
   return (
     <BaseOverlay
-      to={`/articles/${article.slug}`}
+      to={Paths.Article(article.slug)}
       icon={article.image}
       label={article.title}
       className={props.className}

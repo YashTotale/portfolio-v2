@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
+import { Paths } from "../../../Static/NavController";
 import MatchHighlight from "../../../Atomic/MatchHighlight";
 import { getTag } from "../../../../Utils/Content/tags";
 
@@ -51,7 +52,7 @@ const Mini: FC<MiniProps> = (props) => {
         />
       }
       component={Link}
-      to={`/tags/${tag.slug}`}
+      to={Paths.Tag(tag.slug)}
       color="secondary"
       variant="outlined"
     />

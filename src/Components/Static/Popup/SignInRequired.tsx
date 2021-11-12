@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import { Link } from "react-router-dom";
+import { Paths } from "../NavController";
 
 // Redux Imports
 import { changePopupState } from "../../../Redux";
@@ -33,7 +34,7 @@ const SignInRequired: FC = () => {
           component={Link}
           onClick={() => dispatch(changePopupState(PopupState.CLOSED))}
           to={{
-            pathname: "/settings",
+            pathname: Paths.Settings,
             hash: "#profile",
           }}
         >

@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import clsx from "clsx";
+import { Paths } from "../../../Static/NavController";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import Overlay from "../../../Atomic/Overlay";
 import HorizontalDivider from "../../../Atomic/Divider/Horizontal";
@@ -79,7 +80,7 @@ const Category: FC<CategoryProps> = (props) => {
           return (
             <Overlay
               key={tag.id}
-              to={`/tags/${tag.slug}`}
+              to={Paths.Tag(tag.slug)}
               icon={icon}
               size="small"
               label={tag.title}

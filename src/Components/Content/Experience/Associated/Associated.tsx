@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
+import { Paths } from "../../../Static/NavController";
 import RichText from "../../../Custom/RichText";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import StyledLink from "../../../Atomic/StyledLink";
@@ -116,7 +117,7 @@ const Associated: FC<AssociatedProps> = (props) => {
         <StyledLink
           variant="h6"
           align="center"
-          to={`/experience/${exp.slug}`}
+          to={Paths.SingleExperience(exp.slug)}
           className={classes.title}
           toMatch={props.search}
         >

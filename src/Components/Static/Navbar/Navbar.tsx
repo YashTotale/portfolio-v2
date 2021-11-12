@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { Paths } from "../NavController";
 import { useClosableSnackbar } from "../../../Hooks";
 import { SIDEBAR_WIDTH } from "../../../Utils/constants";
 
@@ -80,28 +81,26 @@ const Navbar: FC = () => {
         <Toolbar className={classes.toolbar}>
           {isSizeMedium && isLTR && toggleSidebarButton}
           <div className={classes.otherIcons}>
-            {isSizeMedium && pathname !== "/" && (
+            {isSizeMedium && pathname !== Paths.Home && (
               <Tooltip title="Home">
                 <IconButton
                   component={Link}
-                  to="/"
+                  to={Paths.Home}
                   size={isSizeXS ? "medium" : "large"}
                 >
                   <Home className={classes.homeIcon} />
                 </IconButton>
               </Tooltip>
             )}
-            {pathname !== "/colors" && (
-              <Tooltip title="Customize Colors">
-                <IconButton
-                  component={Link}
-                  to="/colors"
-                  size={isSizeXS ? "medium" : "large"}
-                >
-                  <Palette />
-                </IconButton>
-              </Tooltip>
-            )}
+            <Tooltip title="Customize Colors">
+              <IconButton
+                component={Link}
+                to={Paths.Colors}
+                size={isSizeXS ? "medium" : "large"}
+              >
+                <Palette />
+              </IconButton>
+            </Tooltip>
             <Tooltip title={`Toggle ${isDarkMode ? "Light" : "Dark"} Mode`}>
               <IconButton
                 onClick={() => {
@@ -124,7 +123,7 @@ const Navbar: FC = () => {
             <Tooltip title="Settings">
               <IconButton
                 component={Link}
-                to="/settings"
+                to={Paths.Settings}
                 size={isSizeXS ? "medium" : "large"}
               >
                 <Settings />

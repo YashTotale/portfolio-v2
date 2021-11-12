@@ -2,6 +2,7 @@
 import React, { FC, useEffect, useState } from "react";
 import { ProfileProps } from "./index";
 import Subsection from "../../../Subsection";
+import { Paths } from "../../../../NavController";
 import Mini from "../../../../../Content/Book/Mini";
 import StyledLink from "../../../../../Atomic/StyledLink";
 
@@ -60,7 +61,7 @@ const LikedBooks: FC<ProfileProps> = (props) => {
       ) : (
         <Typography className={classes.noneLiked}>
           You have not liked any books yet.{" "}
-          <StyledLink to="/books">Go like some!</StyledLink>
+          <StyledLink to={Paths.Books}>Go like some!</StyledLink>
         </Typography>
       )}
     </Subsection>

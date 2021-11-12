@@ -4,6 +4,7 @@ import { useParams } from "react-router-dom";
 import { Helmet } from "react-helmet";
 import { useAnalytics } from "../../Hooks";
 import NotFound from "../NotFound";
+import { Paths } from "../../Components/Static/NavController";
 import TopNav from "../../Components/Custom/Navigation/TopNav";
 import BottomNav from "../../Components/Custom/Navigation/BottomNav";
 import EducationMain from "../../Components/Content/Education/Main";
@@ -41,9 +42,9 @@ const SingleEducation: FC = () => {
   if (!education)
     return (
       <NotFound
-        name="experience"
-        redirect="/experience"
-        redirectName="Experience Page"
+        name="education"
+        redirect={Paths.Education}
+        redirectName="Education Page"
       />
     );
 
@@ -59,10 +60,10 @@ const SingleEducation: FC = () => {
         <title>{generatePageTitle(education.title)}</title>
       </Helmet>
       <div className={classes.container}>
-        <TopNav allPath="education" allLabel="Education" />
+        <TopNav allPath={Paths.Education} allLabel="Education" />
         <EducationMain id={education.id} />
         <BottomNav
-          basePath="education"
+          pathFunc={Paths.SingleEducation}
           label="Education"
           prevContent={prevEducation}
           nextContent={nextEducation}

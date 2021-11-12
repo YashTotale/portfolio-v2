@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { useClosableSnackbar } from "../../../../Hooks";
 import Categories from "../Shared/Categories";
+import { Paths } from "../../../Static/NavController";
 import DynamicPaper from "../../../Atomic/DynamicPaper";
 import DynamicImage from "../../../Atomic/DynamicImage";
 import DynamicUnderline from "../../../Atomic/DynamicUnderline";
@@ -125,7 +126,7 @@ const Preview: FC<PreviewProps> = (props) => {
   return (
     <DynamicPaper className={clsx(classes.container, props.className)}>
       <div className={classes.display}>
-        <Link to={`/tags/${tag.slug}`} className={classes.iconLink}>
+        <Link to={Paths.Tag(tag.slug)} className={classes.iconLink}>
           <DynamicImage
             src={`${icon.file.url}?h=200`}
             alt={icon.title}
@@ -133,7 +134,7 @@ const Preview: FC<PreviewProps> = (props) => {
           />
         </Link>
         <StyledLink
-          to={`/tags/${tag.slug}`}
+          to={Paths.Tag(tag.slug)}
           variant="h5"
           className={classes.title}
           toMatch={props.search}

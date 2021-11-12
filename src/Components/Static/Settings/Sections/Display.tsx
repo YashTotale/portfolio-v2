@@ -3,6 +3,7 @@ import React, { FC } from "react";
 import Section from "../Section";
 import Subsection from "../Subsection";
 import Item, { SelectItem, SwitchItem } from "../Item";
+import { Paths } from "../../NavController";
 import StyledLink from "../../../Atomic/StyledLink";
 
 // Redux Imports
@@ -44,7 +45,7 @@ const Display: FC = () => {
         />
         <Item
           label="Customize Colors"
-          action={<StyledLink to="/colors">Colors Page</StyledLink>}
+          action={<StyledLink to={Paths.Colors}>Colors Page</StyledLink>}
         />
       </Subsection>
       <Subsection title="Miscellaneous" icon={<Computer />}>

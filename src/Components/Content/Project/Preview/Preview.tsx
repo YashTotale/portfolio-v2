@@ -3,6 +3,7 @@ import React, { forwardRef } from "react";
 import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { Document } from "@contentful/rich-text-types";
+import { Paths } from "../../../Static/NavController";
 import FloatingIcons from "../../Shared/FloatingIcons";
 import Timeline from "../../Shared/Timeline";
 import TagChip from "../../Tag/Mini";
@@ -113,7 +114,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
           github={project.github}
         />
         <Link
-          to={`/projects/${project.slug}`}
+          to={Paths.Project(project.slug)}
           className={classes.projectImageLink}
         >
           <DynamicImage
@@ -134,7 +135,7 @@ const Preview = forwardRef<HTMLDivElement, PreviewProps>((props, ref) => {
         <div className={classes.associatedContainer}>
           <Mini
             content={getSingleExperience(project.associated.id)}
-            basePath="experience"
+            pathFunc={Paths.SingleExperience}
             titleFunc={generateExperienceTitle}
             search={props.search}
           />
