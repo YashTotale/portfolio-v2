@@ -10,7 +10,33 @@ const client = createClient({
   accessToken: process.env.CONTENTFUL_ACCESS_TOKEN ?? "",
 });
 
-const getContent = () => {
+const getContentType = async (type: string) => {
+  const parsed: Dict = {};
+
+  const recurse = async (skip = 0) => {
+    const entries = await client.getEntries({
+      content_type: type,
+      include: 0,
+      skip,
+    });
+
+    entries.items.forEach((entry) => {
+      parsed[entry.sys.id] = {
+        ...(entry.fields as Dict),
+        id: entry.sys.id,
+      };
+    });
+
+    if (entries.total > entries.limit + entries.skip) {
+      await recurse(entries.limit + entries.skip);
+    }
+  };
+
+  await recurse();
+  await writeData(parsed, type);
+};
+
+const getAllContent = () => {
   const contentTypes = [
     "experience",
     "education",
@@ -24,33 +50,7 @@ const getContent = () => {
     "main",
   ];
 
-  return Promise.all(
-    contentTypes.map(async (type) => {
-      const parsed: Dict = {};
-
-      const recurse = async (skip = 0) => {
-        const entries = await client.getEntries({
-          content_type: type,
-          include: 0,
-          skip,
-        });
-
-        entries.items.forEach((entry) => {
-          parsed[entry.sys.id] = {
-            ...(entry.fields as Dict),
-            id: entry.sys.id,
-          };
-        });
-
-        if (entries.total > entries.limit + entries.skip) {
-          await recurse(entries.limit + entries.skip);
-        }
-      };
-
-      await recurse();
-      await writeData(parsed, type);
-    })
-  );
+  return Promise.all(contentTypes.map(getContentType));
 };
 
 const getAssets = async () => {
@@ -75,7 +75,7 @@ const getAssets = async () => {
 const getData = async (): Promise<void> => {
   Logger.log("Fetching data...");
 
-  await Promise.all([getContent(), getAssets()]);
+  await Promise.all([getAllContent(), getAssets()]);
 
   Logger.success("Successfully fetched data!");
   Logger.line();
