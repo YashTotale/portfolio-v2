@@ -16,7 +16,7 @@ Ensure your working directory is `functions`, not the root directory for all ste
    npm install
    ```
 
-3. Get Service Key
+3. Get Private Key
 
    Follow the steps in [the Firebase documentation](https://firebase.google.com/docs/admin/setup#initialize-sdk) to obtain a new private key. Paste the private key into `functions/src/service-account.json`.
 

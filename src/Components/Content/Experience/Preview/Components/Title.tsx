@@ -18,10 +18,6 @@ const useStyles = makeStyles((theme) => ({
     textOverflow: "ellipsis",
     textAlign: "center",
     width: "95%",
-
-    [theme.breakpoints.up("xs")]: {
-      fontSize: "2rem",
-    },
   },
   subtitle: {
     marginBottom: theme.spacing(1),

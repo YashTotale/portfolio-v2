@@ -49,23 +49,19 @@ const useStyles = makeStyles((theme) => ({
   },
   image: {
     [theme.breakpoints.only("xl")]: {
-      width: 225,
+      width: 200,
     },
-
     [theme.breakpoints.only("lg")]: {
-      width: 200,
-    },
-
-    [theme.breakpoints.only("md")]: {
-      width: 200,
-    },
-
-    [theme.breakpoints.only("sm")]: {
       width: 175,
     },
-
-    [theme.breakpoints.only("xs")]: {
+    [theme.breakpoints.only("md")]: {
+      width: 175,
+    },
+    [theme.breakpoints.only("sm")]: {
       width: 150,
+    },
+    [theme.breakpoints.only("xs")]: {
+      width: 125,
     },
   },
   info: {

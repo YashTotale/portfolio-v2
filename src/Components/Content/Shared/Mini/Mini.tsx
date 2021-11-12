@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
+    flexGrow: 1,
   },
 }));
 
@@ -60,10 +61,9 @@ const Mini: FC<MiniProps> = (props) => {
 
   if (!props.content) return null;
 
-  const image = (props.content.image ??
-    (isDark
-      ? props.content.darkImage
-      : props.content.lightImage)) as Asset["fields"];
+  const image =
+    props.content.image ??
+    (isDark ? props.content.darkImage : props.content.lightImage);
 
   return (
     <Link
@@ -71,12 +71,14 @@ const Mini: FC<MiniProps> = (props) => {
       className={clsx(classes.link, props.className)}
     >
       <Button className={classes.button} color="inherit" variant="outlined">
-        <Avatar
-          alt={image.title}
-          src={`${image.file.url}?h=40`}
-          className={classes.avatar}
-        />
-        <Typography variant="subtitle1" className={classes.title}>
+        {image && (
+          <Avatar
+            alt={image.title}
+            src={`${image.file.url}?h=40`}
+            className={classes.avatar}
+          />
+        )}
+        <Typography align="left" variant="subtitle1" className={classes.title}>
           <MatchHighlight toMatch={props.search}>
             {props.titleFunc
               ? props.titleFunc(props.content)
