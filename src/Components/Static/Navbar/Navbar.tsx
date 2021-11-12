@@ -1,6 +1,6 @@
 // React Imports
 import React, { FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useClosableSnackbar } from "../../../Hooks";
 import { SIDEBAR_WIDTH } from "../../../Utils/constants";
 
@@ -25,6 +25,7 @@ import {
   Menu as MenuButton,
   Palette,
   Settings,
+  Home,
 } from "@mui/icons-material";
 
 const useStyles = makeStyles((theme) => ({
@@ -39,8 +40,8 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.direction === "ltr" ? "auto" : 0,
     marginRight: theme.direction === "rtl" ? "auto" : 0,
   },
-  avatar: {
-    cursor: "pointer",
+  homeIcon: {
+    fontSize: 28,
   },
 }));
 
@@ -48,20 +49,25 @@ const Navbar: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const theme = useTheme();
+  const { pathname } = useLocation();
   const { enqueueSnackbar } = useClosableSnackbar();
   const trigger = useScrollTrigger({
     disableHysteresis: true,
     threshold: 0,
   });
 
-  const isSizeSmall = useMediaQuery(theme.breakpoints.down("lg"));
+  const isSizeMedium = useMediaQuery(theme.breakpoints.down("lg"));
+  const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
   const isDarkMode = theme.palette.mode === "dark";
   const isLTR = theme.direction === "ltr";
 
   const toggleSidebarButton = (
     <div>
       <Tooltip title="Toggle Sidebar">
-        <IconButton onClick={() => dispatch(toggleSidebar())} size="large">
+        <IconButton
+          onClick={() => dispatch(toggleSidebar())}
+          size={isSizeXS ? "medium" : "large"}
+        >
           <MenuButton />
         </IconButton>
       </Tooltip>
@@ -72,13 +78,30 @@ const Navbar: FC = () => {
     <>
       <AppBar elevation={trigger ? 4 : 1} color="default">
         <Toolbar className={classes.toolbar}>
-          {isSizeSmall && isLTR && toggleSidebarButton}
+          {isSizeMedium && isLTR && toggleSidebarButton}
           <div className={classes.otherIcons}>
-            <Tooltip title="Customize Colors">
-              <IconButton component={Link} to="/colors" size="large">
-                <Palette />
-              </IconButton>
-            </Tooltip>
+            {isSizeMedium && pathname !== "/" && (
+              <Tooltip title="Home">
+                <IconButton
+                  component={Link}
+                  to="/"
+                  size={isSizeXS ? "medium" : "large"}
+                >
+                  <Home className={classes.homeIcon} />
+                </IconButton>
+              </Tooltip>
+            )}
+            {pathname !== "/colors" && (
+              <Tooltip title="Customize Colors">
+                <IconButton
+                  component={Link}
+                  to="/colors"
+                  size={isSizeXS ? "medium" : "large"}
+                >
+                  <Palette />
+                </IconButton>
+              </Tooltip>
+            )}
             <Tooltip title={`Toggle ${isDarkMode ? "Light" : "Dark"} Mode`}>
               <IconButton
                 onClick={() => {
@@ -93,18 +116,22 @@ const Navbar: FC = () => {
                     }
                   );
                 }}
-                size="large"
+                size={isSizeXS ? "medium" : "large"}
               >
                 {isDarkMode ? <Brightness7 /> : <Brightness4 />}
               </IconButton>
             </Tooltip>
             <Tooltip title="Settings">
-              <IconButton component={Link} to="/settings" size="large">
+              <IconButton
+                component={Link}
+                to="/settings"
+                size={isSizeXS ? "medium" : "large"}
+              >
                 <Settings />
               </IconButton>
             </Tooltip>
           </div>
-          {isSizeSmall && !isLTR && toggleSidebarButton}
+          {isSizeMedium && !isLTR && toggleSidebarButton}
         </Toolbar>
       </AppBar>
       <Toolbar />
