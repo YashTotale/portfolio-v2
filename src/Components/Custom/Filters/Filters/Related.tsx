@@ -116,6 +116,8 @@ const Related: FC<RelatedProps> = (props) => {
             const image = typeof v === "string" ? null : v.image;
             const amount = typeof v === "string" ? null : v.amount;
 
+            if (amount === 0) return null;
+
             return (
               <MenuItem
                 key={label}

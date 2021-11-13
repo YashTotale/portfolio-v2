@@ -41,6 +41,7 @@ export const sortProviders = createSorter<ProviderSort, Provider>(
 interface RelatedProvider {
   label: string;
   image: string;
+  amount: number;
 }
 
 const relatedCache: Record<any, RelatedProvider[]> = {};
@@ -51,7 +52,7 @@ export const getProvidersAsRelated = (
   if (relatedCache[key]) return relatedCache[key];
 
   const allProviders = sortProviders("Alphabetically");
-  const related = allProviders.map((provider) => ({
+  const related: RelatedProvider[] = allProviders.map((provider) => ({
     label: provider.title,
     amount: provider[key].length,
     image: `${getAsset(provider.image).file.url}?w=32`,
