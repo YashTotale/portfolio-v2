@@ -61,6 +61,9 @@ const Mini: FC<MiniProps> = (props) => {
 
   if (!props.content) return null;
 
+  const label = props.titleFunc
+    ? props.titleFunc(props.content)
+    : props.content.title;
   const image =
     props.content.image ??
     (isDark ? props.content.darkImage : props.content.lightImage);
@@ -69,6 +72,7 @@ const Mini: FC<MiniProps> = (props) => {
     <Link
       to={props.pathFunc(props.content.slug)}
       className={clsx(classes.link, props.className)}
+      title={label}
     >
       <Button className={classes.button} color="inherit" variant="outlined">
         {image && (
@@ -79,11 +83,7 @@ const Mini: FC<MiniProps> = (props) => {
           />
         )}
         <Typography align="left" variant="subtitle1" className={classes.title}>
-          <MatchHighlight toMatch={props.search}>
-            {props.titleFunc
-              ? props.titleFunc(props.content)
-              : props.content.title}
-          </MatchHighlight>
+          <MatchHighlight toMatch={props.search}>{label}</MatchHighlight>
         </Typography>
       </Button>
     </Link>

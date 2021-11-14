@@ -38,6 +38,7 @@ const Mini: FC<MiniProps> = (props) => {
     <Chip
       clickable
       size={isSizeXS ? "small" : "medium"}
+      title={tag.title}
       label={
         <MatchHighlight toMatch={props.search}>{tag.title}</MatchHighlight>
       }

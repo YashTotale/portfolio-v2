@@ -17,10 +17,13 @@ const useStyles = makeStyles((theme) => ({
     whiteSpace: "nowrap",
     overflow: "hidden",
     textOverflow: "ellipsis",
-    textAlign: "center",
     width: "95%",
   },
   subtitle: {
+    whiteSpace: "nowrap",
+    overflow: "hidden",
+    textOverflow: "ellipsis",
+    width: "90%",
     marginBottom: theme.spacing(1),
   },
 }));
@@ -40,14 +43,17 @@ const Title: FC<TitleProps> = (props) => {
       <StyledLink
         to={Paths.SingleExperience(props.slug)}
         variant={isSizeXS ? "h5" : "h4"}
+        align="center"
         className={classes.title}
         toMatch={props.search}
+        withTitle
       >
         {generateExperienceTitle(props)}
       </StyledLink>
       <Typography
         variant={isSizeXS ? "subtitle2" : "subtitle1"}
         color="textSecondary"
+        align="center"
         className={classes.subtitle}
       >
         {generateExperienceSubtitle(props)}
