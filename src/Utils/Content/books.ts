@@ -1,3 +1,6 @@
+// External Imports
+import moment from "moment";
+
 // Internal Imports
 import { Book } from "../types";
 import { createSorter, compareDates } from "../funcs";
@@ -8,6 +11,7 @@ import {
   BooksState,
   getBooksAuthorFilter,
   getBooksGenreFilter,
+  getBooksYearFilter,
   getBooksSearch,
   getBooksSort,
 } from "../../Redux";
@@ -15,6 +19,8 @@ import { BookSort } from "../../Redux/books.slice";
 
 // Data Imports
 import books from "../../Data/book.json";
+
+const BOOK_DATE_FORMATS = ["MMM YYYY", "MMM DD, YYYY"];
 
 export const getBooks = (): Book[] => {
   return Object.values(books) as unknown as Book[];
@@ -56,8 +62,9 @@ export const getBookGenres = (): Genre[] => {
     });
   });
 
-  genresCache = genres;
-  return genres;
+  const sorted = genres.sort((a, b) => a.label.localeCompare(b.label));
+  genresCache = sorted;
+  return sorted;
 };
 
 interface Author {
@@ -91,9 +98,46 @@ export const getBookAuthors = (): Author[] => {
     ];
   }, [] as Author[]);
 
-  const unique = authors.sort((a, b) => a.label.localeCompare(b.label));
-  authorsCache = unique;
-  return unique;
+  const sorted = authors.sort((a, b) => a.label.localeCompare(b.label));
+  authorsCache = sorted;
+  return sorted;
+};
+
+interface Year {
+  label: string;
+  amount: number;
+}
+
+let yearReadCache: Year[] | null = null;
+
+export const getBookYearsRead = (): Year[] => {
+  if (yearReadCache) return yearReadCache;
+
+  const books = getBooks();
+  const years: Year[] = [];
+
+  books.forEach((book) => {
+    if (!book.datesRead) return;
+    const bookYears = book.datesRead.map((date) =>
+      moment(date, BOOK_DATE_FORMATS).year().toString()
+    );
+    bookYears.forEach((year) => {
+      const exists = years.find((y) => y.label === year);
+
+      if (exists) {
+        exists.amount++;
+      } else {
+        years.push({
+          label: year,
+          amount: 1,
+        });
+      }
+    });
+  });
+
+  const sorted = years.sort((a, b) => b.label.localeCompare(a.label));
+  yearReadCache = sorted;
+  return sorted;
 };
 
 export const checkGenres = (b: Book, genres: string[]): boolean => {
@@ -107,6 +151,13 @@ export const checkAuthor = (
 ): boolean => {
   if (author === null) return true;
   return author === b.author;
+};
+
+export const checkYear = (b: Book, year: BooksState["yearFilter"]): boolean => {
+  if (year === null) return true;
+  return !!b.datesRead?.some(
+    (date) => moment(date, BOOK_DATE_FORMATS).year() === parseInt(year)
+  );
 };
 
 const searchCache: Record<string, Record<string, boolean>> = {};
@@ -141,6 +192,7 @@ export const useFilteredBooks = (): Book[] => {
 
   const genreFilter = useSelector(getBooksGenreFilter);
   const authorFilter = useSelector(getBooksAuthorFilter);
+  const yearFilter = useSelector(getBooksYearFilter);
 
   const search = useSelector(getBooksSearch);
   const normalizedSearch = search.toLowerCase();
@@ -149,6 +201,7 @@ export const useFilteredBooks = (): Book[] => {
     if (!checkGenres(b, genreFilter)) return false;
     if (!checkAuthor(b, authorFilter)) return false;
     if (!checkSearch(b, normalizedSearch)) return false;
+    if (!checkYear(b, yearFilter)) return false;
 
     return true;
   });
@@ -171,16 +224,14 @@ export const sortBooks = createSorter<BookSort, Book>(
         return -1;
       }
 
-      const formats = ["MMM YYYY", "MMM DD, YYYY"];
-
       const aRecent = [...a.datesRead].sort((a, b) =>
-        compareDates(a, b, formats)
+        compareDates(a, b, BOOK_DATE_FORMATS)
       )[0];
       const bRecent = [...b.datesRead].sort((a, b) =>
-        compareDates(a, b, formats)
+        compareDates(a, b, BOOK_DATE_FORMATS)
       )[0];
 
-      return compareDates(aRecent, bRecent, formats);
+      return compareDates(aRecent, bRecent, BOOK_DATE_FORMATS);
     },
     "Recently Published": (a, b) => {
       if (!a.yearPublished) {

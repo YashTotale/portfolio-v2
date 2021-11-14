@@ -50,6 +50,7 @@ type SharedProps = {
   images?: string[];
   onClear?: () => void;
   last?: boolean;
+  overrideDefaultLabel?: boolean;
 };
 
 type SingleRelated = SharedProps & {
@@ -81,7 +82,7 @@ const Related: FC<RelatedProps> = (props) => {
 
   return (
     <Filter
-      label={`Related ${label}`}
+      label={props.overrideDefaultLabel ? label : `Related ${label}`}
       actions={[
         {
           label: "Clear",

@@ -9,6 +9,7 @@ import { generatePageTitle } from "../../Utils/funcs";
 import {
   getBookAuthors,
   getBookGenres,
+  getBookYearsRead,
   useFilteredBooks,
 } from "../../Utils/Content/books";
 import { Book } from "../../Utils/types";
@@ -22,6 +23,8 @@ import {
   getBooksSort,
   setBooksAuthorFilter,
   setBooksGenreFilter,
+  getBooksYearFilter,
+  setBooksYearFilter,
   setBooksSearch,
   setBooksSort,
 } from "../../Redux";
@@ -95,11 +98,13 @@ const Books: FC = () => {
   const books = useFilteredBooks();
   const genres = getBookGenres();
   const authors = getBookAuthors();
+  const yearsRead = getBookYearsRead();
 
   const search = useSelector(getBooksSearch);
   const sort = useSelector(getBooksSort);
   const genreFilter = useSelector(getBooksGenreFilter);
   const authorFilter = useSelector(getBooksAuthorFilter);
+  const yearFilter = useSelector(getBooksYearFilter);
 
   useAnalytics("Books");
 
@@ -133,6 +138,14 @@ const Books: FC = () => {
               value: genreFilter,
               onChange: (value: Parameters<typeof setBooksGenreFilter>[0]) =>
                 dispatch(setBooksGenreFilter(value)),
+            },
+            {
+              label: "Year Read",
+              values: yearsRead,
+              value: yearFilter,
+              onChange: (value: Parameters<typeof setBooksYearFilter>[0]) =>
+                dispatch(setBooksYearFilter(value)),
+              overrideDefaultLabel: true,
             },
           ]}
         />

@@ -37,6 +37,11 @@ const useStyles = makeStyles<Theme, StyleProps>((theme) => ({
         ? theme.palette.secondary.main
         : theme.palette.text.primary,
   },
+  secondaryText: {
+    whiteSpace: "nowrap",
+    textOverflow: "ellipsis",
+    overflow: "hidden",
+  },
 }));
 
 interface ItemProps {
@@ -65,6 +70,7 @@ const Item: FC<ItemProps> = (props) => {
           secondary={secondary}
           classes={{
             primary: classes.listItemText,
+            secondary: classes.secondaryText,
           }}
         />
       </ListItem>
