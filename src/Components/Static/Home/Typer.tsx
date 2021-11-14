@@ -25,7 +25,7 @@ const Typer: FC = () => {
   return count ? (
     <Typist
       className={classes.typist}
-      avgTypingDelay={50}
+      startDelay={500}
       onTypingDone={() => setCount(0)}
       cursor={{
         blink: true,
@@ -34,18 +34,23 @@ const Typer: FC = () => {
       <StyledLink to={Paths.Experience}>experience</StyledLink>
       <Typist.Backspace count={"experience".length} delay={2000} />
 
+      <Typist.Delay ms={500} />
       <StyledLink to={Paths.Education}>education</StyledLink>
       <Typist.Backspace count={"education".length} delay={2000} />
 
+      <Typist.Delay ms={500} />
       <StyledLink to={Paths.Projects}>projects</StyledLink>
       <Typist.Backspace count={"projects".length} delay={2000} />
 
+      <Typist.Delay ms={500} />
       <StyledLink to={Paths.Articles}>articles</StyledLink>
       <Typist.Backspace count={"articles".length} delay={2000} />
 
+      <Typist.Delay ms={500} />
       <StyledLink to={Paths.Certifications}>certifications</StyledLink>
       <Typist.Backspace count={"certifications".length} delay={2000} />
 
+      <Typist.Delay ms={500} />
       <StyledLink to={Paths.Books}>books</StyledLink>
       <Typist.Backspace count={"books".length} delay={2000} />
     </Typist>
