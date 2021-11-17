@@ -1,6 +1,7 @@
-<p align="center"><img alt="Icon" width="150" src="https://yashtotale.dev/logo512.png"/></p>
+<p align="center"><a href="https://yashtotale.dev/"><img alt="Icon" width="150" src="https://yashtotale.dev/logo512.png"/></a></p>
 
 <h1 align="center">Welcome to Yash's Portfolio Website 👋</h1>
+<p align="center"><strong><a href="https://yashtotale.dev/">View the Live Website!</a></strong></p>
 
 <p align="center">
 <a href="https://github.com/YashTotale/portfolio-v2/actions/workflows/integrate.yml"><img src="https://img.shields.io/github/workflow/status/YashTotale/portfolio-v2/Node%20CI?logo=github&logoColor=FFFFFF&labelColor=000000&label=Build&style=flat-square" alt="Build" /></a>
