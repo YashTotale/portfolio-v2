@@ -23,6 +23,7 @@
     "joi": "^17.4.2"
   },
   "devDependencies": {
+    "@hack4impact/logger": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.16.1",
     "concurrently": "^6.3.0",

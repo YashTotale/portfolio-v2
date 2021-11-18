@@ -5,7 +5,7 @@ import axios from "axios";
 
 // Internal Imports
 import { onCall } from "./helpers/functions";
-import { firestore } from "./helpers/admin";
+import { db } from "./helpers/admin";
 import { ContactData } from "../../types/contact";
 
 type FormattedData = Omit<ContactData, "timestamp"> & {
@@ -36,7 +36,7 @@ const sendContactEmail = onCall<ContactData>({
     try {
       await verifyRecaptcha(formattedData["g-recaptcha-response"]);
       await postEmail(formattedData);
-      await firestore
+      await db
         .collection("contact")
         .doc()
         .set({
@@ -45,7 +45,7 @@ const sendContactEmail = onCall<ContactData>({
         });
     } catch (e: any) {
       const message = typeof e === "string" ? e : e.message;
-      await firestore
+      await db
         .collection("contact-errors")
         .doc()
         .set({ data: formattedData, error: message, user: context.auth?.uid });

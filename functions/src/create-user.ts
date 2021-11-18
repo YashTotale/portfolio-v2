@@ -1,6 +1,6 @@
 // External Imports
 import Joi from "joi";
-import { firestore } from "./helpers/admin";
+import { db } from "./helpers/admin";
 
 // Internal Imports
 import { onCall } from "./helpers/functions";
@@ -28,7 +28,7 @@ const createUserDoc = onCall<CreateUserData>({
       name: data.name,
       picture: data.picture,
     };
-    const publicRef = firestore
+    const publicRef = db
       .collection("users")
       .doc(
         context.auth.uid
@@ -38,7 +38,7 @@ const createUserDoc = onCall<CreateUserData>({
     const immutableData = {
       email: data.email,
     };
-    const immutableRef = firestore
+    const immutableRef = db
       .collection("users_immutable")
       .doc(
         context.auth.uid
