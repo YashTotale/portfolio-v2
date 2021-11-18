@@ -2,17 +2,28 @@
 
 // External Imports
 import { Output } from "@hack4impact/logger";
+import yargs from "yargs";
 
 // Internal Imports
 import { db, auth, bucket, firestore } from "../src/helpers/admin";
 
-const ids = process.argv.slice(2);
+process.on("unhandledRejection", (reason) => {
+  throw reason;
+});
+
+const args = yargs(process.argv.slice(2)).option("dry-run", {
+  default: false,
+  boolean: true,
+}).argv;
+const { _: ids, "dry-run": dryRun } = args;
+
 const rootOutput = new Output();
 
 const entry = async () => {
   try {
+    if (dryRun) rootOutput.coloredLog("BgRed", "DRY RUN");
     if (!ids.length) throw new Error("No User IDs were entered.");
-    await Promise.all(ids.map((id) => new DeleteUser(id).entry()));
+    await Promise.all(ids.map((id) => new DeleteUser(id.toString()).entry()));
     rootOutput.flush();
   } catch (e) {
     rootOutput.flush();
@@ -43,7 +54,7 @@ class DeleteUser {
 
   async deleteAuth() {
     this.output.log(`Deleting auth...`);
-    await auth.deleteUser(this.id);
+    if (!dryRun) await auth.deleteUser(this.id);
     this.output.coloredLog("FgGreen", "Deleted auth!");
   }
 
@@ -57,7 +68,7 @@ class DeleteUser {
         `User '${this.id}' not found in '${collection}' collection.`
       );
 
-    await ref.delete();
+    if (!dryRun) await ref.delete();
     this.output.coloredLog(
       "FgGreen",
       `Deleted doc in '${collection}' collection!`
@@ -66,10 +77,11 @@ class DeleteUser {
 
   async deleteStorage() {
     this.output.log("Deleting stored files...");
-    await bucket.deleteFiles({
-      prefix: `users/${this.id}`,
-    });
-    this.output.coloredLog("FgGreen", "Deleted storage!");
+    if (!dryRun)
+      await bucket.deleteFiles({
+        prefix: `users/${this.id}`,
+      });
+    this.output.coloredLog("FgGreen", "Deleted stored files!");
   }
 
   async removeBookLikes() {
@@ -93,7 +105,7 @@ class DeleteUser {
       });
       bookIds.push(`'${doc.id}'`);
     });
-    await batch.commit();
+    if (!dryRun) await batch.commit();
     this.output.coloredLog(
       "FgGreen",
       `Deleted book likes for ${bookIds.join(", ")}!`
