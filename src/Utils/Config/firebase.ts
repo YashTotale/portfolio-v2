@@ -14,6 +14,9 @@ export const config = {
 
 firebase.initializeApp(config);
 
+// Do not commit with isEmulator = true!
+export const isEmulator = true;
+
 export const performance = firebase.performance();
 
 let auth: firebase.auth.Auth;
@@ -28,7 +31,7 @@ let firestore: firebase.firestore.Firestore;
 export const getFirestore = (): firebase.firestore.Firestore => {
   if (!firestore) {
     firestore = firebase.firestore();
-    if (process.env.NODE_ENV !== "production") {
+    if (isEmulator && process.env.NODE_ENV !== "production") {
       firestore.useEmulator("localhost", 8080);
     }
   }
@@ -39,7 +42,7 @@ let functions: firebase.functions.Functions;
 export const getFunctions = (): firebase.functions.Functions => {
   if (!functions) {
     functions = firebase.functions();
-    if (process.env.NODE_ENV !== "production") {
+    if (isEmulator && process.env.NODE_ENV !== "production") {
       functions.useEmulator("localhost", 5001);
     }
   }
