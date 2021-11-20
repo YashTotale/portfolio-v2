@@ -3,12 +3,10 @@ import { useEffect } from "react";
 import { isDev } from "../Utils/constants";
 
 // Firebase Imports
-import "firebase/analytics";
-import { getAnalytics } from "../Utils/Config/firebase";
+import { logEvent } from "firebase/analytics";
+import { analytics } from "../Utils/Config/firebase";
 
 const useAnalytics = (title: string | null | undefined): void => {
-  const analytics = getAnalytics();
-
   useEffect(() => {
     if (title) {
       const data: Record<string, string> = {
@@ -17,9 +15,9 @@ const useAnalytics = (title: string | null | undefined): void => {
 
       if (isDev) data["traffic_type"] = "internal";
 
-      analytics.logEvent("page_view", data);
+      logEvent(analytics, "page_view", data);
     }
-  }, [title, analytics]);
+  }, [title]);
 };
 
 export default useAnalytics;

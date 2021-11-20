@@ -2,8 +2,21 @@
 import { useCallback, useEffect } from "react";
 
 // Firebase Imports
-import "firebase/firestore";
-import firebase, { getFirestore } from "../../Utils/Config/firebase";
+import {
+  collection as collectionFunc,
+  CollectionReference,
+  query,
+  doc,
+  onSnapshot,
+  setDoc as setFirestoreDoc,
+  UpdateData,
+  updateDoc as updateFirestoreDoc,
+  WhereFilterOp,
+  where,
+  getDocs,
+  PartialWithFieldValue,
+} from "firebase/firestore";
+import { firestore } from "../../Utils/Config/firebase";
 import { Collections, Schema, WithId } from "../../../types/firestore";
 
 // Redux Imports
@@ -15,8 +28,12 @@ import { useAppDispatch } from "../../Store";
 export const createDocSnapshot = <T extends Collections>(
   collection: T
 ): ((id: string) => ReduxDoc<T>) => {
+  const collectionRef = collectionFunc(
+    firestore,
+    collection
+  ) as CollectionReference<Schema[T]>;
+
   const useDocSnapshot = (id: string) => {
-    const firestore = getFirestore();
     const dispatch = useAppDispatch();
     const data = useSelector(getDoc(collection, id));
 
@@ -34,19 +51,17 @@ export const createDocSnapshot = <T extends Collections>(
 
     useEffect(() => {
       if (!id) setData(null);
-      else
-        return firestore
-          .collection(collection)
-          .doc(id)
-          .onSnapshot((snap) => {
-            if (!snap.exists) {
-              setData(null);
-            } else {
-              const data = snap.data() as Schema[T];
-              setData({ ...data, id: snap.id });
-            }
-          });
-    }, [id, firestore, setData]);
+      else {
+        return onSnapshot(doc(collectionRef, id), (snap) => {
+          if (!snap.exists()) {
+            setData(null);
+          } else {
+            const data = snap.data();
+            setData({ ...data, id: snap.id });
+          }
+        });
+      }
+    }, [id, setData]);
 
     return data;
   };
@@ -59,35 +74,44 @@ export const createDoc = async <T extends Collections>(
   data: Schema[T],
   id?: string
 ): Promise<Schema[T]> => {
-  const firestore = getFirestore();
-  await firestore.collection(collection).doc(id).set(data);
+  const collectionRef = collectionFunc(
+    firestore,
+    collection
+  ) as CollectionReference<Schema[T]>;
+  const docRef = doc(collectionRef, id);
+  await setFirestoreDoc(docRef, data);
   return data;
 };
 
 export const updateDoc = async <T extends Collections>(
   collection: T,
   id: string,
-  data: Partial<Record<keyof Schema[T], any>>
+  data: UpdateData<Schema[T]>
 ): Promise<void> => {
-  const firestore = getFirestore();
-  return await firestore.collection(collection).doc(id).update(data);
+  const collectionRef = collectionFunc(
+    firestore,
+    collection
+  ) as CollectionReference<Schema[T]>;
+  const docRef = doc(collectionRef, id);
+  return await updateFirestoreDoc(docRef, data);
 };
 
 export const updateOrCreateDoc = async <T extends Collections>(
   collection: T,
   id: string,
-  data: Partial<Record<keyof Schema[T], any>>
+  data: PartialWithFieldValue<Schema[T]>
 ): Promise<void> => {
-  const firestore = getFirestore();
-  return await firestore
-    .collection(collection)
-    .doc(id)
-    .set(data, { merge: true });
+  const collectionRef = collectionFunc(
+    firestore,
+    collection
+  ) as CollectionReference<Schema[T]>;
+  const docRef = doc(collectionRef, id);
+  return await setFirestoreDoc(docRef, data, { merge: true });
 };
 
 type QueryOptions<T extends Collections> = {
   field: keyof Schema[T];
-  operation: firebase.firestore.WhereFilterOp;
+  operation: WhereFilterOp;
   value: any;
 };
 
@@ -95,11 +119,16 @@ export const queryCollection = async <T extends Collections>(
   collection: T,
   options: QueryOptions<T>
 ): Promise<WithId<Schema[T]>[]> => {
-  const firestore = getFirestore();
-  const query = (await firestore
-    .collection(collection)
-    .where(options.field as string, options.operation, options.value)
-    .get()) as firebase.firestore.QuerySnapshot<Schema[T]>;
+  const collectionRef = collectionFunc(
+    firestore,
+    collection
+  ) as CollectionReference<Schema[T]>;
 
-  return query.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
+  const q = query(
+    collectionRef,
+    where(options.field as string, options.operation, options.value)
+  );
+  const response = await getDocs(q);
+
+  return response.docs.map((doc) => ({ ...doc.data(), id: doc.id }));
 };

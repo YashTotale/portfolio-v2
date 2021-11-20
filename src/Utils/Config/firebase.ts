@@ -1,6 +1,11 @@
 // Firebase Imports
-import firebase from "firebase/app";
-import "firebase/performance";
+import { initializeApp } from "firebase/app";
+import { getPerformance } from "firebase/performance";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import { getFunctions, connectFunctionsEmulator } from "firebase/functions";
+import { connectStorageEmulator, getStorage } from "firebase/storage";
+import { getAnalytics } from "firebase/analytics";
 
 export const config = {
   apiKey: "AIzaSyBkV0LzaVCDpgr6-f-60MArbZWlyJ7utYU",
@@ -12,59 +17,21 @@ export const config = {
   measurementId: "G-ZYHGJMGVV8",
 };
 
-firebase.initializeApp(config);
+export const firebaseApp = initializeApp(config);
 
 // Do not commit with isEmulator = true!
-export const isEmulator = true;
+export const isEmulator = false;
 
-export const performance = firebase.performance();
+export const performance = getPerformance(firebaseApp);
+export const auth = getAuth(firebaseApp);
+export const firestore = getFirestore(firebaseApp);
+export const functions = getFunctions(firebaseApp);
+export const storage = getStorage(firebaseApp);
+export const analytics = getAnalytics(firebaseApp);
 
-let auth: firebase.auth.Auth;
-export const getAuth = (): firebase.auth.Auth => {
-  if (!auth) {
-    auth = firebase.auth();
-  }
-  return auth;
-};
-
-let firestore: firebase.firestore.Firestore;
-export const getFirestore = (): firebase.firestore.Firestore => {
-  if (!firestore) {
-    firestore = firebase.firestore();
-    if (isEmulator && process.env.NODE_ENV !== "production") {
-      firestore.useEmulator("localhost", 8080);
-    }
-  }
-  return firestore;
-};
-
-let functions: firebase.functions.Functions;
-export const getFunctions = (): firebase.functions.Functions => {
-  if (!functions) {
-    functions = firebase.functions();
-    if (isEmulator && process.env.NODE_ENV !== "production") {
-      functions.useEmulator("localhost", 5001);
-    }
-  }
-  return functions;
-};
-
-let storage: firebase.storage.Storage;
-export const getStorage = (): firebase.storage.Storage => {
-  if (!storage) {
-    storage = firebase.storage();
-  }
-  return storage;
-};
-
-let analytics: firebase.analytics.Analytics;
-export const getAnalytics = (
-  triggerCall = true
-): firebase.analytics.Analytics => {
-  if (!analytics && triggerCall) {
-    analytics = firebase.analytics();
-  }
-  return analytics;
-};
-
-export default firebase;
+if (isEmulator && process.env.NODE_ENV !== "production") {
+  connectFunctionsEmulator(functions, "localhost", 5001);
+  connectFirestoreEmulator(firestore, "localhost", 8080);
+  connectAuthEmulator(auth, "http://localhost:9099");
+  connectStorageEmulator(storage, "localhost", 9199);
+}

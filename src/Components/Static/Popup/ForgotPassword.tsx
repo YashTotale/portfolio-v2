@@ -4,8 +4,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useClosableSnackbar } from "../../../Hooks";
 
 // Firebase Imports
-import "firebase/auth";
-import { getAuth } from "../../../Utils/Config/firebase";
+import { sendPasswordResetEmail } from "firebase/auth";
+import { auth } from "../../../Utils/Config/firebase";
 
 // Redux Imports
 import { changePopupState } from "../../../Redux";
@@ -46,7 +46,6 @@ interface Inputs {
 const ForgotPassword: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const auth = getAuth();
   const { enqueueSnackbar } = useClosableSnackbar();
   const { formState, register, handleSubmit } = useForm<Inputs>({
     mode: "onChange",
@@ -57,7 +56,7 @@ const ForgotPassword: FC = () => {
     setLoading(true);
 
     try {
-      await auth.sendPasswordResetEmail(inputs.email, {
+      await sendPasswordResetEmail(auth, inputs.email, {
         url: window.location.href,
       });
       enqueueSnackbar(`Password recovery email sent to ${inputs.email}`, {

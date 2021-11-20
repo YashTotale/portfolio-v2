@@ -1,4 +1,4 @@
-# Portfolio Functions
+# Portfolio Cloud Functions
 
 ## Set Up
 
@@ -28,8 +28,8 @@ Ensure your working directory is `functions`, not the root directory for all ste
    firebase functions:config:get >.runtimeconfig.json
    ```
 
-5. Start local emulators and development
+5. Start local development
 
    ```shell
-   npm run serve
+   npm run watch
    ```

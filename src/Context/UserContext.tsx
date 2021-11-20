@@ -8,18 +8,17 @@ import React, {
 } from "react";
 
 // Firebase Imports
-import "firebase/auth";
-import firebase, { getAuth } from "../Utils/Config/firebase";
+import { User, onAuthStateChanged } from "firebase/auth";
+import { auth } from "../Utils/Config/firebase";
 
-const UserContext = createContext<firebase.User | null>(null);
+const UserContext = createContext<User | null>(null);
 
 export const UserProvider: FC = ({ children }) => {
-  const auth = getAuth();
-  const [user, setUser] = useState<firebase.User | null>(auth.currentUser);
+  const [user, setUser] = useState<User | null>(auth.currentUser);
 
-  useEffect(() => auth.onAuthStateChanged((user) => setUser(user)), [auth]);
+  useEffect(() => onAuthStateChanged(auth, (user) => setUser(user)), []);
 
   return <UserContext.Provider value={user}>{children}</UserContext.Provider>;
 };
 
-export const useUser = (): firebase.User | null => useContext(UserContext);
+export const useUser = (): User | null => useContext(UserContext);

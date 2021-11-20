@@ -5,10 +5,8 @@
   "scripts": {
     "lint": "eslint \"src/**/*\"",
     "compile": "rm -rf lib && tsc",
-    "compile:watch": "tsc --watch",
-    "emulate": "firebase emulators:start --only functions,firestore",
+    "watch": "tsc --watch",
     "preserve": "npm run compile",
-    "serve": "concurrently 'npm:compile:watch' 'npm:emulate' -c 'blue.bold,green.bold'",
     "start": "npm run compile && firebase functions:shell",
     "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
@@ -26,7 +24,6 @@
     "@hack4impact/logger": "^4.0.2",
     "@typescript-eslint/eslint-plugin": "^4.17.0",
     "@typescript-eslint/parser": "^4.16.1",
-    "concurrently": "^6.3.0",
     "eslint": "^7.6.0",
     "eslint-plugin-prettier": "^4.0.0",
     "firebase-functions-test": "^0.2.0",

@@ -43,7 +43,7 @@
 
 4. Set up environment variables
 
-   Please reach out to me at totaleyash@gmail.com for these 🙂. Paste them into `.env`. Use [`.env.example`] as an example:
+   Please reach out to me at totaleyash@gmail.com for these 🙂. Paste them into `.env`. Use [`.env.example`](.env.example) as an example:
 
    ```text
    CONTENTFUL_ACCESS_TOKEN=
@@ -64,9 +64,19 @@
    npm start
    ```
 
-7. Start local Firebase emulators
+7. (Optional) Start local Firebase emulators
 
-   This is only required if you plan to use any features involving Cloud Functions or Firestore. Refer to the [Functions](https://github.com/YashTotale/portfolio-v2/tree/master/functions) directory for steps.
+   This step is only required if you plan to change any features involving Firebase services like authentication, storage, Firestore, and Cloud Functions. If you wish to run the Cloud Functions emulator, ensure that you are using `node@12.x`.
+
+   Steps:
+
+   - ```shell
+     npm run emulate
+     ```
+
+   - Set `isEmulator` to `true` in the [Firebase config file](src/Utils/Config/firebase.ts).
+
+   - To edit Cloud Functions, refer to the [functions](functions) directory for steps.
 
 ## 🏆 Goals
 
@@ -74,11 +84,11 @@ As you may have noticed, this is my second attempt at a portfolio website. The [
 
 ### Start with a design
 
-I used [Figma](https://figma.com/) to design almost all of the website's pages before I even started programming. This helped me quickly build an MVP of the entire website. From there, I was able to optimize and improve specific areas without losing sight of the overall picture.
+I used [Figma](https://figma.com/) to design almost all of the website's pages before I even created the GitHub repo. This helped me quickly build an MVP of the entire website. From there, I was able to optimize and improve specific areas without losing sight of the overall picture.
 
 ### Use an efficient CMS
 
-I used [Contentful](https://www.contentful.com/) for my headless CMS. This allowed me to separate out my website's layout and its content, reducing the amount of changes I would need to make to the code over time. Also, Contentful was a much better alternative to Google Sheets (which I used for my first portfolio website).
+I used [Contentful](https://www.contentful.com/) as my headless CMS. This allowed me to separate out my website's layout and its content, reducing the amount of changes I would need to make to the code over time. Also, Contentful was a much better alternative to Google Sheets (which I used for my first portfolio website).
 
 ### Build sustainable infrastructure
 
@@ -92,7 +102,7 @@ If you browse through the [Components], [Pages], or [Utils] folders, you'll see 
 
 #### [Atomic]
 
-Atomic components are those that can be used essentially anywhere. They are meant to be building blocks for layouts, with specific styling/UI to make the website consistent.
+Atomic components can be used essentially anywhere. They are meant to be building blocks for layouts, with specific styling/UI to make the website consistent.
 
 #### [Content]
 
@@ -104,7 +114,7 @@ Content components are meant to be UI for a specific type of content. They can b
 
 #### [Custom]
 
-Custom components are extensively configured components (like a [Rich Text renderer](https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Custom/RichText)) that can be used in multiple areas of the application. They are generally not atomic as they are meant for a very specific purpose.
+Custom components are extensively configured components (like a [Rich Text renderer](src/Components/Custom/RichText)) that can be used in multiple areas of the application. They are generally not atomic as they are meant for a very specific purpose.
 
 #### [Static]
 
@@ -112,16 +122,16 @@ Static components are rendered only once. These include elements like the Navbar
 
 ### [Pages]
 
-Each page of the website is a folder in the [Pages] directory (except the [NotFound] page). Each of these folders contains an `index.tsx` file which contains the UI for that page.
+Each page of the website is a folder in the [Pages] directory (except the [NotFound](src/Pages/NotFound.tsx) page which is just a file). Each folder contains an `index.tsx` file which for the UI of that page.
 
-- Every page calls a [`useAnalytics`] hook, which logs a `page_view` event to [Google Analytics](http://analytics.google.com/) if the environment is a production environment.
+- Every page calls a [`useAnalytics`](src/Hooks/useAnalytics.tsx) hook, which logs a `page_view` event to [Google Analytics](http://analytics.google.com/) if the environment is a production environment.
 - Every page updates the `<head>` of the HTML using [React Helmet](https://github.com/nfl/react-helmet).
 
 ### [Utils]
 
-Any utilities such as [functions](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/funcs.ts), [types](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/types.ts), [constants](https://github.com/YashTotale/portfolio-v2/blob/master/src/Utils/constants.ts), etc. are located in the [Utils] folder.
+Any utilities such as [functions](src/Utils/funcs.ts), [types](src/Utils/types.ts), [constants](src/Utils/constants.ts), etc. are located in the [Utils] folder.
 
-Additionally, content utilities are located in the [Content subdirectory]. All the files in this folder correspond to a specific content type. They contain utilities to get, resolve, filter, and sort that specific content type.
+Additionally, content utilities are located in the [Content subdirectory](src/Utils/Content). Each file in this folder contains utilities to get, resolve, filter, and sort a specific content type.
 
 ## 🛠 Pre-rendering
 
@@ -157,7 +167,7 @@ if (navigator.userAgent !== "ReactSnap") {
 
 ## 🤝 Show your support
 
-Give a ⭐️ if this project helped you! Since this project is licensed under the [MIT License](https://github.com/YashTotale/portfolio-v2/blob/master/LICENSE.md), you can use my code in your own projects or portfolio websites 🙂
+Give a ⭐️ if this project helped you! Since this project is licensed under the [MIT License](LICENSE.md), you can use my code in your own projects or portfolio websites 🙂
 
 Feel free to reach out to me via [email](mailto:totalyash@gmail.com) or through the [contact form](https://yashtotale.dev/contact) of this site!
 
@@ -171,14 +181,10 @@ Feel free to reach out to me via [email](mailto:totalyash@gmail.com) or through 
 
 <!-- Reference Links -->
 
-[components]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components
-[pages]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Pages
-[utils]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Utils
-[atomic]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Atomic
-[content]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Content
-[custom]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Custom
-[static]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Components/Static
-[notfound]: https://github.com/YashTotale/portfolio-v2/blob/master/src/Pages/NotFound.tsx
-[`.env.example`]: https://github.com/YashTotale/portfolio-v2/blob/master/.env.example
-[`useanalytics`]: https://github.com/YashTotale/portfolio-v2/blob/master/src/Hooks/useAnalytics.tsx
-[content subdirectory]: https://github.com/YashTotale/portfolio-v2/tree/master/src/Utils/Content
+[components]: src/Components
+[pages]: src/Pages
+[utils]: src/Utils
+[atomic]: src/Components/Atomic
+[content]: src/Components/Content
+[custom]: src/Components/Custom
+[static]: src/Components/Static

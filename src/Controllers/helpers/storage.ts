@@ -2,8 +2,8 @@
 import { getExtension } from "mime";
 
 // Firebase Imports
-import "firebase/storage";
-import { getStorage } from "../../Utils/Config/firebase";
+import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
+import { storage } from "../../Utils/Config/firebase";
 
 export const validateFileSize = (file: File, mb = 5): void => {
   const size = file.size / 1024 / 1024; // Size in MB
@@ -24,16 +24,15 @@ export const uploadFile = async (
   file: File,
   options: UploadOptions
 ): Promise<string> => {
-  const storage = getStorage();
-
   const fileName = options.fileName ?? file.name;
   const originalExt = fileName.split(".").pop();
   const contentExt = getExtension(file.type);
 
-  const ref = storage
-    .ref()
-    .child(`${options.path}/${fileName}${originalExt ? "" : contentExt}`);
-  const upload = await ref.put(file);
-  const url = await upload.ref.getDownloadURL();
+  const fileRef = ref(
+    storage,
+    `${options.path}/${fileName}${originalExt ? "" : contentExt}`
+  );
+  const upload = await uploadBytes(fileRef, file);
+  const url = await getDownloadURL(upload.ref);
   return url;
 };

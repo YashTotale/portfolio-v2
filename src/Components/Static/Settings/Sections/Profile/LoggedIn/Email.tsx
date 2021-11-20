@@ -4,6 +4,9 @@ import clsx from "clsx";
 import { ProfileProps } from "./index";
 import { useClosableSnackbar } from "../../../../../../Hooks";
 
+// Firebase Imports
+import { sendEmailVerification } from "firebase/auth";
+
 // Material UI Imports
 import {
   CircularProgress,
@@ -61,7 +64,7 @@ const Email: FC<ProfileProps> = (props) => {
   const onVerify = async () => {
     setIsSending(true);
     try {
-      await props.user.sendEmailVerification({
+      await sendEmailVerification(props.user, {
         url: window.location.href,
       });
       enqueueSnackbar(`Verification email sent to ${email}`, {

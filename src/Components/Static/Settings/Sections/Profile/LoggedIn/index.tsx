@@ -7,7 +7,7 @@ import LikedBooks from "./LikedBooks";
 import HorizontalDivider from "../../../../../Atomic/Divider/Horizontal";
 
 // Firebase Imports
-import firebase from "../../../../../../Utils/Config/firebase";
+import { User } from "firebase/auth";
 import { useUserDoc } from "../../../../../../Controllers/user.controller";
 
 // Material UI Imports
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface LoggedInProps {
-  user: firebase.User;
+  user: User;
 }
 
 export interface ProfileProps extends LoggedInProps {

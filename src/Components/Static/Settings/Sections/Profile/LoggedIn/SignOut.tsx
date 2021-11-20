@@ -3,7 +3,8 @@ import React, { FC } from "react";
 import { useClosableSnackbar } from "../../../../../../Hooks";
 
 // Firebase Imports
-import { getAuth } from "../../../../../../Utils/Config/firebase";
+import { signOut } from "firebase/auth";
+import { auth } from "../../../../../../Utils/Config/firebase";
 
 // Material UI Imports
 import { Button, useMediaQuery, useTheme } from "@mui/material";
@@ -24,13 +25,12 @@ const useStyles = makeStyles((theme) => ({
 const SignOut: FC = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
-  const auth = getAuth();
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const onClick = async () => {
-    await auth.signOut();
+    await signOut(auth);
     enqueueSnackbar("Signed Out", {
       variant: "success",
     });

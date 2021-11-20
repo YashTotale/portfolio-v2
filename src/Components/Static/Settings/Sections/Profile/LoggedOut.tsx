@@ -4,7 +4,14 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { useClosableSnackbar } from "../../../../../Hooks";
 
 // Firebase Imports
-import firebase, { getAuth } from "../../../../../Utils/Config/firebase";
+import {
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
+} from "firebase/auth";
+import firebase from "firebase/compat/app";
+import "firebase/compat/auth";
+import { auth } from "../../../../../Utils/Config/firebase";
 import { createUser } from "../../../../../Controllers/user.controller";
 import { StyledFirebaseAuth } from "react-firebaseui";
 
@@ -101,7 +108,6 @@ interface SignInInputs {
 const EmailPassword: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
-  const auth = getAuth();
   const { register, formState, handleSubmit } = useForm<SignInInputs>({
     mode: "onChange",
   });
@@ -115,7 +121,8 @@ const EmailPassword: FC = () => {
 
     try {
       if (isSignIn) {
-        const { user } = await auth.signInWithEmailAndPassword(
+        const { user } = await signInWithEmailAndPassword(
+          auth,
           inputs.email,
           inputs.password
         );
@@ -123,12 +130,13 @@ const EmailPassword: FC = () => {
           variant: "success",
         });
       } else {
-        const { user } = await auth.createUserWithEmailAndPassword(
+        const { user } = await createUserWithEmailAndPassword(
+          auth,
           inputs.email,
           inputs.password
         );
         if (user) {
-          await user.updateProfile({
+          await updateProfile(user, {
             displayName: inputs.name,
           });
           await createUser(user);
@@ -281,7 +289,6 @@ const EmailPassword: FC = () => {
 
 const OAuthProviders: FC = () => {
   const classes = useStyles();
-  const auth = getAuth();
   const { enqueueSnackbar } = useClosableSnackbar();
 
   return (

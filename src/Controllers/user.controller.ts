@@ -2,7 +2,8 @@
 import { Nullable } from "../../types/general";
 
 // Firebase Imports
-import firebase from "../Utils/Config/firebase";
+import { User, updateProfile } from "firebase/auth";
+import { HttpsCallableResult } from "firebase/functions";
 import { useUser } from "../Context/UserContext";
 import { createDocSnapshot, updateDoc } from "./helpers/firestore";
 import { uploadFile } from "./helpers/storage";
@@ -27,9 +28,7 @@ export const useUserDoc = (): Nullable<
   return { ...publicData, ...privateData };
 };
 
-export const createUser = async (
-  user: firebase.User
-): Promise<firebase.functions.HttpsCallableResult> => {
+export const createUser = async (user: User): Promise<HttpsCallableResult> => {
   const data: PublicUserDoc & ImmutableUserDoc = {
     name: user.displayName ?? "",
     email: user.email ?? "",
@@ -39,12 +38,12 @@ export const createUser = async (
 };
 
 export const updateUserName = async (
-  user: firebase.User,
+  user: User,
   newName: string
 ): Promise<void> => {
   await Promise.all([
     updateDoc(publicCollection, user.uid, { name: newName }),
-    user.updateProfile({
+    updateProfile(user, {
       displayName: newName,
     }),
   ]);
@@ -52,14 +51,14 @@ export const updateUserName = async (
 
 export const uploadUserPicture = async (
   file: File,
-  user: firebase.User
+  user: User
 ): Promise<void> => {
   const url = await uploadFile(file, {
     path: `users/${user.uid}/profile_pictures`,
   });
   await Promise.all([
     updateDoc(publicCollection, user.uid, { picture: url }),
-    user.updateProfile({
+    updateProfile(user, {
       photoURL: url,
     }),
   ]);
