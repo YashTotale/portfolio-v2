@@ -23,7 +23,9 @@ import { Color, ColorScheme as Scheme, Shade } from "../../../types/firestore";
 import {
   Button,
   capitalize,
+  MenuItem,
   Radio,
+  Select,
   Slider,
   Theme,
   Tooltip,
@@ -54,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
   },
   scheme: {
     margin: theme.spacing(0, 2),
-    width: "220px",
+    width: "250px",
   },
   schemeTitle: {
     textAlign: "center",
@@ -66,7 +68,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(1),
   },
   slider: {
-    margin: theme.spacing(0, 1),
+    margin: theme.spacing(0, 2),
   },
   colorPicker: {
     display: "flex",
@@ -185,7 +187,7 @@ const ColorScheme: FC<ColorSchemeProps> = ({ scheme }) => {
       <Typography className={classes.schemeTitle} variant="h6">
         {upperCaseScheme}
       </Typography>
-      <ShadeSlider scheme={scheme} defaultShade={currentShade} />
+      <ShadeSlider scheme={scheme} currentShade={currentShade} />
       <ColorPicker
         currentColor={currentColor}
         shade={currentShade}
@@ -197,17 +199,20 @@ const ColorScheme: FC<ColorSchemeProps> = ({ scheme }) => {
 
 interface ShadeSliderProps {
   scheme: Scheme;
-  defaultShade: Shade;
+  currentShade: Shade;
 }
 
 const ShadeSlider: FC<ShadeSliderProps> = (props) => {
   const classes = useStyles();
-  const { display, changeDisplay } = useDisplay();
-  const isDefault = isEqual(DEFAULT_USER_DISPLAY.theme, display.theme);
-  const [shade, setShade] = useState(props.defaultShade);
+  const { changeDisplay } = useDisplay();
+  const isDefault = isEqual(
+    DEFAULT_USER_DISPLAY.theme[props.scheme].shade,
+    props.currentShade
+  );
+  const [shade, setShade] = useState(props.currentShade);
 
   useEffect(() => {
-    setShade(props.defaultShade);
+    setShade(props.currentShade);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isDefault]);
 
@@ -221,9 +226,7 @@ const ShadeSlider: FC<ShadeSliderProps> = (props) => {
     });
   }, 1000);
 
-  const handleSlide = (e: Event, index: number | number[]) => {
-    const i = typeof index === "number" ? index : index[0];
-    const newShade = SHADES[i];
+  const handleSlide = (newShade: Shade) => {
     if (newShade !== shade) {
       setShade(newShade);
       onShadeChange(newShade);
@@ -238,10 +241,22 @@ const ShadeSlider: FC<ShadeSliderProps> = (props) => {
         value={SHADES.indexOf(shade)}
         min={0}
         max={SHADES.length - 1}
-        onChange={handleSlide}
+        onChange={(e, i) =>
+          handleSlide(SHADES[typeof i === "number" ? i : i[0]])
+        }
         color={props.scheme}
       />
-      <Typography>{shade}</Typography>
+      <Select
+        value={shade}
+        size="small"
+        onChange={(e) => handleSlide(e.target.value as Shade)}
+      >
+        {SHADES.map((shade) => (
+          <MenuItem key={shade} value={shade}>
+            {shade}
+          </MenuItem>
+        ))}
+      </Select>
     </div>
   );
 };

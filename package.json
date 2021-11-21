@@ -69,6 +69,7 @@
     "react-router-dom": "^5.2.0",
     "react-typist": "^2.0.5",
     "react-waypoint": "^10.1.0",
+    "reactfire": "^4.2.1",
     "redux-persist": "^6.0.0"
   },
   "devDependencies": {
