@@ -64,10 +64,12 @@ class DeleteUser {
     const ref = db.collection(collection).doc(this.id);
     const doc = await ref.get();
 
-    if (!doc.exists)
-      throw new Error(
+    if (!doc.exists) {
+      this.output.coloredLog(
+        "FgRed",
         `User '${this.id}' not found in '${collection}' collection.`
       );
+    }
 
     if (!dryRun) await ref.delete();
     this.output.coloredLog(
