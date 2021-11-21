@@ -32,7 +32,7 @@ export const DisplayProvider: FC = ({ children }) => {
   const userDoc = useUserDoc();
 
   const { display: defaultDisplay } = useSelector(getDefaultDoc("users"));
-  const updateFirestoreUserDisplay = throttle(updateUserDisplay, 3000);
+  const updateFirestoreUserDisplay = throttle(updateUserDisplay, 10000);
 
   const changeDisplay: Display["changeDisplay"] = (value) => {
     const newDisplay = merge({}, defaultDisplay, value);

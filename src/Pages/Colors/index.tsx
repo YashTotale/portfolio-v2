@@ -1,7 +1,6 @@
 // React Imports
-import React, { FC, useState, useEffect } from "react";
+import React, { FC } from "react";
 import { Helmet } from "react-helmet";
-import throttle from "lodash.throttle";
 import isEqual from "lodash.isequal";
 import startCase from "lodash.startcase";
 import { useClosableSnackbar } from "../../Hooks";
@@ -55,8 +54,8 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: "wrap",
   },
   scheme: {
-    margin: theme.spacing(0, 2),
-    width: "250px",
+    margin: theme.spacing(1, 4),
+    width: "208px",
   },
   schemeTitle: {
     textAlign: "center",
@@ -65,16 +64,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-    marginTop: theme.spacing(1),
   },
   slider: {
-    margin: theme.spacing(0, 2),
+    marginRight: theme.spacing(2),
   },
   colorPicker: {
     display: "flex",
     flexWrap: "wrap",
     justifyContent: "center",
-    margin: theme.spacing(2, 0),
+    margin: theme.spacing(1, 0),
   },
 }));
 
@@ -187,7 +185,7 @@ const ColorScheme: FC<ColorSchemeProps> = ({ scheme }) => {
       <Typography className={classes.schemeTitle} variant="h6">
         {upperCaseScheme}
       </Typography>
-      <ShadeSlider scheme={scheme} currentShade={currentShade} />
+      <ShadeSlider scheme={scheme} shade={currentShade} />
       <ColorPicker
         currentColor={currentColor}
         shade={currentShade}
@@ -199,24 +197,14 @@ const ColorScheme: FC<ColorSchemeProps> = ({ scheme }) => {
 
 interface ShadeSliderProps {
   scheme: Scheme;
-  currentShade: Shade;
+  shade: Shade;
 }
 
 const ShadeSlider: FC<ShadeSliderProps> = (props) => {
   const classes = useStyles();
   const { changeDisplay } = useDisplay();
-  const isDefault = isEqual(
-    DEFAULT_USER_DISPLAY.theme[props.scheme].shade,
-    props.currentShade
-  );
-  const [shade, setShade] = useState(props.currentShade);
 
-  useEffect(() => {
-    setShade(props.currentShade);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isDefault]);
-
-  const onShadeChange = throttle((newShade: Shade) => {
+  const onShadeChange = (newShade: Shade) => {
     changeDisplay({
       theme: {
         [props.scheme]: {
@@ -224,21 +212,19 @@ const ShadeSlider: FC<ShadeSliderProps> = (props) => {
         },
       },
     });
-  }, 1000);
+  };
 
   const handleSlide = (newShade: Shade) => {
-    if (newShade !== shade) {
-      setShade(newShade);
+    if (newShade !== props.shade) {
       onShadeChange(newShade);
     }
   };
 
   return (
     <div className={classes.sliderDiv}>
-      <Typography id="shade">Shade: </Typography>
       <Slider
         className={classes.slider}
-        value={SHADES.indexOf(shade)}
+        value={SHADES.indexOf(props.shade)}
         min={0}
         max={SHADES.length - 1}
         onChange={(e, i) =>
@@ -247,7 +233,7 @@ const ShadeSlider: FC<ShadeSliderProps> = (props) => {
         color={props.scheme}
       />
       <Select
-        value={shade}
+        value={props.shade}
         size="small"
         onChange={(e) => handleSlide(e.target.value as Shade)}
       >
