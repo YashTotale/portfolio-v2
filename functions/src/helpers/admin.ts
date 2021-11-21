@@ -1,5 +1,5 @@
 // External Imports
-import { initializeApp, credential } from "firebase-admin";
+import * as admin from "firebase-admin";
 import { getAuth } from "firebase-admin/auth";
 import { getStorage } from "firebase-admin/storage";
 import { getFirestore } from "firebase-admin/firestore";
@@ -7,8 +7,8 @@ import { getFirestore } from "firebase-admin/firestore";
 // Internal Imports
 import serviceAccount from "../service-account.json";
 
-const firebaseApp = initializeApp({
-  credential: credential.cert({
+const firebaseApp = admin.initializeApp({
+  credential: admin.credential.cert({
     projectId: serviceAccount.project_id,
     clientEmail: serviceAccount.client_email,
     privateKey: serviceAccount.private_key,

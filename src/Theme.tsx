@@ -53,7 +53,7 @@ const ThemeComponent: FC = ({ children }) => {
       },
     },
     direction: display.direction,
-    spacing: createSpacing(display.spacing),
+    spacing: createSpacing(parseInt(display.spacing.toString())),
     palette: {
       mode: display.darkMode ? "dark" : "light",
       primary: {
