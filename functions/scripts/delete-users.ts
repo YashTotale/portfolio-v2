@@ -4,8 +4,9 @@
 import { Output } from "@hack4impact/logger";
 import yargs from "yargs";
 
-// Internal Imports
-import { db, auth, bucket, firestore } from "../src/helpers/admin";
+// Firebase Imports
+import { FieldValue } from "firebase-admin/firestore";
+import { db, auth, bucket } from "../src/helpers/admin";
 
 process.on("unhandledRejection", (reason) => {
   throw reason;
@@ -101,7 +102,7 @@ class DeleteUser {
     likedBooks.docs.forEach((doc) => {
       const docRef = collection.doc(doc.id);
       batch.update(docRef, {
-        likes: firestore.FieldValue.arrayRemove(this.id),
+        likes: FieldValue.arrayRemove(this.id),
       });
       bookIds.push(`'${doc.id}'`);
     });

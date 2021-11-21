@@ -39,6 +39,7 @@ import {
   Visibility,
   VisibilityOff,
 } from "@mui/icons-material";
+import { useDisplay } from "../../../../../Context/DisplayContext";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -108,6 +109,7 @@ interface SignInInputs {
 const EmailPassword: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const { display } = useDisplay();
   const { register, formState, handleSubmit } = useForm<SignInInputs>({
     mode: "onChange",
   });
@@ -139,7 +141,7 @@ const EmailPassword: FC = () => {
           await updateProfile(user, {
             displayName: inputs.name,
           });
-          await createUser(user);
+          await createUser(user, display);
           enqueueSnackbar(`Registered as ${user?.email ?? inputs.email}`, {
             variant: "success",
           });
@@ -290,6 +292,7 @@ const EmailPassword: FC = () => {
 const OAuthProviders: FC = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
+  const { display } = useDisplay();
 
   return (
     <StyledFirebaseAuth
@@ -309,7 +312,7 @@ const OAuthProviders: FC = () => {
             const { displayName, email } = result.user;
 
             if (isNew) {
-              createUser(result.user).then(() => {
+              createUser(result.user, display).then(() => {
                 enqueueSnackbar(`Registered as ${displayName ?? email}`, {
                   variant: "success",
                 });

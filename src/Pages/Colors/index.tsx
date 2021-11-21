@@ -2,32 +2,22 @@
 import React, { FC, useState, useEffect } from "react";
 import { Helmet } from "react-helmet";
 import throttle from "lodash.throttle";
+import isEqual from "lodash.isequal";
 import startCase from "lodash.startcase";
 import { useClosableSnackbar } from "../../Hooks";
-import { generatePageTitle } from "../../Utils/funcs";
 import { getTextColor } from "../../Utils/colors";
+import {
+  DEFAULT_USER_DISPLAY,
+  COLORS,
+  SCHEMES,
+  SHADES,
+} from "../../Utils/constants";
+import { useDisplay } from "../../Context/DisplayContext";
+import { generatePageTitle } from "../../Utils/funcs";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 
-// Redux Imports
-import { useSelector } from "react-redux";
-import {
-  getColors,
-  getShades,
-  resetColors,
-  changeColor,
-  changeShade,
-  changeShadeAndColors,
-  getIsDefaultColors,
-} from "../../Redux";
-import {
-  Color,
-  COLORS,
-  Scheme,
-  SCHEMES,
-  Shade,
-  SHADES,
-} from "../../Redux/display.slice";
-import { useAppDispatch } from "../../Store";
+// Firebase Imports
+import { Color, ColorScheme as Scheme, Shade } from "../../../types/firestore";
 
 // Material UI Imports
 import {
@@ -125,37 +115,32 @@ const useResetStyles = makeStyles((theme) => ({
 }));
 
 const Reset: FC = () => {
-  const isDefault = useSelector(getIsDefaultColors);
+  const { display, changeDisplay } = useDisplay();
+  const isDefault = isEqual(DEFAULT_USER_DISPLAY.theme, display.theme);
   const classes = useResetStyles();
-  const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useClosableSnackbar();
 
-  const colors = useSelector(getColors);
-  const shades = useSelector(getShades);
-
   const reset = () => {
-    const currentColors = colors;
-    const currentShades = shades;
-    dispatch(resetColors());
+    const currentTheme = display.theme;
+    changeDisplay({ theme: DEFAULT_USER_DISPLAY.theme });
     enqueueSnackbar("Reset Default Colors", {
       variant: "success",
       onUndo: () => {
-        dispatch(
-          changeShadeAndColors({
-            colors: currentColors,
-            shades: currentShades,
-          })
+        changeDisplay({ theme: currentTheme });
+
+        const prevStr = Object.values(currentTheme).reduce(
+          (str, values, i, arr) => {
+            const last = i === arr.length - 1;
+            return `${str}${startCase(values.color)} - ${values.shade}${
+              last ? "" : ", "
+            }`;
+          },
+          ""
         );
-        enqueueSnackbar(
-          `Reverted to Previous Colors (${startCase(currentColors.primary)} - ${
-            currentShades.primary
-          }, ${startCase(currentColors.secondary)} - ${
-            currentShades.secondary
-          })`,
-          {
-            variant: "success",
-          }
-        );
+
+        enqueueSnackbar(`Reverted to Previous Colors (${prevStr})`, {
+          variant: "success",
+        });
       },
     });
   };
@@ -189,8 +174,9 @@ interface ColorSchemeProps {
 
 const ColorScheme: FC<ColorSchemeProps> = ({ scheme }) => {
   const classes = useStyles();
-  const currentColor = useSelector(getColors)[scheme];
-  const currentShade = useSelector(getShades)[scheme];
+  const { display } = useDisplay();
+  const currentColor = display.theme[scheme].color;
+  const currentShade = display.theme[scheme].shade;
 
   const upperCaseScheme = capitalize(scheme);
 
@@ -216,8 +202,8 @@ interface ShadeSliderProps {
 
 const ShadeSlider: FC<ShadeSliderProps> = (props) => {
   const classes = useStyles();
-  const dispatch = useAppDispatch();
-  const isDefault = useSelector(getIsDefaultColors);
+  const { display, changeDisplay } = useDisplay();
+  const isDefault = isEqual(DEFAULT_USER_DISPLAY.theme, display.theme);
   const [shade, setShade] = useState(props.defaultShade);
 
   useEffect(() => {
@@ -226,11 +212,13 @@ const ShadeSlider: FC<ShadeSliderProps> = (props) => {
   }, [isDefault]);
 
   const onShadeChange = throttle((newShade: Shade) => {
-    dispatch(
-      changeShade({
-        [props.scheme]: newShade,
-      })
-    );
+    changeDisplay({
+      theme: {
+        [props.scheme]: {
+          shade: newShade,
+        },
+      },
+    });
   }, 1000);
 
   const handleSlide = (e: Event, index: number | number[]) => {
@@ -340,7 +328,7 @@ const ColorBtn: React.FC<ColorBtnProps> = ({
   shade,
   currentColor,
 }) => {
-  const dispatch = useAppDispatch();
+  const { changeDisplay } = useDisplay();
   const { enqueueSnackbar } = useClosableSnackbar();
 
   const colorHex = muiColors[color][shade];
@@ -353,19 +341,23 @@ const ColorBtn: React.FC<ColorBtnProps> = ({
 
   const handleClick = () => {
     const preCurrentColor = currentColor;
-    dispatch(
-      changeColor({
-        [scheme]: color,
-      })
-    );
+    changeDisplay({
+      theme: {
+        [scheme]: {
+          color,
+        },
+      },
+    });
     enqueueSnackbar(`${capitalize(scheme)} Color set to '${readableColor}'`, {
       variant: "success",
       onUndo: () => {
-        dispatch(
-          changeColor({
-            [scheme]: preCurrentColor,
-          })
-        );
+        changeDisplay({
+          theme: {
+            [scheme]: {
+              color: preCurrentColor,
+            },
+          },
+        });
         enqueueSnackbar(
           `Reverted to Previous ${capitalize(scheme)} Color (${startCase(
             preCurrentColor

@@ -60,7 +60,7 @@ const Item: FC<ItemProps> = (props) => {
 
 type SwitchItemProps = ExtendItem & {
   checked: boolean;
-  onChange: () => void;
+  onChange: (checked: boolean) => void;
   color?: SwitchProps["color"];
 };
 
@@ -74,7 +74,7 @@ export const SwitchItem: FC<SwitchItemProps> = (props) => {
       action={
         <Switch
           checked={props.checked}
-          onChange={props.onChange}
+          onChange={(e, checked) => props.onChange(checked)}
           color={props.color ?? "primary"}
           size={isSizeXS ? "small" : "medium"}
         />

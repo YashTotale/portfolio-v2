@@ -1,24 +1,26 @@
 // External Imports
-import admin from "firebase-admin";
+import { initializeApp, credential } from "firebase-admin";
+import { getAuth } from "firebase-admin/auth";
+import { getStorage } from "firebase-admin/storage";
+import { getFirestore } from "firebase-admin/firestore";
 
 // Internal Imports
 import serviceAccount from "../service-account.json";
 
-admin.initializeApp({
-  credential: admin.credential.cert({
+const firebaseApp = initializeApp({
+  credential: credential.cert({
     projectId: serviceAccount.project_id,
     clientEmail: serviceAccount.client_email,
     privateKey: serviceAccount.private_key,
   }),
 });
 
-export const auth = admin.auth();
+export const auth = getAuth(firebaseApp);
 
-export const storage = admin.storage();
+export const storage = getStorage(firebaseApp);
 export const bucket = storage.bucket("yash-totale.appspot.com");
 
-export const firestore = admin.firestore;
-export const db = admin.firestore();
+export const db = getFirestore(firebaseApp);
 db.settings({
   ignoreUndefinedProperties: true,
 });

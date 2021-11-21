@@ -1,18 +1,6 @@
 //React Imports
 import React, { FC } from "react";
-
-//Redux Imports
-import { useSelector } from "react-redux";
-import {
-  getColors,
-  getDirection,
-  getIsDarkMode,
-  getShades,
-  getSpacing,
-  toggleDarkMode,
-} from "./Redux";
-import { DEFAULT_DIRECTION, DEFAULT_SPACING } from "./Redux/display.slice";
-import { useAppDispatch } from "./Store";
+import { useDisplay } from "./Context/DisplayContext";
 
 //Material UI Imports
 import {
@@ -34,16 +22,11 @@ declare module "@mui/styles/defaultTheme" {
 export const alternativeFont = "Arial, sans-serif";
 
 const ThemeComponent: FC = ({ children }) => {
-  const dispatch = useAppDispatch();
-  const colors = useSelector(getColors);
-  const shades = useSelector(getShades);
-  const spacing = useSelector(getSpacing);
-  const direction = useSelector(getDirection);
+  const { display, changeDisplay } = useDisplay();
 
   const prefersDarkMode = useMediaQuery("(prefers-color-scheme: dark)");
-  const isDarkMode = useSelector(getIsDarkMode);
-  if (isDarkMode === null && prefersDarkMode) {
-    dispatch(toggleDarkMode(prefersDarkMode));
+  if (display.darkMode === null && prefersDarkMode) {
+    changeDisplay({ darkMode: true });
   }
 
   const theme = createTheme({
@@ -69,15 +52,19 @@ const ThemeComponent: FC = ({ children }) => {
         },
       },
     },
-    direction: direction ?? DEFAULT_DIRECTION,
-    spacing: createSpacing(spacing ?? DEFAULT_SPACING),
+    direction: display.direction,
+    spacing: createSpacing(display.spacing),
     palette: {
-      mode: isDarkMode ? "dark" : "light",
+      mode: display.darkMode ? "dark" : "light",
       primary: {
-        main: muiColors[colors.primary][shades.primary],
+        main: muiColors[display.theme.primary.color][
+          display.theme.primary.shade
+        ],
       },
       secondary: {
-        main: muiColors[colors.secondary][shades.secondary],
+        main: muiColors[display.theme.secondary.color][
+          display.theme.secondary.shade
+        ],
       },
     },
   });

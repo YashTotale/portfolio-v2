@@ -17,7 +17,10 @@ import NavController, { Paths } from "./Components/Static/NavController";
 import Loading from "./Components/Static/Loading";
 
 // Material UI Imports
+import { SnackbarProvider } from "notistack";
+import Theme from "./Theme";
 import makeStyles from "@mui/styles/makeStyles";
+import { DisplayProvider } from "./Context/DisplayContext";
 
 // Pages
 const Home = lazy(() => import("./Pages/Home"));
@@ -60,11 +63,17 @@ const App: FC = () => {
   return (
     <HeadProvider>
       <UserProvider>
-        <NavController />
-        <Navbar />
-        <Popup />
-        <Sidebar />
-        <Routes />
+        <DisplayProvider>
+          <Theme>
+            <SnackbarProvider>
+              <NavController />
+              <Navbar />
+              <Popup />
+              <Sidebar />
+              <Routes />
+            </SnackbarProvider>
+          </Theme>
+        </DisplayProvider>
       </UserProvider>
     </HeadProvider>
   );

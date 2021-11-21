@@ -1,5 +1,5 @@
 // External Imports
-import * as functions from "firebase-functions";
+import { logger, config } from "firebase-functions";
 import Joi from "joi";
 import axios from "axios";
 
@@ -55,10 +55,10 @@ const sendContactEmail = onCall<ContactData>({
 });
 
 const verifyRecaptcha = async (recaptchaResponse: string) => {
-  functions.logger.info("Verifying ReCAPTCHA...");
+  logger.info("Verifying ReCAPTCHA...");
   const res = await axios.post(
     `https://www.google.com/recaptcha/api/siteverify?secret=${
-      functions.config().email.recaptcha_secret_key
+      config().email.recaptcha_secret_key
     }&response=${recaptchaResponse}`
   );
   if (!res.data.success) {
@@ -67,20 +67,20 @@ const verifyRecaptcha = async (recaptchaResponse: string) => {
       `ReCAPTCHA Verification Failed (${errors}). Please try again.`
     );
   }
-  functions.logger.info("Verified ReCAPTCHA!");
+  logger.info("Verified ReCAPTCHA!");
 };
 
 const postEmail = async (data: FormattedData) => {
-  functions.logger.info("Sending Email...");
+  logger.info("Sending Email...");
   const postData = {
-    service_id: functions.config().email.service_id,
-    template_id: functions.config().email.template_id,
-    user_id: functions.config().email.user_id,
-    accessToken: functions.config().email.access_token,
+    service_id: config().email.service_id,
+    template_id: config().email.template_id,
+    user_id: config().email.user_id,
+    accessToken: config().email.access_token,
     template_params: data,
   };
   await axios.post("https://api.emailjs.com/api/v1.0/email/send", postData);
-  functions.logger.info("Sent Email!");
+  logger.info("Sent Email!");
 };
 
 export default sendContactEmail;

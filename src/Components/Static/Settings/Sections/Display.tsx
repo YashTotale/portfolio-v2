@@ -5,35 +5,21 @@ import Subsection from "../Subsection";
 import Item, { SelectItem, SwitchItem } from "../Item";
 import { Paths } from "../../NavController";
 import StyledLink from "../../../Atomic/StyledLink";
-
-// Redux Imports
-import { useSelector } from "react-redux";
 import {
-  toggleDarkMode,
-  getSpacing,
-  changeSpacing,
-  getDirection,
-  changeDirection,
-} from "../../../../Redux";
-import {
-  DEFAULT_DIRECTION,
-  DEFAULT_SPACING,
   DIRECTIONS,
   SPACINGS,
-} from "../../../../Redux/display.slice";
-import { useAppDispatch } from "../../../../Store";
+  DEFAULT_USER_DISPLAY,
+} from "../../../../Utils/constants";
+import { useDisplay } from "../../../../Context/DisplayContext";
 
 // Material UI Imports
 import { useTheme } from "@mui/material";
 import { Computer, SettingsBrightness } from "@mui/icons-material";
 
 const Display: FC = () => {
-  const dispatch = useAppDispatch();
+  const { display, changeDisplay } = useDisplay();
   const theme = useTheme();
   const isDarkMode = theme.palette.mode === "dark";
-
-  const spacing = useSelector(getSpacing);
-  const direction = useSelector(getDirection);
 
   return (
     <Section title="Display">
@@ -41,7 +27,7 @@ const Display: FC = () => {
         <SwitchItem
           label="Dark Mode"
           checked={isDarkMode}
-          onChange={() => dispatch(toggleDarkMode())}
+          onChange={(checked) => changeDisplay({ darkMode: checked })}
         />
         <Item
           label="Customize Colors"
@@ -51,17 +37,17 @@ const Display: FC = () => {
       <Subsection title="Miscellaneous" icon={<Computer />}>
         <SelectItem
           label="Spacing Factor"
-          value={spacing}
-          defaultValue={DEFAULT_SPACING}
+          value={display.spacing}
+          defaultValue={DEFAULT_USER_DISPLAY.spacing}
           values={SPACINGS}
-          onChange={(val) => dispatch(changeSpacing(val))}
+          onChange={(value) => changeDisplay({ spacing: value })}
         />
         <SelectItem
           label="Direction"
-          value={direction}
-          defaultValue={DEFAULT_DIRECTION}
+          value={display.direction}
+          defaultValue={DEFAULT_USER_DISPLAY.direction}
           values={DIRECTIONS}
-          onChange={(val) => dispatch(changeDirection(val))}
+          onChange={(value) => changeDisplay({ direction: value })}
         />
       </Subsection>
     </Section>

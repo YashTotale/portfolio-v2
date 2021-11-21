@@ -2,14 +2,10 @@
 import React, { FC } from "react";
 import { hydrate, render } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
-import { SnackbarProvider } from "notistack";
 import App from "./App";
 
 // Redux Imports
 import ReduxStore from "./Store";
-
-//Material UI Imports
-import Theme from "./Theme";
 
 // Misc Imports
 import reportWebVitals from "./reportWebVitals";
@@ -18,11 +14,7 @@ const Root: FC = (props) => (
   <React.StrictMode {...props}>
     <ReduxStore>
       <Router>
-        <Theme>
-          <SnackbarProvider>
-            <App />
-          </SnackbarProvider>
-        </Theme>
+        <App />
       </Router>
     </ReduxStore>
   </React.StrictMode>

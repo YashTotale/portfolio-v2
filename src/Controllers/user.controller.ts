@@ -8,7 +8,12 @@ import { useUser } from "../Context/UserContext";
 import { createDocSnapshot, updateDoc } from "./helpers/firestore";
 import { uploadFile } from "./helpers/storage";
 import { httpsCallable } from "./helpers/functions";
-import { WithId, PublicUserDoc, ImmutableUserDoc } from "../../types/firestore";
+import {
+  WithId,
+  PublicUserDoc,
+  ImmutableUserDoc,
+  UserDisplay,
+} from "../../types/firestore";
 
 const publicCollection = "users" as const;
 const immutableCollection = "users_immutable" as const;
@@ -28,13 +33,17 @@ export const useUserDoc = (): Nullable<
   return { ...publicData, ...privateData };
 };
 
-export const createUser = async (user: User): Promise<HttpsCallableResult> => {
+export const createUser = async (
+  user: User,
+  display: PublicUserDoc["display"]
+): Promise<HttpsCallableResult> => {
   const data: PublicUserDoc & ImmutableUserDoc = {
     name: user.displayName ?? "",
     email: user.email ?? "",
     picture: user.photoURL ?? "",
+    display,
   };
-  return await httpsCallable("createUserDoc", data);
+  return await httpsCallable("createUser", data);
 };
 
 export const updateUserName = async (
@@ -62,4 +71,11 @@ export const uploadUserPicture = async (
       photoURL: url,
     }),
   ]);
+};
+
+export const updateUserDisplay = async (
+  uid: string,
+  display: UserDisplay
+): Promise<void> => {
+  return await updateDoc(publicCollection, uid, { display });
 };

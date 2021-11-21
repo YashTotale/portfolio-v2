@@ -5,6 +5,7 @@
   "scripts": {
     "lint": "eslint \"src/**/*\"",
     "compile": "rm -rf lib && tsc",
+    "prewatch": "npm run compile",
     "watch": "tsc --watch",
     "preserve": "npm run compile",
     "start": "npm run compile && firebase functions:shell",

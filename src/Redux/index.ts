@@ -6,24 +6,11 @@ export {
   // -> Slice
   default as displaySlice,
   // -> Selectors
-  getIsDarkMode,
   getIsSidebarOpen,
   getPopupState,
-  getSpacing,
-  getDirection,
-  getColors,
-  getShades,
-  getIsDefaultColors,
   // -> Actions
-  toggleDarkMode,
   toggleSidebar,
   changePopupState,
-  changeSpacing,
-  changeDirection,
-  changeColor,
-  changeShade,
-  changeShadeAndColors,
-  resetColors,
   // -> Reducer
   displayReducer,
   // -> State
@@ -41,8 +28,11 @@ export {
   default as firebaseSlice,
   // -> Selectors
   getDoc,
+  getDefaultDoc,
   // -> Actions
   setDoc,
+  updateDoc,
+  updateDefaultDoc,
   // -> Reducer
   firebaseReducer,
   // -> State

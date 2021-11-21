@@ -3,10 +3,11 @@ import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Paths } from "../NavController";
 import { useClosableSnackbar } from "../../../Hooks";
+import { useDisplay } from "../../../Context/DisplayContext";
 import { SIDEBAR_WIDTH } from "../../../Utils/constants";
 
 // Redux Imports
-import { toggleDarkMode, toggleSidebar } from "../../../Redux";
+import { toggleSidebar } from "../../../Redux";
 import { useAppDispatch } from "../../../Store";
 
 // Material UI Imports
@@ -50,6 +51,7 @@ const Navbar: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const theme = useTheme();
+  const { changeDisplay } = useDisplay();
   const { pathname } = useLocation();
   const { enqueueSnackbar } = useClosableSnackbar();
   const trigger = useScrollTrigger({
@@ -104,13 +106,13 @@ const Navbar: FC = () => {
             <Tooltip title={`Toggle ${isDarkMode ? "Light" : "Dark"} Mode`}>
               <IconButton
                 onClick={() => {
-                  dispatch(toggleDarkMode());
+                  changeDisplay({ darkMode: !isDarkMode });
                   enqueueSnackbar(
                     `Toggled ${isDarkMode ? "Light" : "Dark"} Mode`,
                     {
                       variant: "success",
                       onUndo: () => {
-                        dispatch(toggleDarkMode());
+                        changeDisplay({ darkMode: !isDarkMode });
                       },
                     }
                   );
