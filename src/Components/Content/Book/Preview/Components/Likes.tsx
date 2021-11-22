@@ -3,7 +3,7 @@ import React, { FC, useEffect, useState } from "react";
 import { Book } from "../../../../../Utils/types";
 
 // Firebase Imports
-import { useSigninCheck } from "reactfire";
+import { useUser } from "../../../../../Context/UserContext";
 import { useBookLikesOnce } from "../../../../../Controllers/books.controller";
 
 // Redux Imports
@@ -44,25 +44,24 @@ const Likes: FC<LikesProps> = (props) => {
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
+  const user = useUser();
   const [likes, addLike, removeLike] = useBookLikesOnce(props.id);
-
-  const { status: userStatus, data: userData } = useSigninCheck();
-  const [isLiked, setIsLiked] = useState(
-    likes.includes(userData?.user?.uid as string)
-  );
+  const [isLiked, setIsLiked] = useState(likes.includes(user?.uid as string));
 
   useEffect(() => {
-    if (userStatus === "success") {
-      setIsLiked(likes.includes(userData.user?.uid as string));
+    if (user?.uid) {
+      setIsLiked(likes.includes(user?.uid as string));
+    } else {
+      setIsLiked(false);
     }
-  }, [likes, userStatus, userData?.user?.uid]);
+  }, [likes, user?.uid]);
 
   const onClick = async () => {
-    if (userStatus === "success" && userData.user) {
+    if (user) {
       if (isLiked) {
-        await removeLike(userData.user.uid);
+        await removeLike(user.uid);
       } else {
-        await addLike(userData.user.uid);
+        await addLike(user.uid);
       }
     } else {
       dispatch(changePopupState(PopupState.SIGN_IN_REQUIRED));

@@ -17,9 +17,6 @@ import Sidebar from "./Components/Static/Sidebar";
 import NavController, { Paths } from "./Components/Static/NavController";
 import Loading from "./Components/Static/Loading";
 
-// Firebase Imports
-import FirebaseProvider from "./Firebase";
-
 // Material UI Imports
 import { SnackbarProvider } from "notistack";
 import Theme from "./Theme";
@@ -65,21 +62,19 @@ const useStyles = makeStyles((theme) => ({
 const App: FC = () => {
   return (
     <HeadProvider>
-      <FirebaseProvider>
-        <UserProvider>
-          <DisplayProvider>
-            <Theme>
-              <SnackbarProvider>
-                <NavController />
-                <Navbar />
-                <Popup />
-                <Sidebar />
-                <Routes />
-              </SnackbarProvider>
-            </Theme>
-          </DisplayProvider>
-        </UserProvider>
-      </FirebaseProvider>
+      <UserProvider>
+        <DisplayProvider>
+          <Theme>
+            <SnackbarProvider>
+              <NavController />
+              <Navbar />
+              <Popup />
+              <Sidebar />
+              <Routes />
+            </SnackbarProvider>
+          </Theme>
+        </DisplayProvider>
+      </UserProvider>
     </HeadProvider>
   );
 };

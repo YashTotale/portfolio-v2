@@ -1,15 +1,14 @@
 // React Imports
-import { useEffect, useState } from "react";
-import { useFirestoreDocDataOnce } from "reactfire";
+import { useMemo } from "react";
 
 // Firebase Imports
-import { arrayRemove, arrayUnion } from "firebase/firestore";
+import { arrayRemove, arrayUnion, query, where } from "firebase/firestore";
 import {
   getCollectionRef,
-  getDocRef,
-  queryCollection,
   updateDoc,
   updateOrCreateDoc,
+  useCollectionQueryOnce,
+  useDocFieldOnce,
 } from "./helpers/firestore";
 import { BookDoc, WithId } from "../../types/firestore";
 
@@ -33,10 +32,12 @@ export const useBookLikesOnce = (
   (uid: string) => Promise<void>,
   (uid: string) => Promise<void>
 ] => {
-  const { status, data } = useFirestoreDocDataOnce(
-    getDocRef(booksCollectionRef, bookId)
+  const [rawLikes, setLikes] = useDocFieldOnce(
+    booksCollectionRef,
+    bookId,
+    "likes"
   );
-  const [likes, setLikes] = useState(data?.likes ?? []);
+  const likes = rawLikes ?? [];
 
   const addLike = async (uid: string) => {
     await addBookLike(bookId, uid);
@@ -48,20 +49,14 @@ export const useBookLikesOnce = (
     setLikes(likes.filter((u) => u !== uid));
   };
 
-  useEffect(() => {
-    if (status === "success") {
-      setLikes(data?.likes ?? []);
-    }
-  }, [status, data?.likes]);
-
   return [likes, addLike, removeLike];
 };
 
-export const getBooksLikedByUser = async (
-  userId: string
-): Promise<WithId<BookDoc>[]> =>
-  queryCollection(booksCollectionRef, {
-    field: "likes",
-    operation: "array-contains",
-    value: userId,
-  });
+export const useBooksLikedByUserOnce = (userId: string): WithId<BookDoc>[] => {
+  const q = useMemo(
+    () => query(booksCollectionRef, where("likes", "array-contains", userId)),
+    [userId]
+  );
+
+  return useCollectionQueryOnce(q);
+};
