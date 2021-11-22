@@ -19,9 +19,9 @@ import {
 type CreateUserData = PublicUserDoc & ImmutableUserDoc;
 
 const SPACINGS_OBJ: Record<Spacing, null> = {
-  6: null,
-  8: null,
-  10: null,
+  "6": null,
+  "8": null,
+  "10": null,
 };
 const SPACINGS = Object.keys(SPACINGS_OBJ);
 
@@ -86,7 +86,7 @@ const createUserDataSchema = Joi.object<CreateUserData, true>({
   picture: Joi.string().required().allow(""),
   display: Joi.object<UserDisplay, true>({
     darkMode: Joi.boolean().required().allow(null),
-    spacing: Joi.number()
+    spacing: Joi.string()
       .required()
       .allow(...SPACINGS),
     direction: Joi.string()

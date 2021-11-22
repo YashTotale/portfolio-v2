@@ -22,9 +22,9 @@ const SCHEMES_OBJ: Record<ColorScheme, null> = {
 };
 export const SCHEMES = Object.keys(SCHEMES_OBJ) as ColorScheme[];
 const SPACINGS_OBJ: Record<Spacing, null> = {
-  6: null,
-  8: null,
-  10: null,
+  "6": null,
+  "8": null,
+  "10": null,
 };
 export const SPACINGS = Object.keys(SPACINGS_OBJ) as unknown as Spacing[];
 const DIRECTIONS_OBJ: Record<Direction, null> = {
@@ -72,7 +72,7 @@ export const SHADES = Object.keys(SHADES_OBJ) as Shade[];
 
 export const DEFAULT_USER_DISPLAY: UserDisplay = {
   darkMode: null,
-  spacing: 8,
+  spacing: "8",
   direction: "ltr",
   theme: {
     primary: {

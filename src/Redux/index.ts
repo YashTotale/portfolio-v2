@@ -8,9 +8,11 @@ export {
   // -> Selectors
   getIsSidebarOpen,
   getPopupState,
+  getUserDisplay,
   // -> Actions
   toggleSidebar,
   changePopupState,
+  updateUserDisplay,
   // -> Reducer
   displayReducer,
   // -> State
@@ -18,28 +20,6 @@ export {
 } from "./display.slice";
 
 export type { DisplayState } from "./display.slice";
-
-/**
- * Firebase Slice
- */
-
-export {
-  // -> Slice
-  default as firebaseSlice,
-  // -> Selectors
-  getDoc,
-  getDefaultDoc,
-  // -> Actions
-  setDoc,
-  updateDoc,
-  updateDefaultDoc,
-  // -> Reducer
-  firebaseReducer,
-  // -> State
-  initialFirebaseState,
-} from "./firebase.slice";
-
-export type { FirebaseState } from "./firebase.slice";
 
 /**
  * Nav Slice

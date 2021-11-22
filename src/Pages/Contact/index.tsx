@@ -17,7 +17,7 @@ import { generatePageTitle } from "../../Utils/funcs";
 import { ContactData } from "../../../types/contact";
 
 // Firebase Imports
-import { useUserDoc } from "../../Controllers/user.controller";
+import { useFirestoreUser } from "../../Context/UserContext";
 import { sendContactEmail } from "../../Controllers/contact.controller";
 
 // Material UI Imports
@@ -82,7 +82,7 @@ interface Inputs {
 const Contact: FC = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
-  const userDoc = useUserDoc();
+  const userDoc = useFirestoreUser();
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));

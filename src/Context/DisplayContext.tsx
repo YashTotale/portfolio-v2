@@ -7,13 +7,17 @@ import { DEFAULT_USER_DISPLAY } from "../Utils/constants";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import { getDefaultDoc, updateDefaultDoc } from "../Redux/firebase.slice";
+import {
+  getUserDisplay,
+  updateUserDisplay as updateReduxDisplay,
+} from "../Redux";
 import { useAppDispatch } from "../Store";
 
 // Firebase Imports
+import { usePublicUserData } from "./UserContext";
+import { updateUserDisplay } from "../Controllers/user.controller";
 import { DeepPartial } from "../../types/general";
 import { UserDisplay } from "../../types/firestore";
-import { updateUserDisplay, useUserDoc } from "../Controllers/user.controller";
 
 interface Display {
   display: UserDisplay;
@@ -29,24 +33,18 @@ const DisplayContext = createContext<Display>({
 
 export const DisplayProvider: FC = ({ children }) => {
   const dispatch = useAppDispatch();
-  const userDoc = useUserDoc();
+  const userData = usePublicUserData();
 
-  const { display: defaultDisplay } = useSelector(getDefaultDoc("users"));
+  const display = useSelector(getUserDisplay);
   const updateFirestoreUserDisplay = throttle(updateUserDisplay, 10000);
 
   const changeDisplay: Display["changeDisplay"] = (value) => {
-    const newDisplay = merge({}, defaultDisplay, value);
+    const newDisplay = merge({}, display, value);
+    dispatch(updateReduxDisplay(newDisplay));
 
-    dispatch(
-      updateDefaultDoc({
-        collection: "users",
-        data: { display: newDisplay },
-      })
-    );
-
-    if (userDoc) {
+    if (userData) {
       try {
-        updateFirestoreUserDisplay(userDoc.id, newDisplay);
+        updateFirestoreUserDisplay(userData.id, newDisplay);
       } catch (e) {
         console.error(e);
       }
@@ -54,19 +52,14 @@ export const DisplayProvider: FC = ({ children }) => {
   };
 
   useEffect(() => {
-    if (userDoc && !isEqual(userDoc.display, defaultDisplay)) {
-      dispatch(
-        updateDefaultDoc({
-          collection: "users",
-          data: { display: userDoc.display },
-        })
-      );
+    if (userData && !isEqual(userData.display, display)) {
+      dispatch(updateReduxDisplay(userData.display));
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [dispatch, userDoc?.display]);
+  }, [dispatch, userData?.display]);
 
   return (
-    <DisplayContext.Provider value={{ display: defaultDisplay, changeDisplay }}>
+    <DisplayContext.Provider value={{ display: display, changeDisplay }}>
       {children}
     </DisplayContext.Provider>
   );

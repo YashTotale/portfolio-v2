@@ -10,7 +10,7 @@ export interface Schema {
 
 export type Collections = keyof Schema;
 
-export type Spacing = 6 | 8 | 10;
+export type Spacing = "6" | "8" | "10";
 export type Direction = "ltr" | "rtl";
 export type ColorScheme = "primary" | "secondary";
 export type Color =

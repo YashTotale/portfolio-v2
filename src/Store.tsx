@@ -18,7 +18,6 @@ import storage from "redux-persist/lib/storage";
 
 // Reducer Imports
 import { displayReducer, DisplayState } from "./Redux/display.slice";
-import { firebaseReducer, FirebaseState } from "./Redux/firebase.slice";
 import { navReducer, NavState } from "./Redux/nav.slice";
 import { experienceReducer, ExperienceState } from "./Redux/experience.slice";
 import { educationReducer, EducationState } from "./Redux/education.slice";
@@ -33,7 +32,6 @@ import { booksReducer, BooksState } from "./Redux/books.slice";
 
 interface State {
   display: DisplayState;
-  firebase: FirebaseState;
   nav: NavState;
   experience: ExperienceState;
   education: EducationState;
@@ -46,7 +44,6 @@ interface State {
 
 const reducers = combineReducers<State>({
   display: displayReducer,
-  firebase: firebaseReducer,
   nav: navReducer,
   experience: experienceReducer,
   education: educationReducer,
@@ -62,7 +59,7 @@ const persistedReducer = persistReducer<State>(
     version: 1,
     storage,
     key: "root",
-    whitelist: ["firebase"],
+    whitelist: ["display"],
   },
   reducers
 );

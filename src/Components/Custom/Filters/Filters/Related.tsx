@@ -105,7 +105,7 @@ const Related: FC<RelatedProps> = (props) => {
         {isSizeXS && <InputLabel>Related {label}</InputLabel>}
         <Select
           multiple={isMultiValue(props)}
-          value={props.value}
+          value={props.value ?? ""}
           onChange={handleChange}
           size={isSizeXS ? "small" : "medium"}
           renderValue={(value) =>

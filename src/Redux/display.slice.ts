@@ -1,5 +1,12 @@
+// External Imports
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import merge from "lodash.merge";
+
+// Internal Imports
 import { RootState } from "../Store";
+import { UserDisplay } from "../../types/firestore";
+import { DeepPartial } from "../../types/general";
+import { DEFAULT_USER_DISPLAY } from "../Utils/constants";
 
 export enum PopupState {
   FORGOT_PASSWORD = "forgot_password",
@@ -10,11 +17,13 @@ export enum PopupState {
 export interface DisplayState {
   isSidebarOpen: boolean;
   popupState: PopupState;
+  userDisplay: UserDisplay;
 }
 
 export const initialDisplayState: DisplayState = {
   isSidebarOpen: false,
   popupState: PopupState.CLOSED,
+  userDisplay: DEFAULT_USER_DISPLAY,
 };
 
 const displaySlice = createSlice({
@@ -32,11 +41,19 @@ const displaySlice = createSlice({
       ...state,
       popupState: action.payload,
     }),
+    updateUserDisplay: (
+      state,
+      action: PayloadAction<DeepPartial<UserDisplay>>
+    ) =>
+      merge({}, state, {
+        userDisplay: action.payload,
+      }),
   },
 });
 
 // Actions
-export const { toggleSidebar, changePopupState } = displaySlice.actions;
+export const { toggleSidebar, changePopupState, updateUserDisplay } =
+  displaySlice.actions;
 
 // Selectors
 export const getIsSidebarOpen = (
@@ -45,6 +62,9 @@ export const getIsSidebarOpen = (
 
 export const getPopupState = (state: RootState): DisplayState["popupState"] =>
   state.display.popupState;
+
+export const getUserDisplay = (state: RootState): DisplayState["userDisplay"] =>
+  state.display.userDisplay;
 
 // Reducer
 export const displayReducer = displaySlice.reducer;

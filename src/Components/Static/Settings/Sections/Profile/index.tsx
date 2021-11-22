@@ -7,14 +7,18 @@ import Section from "../../Section";
 import HorizontalDivider from "../../../../Atomic/Divider/Horizontal";
 
 // Firebase Imports
-import { useUser } from "../../../../../Context/UserContext";
+import { useSigninCheck } from "reactfire";
 
 const Profile: FC = () => {
-  const user = useUser();
+  const { status, data: userData } = useSigninCheck();
+  const isSignedIn = status === "success" && userData.signedIn;
 
   return (
-    <Section title="Profile" rightAction={user ? <SignOutButton /> : undefined}>
-      {user ? <LoggedIn user={user} /> : <NotLoggedIn />}
+    <Section
+      title="Profile"
+      rightAction={isSignedIn ? <SignOutButton /> : undefined}
+    >
+      {isSignedIn ? <LoggedIn user={userData.user!} /> : <NotLoggedIn />}
       <HorizontalDivider />
     </Section>
   );

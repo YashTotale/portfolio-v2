@@ -14,7 +14,7 @@ import { BookSort } from "../../../../../Redux/books.slice";
 import { useAppDispatch } from "../../../../../Store";
 
 // Material UI Imports
-import { Typography, Rating } from "@mui/material";
+import { Rating } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
@@ -235,10 +235,10 @@ export const Item: FC<ItemProps> = ({ label, children, search, sort }) => {
   );
 
   return (
-    <Typography className={classes.item}>
+    <div className={classes.item}>
       <strong className={classes.itemLabelContainer}>{labelEl}</strong>{" "}
       <span className={classes.itemValue}>{children ?? "N/A"}</span>
-    </Typography>
+    </div>
   );
 };
 

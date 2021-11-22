@@ -1,37 +1,20 @@
-// Internal Imports
-import { Nullable } from "../../types/general";
-
 // Firebase Imports
 import { User, updateProfile } from "firebase/auth";
 import { HttpsCallableResult } from "firebase/functions";
-import { useUser } from "../Context/UserContext";
-import { createDocSnapshot, updateDoc } from "./helpers/firestore";
+import { getCollectionRef, updateDoc } from "./helpers/firestore";
 import { uploadFile } from "./helpers/storage";
 import { httpsCallable } from "./helpers/functions";
 import {
-  WithId,
   PublicUserDoc,
   ImmutableUserDoc,
   UserDisplay,
 } from "../../types/firestore";
 
 const publicCollection = "users" as const;
+export const publicCollectionRef = getCollectionRef(publicCollection);
+
 const immutableCollection = "users_immutable" as const;
-
-const usePublicData = createDocSnapshot(publicCollection);
-const useImmutableData = createDocSnapshot(immutableCollection);
-
-export const useUserDoc = (): Nullable<
-  WithId<PublicUserDoc & ImmutableUserDoc>
-> => {
-  const user = useUser();
-
-  const publicData = usePublicData(user?.uid ?? "");
-  const privateData = useImmutableData(user?.uid ?? "");
-
-  if (!publicData || !privateData) return null;
-  return { ...publicData, ...privateData };
-};
+export const immutableCollectionRef = getCollectionRef(immutableCollection);
 
 export const createUser = async (
   user: User,
@@ -51,7 +34,7 @@ export const updateUserName = async (
   newName: string
 ): Promise<void> => {
   await Promise.all([
-    updateDoc(publicCollection, user.uid, { name: newName }),
+    updateDoc(publicCollectionRef, user.uid, { name: newName }),
     updateProfile(user, {
       displayName: newName,
     }),
@@ -66,16 +49,14 @@ export const uploadUserPicture = async (
     path: `users/${user.uid}/profile_pictures`,
   });
   await Promise.all([
-    updateDoc(publicCollection, user.uid, { picture: url }),
+    updateDoc(publicCollectionRef, user.uid, { picture: url }),
     updateProfile(user, {
       photoURL: url,
     }),
   ]);
 };
 
-export const updateUserDisplay = async (
+export const updateUserDisplay = (
   uid: string,
   display: UserDisplay
-): Promise<void> => {
-  return await updateDoc(publicCollection, uid, { display });
-};
+): Promise<void> => updateDoc(publicCollectionRef, uid, { display });

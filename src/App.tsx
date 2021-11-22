@@ -5,8 +5,9 @@ import { Switch, Route } from "react-router-dom";
 import { SIDEBAR_WIDTH } from "./Utils/constants";
 
 // Context
-import { HeadProvider } from "./Context/HeadContext";
 import { UserProvider } from "./Context/UserContext";
+import { HeadProvider } from "./Context/HeadContext";
+import { DisplayProvider } from "./Context/DisplayContext";
 
 // Components
 import Navbar from "./Components/Static/Navbar";
@@ -16,11 +17,13 @@ import Sidebar from "./Components/Static/Sidebar";
 import NavController, { Paths } from "./Components/Static/NavController";
 import Loading from "./Components/Static/Loading";
 
+// Firebase Imports
+import FirebaseProvider from "./Firebase";
+
 // Material UI Imports
 import { SnackbarProvider } from "notistack";
 import Theme from "./Theme";
 import makeStyles from "@mui/styles/makeStyles";
-import { DisplayProvider } from "./Context/DisplayContext";
 
 // Pages
 const Home = lazy(() => import("./Pages/Home"));
@@ -62,19 +65,21 @@ const useStyles = makeStyles((theme) => ({
 const App: FC = () => {
   return (
     <HeadProvider>
-      <UserProvider>
-        <DisplayProvider>
-          <Theme>
-            <SnackbarProvider>
-              <NavController />
-              <Navbar />
-              <Popup />
-              <Sidebar />
-              <Routes />
-            </SnackbarProvider>
-          </Theme>
-        </DisplayProvider>
-      </UserProvider>
+      <FirebaseProvider>
+        <UserProvider>
+          <DisplayProvider>
+            <Theme>
+              <SnackbarProvider>
+                <NavController />
+                <Navbar />
+                <Popup />
+                <Sidebar />
+                <Routes />
+              </SnackbarProvider>
+            </Theme>
+          </DisplayProvider>
+        </UserProvider>
+      </FirebaseProvider>
     </HeadProvider>
   );
 };
