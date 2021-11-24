@@ -122,7 +122,7 @@ Static components are rendered only once. These include elements like the Navbar
 
 ### [Pages]
 
-Each page of the website is a folder in the [Pages] directory (except the [NotFound](src/Pages/NotFound.tsx) page which is just a file). Each folder contains an `index.tsx` file which for the UI of that page.
+Each page of the website is a folder in the [Pages] directory (except the [NotFound](src/Pages/NotFound.tsx) and [Error](src/Pages/Error.tsx) pages which are just files). Each folder contains an `index.tsx` file which for the UI of that page.
 
 - Every page calls a [`useAnalytics`](src/Hooks/useAnalytics.tsx) hook, which logs a `page_view` event to [Google Analytics](http://analytics.google.com/) if the environment is a production environment.
 - Every page updates the `<head>` of the HTML using [React Helmet](https://github.com/nfl/react-helmet).

@@ -2,6 +2,8 @@
 import React, { FC } from "react";
 import { hydrate, render } from "react-dom";
 import { BrowserRouter as Router } from "react-router-dom";
+import { ErrorBoundary } from "react-error-boundary";
+import ErrorPage from "./Pages/Error";
 import App from "./App";
 
 // Redux Imports
@@ -12,11 +14,13 @@ import reportWebVitals from "./reportWebVitals";
 
 const Root: FC = (props) => (
   <React.StrictMode {...props}>
-    <ReduxStore>
-      <Router>
-        <App />
-      </Router>
-    </ReduxStore>
+    <ErrorBoundary FallbackComponent={ErrorPage}>
+      <ReduxStore>
+        <Router>
+          <App />
+        </Router>
+      </ReduxStore>
+    </ErrorBoundary>
   </React.StrictMode>
 );
 
