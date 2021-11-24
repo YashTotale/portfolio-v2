@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface SubsectionProps {
-  title: string;
+  title: string | JSX.Element;
   icon: JSX.Element;
   className?: string;
 }

@@ -13,25 +13,24 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     position: "relative",
-    margin: theme.spacing(1.5, 1.5),
+    margin: theme.spacing(1.5),
     width: 120,
 
     [theme.breakpoints.only("xs")]: {
       width: 100,
+      margin: theme.spacing(1),
     },
   },
   image: {
-    height: "85%",
+    flexGrow: 1,
     maxWidth: "100%",
   },
   title: {
-    position: "absolute",
     color: theme.palette.text.secondary,
     maxWidth: "100%",
     whiteSpace: "nowrap",
     textOverflow: "ellipsis",
     overflow: "hidden",
-    bottom: 0,
   },
 }));
 

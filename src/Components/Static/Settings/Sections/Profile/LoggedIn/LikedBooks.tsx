@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: theme.spacing(-1.5),
 
     [theme.breakpoints.only("xs")]: {
-      justifyContent: "center",
+      marginLeft: theme.spacing(-1),
     },
   },
   noneLiked: {
@@ -37,7 +37,10 @@ const LikedBooks: FC<ProfileProps> = (props) => {
   const likedBooks = useBooksLikedByUserOnce(props.user.uid);
 
   return (
-    <Subsection title="Liked Books" icon={<Book />}>
+    <Subsection
+      title={<StyledLink to={Paths.Books}>Liked Books</StyledLink>}
+      icon={<Book />}
+    >
       {likedBooks.length ? (
         <div className={classes.container}>
           {likedBooks.map((book) => (
