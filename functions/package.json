@@ -19,7 +19,7 @@
     "axios": "^0.24.0",
     "firebase-admin": "^10.0.0",
     "firebase-functions": "^3.16.0",
-    "joi": "^17.4.2"
+    "joi": "^17.4.3"
   },
   "devDependencies": {
     "@hack4impact/logger": "^4.0.2",
