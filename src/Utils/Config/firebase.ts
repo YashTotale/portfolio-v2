@@ -19,7 +19,7 @@ export const config = {
 
 export const firebaseApp = initializeApp(config);
 
-// Do not commit with isEmulator = true!
+// Do not commit with 'isEmulator = true'!
 export const isEmulator = false;
 
 export const performance = getPerformance(firebaseApp);
