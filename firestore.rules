@@ -19,6 +19,7 @@ service cloud.firestore {
       allow update: if isOwner(docId);
 
       match /immutable/{immutableId} {
+        allow read: if true;
         allow update: if false;
       }
     }
