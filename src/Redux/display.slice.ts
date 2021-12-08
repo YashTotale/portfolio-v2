@@ -11,6 +11,7 @@ import { DEFAULT_USER_DISPLAY } from "../Utils/constants";
 export enum PopupState {
   FORGOT_PASSWORD = "forgot_password",
   SIGN_IN_REQUIRED = "sign_in_required",
+  DELETE_ACCOUNT = "delete_account",
   CLOSED = "none",
 }
 

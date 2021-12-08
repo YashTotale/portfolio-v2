@@ -9,15 +9,15 @@ import HorizontalDivider from "../../../../Atomic/Divider/Horizontal";
 // Firebase Imports
 import { useUser } from "../../../../../Context/UserContext";
 
-const Profile: FC = () => {
+const Account: FC = () => {
   const user = useUser();
 
   return (
-    <Section title="Profile" rightAction={user ? <SignOutButton /> : undefined}>
+    <Section title="Account" rightAction={user ? <SignOutButton /> : undefined}>
       {user ? <LoggedIn user={user} /> : <NotLoggedIn />}
       <HorizontalDivider />
     </Section>
   );
 };
 
-export default Profile;
+export default Account;

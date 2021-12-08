@@ -7,7 +7,7 @@ import { functions } from "../../Utils/Config/firebase";
 
 export const httpsCallable = async <T = unknown>(
   name: string,
-  data: T
+  data?: T
 ): Promise<HttpsCallableResult> => {
   const func = functionsHTTPs(functions, name);
   return await func(data);

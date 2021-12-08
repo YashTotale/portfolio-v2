@@ -182,10 +182,10 @@ const Contact: FC = () => {
           <StyledLink
             to={{
               pathname: Paths.Settings,
-              hash: "#profile",
+              hash: "#account",
             }}
           >
-            {userDoc ? "profile information" : "signing in"}
+            {userDoc ? "account information" : "signing in"}
           </StyledLink>
         </>
       }

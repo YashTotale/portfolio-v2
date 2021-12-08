@@ -4,6 +4,7 @@ import ProfilePicture from "./ProfilePicture";
 import Name from "./Name";
 import Email from "./Email";
 import LikedBooks from "./LikedBooks";
+import Delete from "./Delete";
 import HorizontalDivider from "../../../../../Atomic/Divider/Horizontal";
 
 // Firebase Imports
@@ -57,6 +58,7 @@ const LoggedIn: FC<LoggedInProps> = (props) => {
       </div>
       <HorizontalDivider />
       <LikedBooks {...profileProps} />
+      <Delete />
     </div>
   );
 };

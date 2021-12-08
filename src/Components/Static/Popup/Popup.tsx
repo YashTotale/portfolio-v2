@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import ForgotPassword from "./ForgotPassword";
 import SignInRequired from "./SignInRequired";
+import DeleteAccount from "./DeleteAccount";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -24,6 +25,9 @@ const Popup: FC = () => {
       }
       case PopupState.SIGN_IN_REQUIRED: {
         return <SignInRequired />;
+      }
+      case PopupState.DELETE_ACCOUNT: {
+        return <DeleteAccount />;
       }
       default: {
         return null;

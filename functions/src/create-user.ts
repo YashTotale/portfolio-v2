@@ -7,67 +7,18 @@ import { db } from "./helpers/admin";
 import {
   PublicUserDoc,
   ImmutableUserDoc,
-  Spacing,
-  Direction,
   UserDisplay,
   UserTheme,
   UserColor,
-  Color,
-  Shade,
 } from "../../types/firestore";
+import {
+  COLORS,
+  DIRECTIONS,
+  SHADES,
+  SPACINGS,
+} from "./helpers/users/constants";
 
 type CreateUserData = PublicUserDoc & ImmutableUserDoc;
-
-const SPACINGS_OBJ: Record<Spacing, null> = {
-  "6": null,
-  "8": null,
-  "10": null,
-};
-const SPACINGS = Object.keys(SPACINGS_OBJ);
-
-const DIRECTIONS_OBJ: Record<Direction, null> = {
-  ltr: null,
-  rtl: null,
-};
-const DIRECTIONS = Object.keys(DIRECTIONS_OBJ);
-
-const COLORS_OBJ: Record<Color, null> = {
-  amber: null,
-  blue: null,
-  cyan: null,
-  deepOrange: null,
-  deepPurple: null,
-  green: null,
-  indigo: null,
-  lightBlue: null,
-  lightGreen: null,
-  lime: null,
-  orange: null,
-  pink: null,
-  purple: null,
-  red: null,
-  teal: null,
-  yellow: null,
-};
-const COLORS = Object.keys(COLORS_OBJ);
-
-const SHADES_OBJ: Record<Shade, null> = {
-  "100": null,
-  "200": null,
-  "300": null,
-  "400": null,
-  "50": null,
-  "500": null,
-  "600": null,
-  "700": null,
-  "800": null,
-  "900": null,
-  A100: null,
-  A200: null,
-  A400: null,
-  A700: null,
-};
-const SHADES = Object.keys(SHADES_OBJ);
 
 const colorSchemeSchema = Joi.object<UserColor, true>({
   color: Joi.string()
@@ -106,11 +57,11 @@ const createUserDataSchema = Joi.object<CreateUserData, true>({
   .unknown(false);
 
 const createUser = onCall<CreateUserData>({
-  name: "Create User Doc",
+  name: "Create User",
   schema: createUserDataSchema,
   handler: async (data, context) => {
     if (!context.auth) {
-      throw new Error("Cannot create user doc as the user is not logged in.");
+      throw new Error("Cannot create user as the user is not logged in.");
     }
 
     const publicData: PublicUserDoc = {

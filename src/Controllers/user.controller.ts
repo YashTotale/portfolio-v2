@@ -45,6 +45,9 @@ export const createUser = async (
   return await httpsCallable("createUser", data);
 };
 
+export const deleteUser = (): Promise<HttpsCallableResult> =>
+  httpsCallable("deleteUser");
+
 export const updateUserName = async (
   user: User,
   newName: string

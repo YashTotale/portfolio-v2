@@ -35,7 +35,7 @@ const SignInRequired: FC = () => {
           onClick={() => dispatch(changePopupState(PopupState.CLOSED))}
           to={{
             pathname: Paths.Settings,
-            hash: "#profile",
+            hash: "#account",
           }}
         >
           Go to Sign In

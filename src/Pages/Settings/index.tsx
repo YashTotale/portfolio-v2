@@ -3,7 +3,7 @@ import React, { FC } from "react";
 import { Helmet } from "react-helmet";
 import { generatePageTitle } from "../../Utils/funcs";
 import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
-import Profile from "../../Components/Static/Settings/Sections/Profile";
+import Account from "../../Components/Static/Settings/Sections/Account";
 import Display from "../../Components/Static/Settings/Sections/Display";
 
 // Material UI Imports
@@ -36,7 +36,7 @@ const Settings: FC = () => {
         <Typography align="center" variant="h4">
           Settings
         </Typography>
-        <Profile />
+        <Account />
         <Display />
       </div>
     </>
