@@ -4,7 +4,6 @@ export type WithId<T> = T & {
 
 export interface Schema {
   users: PublicUserDoc;
-  users_immutable: ImmutableUserDoc;
   books: BookDoc;
 }
 

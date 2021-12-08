@@ -118,18 +118,19 @@ const createUser = onCall<CreateUserData>({
       picture: data.picture,
       display: data.display,
     };
-    const publicRef = db
+    const immutableData: ImmutableUserDoc = {
+      email: data.email,
+    };
+
+    const ref = db
       .collection("users")
       .doc(
         context.auth.uid
       ) as FirebaseFirestore.DocumentReference<PublicUserDoc>;
-    await publicRef.create(publicData);
+    await ref.create(publicData);
 
-    const immutableData: ImmutableUserDoc = {
-      email: data.email,
-    };
-    const immutableRef = db
-      .collection("users_immutable")
+    const immutableRef = ref
+      .collection("immutable")
       .doc(
         context.auth.uid
       ) as FirebaseFirestore.DocumentReference<ImmutableUserDoc>;

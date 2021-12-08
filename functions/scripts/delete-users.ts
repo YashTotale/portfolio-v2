@@ -4,19 +4,31 @@
 import { Output } from "@hack4impact/logger";
 import yargs from "yargs";
 
+const args = yargs(process.argv.slice(2))
+  .option("dry-run", {
+    default: false,
+    boolean: true,
+  })
+  .option("emulator", {
+    default: false,
+    boolean: true,
+  }).argv;
+const { _: ids, "dry-run": dryRun, emulator } = args;
+
+if (emulator) {
+  process.env["FIRESTORE_EMULATOR_HOST"] = "localhost:8080";
+  process.env["FIREBASE_STORAGE_EMULATOR_HOST"] = "localhost:9199";
+  process.env["FIREBASE_AUTH_EMULATOR_HOST"] = "localhost:9099";
+}
+
 // Firebase Imports
 import { FieldValue } from "firebase-admin/firestore";
 import { db, auth, bucket } from "../src/helpers/admin";
+import { deleteCollection } from "../src/helpers/firestore";
 
 process.on("unhandledRejection", (reason) => {
   throw reason;
 });
-
-const args = yargs(process.argv.slice(2)).option("dry-run", {
-  default: false,
-  boolean: true,
-}).argv;
-const { _: ids, "dry-run": dryRun } = args;
 
 const rootOutput = new Output();
 
@@ -46,72 +58,81 @@ class DeleteUser {
     this.output.coloredLog("Bright", this.id);
     await Promise.all([
       this.deleteAuth(),
-      this.deleteDoc("users"),
-      this.deleteDoc("users_immutable"),
+      this.deleteDoc(),
       this.deleteStorage(),
       this.removeBookLikes(),
     ]);
   }
 
   async deleteAuth() {
-    this.output.log(`Deleting auth...`);
+    const nested = this.output.nested();
+    nested.log(`Deleting auth...`);
     if (!dryRun) await auth.deleteUser(this.id);
-    this.output.coloredLog("FgGreen", "Deleted auth!");
+    nested.coloredLog("FgGreen", "Deleted auth!");
   }
 
-  async deleteDoc(collection: string) {
-    this.output.log(`Deleting doc in '${collection}' collection...`);
-    const ref = db.collection(collection).doc(this.id);
+  async deleteDoc() {
+    const nested = this.output.nested();
+
+    nested.log(`Deleting doc in 'users' collection...`);
+    const ref = db.collection("users").doc(this.id);
     const doc = await ref.get();
 
     if (!doc.exists) {
-      this.output.coloredLog(
+      nested.coloredLog(
         "FgRed",
-        `User '${this.id}' not found in '${collection}' collection.`
+        `User '${this.id}' not found in 'users' collection.`
       );
+      return;
     }
 
     if (!dryRun) await ref.delete();
-    this.output.coloredLog(
-      "FgGreen",
-      `Deleted doc in '${collection}' collection!`
-    );
+    nested.coloredLog("FgGreen", `Deleted doc in 'users' collection!`);
+
+    nested.log(`Deleting 'immutable' collection...`);
+    const immutableRef = ref.collection("immutable");
+    if (!dryRun) await deleteCollection(immutableRef);
+    nested.coloredLog("FgGreen", `Deleted 'immutable' collection!`);
   }
 
   async deleteStorage() {
-    this.output.log("Deleting stored files...");
+    const nested = this.output.nested();
+    nested.log("Deleting stored files...");
     if (!dryRun)
       await bucket.deleteFiles({
         prefix: `users/${this.id}`,
       });
-    this.output.coloredLog("FgGreen", "Deleted stored files!");
+    nested.coloredLog("FgGreen", "Deleted stored files!");
   }
 
   async removeBookLikes() {
-    this.output.log("Deleting book likes...");
+    const nested = this.output.nested();
+    nested.log("Deleting book likes...");
+
     const collection = db.collection("books");
     const likedBooks = await collection
       .where("likes", "array-contains", this.id)
       .get();
 
     if (likedBooks.empty) {
-      this.output.coloredLog("FgGreen", "No liked books found!");
+      nested.coloredLog("FgGreen", "No liked books found!");
       return;
     }
 
     const batch = db.batch();
-    const bookIds: string[] = [];
-    likedBooks.docs.forEach((doc) => {
+
+    const bookIds = likedBooks.docs.reduce((arr, doc) => {
       const docRef = collection.doc(doc.id);
       batch.update(docRef, {
         likes: FieldValue.arrayRemove(this.id),
       });
-      bookIds.push(`'${doc.id}'`);
-    });
+      return [...arr, `'${doc.id}'`];
+    }, [] as string[]);
+
     if (!dryRun) await batch.commit();
-    this.output.coloredLog(
+    nested.coloredLog(
       "FgGreen",
-      `Deleted book likes for ${bookIds.join(", ")}!`
+      `Deleted book likes from ${bookIds.join(", ")}!`
     );
   }
 }

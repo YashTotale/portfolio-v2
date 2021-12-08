@@ -16,6 +16,7 @@ import {
   WithFieldValue,
   DocumentSnapshot,
   Query,
+  DocumentData,
 } from "firebase/firestore";
 import { firestore } from "../../Utils/Config/firebase";
 import { Collections, Schema, WithId } from "../../../types/firestore";
@@ -139,6 +140,15 @@ export const getCollectionRef = <T extends Collections>(
   collection: T
 ): CollectionReference<Schema[T]> =>
   collectionFunc(firestore, collection) as CollectionReference<Schema[T]>;
+
+export const getSubCollectionRef = <T extends DocumentData>(
+  ...paths: string[]
+): CollectionReference<T> =>
+  collectionFunc(
+    firestore,
+    paths[0],
+    ...paths.slice(1)
+  ) as CollectionReference<T>;
 
 export const queryCollection = async <T extends Schema[Collections]>(
   q: Query<T>

@@ -59,7 +59,7 @@ export const DisplayProvider: FC = ({ children }) => {
   }, [dispatch, userData?.display]);
 
   return (
-    <DisplayContext.Provider value={{ display: display, changeDisplay }}>
+    <DisplayContext.Provider value={{ display, changeDisplay }}>
       {children}
     </DisplayContext.Provider>
   );

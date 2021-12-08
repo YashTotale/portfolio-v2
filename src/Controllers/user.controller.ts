@@ -1,7 +1,16 @@
 // Firebase Imports
 import { User, updateProfile } from "firebase/auth";
 import { HttpsCallableResult } from "firebase/functions";
-import { getCollectionRef, updateDoc } from "./helpers/firestore";
+import {
+  CollectionReference,
+  doc,
+  DocumentReference,
+} from "firebase/firestore";
+import {
+  getCollectionRef,
+  getSubCollectionRef,
+  updateDoc,
+} from "./helpers/firestore";
 import { uploadFile } from "./helpers/storage";
 import { httpsCallable } from "./helpers/functions";
 import {
@@ -13,8 +22,15 @@ import {
 const publicCollection = "users" as const;
 export const publicCollectionRef = getCollectionRef(publicCollection);
 
-const immutableCollection = "users_immutable" as const;
-export const immutableCollectionRef = getCollectionRef(immutableCollection);
+const immutableCollection = "immutable" as const;
+export const getImmutableCollectionRef = (
+  uid: string
+): CollectionReference<ImmutableUserDoc> =>
+  getSubCollectionRef(publicCollection, uid, immutableCollection);
+export const getImmutableDocRef = (
+  uid: string
+): DocumentReference<ImmutableUserDoc> =>
+  doc(getImmutableCollectionRef(uid), uid);
 
 export const createUser = async (
   user: User,

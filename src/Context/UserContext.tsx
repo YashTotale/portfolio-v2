@@ -14,10 +14,10 @@ import { onAuthStateChanged, User } from "firebase/auth";
 import { getDocRef } from "../Controllers/helpers/firestore";
 import {
   publicCollectionRef,
-  immutableCollectionRef,
+  getImmutableDocRef,
 } from "../Controllers/user.controller";
-import { ImmutableUserDoc, PublicUserDoc, WithId } from "../../types/firestore";
 import { auth } from "../Utils/Config/firebase";
+import { ImmutableUserDoc, PublicUserDoc, WithId } from "../../types/firestore";
 
 interface UserContextData {
   user: User | null;
@@ -60,7 +60,7 @@ export const UserProvider: FC = ({ children }) => {
 
   useEffect(() => {
     if (uid) {
-      const immutableDocRef = getDocRef(immutableCollectionRef, uid);
+      const immutableDocRef = getImmutableDocRef(uid);
 
       return onSnapshot(immutableDocRef, (snap) => {
         if (snap.exists()) {
