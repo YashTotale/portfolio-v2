@@ -8,22 +8,25 @@ import { UserDisplay } from "../../types/firestore";
 import { DeepPartial } from "../../types/general";
 import { DEFAULT_USER_DISPLAY } from "../Utils/constants";
 
-export enum PopupState {
+export enum PopupType {
   FORGOT_PASSWORD = "forgot_password",
   SIGN_IN_REQUIRED = "sign_in_required",
   DELETE_ACCOUNT = "delete_account",
+  EXPORT_DATA = "export_data",
   CLOSED = "none",
 }
 
 export interface DisplayState {
   isSidebarOpen: boolean;
-  popupState: PopupState;
+  popupType: PopupType;
+  popupState: any;
   userDisplay: UserDisplay;
 }
 
 export const initialDisplayState: DisplayState = {
   isSidebarOpen: false,
-  popupState: PopupState.CLOSED,
+  popupType: PopupType.CLOSED,
+  popupState: null,
   userDisplay: DEFAULT_USER_DISPLAY,
 };
 
@@ -37,10 +40,17 @@ const displaySlice = createSlice({
     }),
     changePopupState: (
       state,
-      action: PayloadAction<DisplayState["popupState"]>
+      action: PayloadAction<
+        DisplayState["popupType"] | { type: PopupType; state: any }
+      >
     ) => ({
       ...state,
-      popupState: action.payload,
+      popupType:
+        typeof action.payload !== "string"
+          ? action.payload.type
+          : action.payload,
+      popupState:
+        typeof action.payload !== "string" ? action.payload.state : null,
     }),
     updateUserDisplay: (
       state,
@@ -60,6 +70,9 @@ export const { toggleSidebar, changePopupState, updateUserDisplay } =
 export const getIsSidebarOpen = (
   state: RootState
 ): DisplayState["isSidebarOpen"] => state.display.isSidebarOpen;
+
+export const getPopupType = (state: RootState): DisplayState["popupType"] =>
+  state.display.popupType;
 
 export const getPopupState = (state: RootState): DisplayState["popupState"] =>
   state.display.popupState;

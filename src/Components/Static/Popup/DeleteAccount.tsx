@@ -4,7 +4,7 @@ import { useClosableSnackbar } from "../../../Hooks";
 
 // Redux Imports
 import { changePopupState } from "../../../Redux";
-import { PopupState } from "../../../Redux/display.slice";
+import { PopupType } from "../../../Redux/display.slice";
 import { useAppDispatch } from "../../../Store";
 
 // Firebase Imports
@@ -44,7 +44,7 @@ const DeleteAccount: FC = () => {
       enqueueSnackbar("Deleted Account", {
         variant: "success",
       });
-      dispatch(changePopupState(PopupState.CLOSED));
+      dispatch(changePopupState(PopupType.CLOSED));
     } catch (e: any) {
       const message = typeof e === "string" ? e : e.message;
       enqueueSnackbar(message || "An error occurred. Please try again.", {

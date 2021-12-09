@@ -3,7 +3,7 @@ import React, { FC } from "react";
 
 // Redux Imports
 import { changePopupState } from "../../../../../../Redux";
-import { PopupState } from "../../../../../../Redux/display.slice";
+import { PopupType } from "../../../../../../Redux/display.slice";
 import { useAppDispatch } from "../../../../../../Store";
 
 // Material UI Imports
@@ -27,7 +27,7 @@ const Delete: FC = () => {
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
   const onClick = async () => {
-    dispatch(changePopupState(PopupState.DELETE_ACCOUNT));
+    dispatch(changePopupState(PopupType.DELETE_ACCOUNT));
   };
 
   return (

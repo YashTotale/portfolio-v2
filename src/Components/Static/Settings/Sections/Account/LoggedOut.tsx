@@ -17,7 +17,7 @@ import { StyledFirebaseAuth } from "react-firebaseui";
 
 // Redux Imports
 import { changePopupState } from "../../../../../Redux";
-import { PopupState } from "../../../../../Redux/display.slice";
+import { PopupType } from "../../../../../Redux/display.slice";
 import { useAppDispatch } from "../../../../../Store";
 
 // Material UI Imports
@@ -248,7 +248,7 @@ const EmailPassword: FC = () => {
             component="button"
             type="button"
             onClick={() =>
-              dispatch(changePopupState(PopupState.FORGOT_PASSWORD))
+              dispatch(changePopupState(PopupType.FORGOT_PASSWORD))
             }
           >
             Forgot Password?

@@ -8,7 +8,7 @@ import { useBookLikesOnce } from "../../../../../Controllers/books.controller";
 
 // Redux Imports
 import { changePopupState } from "../../../../../Redux";
-import { PopupState } from "../../../../../Redux/display.slice";
+import { PopupType } from "../../../../../Redux/display.slice";
 import { useAppDispatch } from "../../../../../Store";
 
 // Material UI Imports
@@ -64,7 +64,7 @@ const Likes: FC<LikesProps> = (props) => {
         await addLike(user.uid);
       }
     } else {
-      dispatch(changePopupState(PopupState.SIGN_IN_REQUIRED));
+      dispatch(changePopupState(PopupType.SIGN_IN_REQUIRED));
     }
   };
 

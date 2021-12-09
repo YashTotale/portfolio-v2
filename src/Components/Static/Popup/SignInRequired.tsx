@@ -5,7 +5,7 @@ import { Paths } from "../NavController";
 
 // Redux Imports
 import { changePopupState } from "../../../Redux";
-import { PopupState } from "../../../Redux/display.slice";
+import { PopupType } from "../../../Redux/display.slice";
 import { useAppDispatch } from "../../../Store";
 
 // Material UI Imports
@@ -32,7 +32,7 @@ const SignInRequired: FC = () => {
         <Button
           variant="contained"
           component={Link}
-          onClick={() => dispatch(changePopupState(PopupState.CLOSED))}
+          onClick={() => dispatch(changePopupState(PopupType.CLOSED))}
           to={{
             pathname: Paths.Settings,
             hash: "#account",

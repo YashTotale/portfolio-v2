@@ -52,6 +52,8 @@
     "clsx": "^1.1.1",
     "contentful": "^8.3.2",
     "firebase": "^9.2.3",
+    "js-file-download": "^0.4.12",
+    "json2csv": "^5.0.6",
     "lodash.merge": "^4.6.2",
     "lodash.startcase": "^4.4.0",
     "lodash.throttle": "^4.1.1",
@@ -70,13 +72,15 @@
     "react-router-dom": "^5.2.0",
     "react-typist": "^2.0.5",
     "react-waypoint": "^10.1.0",
-    "redux-persist": "^6.0.0"
+    "redux-persist": "^6.0.0",
+    "yaml": "^1.10.2"
   },
   "devDependencies": {
     "@alex-drocks/react-snap-sitemap": "^0.3.0",
     "@contentful/rich-text-types": "^14.1.2",
     "@hack4impact/logger": "^4.0.2",
     "@types/dotenv-safe": "^8.1.1",
+    "@types/json2csv": "^5.0.3",
     "@types/lodash.isequal": "^4.5.5",
     "@types/lodash.merge": "^4.6.6",
     "@types/lodash.startcase": "^4.4.6",

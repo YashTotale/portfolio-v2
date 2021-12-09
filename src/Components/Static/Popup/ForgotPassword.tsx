@@ -9,7 +9,7 @@ import { auth } from "../../../Utils/Config/firebase";
 
 // Redux Imports
 import { changePopupState } from "../../../Redux";
-import { PopupState } from "../../../Redux/display.slice";
+import { PopupType } from "../../../Redux/display.slice";
 import { useAppDispatch } from "../../../Store";
 
 // Material UI Imports
@@ -62,7 +62,7 @@ const ForgotPassword: FC = () => {
       enqueueSnackbar(`Password recovery email sent to ${inputs.email}`, {
         variant: "success",
       });
-      dispatch(changePopupState(PopupState.CLOSED));
+      dispatch(changePopupState(PopupType.CLOSED));
     } catch (e: any) {
       const message = typeof e === "string" ? e : e.message;
       enqueueSnackbar(message || "An error occurred. Please try again.", {

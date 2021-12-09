@@ -9,7 +9,7 @@
     "watch": "tsc --watch",
     "preserve": "npm run compile",
     "start": "npm run compile && firebase functions:shell",
-    "deploy": "firebase --debug deploy --only functions",
+    "deploy": "firebase deploy --only functions",
     "logs": "firebase functions:log"
   },
   "engines": {

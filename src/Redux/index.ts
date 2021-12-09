@@ -7,6 +7,7 @@ export {
   default as displaySlice,
   // -> Selectors
   getIsSidebarOpen,
+  getPopupType,
   getPopupState,
   getUserDisplay,
   // -> Actions

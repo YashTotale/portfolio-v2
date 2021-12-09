@@ -20,6 +20,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "center",
     alignItems: "center",
     width: "100%",
+    position: "relative",
     padding: theme.spacing(2, 1, 0.5),
   },
   icon: {
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme) => ({
 interface SubsectionProps {
   title: string | JSX.Element;
   icon: JSX.Element;
+  rightAction?: JSX.Element;
   className?: string;
 }
 
@@ -66,6 +68,7 @@ const Subsection: FC<SubsectionProps> = (props) => {
         >
           {props.title}
         </Typography>
+        {props.rightAction}
       </div>
       <div className={classes.children}>{props.children}</div>
       <HorizontalDivider />
