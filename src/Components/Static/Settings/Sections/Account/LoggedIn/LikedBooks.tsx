@@ -1,16 +1,22 @@
 // React Imports
-import React, { FC } from "react";
+import React, { FC, forwardRef, useEffect, useState } from "react";
+import { TransitionGroup } from "react-transition-group";
 import { ProfileProps } from "./index";
 import Subsection from "../../../Subsection";
 import { Paths } from "../../../../NavController";
 import Mini from "../../../../../Content/Book/Mini";
+import { useClosableSnackbar } from "../../../../../../Hooks";
 import StyledLink from "../../../../../Atomic/StyledLink";
 import ResponsiveIcon from "../../../../../Atomic/Icon/Responsive";
 import { getRawBook } from "../../../../../../Utils/Content/books";
 import { Book } from "../../../../../../Utils/types";
 
 // Firebase Imports
-import { useBooksLikedByUserOnce } from "../../../../../../Controllers/books.controller";
+import {
+  removeBookLike,
+  useBooksLikedByUserOnce,
+} from "../../../../../../Controllers/books.controller";
+import { BookDoc, WithId } from "../../../../../../../types/firestore";
 
 // Redux Imports
 import { changePopupState } from "../../../../../../Redux";
@@ -18,8 +24,8 @@ import { PopupType } from "../../../../../../Redux/display.slice";
 import { useAppDispatch } from "../../../../../../Store";
 
 // Material UI Imports
-import { Tooltip, Typography } from "@mui/material";
-import { Book as BookIcon, Download } from "@mui/icons-material";
+import { Grow, IconButton, Theme, Tooltip, Typography } from "@mui/material";
+import { Book as BookIcon, CancelSharp, Download } from "@mui/icons-material";
 import makeStyles from "@mui/styles/makeStyles";
 
 const useStyles = makeStyles((theme) => ({
@@ -34,6 +40,10 @@ const useStyles = makeStyles((theme) => ({
       marginLeft: theme.spacing(-1),
     },
   },
+  collapse: {
+    display: "flex",
+    alignItems: "stretch",
+  },
   noneLiked: {
     margin: theme.spacing(1),
     marginLeft: 0,
@@ -42,7 +52,25 @@ const useStyles = makeStyles((theme) => ({
 
 const LikedBooks: FC<ProfileProps> = (props) => {
   const classes = useStyles();
-  const likedBooks = useBooksLikedByUserOnce(props.user.uid);
+  const { enqueueSnackbar } = useClosableSnackbar();
+  const savedLikedBooks = useBooksLikedByUserOnce(props.user.uid);
+  const [likedBooks, setLikedBooks] = useState<WithId<BookDoc>[]>([]);
+
+  useEffect(() => {
+    setLikedBooks(savedLikedBooks);
+  }, [savedLikedBooks]);
+
+  const removeLike = async (bookId: string) => {
+    try {
+      await removeBookLike(bookId, props.user.uid);
+      setLikedBooks(likedBooks.filter((book) => book.id !== bookId));
+    } catch (e) {
+      const message = typeof e === "string" ? e : e.message;
+      enqueueSnackbar(message || "An error occurred. Please try again.", {
+        variant: "error",
+      });
+    }
+  };
 
   return (
     <Subsection
@@ -55,11 +83,13 @@ const LikedBooks: FC<ProfileProps> = (props) => {
       }
     >
       {likedBooks.length ? (
-        <div className={classes.container}>
+        <TransitionGroup className={classes.container}>
           {likedBooks.map((book) => (
-            <Mini key={book.id} id={book.id} />
+            <Grow key={book.id}>
+              <LikedBook book={book} removeLike={() => removeLike(book.id)} />
+            </Grow>
           ))}
-        </div>
+        </TransitionGroup>
       ) : (
         <Typography className={classes.noneLiked}>
           You have not liked any books yet.{" "}
@@ -69,6 +99,70 @@ const LikedBooks: FC<ProfileProps> = (props) => {
     </Subsection>
   );
 };
+
+interface StyleProps {
+  hover: boolean;
+}
+
+const useLikedBookStyles = makeStyles<Theme, StyleProps>((theme) => ({
+  container: {
+    display: "flex",
+    alignItems: "stretch",
+    position: "relative",
+    margin: theme.spacing(1.5),
+
+    [theme.breakpoints.only("xs")]: {
+      margin: theme.spacing(1),
+    },
+  },
+  remove: {
+    visibility: ({ hover }) => (hover ? "visible" : "hidden"),
+    opacity: ({ hover }) => (hover ? 1 : 0),
+    transition: theme.transitions.create(["visibility", "opacity"], {
+      duration: "0.2s",
+    }),
+    zIndex: 100,
+    right: -12,
+    top: -12,
+    backgroundColor: theme.palette.background.default,
+    position: "absolute",
+    padding: 0,
+
+    "&:hover": {
+      backgroundColor: theme.palette.background.default,
+    },
+  },
+}));
+
+interface LikedBookProps {
+  book: WithId<BookDoc>;
+  removeLike: () => void;
+}
+
+const LikedBook = forwardRef<HTMLDivElement, LikedBookProps>(
+  ({ book, removeLike }, ref) => {
+    const [hover, setHover] = useState(false);
+    const classes = useLikedBookStyles({ hover });
+
+    return (
+      <div
+        onMouseOver={() => setHover(true)}
+        onMouseLeave={() => setHover(false)}
+        ref={ref}
+        className={classes.container}
+      >
+        <IconButton
+          size="small"
+          onClick={removeLike}
+          className={classes.remove}
+        >
+          <CancelSharp />
+        </IconButton>
+        <Mini id={book.id} />
+      </div>
+    );
+  }
+);
 
 interface ExportProps {
   likedBooks: string[];

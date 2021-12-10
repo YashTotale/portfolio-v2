@@ -13,12 +13,10 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     alignItems: "center",
     position: "relative",
-    margin: theme.spacing(1.5),
     width: 120,
 
     [theme.breakpoints.only("xs")]: {
       width: 100,
-      margin: theme.spacing(1),
     },
   },
   image: {
