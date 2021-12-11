@@ -105,6 +105,7 @@ const Certification: FC = () => {
               label: "Provider",
               values: allProviders,
               value: providerFilter,
+              overrideDefaultLabel: true,
               onChange: (
                 values: Parameters<typeof setCertificationProviderFilter>[0]
               ) => dispatch(setCertificationProviderFilter(values)),

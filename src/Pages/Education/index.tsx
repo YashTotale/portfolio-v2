@@ -103,6 +103,7 @@ const Education: FC = () => {
               label: "Type",
               values: allTypes,
               value: typeFilter,
+              overrideDefaultLabel: true,
               onChange: (
                 values: Parameters<typeof setEducationTypeFilter>[0]
               ) => dispatch(setEducationTypeFilter(values)),
@@ -111,6 +112,7 @@ const Education: FC = () => {
               label: "Provider",
               values: allProviders,
               value: providerFilter,
+              overrideDefaultLabel: true,
               onChange: (
                 values: Parameters<typeof setEducationProviderFilter>[0]
               ) => dispatch(setEducationProviderFilter(values)),

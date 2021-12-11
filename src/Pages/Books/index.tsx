@@ -129,6 +129,7 @@ const Books: FC = () => {
               label: "Author",
               values: authors,
               value: authorFilter,
+              overrideDefaultLabel: true,
               onChange: (value: Parameters<typeof setBooksAuthorFilter>[0]) =>
                 dispatch(setBooksAuthorFilter(value)),
             },
@@ -143,9 +144,9 @@ const Books: FC = () => {
               label: "Year Read",
               values: yearsRead,
               value: yearFilter,
+              overrideDefaultLabel: true,
               onChange: (value: Parameters<typeof setBooksYearFilter>[0]) =>
                 dispatch(setBooksYearFilter(value)),
-              overrideDefaultLabel: true,
             },
           ]}
         />

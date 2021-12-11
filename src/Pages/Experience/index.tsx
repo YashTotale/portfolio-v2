@@ -103,6 +103,7 @@ const Experience: FC = () => {
               label: "Type",
               values: allTypes,
               value: typeFilter,
+              overrideDefaultLabel: true,
               onChange: (
                 values: Parameters<typeof setExperienceTypeFilter>[0]
               ) => dispatch(setExperienceTypeFilter(values)),

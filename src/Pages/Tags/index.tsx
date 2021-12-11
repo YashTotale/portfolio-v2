@@ -115,6 +115,7 @@ const Tags: FC = () => {
               label: "Categories",
               values: allCategories,
               value: categoryFilter,
+              overrideDefaultLabel: true,
               onChange: (values: Parameters<typeof setTagsCategoryFilter>[0]) =>
                 dispatch(setTagsCategoryFilter(values)),
             },
