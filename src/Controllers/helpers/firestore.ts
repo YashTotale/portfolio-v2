@@ -43,40 +43,26 @@ export const getDocData = async <T extends Schema[Collections]>(
   collection: CollectionReference<T>,
   id: string
 ): Promise<T | null> => {
-  const docRef = getDocRef(collection, id);
-  const doc = await getFirestoreDoc(docRef);
+  const doc = await getDoc(collection, id);
   if (doc.exists()) {
     return doc.data() ?? null;
   }
   return null;
 };
 
-export const useDocFieldOnce = <
+export const getDocField = async <
   T extends Schema[Collections],
   K extends keyof T
 >(
   collection: CollectionReference<T>,
   id: string,
   field: K
-): [T[K] | null, Dispatch<SetStateAction<T[K] | null>>] => {
-  const [data, setData] = useState<T[K] | null>(null);
-
-  useEffect(() => {
-    let isMounted = true;
-
-    (async () => {
-      const doc = await getDocData(collection, id);
-      if (isMounted) {
-        setData(doc?.[field] ?? null);
-      }
-    })();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [collection, id, field]);
-
-  return [data, setData];
+): Promise<T[K] | null> => {
+  const doc = await getDoc(collection, id);
+  if (doc.exists()) {
+    return doc.get(field as string) ?? null;
+  }
+  return null;
 };
 
 export const useDocDataOnce = <T extends Schema[Collections]>(
@@ -99,6 +85,34 @@ export const useDocDataOnce = <T extends Schema[Collections]>(
       isMounted = false;
     };
   }, [collection, id]);
+
+  return [data, setData];
+};
+
+export const useDocFieldOnce = <
+  T extends Schema[Collections],
+  K extends keyof T
+>(
+  collection: CollectionReference<T>,
+  id: string,
+  field: K
+): [T[K] | null, Dispatch<SetStateAction<T[K] | null>>] => {
+  const [data, setData] = useState<T[K] | null>(null);
+
+  useEffect(() => {
+    let isMounted = true;
+
+    (async () => {
+      const value = await getDocField(collection, id, field);
+      if (isMounted) {
+        setData(value ?? null);
+      }
+    })();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [collection, id, field]);
 
   return [data, setData];
 };

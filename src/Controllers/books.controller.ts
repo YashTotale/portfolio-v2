@@ -1,8 +1,11 @@
-// React Imports
-import { useMemo } from "react";
-
 // Firebase Imports
-import { arrayRemove, arrayUnion, query, where } from "firebase/firestore";
+import {
+  arrayRemove,
+  arrayUnion,
+  Query,
+  query,
+  where,
+} from "firebase/firestore";
 import {
   getCollectionRef,
   updateDoc,
@@ -52,11 +55,15 @@ export const useBookLikesOnce = (
   return [likes, addLike, removeLike];
 };
 
-export const useBooksLikedByUserOnce = (userId: string): WithId<BookDoc>[] => {
-  const q = useMemo(
-    () => query(booksCollectionRef, where("likes", "array-contains", userId)),
-    [userId]
-  );
+const userBooksQueryCache: Record<string, Query<BookDoc>> = {};
 
+export const useBooksLikedByUserOnce = (userId: string): WithId<BookDoc>[] => {
+  if (!userBooksQueryCache[userId]) {
+    userBooksQueryCache[userId] = query(
+      booksCollectionRef,
+      where("likes", "array-contains", userId)
+    );
+  }
+  const q = userBooksQueryCache[userId];
   return useCollectionQueryOnce(q);
 };
