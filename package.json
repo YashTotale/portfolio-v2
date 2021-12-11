@@ -20,7 +20,7 @@
     "make": "bash ./scripts/make.sh",
     "build": "react-scripts build --stats",
     "eject": "react-scripts eject",
-    "emulate": "firebase emulators:start",
+    "emulate": "firebase emulators:start --import=./firebase-export --export-on-exit",
     "start": "NODE_ENV=development react-scripts start",
     "test": "react-scripts test --passWithNoTests",
     "analyze": "bash ./scripts/analyze.sh",

@@ -19,9 +19,6 @@ export const config = {
 
 export const firebaseApp = initializeApp(config);
 
-// Do not commit with 'isEmulator = true'!
-export const isEmulator = true;
-
 export const performance = getPerformance(firebaseApp);
 export const auth = getAuth(firebaseApp);
 export const firestore = getFirestore(firebaseApp);
@@ -29,9 +26,14 @@ export const functions = getFunctions(firebaseApp);
 export const storage = getStorage(firebaseApp);
 export const analytics = getAnalytics(firebaseApp);
 
-if (isEmulator && process.env.NODE_ENV !== "production") {
-  connectFunctionsEmulator(functions, "localhost", 5001);
-  connectFirestoreEmulator(firestore, "localhost", 8080);
-  connectAuthEmulator(auth, "http://localhost:9099");
-  connectStorageEmulator(storage, "localhost", 9199);
-}
+export const useEmulator = (): void => {
+  if (process.env.NODE_ENV !== "production") {
+    connectFunctionsEmulator(functions, "localhost", 5001);
+    connectFirestoreEmulator(firestore, "localhost", 8080);
+    connectAuthEmulator(auth, "http://localhost:9099");
+    connectStorageEmulator(storage, "localhost", 9199);
+  }
+};
+
+// Do not commit with the line below uncommented. It has an error on purpose to fail CI/CD.
+// useEmulator();

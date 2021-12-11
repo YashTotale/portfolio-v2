@@ -74,7 +74,7 @@
      npm run emulate
      ```
 
-   - Set `isEmulator` to `true` in the [Firebase config file](src/Utils/Config/firebase.ts).
+   - Uncomment the `useEmulator()` call in the [Firebase config file](src/Utils/Config/firebase.ts).
 
    - To edit Cloud Functions, refer to the [functions](functions) directory for steps.
 

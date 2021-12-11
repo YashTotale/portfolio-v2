@@ -16,6 +16,7 @@
 # misc
 /src/Data
 /scripts/books/data
+/firebase-export
 
 .DS_Store
 .env
