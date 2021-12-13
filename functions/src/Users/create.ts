@@ -2,21 +2,23 @@
 import Joi from "joi";
 
 // Internal Imports
-import { onCall } from "./helpers/functions";
-import { db } from "./helpers/admin";
+import { onCall } from "../helpers/functions";
+import { db } from "../helpers/admin";
 import {
   PublicUserDoc,
   ImmutableUserDoc,
   UserDisplay,
   UserTheme,
   UserColor,
-} from "../../types/firestore";
+} from "../../../types/firestore";
 import {
   COLORS,
   DIRECTIONS,
+  ROOT_COLLECTION,
+  IMMUTABLE_SUBCOLLECTION,
   SHADES,
   SPACINGS,
-} from "./helpers/users/constants";
+} from "../helpers/users/constants";
 
 type CreateUserData = PublicUserDoc & ImmutableUserDoc;
 
@@ -74,14 +76,14 @@ const createUser = onCall<CreateUserData>({
     };
 
     const ref = db
-      .collection("users")
+      .collection(ROOT_COLLECTION)
       .doc(
         context.auth.uid
       ) as FirebaseFirestore.DocumentReference<PublicUserDoc>;
     await ref.create(publicData);
 
     const immutableRef = ref
-      .collection("immutable")
+      .collection(IMMUTABLE_SUBCOLLECTION)
       .doc(
         context.auth.uid
       ) as FirebaseFirestore.DocumentReference<ImmutableUserDoc>;

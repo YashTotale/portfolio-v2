@@ -2,8 +2,8 @@
 import { Output } from "@hack4impact/logger";
 
 // Internal Imports
-import { onCall } from "./helpers/functions";
-import DeleteUser from "./helpers/users/delete";
+import { onCall } from "../helpers/functions";
+import DeleteUser from "../helpers/users/delete";
 
 const deleteUser = onCall({
   name: "Delete User",

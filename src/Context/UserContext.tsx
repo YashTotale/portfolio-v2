@@ -11,10 +11,9 @@ import { Nullable } from "../../types/general";
 // Firebase Imports
 import { onSnapshot } from "firebase/firestore";
 import { onAuthStateChanged, User } from "firebase/auth";
-import { getDocRef } from "../Controllers/helpers/firestore";
 import {
-  publicCollectionRef,
   getImmutableDocRef,
+  getPublicDocRef,
 } from "../Controllers/user.controller";
 import { auth } from "../Utils/Config/firebase";
 import { ImmutableUserDoc, PublicUserDoc, WithId } from "../../types/firestore";
@@ -44,7 +43,8 @@ export const UserProvider: FC = ({ children }) => {
 
   useEffect(() => {
     if (uid) {
-      const publicDocRef = getDocRef(publicCollectionRef, uid);
+      const publicDocRef = getPublicDocRef(uid);
+
       return onSnapshot(publicDocRef, (snap) => {
         if (snap.exists()) {
           const data = snap.data();

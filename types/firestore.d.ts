@@ -2,13 +2,6 @@ export type WithId<T> = T & {
   id: string;
 };
 
-export interface Schema {
-  users: PublicUserDoc;
-  books: BookDoc;
-}
-
-export type Collections = keyof Schema;
-
 export type Spacing = "6" | "8" | "10";
 export type Direction = "ltr" | "rtl";
 export type ColorScheme = "primary" | "secondary";

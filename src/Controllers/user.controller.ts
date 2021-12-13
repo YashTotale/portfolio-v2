@@ -6,11 +6,7 @@ import {
   doc,
   DocumentReference,
 } from "firebase/firestore";
-import {
-  getCollectionRef,
-  getSubCollectionRef,
-  updateDoc,
-} from "./helpers/firestore";
+import { getCollection, updateDoc } from "./helpers/firestore";
 import { uploadFile } from "./helpers/storage";
 import { httpsCallable } from "./helpers/functions";
 import {
@@ -20,13 +16,17 @@ import {
 } from "../../types/firestore";
 
 const publicCollection = "users" as const;
-export const publicCollectionRef = getCollectionRef(publicCollection);
+export const publicCollectionRef =
+  getCollection<PublicUserDoc>(publicCollection);
+export const getPublicDocRef = (
+  uid: string
+): DocumentReference<PublicUserDoc> => doc(publicCollectionRef, uid);
 
 const immutableCollection = "immutable" as const;
 export const getImmutableCollectionRef = (
   uid: string
 ): CollectionReference<ImmutableUserDoc> =>
-  getSubCollectionRef(publicCollection, uid, immutableCollection);
+  getCollection(publicCollection, uid, immutableCollection);
 export const getImmutableDocRef = (
   uid: string
 ): DocumentReference<ImmutableUserDoc> =>

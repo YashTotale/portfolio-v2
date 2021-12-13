@@ -7,7 +7,7 @@ import {
   where,
 } from "firebase/firestore";
 import {
-  getCollectionRef,
+  getCollection,
   updateDoc,
   updateOrCreateDoc,
   useCollectionQueryOnce,
@@ -16,7 +16,7 @@ import {
 import { BookDoc, WithId } from "../../types/firestore";
 
 export const booksCollection = "books" as const;
-export const booksCollectionRef = getCollectionRef(booksCollection);
+export const booksCollectionRef = getCollection<BookDoc>(booksCollection);
 
 export const removeBookLike = (bookId: string, userId: string): Promise<void> =>
   updateDoc(booksCollectionRef, bookId, {

@@ -3,6 +3,7 @@ import { FieldValue } from "firebase-admin/firestore";
 import { Output } from "@hack4impact/logger";
 
 // Internal Imports
+import { IMMUTABLE_SUBCOLLECTION, ROOT_COLLECTION } from "./constants";
 import { auth, bucket, db } from "../admin";
 import { deleteCollection } from "../firestore";
 
@@ -44,7 +45,7 @@ class DeleteUser {
     const nested = this.output.nested();
 
     nested.log(`Deleting doc in 'users' collection...`);
-    const ref = db.collection("users").doc(this.id);
+    const ref = db.collection(ROOT_COLLECTION).doc(this.id);
     const doc = await ref.get();
 
     if (!doc.exists) {
@@ -58,10 +59,10 @@ class DeleteUser {
     if (!this.dryRun) await ref.delete();
     nested.coloredLog("FgGreen", `Deleted doc in 'users' collection!`);
 
-    nested.log(`Deleting 'immutable' collection...`);
-    const immutableRef = ref.collection("immutable");
+    nested.log(`Deleting 'immutable' subcollection...`);
+    const immutableRef = ref.collection(IMMUTABLE_SUBCOLLECTION);
     if (!this.dryRun) await deleteCollection(immutableRef);
-    nested.coloredLog("FgGreen", `Deleted 'immutable' collection!`);
+    nested.coloredLog("FgGreen", `Deleted 'immutable' subcollection!`);
   }
 
   private async deleteStorage() {

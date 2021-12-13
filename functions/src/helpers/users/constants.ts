@@ -1,6 +1,9 @@
 // Internal Imports
 import { Spacing, Direction, Color, Shade } from "../../../../types/firestore";
 
+export const ROOT_COLLECTION = "users" as const;
+export const IMMUTABLE_SUBCOLLECTION = "immutable" as const;
+
 const SPACINGS_OBJ: Record<Spacing, null> = {
   "6": null,
   "8": null,
