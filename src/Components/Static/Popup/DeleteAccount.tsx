@@ -21,6 +21,7 @@ import {
   DialogTitle,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
+import { useUser } from "../../../Context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   spinner: {
@@ -33,13 +34,19 @@ const DeleteAccount: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const { enqueueSnackbar } = useClosableSnackbar();
+  const user = useUser();
   const [loading, setLoading] = useState(false);
+
+  if (!user) {
+    dispatch(changePopupState(PopupType.CLOSED));
+    return null;
+  }
 
   const onDelete = async () => {
     setLoading(true);
 
     try {
-      await deleteUser();
+      await deleteUser(user.uid);
       await signOut(auth);
       enqueueSnackbar("Deleted Account", {
         variant: "success",

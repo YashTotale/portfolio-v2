@@ -50,16 +50,14 @@ export interface UserDisplay {
   theme: UserTheme;
 }
 
-export interface PublicUserDoc {
+export interface UserDoc {
+  email: string;
   name: string;
   picture: string;
   display: UserDisplay;
-}
-
-export interface ImmutableUserDoc {
-  email: string;
+  likedBooks: string[];
 }
 
 export interface BookDoc {
-  likes: string[];
+  numLikes: number;
 }

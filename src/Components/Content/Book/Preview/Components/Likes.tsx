@@ -1,9 +1,14 @@
 // React Imports
-import React, { FC, useEffect, useState } from "react";
+import React, { FC } from "react";
+import { useClosableSnackbar } from "../../../../../Hooks";
 import { Book } from "../../../../../Utils/types";
 
 // Firebase Imports
-import { useUser } from "../../../../../Context/UserContext";
+import { useUserData } from "../../../../../Context/UserContext";
+import {
+  addLikedBook,
+  removeLikedBook,
+} from "../../../../../Controllers/user.controller";
 import { useBookLikesOnce } from "../../../../../Controllers/books.controller";
 
 // Redux Imports
@@ -41,27 +46,29 @@ type LikesProps = Book;
 const Likes: FC<LikesProps> = (props) => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
+  const { enqueueSnackbar } = useClosableSnackbar();
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
 
-  const user = useUser();
-  const [likes, addLike, removeLike] = useBookLikesOnce(props.id);
-  const [isLiked, setIsLiked] = useState(likes.includes(user?.uid as string));
-
-  useEffect(() => {
-    if (user?.uid) {
-      setIsLiked(likes.includes(user?.uid as string));
-    } else {
-      setIsLiked(false);
-    }
-  }, [likes, user?.uid]);
+  const user = useUserData();
+  const [numLikes, addLike, removeLike] = useBookLikesOnce(props.id);
+  const isLiked = user?.likedBooks.includes(props.id);
 
   const onClick = async () => {
     if (user) {
-      if (isLiked) {
-        await removeLike(user.uid);
-      } else {
-        await addLike(user.uid);
+      try {
+        if (isLiked) {
+          await removeLikedBook(user.id, props.id);
+          removeLike();
+        } else {
+          await addLikedBook(user.id, props.id);
+          addLike();
+        }
+      } catch (e) {
+        const message = typeof e === "string" ? e : e.message;
+        enqueueSnackbar(message || "An error occurred. Please try again.", {
+          variant: "error",
+        });
       }
     } else {
       dispatch(changePopupState(PopupType.SIGN_IN_REQUIRED));
@@ -83,7 +90,7 @@ const Likes: FC<LikesProps> = (props) => {
         variant={isSizeXS ? "caption" : "body2"}
         color={(theme) => theme.palette.text.secondary}
       >
-        {likes.length}
+        {numLikes}
       </Typography>
     </div>
   );

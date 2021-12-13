@@ -1,63 +1,50 @@
-// Firebase Imports
+// External Imports
 import { User, updateProfile } from "firebase/auth";
-import { HttpsCallableResult } from "firebase/functions";
 import {
-  CollectionReference,
+  arrayRemove,
+  arrayUnion,
+  deleteDoc,
   doc,
   DocumentReference,
 } from "firebase/firestore";
-import { getCollection, updateDoc } from "./helpers/firestore";
+
+// Internal Imports
+import { createDoc, getCollection, updateDoc } from "./helpers/firestore";
 import { uploadFile } from "./helpers/storage";
-import { httpsCallable } from "./helpers/functions";
-import {
-  PublicUserDoc,
-  ImmutableUserDoc,
-  UserDisplay,
-} from "../../types/firestore";
+import { UserDoc, UserDisplay } from "../../types/firestore";
 
-const publicCollection = "users" as const;
-export const publicCollectionRef =
-  getCollection<PublicUserDoc>(publicCollection);
-export const getPublicDocRef = (
-  uid: string
-): DocumentReference<PublicUserDoc> => doc(publicCollectionRef, uid);
-
-const immutableCollection = "immutable" as const;
-export const getImmutableCollectionRef = (
-  uid: string
-): CollectionReference<ImmutableUserDoc> =>
-  getCollection(publicCollection, uid, immutableCollection);
-export const getImmutableDocRef = (
-  uid: string
-): DocumentReference<ImmutableUserDoc> =>
-  doc(getImmutableCollectionRef(uid), uid);
+const userCollection = "users" as const;
+export const userCollectionRef = getCollection<UserDoc>(userCollection);
+export const getUserDocRef = (uid: string): DocumentReference<UserDoc> =>
+  doc(userCollectionRef, uid);
 
 export const createUser = async (
   user: User,
-  display: PublicUserDoc["display"]
-): Promise<HttpsCallableResult> => {
-  const data: PublicUserDoc & ImmutableUserDoc = {
+  display: UserDoc["display"]
+): Promise<void> => {
+  const data: UserDoc = {
     name: user.displayName ?? "",
     email: user.email ?? "",
     picture: user.photoURL ?? "",
     display,
+    likedBooks: [],
   };
-  return await httpsCallable("createUser", data);
+  return await createDoc(userCollectionRef, data, user.uid);
 };
 
-export const deleteUser = (): Promise<HttpsCallableResult> =>
-  httpsCallable("deleteUser");
+export const deleteUser = async (uid: string): Promise<void> => {
+  const doc = getUserDocRef(uid);
+  return await deleteDoc(doc);
+};
 
 export const updateUserName = async (
   user: User,
   newName: string
 ): Promise<void> => {
-  await Promise.all([
-    updateDoc(publicCollectionRef, user.uid, { name: newName }),
-    updateProfile(user, {
-      displayName: newName,
-    }),
-  ]);
+  await updateDoc(userCollectionRef, user.uid, { name: newName });
+  await updateProfile(user, {
+    displayName: newName,
+  });
 };
 
 export const uploadUserPicture = async (
@@ -67,15 +54,19 @@ export const uploadUserPicture = async (
   const url = await uploadFile(file, {
     path: `users/${user.uid}/profile_pictures`,
   });
-  await Promise.all([
-    updateDoc(publicCollectionRef, user.uid, { picture: url }),
-    updateProfile(user, {
-      photoURL: url,
-    }),
-  ]);
+  await updateDoc(userCollectionRef, user.uid, { picture: url });
+  await updateProfile(user, {
+    photoURL: url,
+  });
 };
 
 export const updateUserDisplay = (
   uid: string,
   display: UserDisplay
-): Promise<void> => updateDoc(publicCollectionRef, uid, { display });
+): Promise<void> => updateDoc(userCollectionRef, uid, { display });
+
+export const addLikedBook = (uid: string, bookId: string): Promise<void> =>
+  updateDoc(userCollectionRef, uid, { likedBooks: arrayUnion(bookId) });
+
+export const removeLikedBook = (uid: string, bookId: string): Promise<void> =>
+  updateDoc(userCollectionRef, uid, { likedBooks: arrayRemove(bookId) });

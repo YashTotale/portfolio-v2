@@ -1,8 +1,21 @@
-// Internal Imports
-import { Spacing, Direction, Color, Shade } from "../../../../types/firestore";
+// External Imports
+import { CollectionReference } from "firebase-admin/firestore";
 
-export const ROOT_COLLECTION = "users" as const;
-export const IMMUTABLE_SUBCOLLECTION = "immutable" as const;
+// Internal Imports
+import { db } from "../admin";
+import {
+  Spacing,
+  Direction,
+  Color,
+  Shade,
+  UserDoc,
+} from "../../../../types/firestore";
+
+export const USER_COLLECTION = "users" as const;
+export const userCollection = db.collection(
+  USER_COLLECTION
+) as CollectionReference<UserDoc>;
+export const userDoc = (uid: string) => userCollection.doc(uid);
 
 const SPACINGS_OBJ: Record<Spacing, null> = {
   "6": null,

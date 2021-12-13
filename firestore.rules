@@ -5,12 +5,12 @@ service cloud.firestore {
       return request.auth.uid == uid;
     }
 
-    function isSignedIn() {
-      return request.auth != null;
-    }
-
     function getField(key) {
       return request.resource.data[key]
+    }
+
+    function checkUnchangedField(key) {
+      return getField(key) == resource.data[key];
     }
 
     function verifyFields(required, optional) {
@@ -38,22 +38,20 @@ service cloud.firestore {
       }
 
       allow read: if isOwner(docId);
-      allow update: if isOwner(docId) &&
-                       verifyFields(['name', 'picture', 'display'], []) &&
+      allow update, create: if isOwner(docId) &&
+                       verifyFields(['email', 'name', 'picture', 'display', 'likedBooks'], []) &&
+                       getField('email') is string &&
+                       (request.method != 'update' || checkUnchangedField('email')) && // If updating, email cannot change
                        getField('name') is string &&
                        getField('picture') is string &&
+                       getField('likedBooks') is list &&
+                       (request.method != 'create' || getField('likedBooks').size() == 0) && // If creating, no liked books allowed
                        checkDisplay();
-
-      match /immutable/{immutableId} {
-        allow read: if isOwner(docId);
-        allow update: if false;
-      }
+      allow delete: if isOwner(docId);
     }
 
     match /books/{docId} {
       allow read;
-      allow write: if isSignedIn();
-      allow delete: if false;
     }
   }
 }

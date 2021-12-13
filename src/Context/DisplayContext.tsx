@@ -14,7 +14,7 @@ import {
 import { useAppDispatch } from "../Store";
 
 // Firebase Imports
-import { usePublicUserData } from "./UserContext";
+import { useUserData } from "./UserContext";
 import { updateUserDisplay } from "../Controllers/user.controller";
 import { DeepPartial } from "../../types/general";
 import { UserDisplay } from "../../types/firestore";
@@ -33,7 +33,7 @@ const DisplayContext = createContext<Display>({
 
 export const DisplayProvider: FC = ({ children }) => {
   const dispatch = useAppDispatch();
-  const userData = usePublicUserData();
+  const userData = useUserData();
 
   const display = useSelector(getUserDisplay);
   const updateFirestoreUserDisplay = throttle(updateUserDisplay, 10000);

@@ -11,31 +11,23 @@ import { Nullable } from "../../types/general";
 // Firebase Imports
 import { onSnapshot } from "firebase/firestore";
 import { onAuthStateChanged, User } from "firebase/auth";
-import {
-  getImmutableDocRef,
-  getPublicDocRef,
-} from "../Controllers/user.controller";
+import { getUserDocRef } from "../Controllers/user.controller";
 import { auth } from "../Utils/Config/firebase";
-import { ImmutableUserDoc, PublicUserDoc, WithId } from "../../types/firestore";
+import { UserDoc, WithId } from "../../types/firestore";
 
 interface UserContextData {
   user: User | null;
-  publicData: PublicUserDoc | null;
-  immutableData: ImmutableUserDoc | null;
+  userData: UserDoc | null;
 }
 
 const UserContext = createContext<UserContextData>({
   user: null,
-  immutableData: null,
-  publicData: null,
+  userData: null,
 });
 
 export const UserProvider: FC = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
-  const [publicData, setPublicData] = useState<PublicUserDoc | null>(null);
-  const [immutableData, setImmutableData] = useState<ImmutableUserDoc | null>(
-    null
-  );
+  const [data, setData] = useState<UserDoc | null>(null);
 
   const uid = user?.uid;
 
@@ -43,35 +35,18 @@ export const UserProvider: FC = ({ children }) => {
 
   useEffect(() => {
     if (uid) {
-      const publicDocRef = getPublicDocRef(uid);
+      const userDocRef = getUserDocRef(uid);
 
-      return onSnapshot(publicDocRef, (snap) => {
+      return onSnapshot(userDocRef, (snap) => {
         if (snap.exists()) {
           const data = snap.data();
-          setPublicData(data);
+          setData(data);
         } else {
-          setPublicData(null);
+          setData(null);
         }
       });
     } else {
-      setPublicData(null);
-    }
-  }, [uid]);
-
-  useEffect(() => {
-    if (uid) {
-      const immutableDocRef = getImmutableDocRef(uid);
-
-      return onSnapshot(immutableDocRef, (snap) => {
-        if (snap.exists()) {
-          const data = snap.data();
-          setImmutableData(data);
-        } else {
-          setImmutableData(null);
-        }
-      });
-    } else {
-      setImmutableData(null);
+      setData(null);
     }
   }, [uid]);
 
@@ -79,8 +54,7 @@ export const UserProvider: FC = ({ children }) => {
     <UserContext.Provider
       value={{
         user,
-        publicData,
-        immutableData,
+        userData: data,
       }}
     >
       {children}
@@ -93,30 +67,13 @@ export const useUser = (): User | null => {
   return user;
 };
 
-export const useFirestoreUser = (): Nullable<
-  WithId<PublicUserDoc & ImmutableUserDoc>
-> => {
-  const { user, publicData, immutableData } = useContext(UserContext);
+export const useUserData = (): Nullable<WithId<UserDoc>> => {
+  const { user, userData } = useContext(UserContext);
 
-  if (!user || !publicData || !immutableData) return null;
+  if (!user || !userData) return null;
 
   return {
-    ...publicData,
-    ...immutableData,
+    ...userData,
     id: user.uid,
   };
 };
-
-export function usePublicUserData(): Nullable<WithId<PublicUserDoc>> {
-  const { publicData, user } = useContext(UserContext);
-
-  if (!user || !publicData) return null;
-  return { ...publicData, id: user.uid };
-}
-
-export function useImmutableUserData(): Nullable<WithId<ImmutableUserDoc>> {
-  const { immutableData, user } = useContext(UserContext);
-
-  if (!user || !immutableData) return null;
-  return { ...immutableData, id: user.uid };
-}

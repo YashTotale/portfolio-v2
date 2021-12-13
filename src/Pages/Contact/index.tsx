@@ -17,7 +17,7 @@ import { generatePageTitle } from "../../Utils/funcs";
 import { ContactData } from "../../../types/contact";
 
 // Firebase Imports
-import { useFirestoreUser } from "../../Context/UserContext";
+import { useUserData } from "../../Context/UserContext";
 import { sendContactEmail } from "../../Controllers/contact.controller";
 
 // Material UI Imports
@@ -82,7 +82,7 @@ interface Inputs {
 const Contact: FC = () => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
-  const userDoc = useFirestoreUser();
+  const userData = useUserData();
 
   const theme = useTheme();
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -90,8 +90,8 @@ const Contact: FC = () => {
   const { formState, control, handleSubmit, reset, getValues, setValue } =
     useForm<Inputs>({
       defaultValues: {
-        name: userDoc?.name,
-        email: userDoc?.email,
+        name: userData?.name,
+        email: userData?.email,
       },
     });
   const [loading, setLoading] = useState(false);
@@ -103,13 +103,13 @@ const Contact: FC = () => {
 
   useEffect(() => {
     const values = getValues();
-    if (!values.name && userDoc?.name) setValue("name", userDoc.name);
-  }, [userDoc?.name, getValues, setValue]);
+    if (!values.name && userData?.name) setValue("name", userData.name);
+  }, [userData?.name, getValues, setValue]);
 
   useEffect(() => {
     const values = getValues();
-    if (!values.email && userDoc?.email) setValue("email", userDoc.email);
-  }, [userDoc?.email, getValues, setValue]);
+    if (!values.email && userData?.email) setValue("email", userData.email);
+  }, [userData?.email, getValues, setValue]);
 
   const isError = !!Object.keys(formState.errors).length || recaptcha === null;
 
@@ -178,14 +178,14 @@ const Contact: FC = () => {
     <Tooltip
       title={
         <>
-          {userDoc ? "Pre-filled by your" : "Can be pre-filled by"}{" "}
+          {userData ? "Pre-filled by your" : "Can be pre-filled by"}{" "}
           <StyledLink
             to={{
               pathname: Paths.Settings,
               hash: "#account",
             }}
           >
-            {userDoc ? "account information" : "signing in"}
+            {userData ? "account information" : "signing in"}
           </StyledLink>
         </>
       }

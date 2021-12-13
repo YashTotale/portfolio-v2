@@ -1,5 +1,5 @@
 // React Imports
-import React, { FC, forwardRef, useEffect, useState } from "react";
+import React, { FC, forwardRef, useState } from "react";
 import { TransitionGroup } from "react-transition-group";
 import { ProfileProps } from "./index";
 import Subsection from "../../../Subsection";
@@ -12,11 +12,7 @@ import { getRawBook } from "../../../../../../Utils/Content/books";
 import { Book } from "../../../../../../Utils/types";
 
 // Firebase Imports
-import {
-  removeBookLike,
-  useBooksLikedByUserOnce,
-} from "../../../../../../Controllers/books.controller";
-import { BookDoc, WithId } from "../../../../../../../types/firestore";
+import { removeLikedBook } from "../../../../../../Controllers/user.controller";
 
 // Redux Imports
 import { changePopupState } from "../../../../../../Redux";
@@ -53,17 +49,11 @@ const useStyles = makeStyles((theme) => ({
 const LikedBooks: FC<ProfileProps> = (props) => {
   const classes = useStyles();
   const { enqueueSnackbar } = useClosableSnackbar();
-  const savedLikedBooks = useBooksLikedByUserOnce(props.user.uid);
-  const [likedBooks, setLikedBooks] = useState<WithId<BookDoc>[]>([]);
-
-  useEffect(() => {
-    setLikedBooks(savedLikedBooks);
-  }, [savedLikedBooks]);
+  const likedBooks = props.userDoc?.likedBooks ?? [];
 
   const removeLike = async (bookId: string) => {
     try {
-      await removeBookLike(bookId, props.user.uid);
-      setLikedBooks(likedBooks.filter((book) => book.id !== bookId));
+      await removeLikedBook(props.user.uid, bookId);
     } catch (e) {
       const message = typeof e === "string" ? e : e.message;
       enqueueSnackbar(message || "An error occurred. Please try again.", {
@@ -77,16 +67,14 @@ const LikedBooks: FC<ProfileProps> = (props) => {
       title={<StyledLink to={Paths.Books}>Liked Books</StyledLink>}
       icon={<BookIcon />}
       rightAction={
-        likedBooks.length ? (
-          <Export likedBooks={likedBooks.map((book) => book.id)} />
-        ) : undefined
+        likedBooks.length ? <Export likedBooks={likedBooks} /> : undefined
       }
     >
       {likedBooks.length ? (
         <TransitionGroup className={classes.container}>
           {likedBooks.map((book) => (
-            <Grow key={book.id}>
-              <LikedBook book={book} removeLike={() => removeLike(book.id)} />
+            <Grow key={book}>
+              <LikedBook book={book} removeLike={() => removeLike(book)} />
             </Grow>
           ))}
         </TransitionGroup>
@@ -109,7 +97,7 @@ const useLikedBookStyles = makeStyles<Theme, StyleProps>((theme) => ({
     display: "flex",
     alignItems: "stretch",
     position: "relative",
-    margin: theme.spacing(1.5),
+    margin: theme.spacing(1, 1.5),
 
     [theme.breakpoints.only("xs")]: {
       margin: theme.spacing(1),
@@ -135,34 +123,32 @@ const useLikedBookStyles = makeStyles<Theme, StyleProps>((theme) => ({
 }));
 
 interface LikedBookProps {
-  book: WithId<BookDoc>;
+  book: string;
   removeLike: () => void;
 }
 
-const LikedBook = forwardRef<HTMLDivElement, LikedBookProps>(
-  ({ book, removeLike }, ref) => {
-    const [hover, setHover] = useState(false);
-    const classes = useLikedBookStyles({ hover });
+const LikedBook = forwardRef<HTMLDivElement, LikedBookProps>((props, ref) => {
+  const [hover, setHover] = useState(false);
+  const classes = useLikedBookStyles({ hover });
 
-    return (
-      <div
-        onMouseOver={() => setHover(true)}
-        onMouseLeave={() => setHover(false)}
-        ref={ref}
-        className={classes.container}
+  return (
+    <div
+      onMouseOver={() => setHover(true)}
+      onMouseLeave={() => setHover(false)}
+      ref={ref}
+      className={classes.container}
+    >
+      <IconButton
+        size="small"
+        onClick={props.removeLike}
+        className={classes.remove}
       >
-        <IconButton
-          size="small"
-          onClick={removeLike}
-          className={classes.remove}
-        >
-          <CancelSharp />
-        </IconButton>
-        <Mini id={book.id} />
-      </div>
-    );
-  }
-);
+        <CancelSharp />
+      </IconButton>
+      <Mini id={props.book} />
+    </div>
+  );
+});
 
 interface ExportProps {
   likedBooks: string[];

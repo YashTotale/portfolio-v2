@@ -1,5 +1,7 @@
-// Firebase Imports
+// External Imports
 import { HttpsCallableResult } from "firebase/functions";
+
+// Internal Imports
 import { httpsCallable } from "./helpers/functions";
 import { ContactData } from "../../types/contact";
 

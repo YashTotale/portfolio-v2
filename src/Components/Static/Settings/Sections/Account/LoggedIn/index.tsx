@@ -9,7 +9,7 @@ import HorizontalDivider from "../../../../../Atomic/Divider/Horizontal";
 
 // Firebase Imports
 import { User } from "firebase/auth";
-import { useFirestoreUser } from "../../../../../../Context/UserContext";
+import { useUserData } from "../../../../../../Context/UserContext";
 
 // Material UI Imports
 import makeStyles from "@mui/styles/makeStyles";
@@ -37,12 +37,12 @@ interface LoggedInProps {
 }
 
 export interface ProfileProps extends LoggedInProps {
-  userDoc: ReturnType<typeof useFirestoreUser>;
+  userDoc: ReturnType<typeof useUserData>;
 }
 
 const LoggedIn: FC<LoggedInProps> = (props) => {
   const classes = useStyles();
-  const userDoc = useFirestoreUser();
+  const userDoc = useUserData();
 
   const profileProps = {
     ...props,
