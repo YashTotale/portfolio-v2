@@ -9,17 +9,43 @@ service cloud.firestore {
       return request.auth != null;
     }
 
+    function getField(key) {
+      return request.resource.data[key]
+    }
+
+    function verifyFields(required, optional) {
+      let allowed = required.concat(optional);
+      return request.resource.data.keys().hasAll(required) &&
+             request.resource.data.keys().hasOnly(allowed);
+    }
+
     match /{document=**} {
       allow read: if false;
       allow write: if false;
     }
 
     match /users/{docId} {
-      allow read: if true;
-      allow update: if isOwner(docId);
+      function checkDisplay() {
+        let display = getField('display');
+
+        return display.darkMode is bool &&
+               display.direction is string &&
+               display.spacing is string &&
+               display.theme.primary.color is string &&
+               display.theme.primary.shade is string &&
+               display.theme.secondary.color is string &&
+               display.theme.secondary.shade is string;
+      }
+
+      allow read: if isOwner(docId);
+      allow update: if isOwner(docId) &&
+                       verifyFields(['name', 'picture', 'display'], []) &&
+                       getField('name') is string &&
+                       getField('picture') is string &&
+                       checkDisplay();
 
       match /immutable/{immutableId} {
-        allow read: if true;
+        allow read: if isOwner(docId);
         allow update: if false;
       }
     }
