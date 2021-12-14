@@ -3,6 +3,7 @@ import React, { FC, useState } from "react";
 import clsx from "clsx";
 import { ProfileProps } from "./index";
 import { useClosableSnackbar } from "../../../../../../Hooks";
+import { enqueueError } from "../../../../../../Utils/funcs";
 
 // Firebase Imports
 import { uploadUserPicture } from "../../../../../../Controllers/user.controller";
@@ -71,10 +72,7 @@ const ProfilePicture: FC<ProfileProps> = (props) => {
         variant: "success",
       });
     } catch (e: any) {
-      const message = typeof e === "string" ? e : e.message;
-      enqueueSnackbar(message || "An error occurred. Please try again.", {
-        variant: "error",
-      });
+      enqueueError(e, enqueueSnackbar);
     } finally {
       setUploading(false);
     }

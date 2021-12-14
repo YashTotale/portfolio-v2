@@ -10,6 +10,7 @@ import StyledLink from "../../../../../Atomic/StyledLink";
 import ResponsiveIcon from "../../../../../Atomic/Icon/Responsive";
 import { getRawBook } from "../../../../../../Utils/Content/books";
 import { Book } from "../../../../../../Utils/types";
+import { enqueueError } from "../../../../../../Utils/funcs";
 
 // Firebase Imports
 import { removeLikedBook } from "../../../../../../Controllers/user.controller";
@@ -55,10 +56,7 @@ const LikedBooks: FC<ProfileProps> = (props) => {
     try {
       await removeLikedBook(props.user.uid, bookId);
     } catch (e) {
-      const message = typeof e === "string" ? e : e.message;
-      enqueueSnackbar(message || "An error occurred. Please try again.", {
-        variant: "error",
-      });
+      enqueueError(e, enqueueSnackbar);
     }
   };
 

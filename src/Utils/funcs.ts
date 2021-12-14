@@ -1,4 +1,8 @@
+// External Imports
 import moment from "moment";
+
+// Internal Imports
+import { EnqueueSnackbar } from "../Hooks/useClosableSnackbar";
 
 export const chunk = <T extends unknown>(arr: T[], size: number): T[][] => {
   const newArr = [];
@@ -104,5 +108,15 @@ export const scrollToTop = (behavior: ScrollBehavior = "smooth"): void => {
     top: 0,
     left: 0,
     behavior,
+  });
+};
+
+export const enqueueError = (
+  e: Error | string,
+  enqueueSnackbar: EnqueueSnackbar
+): void => {
+  const message = typeof e === "string" ? e : e.message;
+  enqueueSnackbar(message || "An error occurred. Please try again.", {
+    variant: "error",
   });
 };

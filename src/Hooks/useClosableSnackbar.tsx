@@ -15,11 +15,14 @@ import { Clear } from "@mui/icons-material";
 type NewOptions = OptionsObject & {
   onUndo?: () => void;
 };
+
+export type EnqueueSnackbar = (
+  message: SnackbarMessage,
+  options?: NewOptions
+) => SnackbarKey;
+
 interface NewProviderContext {
-  enqueueSnackbar: (
-    message: SnackbarMessage,
-    options?: NewOptions
-  ) => SnackbarKey;
+  enqueueSnackbar: EnqueueSnackbar;
   closeSnackbar: (key?: SnackbarKey) => void;
 }
 

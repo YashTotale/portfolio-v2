@@ -2,6 +2,7 @@
 import React, { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useClosableSnackbar } from "../../../../../Hooks";
+import { enqueueError } from "../../../../../Utils/funcs";
 
 // Firebase Imports
 import {
@@ -152,10 +153,7 @@ const EmailPassword: FC = () => {
         }
       }
     } catch (e: any) {
-      const message = typeof e === "string" ? e : e.message;
-      enqueueSnackbar(message || "An error occurred. Please try again.", {
-        variant: "error",
-      });
+      enqueueError(e, enqueueSnackbar);
     } finally {
       setLoading(false);
     }
@@ -181,6 +179,10 @@ const EmailPassword: FC = () => {
             fullWidth
             {...register("name", {
               required: "Name is required",
+              maxLength: {
+                value: 99,
+                message: "Name must be less than 100 characters long",
+              },
               shouldUnregister: true,
             })}
           />
@@ -201,6 +203,14 @@ const EmailPassword: FC = () => {
           fullWidth
           {...register("email", {
             required: "Email is required",
+            minLength: {
+              value: 4,
+              message: "Email must be at least 4 characters long",
+            },
+            maxLength: {
+              value: 253,
+              message: "Email must be less than 254 characters long",
+            },
           })}
         />
         <TextField
@@ -237,7 +247,7 @@ const EmailPassword: FC = () => {
               message: "Password must be at least 6 characters",
             },
             maxLength: {
-              value: 100,
+              value: 99,
               message: "Password must be less than 100 characters",
             },
             required: "Password is required",

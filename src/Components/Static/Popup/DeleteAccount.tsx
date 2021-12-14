@@ -1,6 +1,8 @@
 // React Imports
 import React, { FC, useState } from "react";
+import { useUser } from "../../../Context/UserContext";
 import { useClosableSnackbar } from "../../../Hooks";
+import { enqueueError } from "../../../Utils/funcs";
 
 // Redux Imports
 import { changePopupState } from "../../../Redux";
@@ -21,7 +23,6 @@ import {
   DialogTitle,
 } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import { useUser } from "../../../Context/UserContext";
 
 const useStyles = makeStyles((theme) => ({
   spinner: {
@@ -53,10 +54,7 @@ const DeleteAccount: FC = () => {
       });
       dispatch(changePopupState(PopupType.CLOSED));
     } catch (e: any) {
-      const message = typeof e === "string" ? e : e.message;
-      enqueueSnackbar(message || "An error occurred. Please try again.", {
-        variant: "error",
-      });
+      enqueueError(e, enqueueSnackbar);
     } finally {
       setLoading(false);
     }

@@ -3,6 +3,7 @@ import React, { FC, useEffect, useState } from "react";
 import clsx from "clsx";
 import { ProfileProps } from "./index";
 import { useClosableSnackbar } from "../../../../../../Hooks";
+import { enqueueError } from "../../../../../../Utils/funcs";
 
 // Firebase Imports
 import { updateUserName } from "../../../../../../Controllers/user.controller";
@@ -82,10 +83,7 @@ const Name: FC<ProfileProps> = (props) => {
       });
       setIsEditing(false);
     } catch (e: any) {
-      const message = typeof e === "string" ? e : e.message;
-      enqueueSnackbar(message || "An error occurred. Please try again.", {
-        variant: "error",
-      });
+      enqueueError(e, enqueueSnackbar);
     } finally {
       setIsSaving(false);
     }

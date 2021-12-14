@@ -25,6 +25,28 @@ service cloud.firestore {
     }
 
     match /users/{docId} {
+      function checkEmail() {
+        let email = getField('email');
+
+        return email is string &&
+               email.size() > 3 &&
+               email.size() < 254 &&
+               (request.method != 'update' || checkUnchangedField('email')) && // If updating doc, email cannot change
+      }
+
+      function checkName() {
+        let name = getField('name');
+
+        return name is string &&
+               name.size() < 100;
+      }
+
+      function checkLikedBooks() {
+        let likedBooks = getField('likedBooks')
+        return likedBooks is list &&
+               (request.method != 'create' || likedBooks.size() == 0) && // If creating doc, no liked books allowed
+      }
+
       function checkDisplay() {
         let display = getField('display');
 
@@ -40,12 +62,10 @@ service cloud.firestore {
       allow read: if isOwner(docId);
       allow update, create: if isOwner(docId) &&
                        verifyFields(['email', 'name', 'picture', 'display', 'likedBooks'], []) &&
-                       getField('email') is string &&
-                       (request.method != 'update' || checkUnchangedField('email')) && // If updating, email cannot change
-                       getField('name') is string &&
+                       checkEmail() &&
+                       checkName() &&
                        getField('picture') is string &&
-                       getField('likedBooks') is list &&
-                       (request.method != 'create' || getField('likedBooks').size() == 0) && // If creating, no liked books allowed
+                       checkLikedBooks() &&
                        checkDisplay();
       allow delete: if isOwner(docId);
     }

@@ -2,6 +2,7 @@
 import React, { FC, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useClosableSnackbar } from "../../../Hooks";
+import { enqueueError } from "../../../Utils/funcs";
 
 // Firebase Imports
 import { sendPasswordResetEmail } from "firebase/auth";
@@ -64,10 +65,7 @@ const ForgotPassword: FC = () => {
       });
       dispatch(changePopupState(PopupType.CLOSED));
     } catch (e: any) {
-      const message = typeof e === "string" ? e : e.message;
-      enqueueSnackbar(message || "An error occurred. Please try again.", {
-        variant: "error",
-      });
+      enqueueError(e, enqueueSnackbar);
     } finally {
       setLoading(false);
     }

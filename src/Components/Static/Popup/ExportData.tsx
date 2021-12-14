@@ -4,6 +4,7 @@ import { stringify } from "yaml";
 import { parse } from "json2csv";
 import fileDownload from "js-file-download";
 import { useClosableSnackbar } from "../../../Hooks";
+import { enqueueError } from "../../../Utils/funcs";
 
 // Redux Imports
 import { useSelector } from "react-redux";
@@ -92,10 +93,7 @@ const ExportData: FC = () => {
       });
       dispatch(changePopupState(PopupType.CLOSED));
     } catch (e: any) {
-      const message = typeof e === "string" ? e : e.message;
-      enqueueSnackbar(message || "An error occurred. Please try again.", {
-        variant: "error",
-      });
+      enqueueError(e, enqueueSnackbar);
     } finally {
       setLoading(false);
     }

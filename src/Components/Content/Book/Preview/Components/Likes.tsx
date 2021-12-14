@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import { useClosableSnackbar } from "../../../../../Hooks";
 import { Book } from "../../../../../Utils/types";
+import { enqueueError } from "../../../../../Utils/funcs";
 
 // Firebase Imports
 import { useUserData } from "../../../../../Context/UserContext";
@@ -65,10 +66,7 @@ const Likes: FC<LikesProps> = (props) => {
           addLike();
         }
       } catch (e) {
-        const message = typeof e === "string" ? e : e.message;
-        enqueueSnackbar(message || "An error occurred. Please try again.", {
-          variant: "error",
-        });
+        enqueueError(e, enqueueSnackbar);
       }
     } else {
       dispatch(changePopupState(PopupType.SIGN_IN_REQUIRED));
