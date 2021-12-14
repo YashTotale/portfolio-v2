@@ -2,8 +2,8 @@
 import { CollectionReference } from "firebase-admin/firestore";
 
 // Internal Imports
-import { db } from "../admin";
-import { BookDoc } from "../../../../types/firestore";
+import { db } from "./admin";
+import { BookDoc } from "../../../types/firestore";
 
 export const BOOKS_COLLECTION = "books" as const;
 export const booksCollection = db.collection(

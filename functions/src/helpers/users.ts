@@ -2,14 +2,14 @@
 import { CollectionReference } from "firebase-admin/firestore";
 
 // Internal Imports
-import { db } from "../admin";
+import { db } from "./admin";
 import {
   Spacing,
   Direction,
   Color,
   Shade,
   UserDoc,
-} from "../../../../types/firestore";
+} from "../../../types/firestore";
 
 export const USER_COLLECTION = "users" as const;
 export const userCollection = db.collection(

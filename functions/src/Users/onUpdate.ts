@@ -4,8 +4,8 @@ import { QueryDocumentSnapshot, FieldValue } from "firebase-admin/firestore";
 
 // Internal Imports
 import { db } from "../helpers/admin";
-import { USER_COLLECTION } from "../helpers/users/constants";
-import { bookDoc } from "../helpers/books/constants";
+import { USER_COLLECTION } from "../helpers/users";
+import { bookDoc } from "../helpers/books";
 import { UserDoc } from "../../../types/firestore";
 
 const updateBookLikes = async (before: UserDoc, after: UserDoc) => {

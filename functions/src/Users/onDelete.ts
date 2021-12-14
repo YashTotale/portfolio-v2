@@ -4,9 +4,9 @@ import { FieldValue } from "firebase-admin/firestore";
 
 // Internal Imports
 import { auth, bucket, db } from "../helpers/admin";
-import { USER_COLLECTION } from "../helpers/users/constants";
+import { USER_COLLECTION } from "../helpers/users";
 import { UserDoc } from "../../../types/firestore";
-import { bookDoc } from "../helpers/books/constants";
+import { bookDoc } from "../helpers/books";
 
 const deleteAuth = async (uid: string) => {
   await auth.deleteUser(uid);
