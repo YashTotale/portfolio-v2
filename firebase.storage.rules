@@ -10,7 +10,7 @@ service firebase.storage {
     }
 
     function isUnderMB(mb) {
-      return request.resource.size < mb * 1024 * 1024
+      return request.resource.size < mb * 1024 * 1024;
     }
 
     match /{allPaths=**} {
@@ -20,9 +20,9 @@ service firebase.storage {
     match /users/{userId} {
       match /profile_pictures/{fileId} {
          allow read: if true;
-         allow write: if isOwner(userId)
-                   && isImage()
-                   && isUnderMB(5);
+         allow write: if isOwner(userId) &&
+                         isImage() &&
+                         isUnderMB(5);
       }
     }
   }

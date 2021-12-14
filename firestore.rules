@@ -6,7 +6,7 @@ service cloud.firestore {
     }
 
     function getField(key) {
-      return request.resource.data[key]
+      return request.resource.data[key];
     }
 
     function checkUnchangedField(key) {
@@ -27,29 +27,26 @@ service cloud.firestore {
     match /users/{docId} {
       function checkEmail() {
         let email = getField('email');
-
         return email is string &&
                email.size() > 3 &&
                email.size() < 254 &&
-               (request.method != 'update' || checkUnchangedField('email')) && // If updating doc, email cannot change
+               (request.method != 'update' || checkUnchangedField('email')); // If updating doc, email cannot change
       }
 
       function checkName() {
         let name = getField('name');
-
         return name is string &&
                name.size() < 100;
       }
 
       function checkLikedBooks() {
-        let likedBooks = getField('likedBooks')
+        let likedBooks = getField('likedBooks');
         return likedBooks is list &&
-               (request.method != 'create' || likedBooks.size() == 0) && // If creating doc, no liked books allowed
+               (request.method != 'create' || likedBooks.size() == 0); // If creating doc, no liked books allowed
       }
 
       function checkDisplay() {
         let display = getField('display');
-
         return display.darkMode is bool &&
                display.direction is string &&
                display.spacing is string &&
@@ -61,12 +58,12 @@ service cloud.firestore {
 
       allow read: if isOwner(docId);
       allow update, create: if isOwner(docId) &&
-                       verifyFields(['email', 'name', 'picture', 'display', 'likedBooks'], []) &&
-                       checkEmail() &&
-                       checkName() &&
-                       getField('picture') is string &&
-                       checkLikedBooks() &&
-                       checkDisplay();
+                               verifyFields(['email', 'name', 'picture', 'display', 'likedBooks'], []) &&
+                               checkEmail() &&
+                               checkName() &&
+                               getField('picture') is string &&
+                               checkLikedBooks() &&
+                               checkDisplay();
       allow delete: if isOwner(docId);
     }
 

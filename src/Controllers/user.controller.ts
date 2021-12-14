@@ -1,5 +1,5 @@
 // External Imports
-import { User, updateProfile } from "firebase/auth";
+import { User } from "firebase/auth";
 import {
   arrayRemove,
   arrayUnion,
@@ -42,9 +42,6 @@ export const updateUserName = async (
   newName: string
 ): Promise<void> => {
   await updateDoc(userCollectionRef, user.uid, { name: newName });
-  await updateProfile(user, {
-    displayName: newName,
-  });
 };
 
 export const uploadUserPicture = async (
@@ -55,9 +52,6 @@ export const uploadUserPicture = async (
     path: `users/${user.uid}/profile_pictures`,
   });
   await updateDoc(userCollectionRef, user.uid, { picture: url });
-  await updateProfile(user, {
-    photoURL: url,
-  });
 };
 
 export const updateUserDisplay = (
