@@ -36,4 +36,4 @@ export const useEmulator = (): void => {
 };
 
 // Do not commit with the line below uncommented. It has an error on purpose to fail CI/CD.
-// useEmulator();
+useEmulator();
