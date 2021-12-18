@@ -10,11 +10,12 @@ import { useSelector } from "react-redux";
 import {
   getTourOpen,
   getTourSnackbarOpen,
+  toggleTourOpen,
   toggleTourSnackbarOpen,
 } from "../../Redux";
 
 // Material UI Imports
-import { Alert, Snackbar, useTheme } from "@mui/material";
+import { Alert, Button, Snackbar, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
 import { useAppDispatch } from "../../Store";
 
@@ -24,15 +25,12 @@ const Tour: FC = ({ children }) => {
 
   if (pathname !== Paths.Home) return <>{children}</>;
 
-  if (!open)
-    return (
-      <>
-        {children}
-        <TourSnackbar />
-      </>
-    );
-
-  return <TourProvider steps={[]}>{children}</TourProvider>;
+  return (
+    <TourProvider defaultOpen={open} steps={[]}>
+      {children}
+      <TourSnackbar />
+    </TourProvider>
+  );
 };
 
 const useSnackbarStyles = makeStyles((theme) => ({
@@ -44,25 +42,53 @@ const useSnackbarStyles = makeStyles((theme) => ({
       marginLeft: SIDEBAR_WIDTH,
     },
   },
+  alertMessage: {
+    padding: 0,
+  },
+  alertAction: {
+    padding: 0,
+    paddingLeft: 12,
+    alignItems: "center",
+  },
+  alertButton: {
+    textTransform: "none",
+  },
 }));
 
 const TourSnackbar: FC = () => {
   const classes = useSnackbarStyles();
   const dispatch = useAppDispatch();
   const theme = useTheme();
+
+  const tourOpen = useSelector(getTourOpen);
   const snackbarOpen = useSelector(getTourSnackbarOpen);
 
   const onClose = () => dispatch(toggleTourSnackbarOpen(false));
+  const onStart = () => {
+    dispatch(toggleTourSnackbarOpen(false));
+    dispatch(toggleTourOpen(true));
+  };
 
   return (
     <Snackbar
-      open={snackbarOpen}
+      open={!tourOpen && snackbarOpen}
       color={theme.palette.primary.main}
       anchorOrigin={{ horizontal: "center", vertical: "top" }}
       className={classes.snackbar}
     >
-      <Alert severity="info" onClose={onClose} className={classes.alert}>
-        Begin Tour!
+      <Alert
+        severity="info"
+        onClose={onClose}
+        classes={{ message: classes.alertMessage, action: classes.alertAction }}
+        className={classes.alert}
+      >
+        <Button
+          color="inherit"
+          className={classes.alertButton}
+          onClick={onStart}
+        >
+          Start Tour!
+        </Button>
       </Alert>
     </Snackbar>
   );

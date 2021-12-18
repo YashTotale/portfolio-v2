@@ -23,7 +23,7 @@ const tourSlice = createSlice({
   reducers: {
     toggleTourOpen: (state, action: PayloadAction<boolean | undefined>) => ({
       ...state,
-      tourOpen: action.payload ?? !state.snackbarOpen,
+      open: action.payload ?? !state.snackbarOpen,
     }),
     toggleTourSnackbarOpen: (
       state,
