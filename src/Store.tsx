@@ -62,7 +62,7 @@ const persistedReducer = persistReducer<State>(
     version: 1,
     storage,
     key: "root",
-    whitelist: ["display"],
+    whitelist: ["display", "tour"],
   },
   reducers
 );

@@ -11,6 +11,9 @@ import HorizontalDivider from "../../Components/Atomic/Divider/Horizontal";
 import { generatePageTitle } from "../../Utils/funcs";
 import { getDescription } from "../../Utils/Content/main";
 
+// Redux Imports
+import { DATA_TOUR, TourStep } from "../../Redux/tour.slice";
+
 // Material UI Imports
 import { Typography, useMediaQuery, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
@@ -79,6 +82,9 @@ const Home: FC = () => {
           variant={isSizeSmall ? "h4" : "h3"}
           align="center"
           className={classes.typer}
+          {...{
+            [DATA_TOUR]: TourStep.TYPER,
+          }}
         >
           Check out my <Typer />
         </Typography>

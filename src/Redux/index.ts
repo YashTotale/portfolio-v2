@@ -52,12 +52,9 @@ export {
   // -> Slice
   default as tourSlice,
   // -> Selectors
-  getTourOpen,
   getTourSnackbarOpen,
   // -> Actions
-  toggleTourOpen,
   toggleTourSnackbarOpen,
-  setTourStep,
   // -> Reducer
   tourReducer,
   // -> State

@@ -1,30 +1,24 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { RootState } from "../Store";
 
+export const DATA_TOUR = "data-tour" as const;
+
 export enum TourStep {
-  INTRO,
+  TYPER,
 }
 
 export interface TourState {
-  open: boolean;
   snackbarOpen: boolean;
-  step: TourStep;
 }
 
 export const initialTourState: TourState = {
-  open: false,
   snackbarOpen: true,
-  step: TourStep.INTRO,
 };
 
 const tourSlice = createSlice({
   name: "tour",
   initialState: initialTourState,
   reducers: {
-    toggleTourOpen: (state, action: PayloadAction<boolean | undefined>) => ({
-      ...state,
-      open: action.payload ?? !state.snackbarOpen,
-    }),
     toggleTourSnackbarOpen: (
       state,
       action: PayloadAction<boolean | undefined>
@@ -32,22 +26,13 @@ const tourSlice = createSlice({
       ...state,
       snackbarOpen: action.payload ?? !state.snackbarOpen,
     }),
-    setTourStep: (state, action: PayloadAction<TourStep>) => ({
-      ...state,
-      step: action.payload,
-    }),
   },
 });
 
 // Actions
-export const { toggleTourOpen, toggleTourSnackbarOpen, setTourStep } =
-  tourSlice.actions;
+export const { toggleTourSnackbarOpen } = tourSlice.actions;
 
 // Selectors
-
-export const getTourOpen = (state: RootState): TourState["open"] =>
-  state.tour.open;
-
 export const getTourSnackbarOpen = (
   state: RootState
 ): TourState["snackbarOpen"] => state.tour.snackbarOpen;

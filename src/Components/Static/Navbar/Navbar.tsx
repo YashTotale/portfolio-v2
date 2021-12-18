@@ -8,12 +8,7 @@ import { SIDEBAR_WIDTH } from "../../../Utils/constants";
 
 // Redux Imports
 import { useSelector } from "react-redux";
-import {
-  getTourOpen,
-  getTourSnackbarOpen,
-  toggleSidebar,
-  toggleTourOpen,
-} from "../../../Redux";
+import { getTourSnackbarOpen, toggleSidebar } from "../../../Redux";
 import { useAppDispatch } from "../../../Store";
 
 // Material UI Imports
@@ -36,6 +31,7 @@ import {
   Home,
   Tour,
 } from "@mui/icons-material";
+import { useTour } from "@reactour/tour";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -99,14 +95,14 @@ const useOtherIconStyles = makeStyles((theme) => ({
 
 const OtherIcons: FC = () => {
   const classes = useOtherIconStyles();
-  const dispatch = useAppDispatch();
   const theme = useTheme();
   const { changeDisplay } = useDisplay();
   const { pathname } = useLocation();
   const { enqueueSnackbar } = useClosableSnackbar();
 
-  const isTourOpen = useSelector(getTourOpen);
+  const { isOpen: isTourOpen, setIsOpen: setTourOpen } = useTour();
   const isTourSnackbarOpen = useSelector(getTourSnackbarOpen);
+
   const isHome = pathname === Paths.Home;
   const isSizeMedium = useMediaQuery(theme.breakpoints.down("lg"));
   const isSizeXS = useMediaQuery(theme.breakpoints.only("xs"));
@@ -128,7 +124,7 @@ const OtherIcons: FC = () => {
       {isHome && !isTourOpen && !isTourSnackbarOpen && (
         <Tooltip title="Start Tour">
           <IconButton
-            onClick={() => dispatch(toggleTourOpen(true))}
+            onClick={() => setTourOpen(true)}
             size={isSizeXS ? "medium" : "large"}
           >
             <Tour />
