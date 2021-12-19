@@ -1,16 +1,19 @@
 // React Imports
 import React, { FC } from "react";
+import { useTour } from "@reactour/tour";
 import Contents from "./Contents";
 import { SIDEBAR_WIDTH } from "../../../../Utils/constants";
 
 // Redux Imports
 import { useSelector } from "react-redux";
 import { getIsSidebarOpen, toggleSidebar } from "../../../../Redux";
+import { DATA_TOUR, TourStep } from "../../../../Redux/tour.slice";
 import { useAppDispatch } from "../../../../Store";
 
 // Material UI Imports
 import {
   Drawer,
+  DrawerProps,
   SwipeableDrawer,
   useMediaQuery,
   useTheme,
@@ -33,34 +36,39 @@ const Sidebar: FC = () => {
   const classes = useStyles();
   const dispatch = useAppDispatch();
   const theme = useTheme();
+  const { isOpen: isTourOpen, currentStep } = useTour();
 
   const isSidebarOpen = useSelector(getIsSidebarOpen);
-  const isSmall = useMediaQuery(theme.breakpoints.down("lg"));
+  const isSizeMedium = useMediaQuery(theme.breakpoints.down("lg"));
+
+  const sharedProps: DrawerProps = {
+    anchor: theme.direction === "ltr" ? "left" : "right",
+    classes: {
+      paper: classes.drawerPaper,
+    },
+    PaperProps: {
+      //@ts-expect-error Data properties not in prop type
+      [DATA_TOUR]: TourStep.SIDEBAR,
+    },
+  };
 
   return (
     <nav className={classes.drawer}>
-      {isSmall ? (
+      {isSizeMedium ? (
         <SwipeableDrawer
+          {...sharedProps}
+          keepMounted
           variant="temporary"
-          anchor={theme.direction === "ltr" ? "left" : "right"}
-          open={isSidebarOpen}
+          open={
+            isSidebarOpen || (isTourOpen && currentStep === TourStep.SIDEBAR)
+          }
           onClose={() => dispatch(toggleSidebar(false))}
           onOpen={() => dispatch(toggleSidebar(true))}
-          classes={{
-            paper: classes.drawerPaper,
-          }}
         >
           <Contents />
         </SwipeableDrawer>
       ) : (
-        <Drawer
-          variant="permanent"
-          anchor={theme.direction === "ltr" ? "left" : "right"}
-          open
-          classes={{
-            paper: classes.drawerPaper,
-          }}
-        >
+        <Drawer {...sharedProps} variant="permanent" open>
           <Contents />
         </Drawer>
       )}

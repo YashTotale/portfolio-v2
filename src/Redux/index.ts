@@ -45,6 +45,25 @@ export {
 export type { NavState } from "./nav.slice";
 
 /**
+ * Tour Slice
+ */
+
+export {
+  // -> Slice
+  default as tourSlice,
+  // -> Selectors
+  getTourSnackbarOpen,
+  // -> Actions
+  toggleTourSnackbarOpen,
+  // -> Reducer
+  tourReducer,
+  // -> State
+  initialTourState,
+} from "./tour.slice";
+
+export type { TourState } from "./tour.slice";
+
+/**
  * Experience Slice
  */
 

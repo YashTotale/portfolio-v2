@@ -16,6 +16,7 @@ import Popup from "./Components/Static/Popup";
 import Sidebar from "./Components/Static/Sidebar";
 import NavController, { Paths } from "./Components/Static/NavController";
 import Loading from "./Components/Static/Loading";
+import Tour from "./Components/Static/Tour";
 
 // Material UI Imports
 import { SnackbarProvider } from "notistack";
@@ -66,11 +67,13 @@ const App: FC = () => {
         <DisplayProvider>
           <Theme>
             <SnackbarProvider>
-              <NavController />
-              <Navbar />
-              <Popup />
-              <Sidebar />
-              <Routes />
+              <Tour>
+                <NavController />
+                <Navbar />
+                <Popup />
+                <Sidebar />
+                <Routes />
+              </Tour>
             </SnackbarProvider>
           </Theme>
         </DisplayProvider>

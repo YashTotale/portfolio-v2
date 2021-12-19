@@ -19,6 +19,7 @@ import storage from "redux-persist/lib/storage";
 // Reducer Imports
 import { displayReducer, DisplayState } from "./Redux/display.slice";
 import { navReducer, NavState } from "./Redux/nav.slice";
+import { tourReducer, TourState } from "./Redux/tour.slice";
 import { experienceReducer, ExperienceState } from "./Redux/experience.slice";
 import { educationReducer, EducationState } from "./Redux/education.slice";
 import { projectsReducer, ProjectsState } from "./Redux/projects.slice";
@@ -33,6 +34,7 @@ import { booksReducer, BooksState } from "./Redux/books.slice";
 interface State {
   display: DisplayState;
   nav: NavState;
+  tour: TourState;
   experience: ExperienceState;
   education: EducationState;
   projects: ProjectsState;
@@ -45,6 +47,7 @@ interface State {
 const reducers = combineReducers<State>({
   display: displayReducer,
   nav: navReducer,
+  tour: tourReducer,
   experience: experienceReducer,
   education: educationReducer,
   projects: projectsReducer,
@@ -59,7 +62,7 @@ const persistedReducer = persistReducer<State>(
     version: 1,
     storage,
     key: "root",
-    whitelist: ["display"],
+    whitelist: ["display", "tour"],
   },
   reducers
 );
