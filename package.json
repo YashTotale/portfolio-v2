@@ -83,7 +83,7 @@
     "@contentful/rich-text-types": "^14.1.2",
     "@hack4impact/logger": "^4.0.2",
     "@types/body-scroll-lock": "^3.1.0",
-    "@types/dotenv-safe": "^8.1.1",
+    "@types/dotenv-safe": "^8.1.2",
     "@types/json2csv": "^5.0.3",
     "@types/lodash.isequal": "^4.5.5",
     "@types/lodash.merge": "^4.6.6",
