@@ -1,7 +1,7 @@
 // React Imports
 import React, { FC, useCallback, useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { TourProvider, useTour } from "@reactour/tour";
+import { StepType, TourProvider, useTour } from "@reactour/tour";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { Paths } from "./NavController";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
@@ -10,30 +10,45 @@ import { SIDEBAR_WIDTH } from "../../Utils/constants";
 import { useSelector } from "react-redux";
 import { getTourSnackbarOpen, toggleTourSnackbarOpen } from "../../Redux";
 import { DATA_TOUR, TourStep } from "../../Redux/tour.slice";
+import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
 import { Alert, Button, Snackbar, useTheme } from "@mui/material";
 import makeStyles from "@mui/styles/makeStyles";
-import { useAppDispatch } from "../../Store";
+
+const createSelector = (step: TourStep) => `[${DATA_TOUR}="${step}"]`;
+const disableBody = (target: Element | null) =>
+  target && disableBodyScroll(target);
+const enableBody = (target: Element | null) =>
+  target && enableBodyScroll(target);
 
 const Tour: FC = ({ children }) => {
-  const disableBody = (target: Element | null) =>
-    target && disableBodyScroll(target);
-  const enableBody = (target: Element | null) =>
-    target && enableBodyScroll(target);
+  const theme = useTheme();
+  const steps: StepType[] = [
+    {
+      selector: createSelector(TourStep.TYPER),
+      content: "Quick Navigation",
+      resizeObservables: [createSelector(TourStep.TYPER)],
+    },
+    {
+      selector: createSelector(TourStep.SIDEBAR),
+      content: "Sidebar Navigation",
+    },
+  ];
 
   return (
     <TourProvider
       defaultOpen={false}
-      steps={[
-        {
-          selector: `[${DATA_TOUR}="${TourStep.TYPER}"]`,
-          content: "Quick Navigation",
-          resizeObservables: [`[${DATA_TOUR}="${TourStep.TYPER}"]`],
-        },
-      ]}
+      steps={steps}
+      showCloseButton={false}
       afterOpen={disableBody}
       beforeClose={enableBody}
+      styles={{
+        popover: (base) => ({
+          ...base,
+          backgroundColor: theme.palette.background.paper,
+        }),
+      }}
     >
       {children}
       <TourSnackbar />

@@ -5,6 +5,7 @@ export const DATA_TOUR = "data-tour" as const;
 
 export enum TourStep {
   TYPER,
+  SIDEBAR,
 }
 
 export interface TourState {
