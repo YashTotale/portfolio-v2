@@ -101,8 +101,14 @@ const OtherIcons: FC = () => {
   const { pathname } = useLocation();
   const { enqueueSnackbar } = useClosableSnackbar();
 
-  const { isOpen: isTourOpen, setIsOpen: setTourOpen, currentStep } = useTour();
+  const {
+    isOpen: isTourOpen,
+    setIsOpen: setTourOpen,
+    setCurrentStep,
+    currentStep,
+  } = useTour();
   const isTourSnackbarOpen = useSelector(getTourSnackbarOpen);
+  const isTourBtnStep = currentStep === TourStep.TOUR_BTN;
 
   const isHome = pathname === Paths.Home;
   const isSizeMedium = useMediaQuery(theme.breakpoints.down("lg"));
@@ -122,21 +128,22 @@ const OtherIcons: FC = () => {
           </IconButton>
         </Tooltip>
       )}
-      {isHome &&
-        (!isTourOpen || currentStep === TourStep.TOUR_BTN) &&
-        !isTourSnackbarOpen && (
-          <Tooltip title="Start Tour">
-            <IconButton
-              onClick={() => setTourOpen(true)}
-              size={isSizeXS ? "medium" : "large"}
-              {...{
-                [DATA_TOUR]: TourStep.TOUR_BTN,
-              }}
-            >
-              <Tour />
-            </IconButton>
-          </Tooltip>
-        )}
+      {isHome && (!isTourOpen || isTourBtnStep) && !isTourSnackbarOpen && (
+        <Tooltip title="Start Tour">
+          <IconButton
+            onClick={() => {
+              if (isTourBtnStep) setCurrentStep(0);
+              setTourOpen(true);
+            }}
+            size={isSizeXS ? "medium" : "large"}
+            {...{
+              [DATA_TOUR]: TourStep.TOUR_BTN,
+            }}
+          >
+            <Tour />
+          </IconButton>
+        </Tooltip>
+      )}
       <Tooltip title="Customize Colors">
         <IconButton
           component={Link}

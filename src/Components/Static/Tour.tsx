@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import { StepType, TourProvider, useTour } from "@reactour/tour";
 import { ArrowProps } from "@reactour/tour/dist/components/Navigation";
 import { ContentProps } from "@reactour/tour/dist/components/Content";
+import { CloseProps } from "@reactour/tour/dist/components/Close";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { Paths } from "./NavController";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
@@ -18,12 +19,18 @@ import { useAppDispatch } from "../../Store";
 import {
   Alert,
   Button,
+  darken,
   IconButton,
   Snackbar,
   Typography,
   useTheme,
 } from "@mui/material";
-import { ArrowBack, ArrowForward, InfoOutlined } from "@mui/icons-material";
+import {
+  ArrowBack,
+  ArrowForward,
+  InfoOutlined,
+  Close as CloseIcon,
+} from "@mui/icons-material";
 import makeStyles from "@mui/styles/makeStyles";
 
 const createSelector = (step: TourStep) => `[${DATA_TOUR}="${step}"]`;
@@ -66,12 +73,13 @@ const Tour: FC = ({ children }) => {
     <TourProvider
       defaultOpen={false}
       steps={steps}
-      showCloseButton={false}
       afterOpen={disableBody}
       beforeClose={enableBody}
+      rtl={theme.direction === "rtl"}
       components={{
         Content,
         Arrow,
+        Close,
       }}
       styles={{
         popover: (base) => ({
@@ -94,9 +102,38 @@ const Content: FC<ContentProps> = ({ content }) => {
   return <Typography align="center">{content}</Typography>;
 };
 
+const useCloseStyles = makeStyles((theme) => ({
+  button: {
+    position: "absolute",
+    top: "-0.8125em",
+    right: "-0.8125em",
+    backgroundColor: "#007aff",
+    color: theme.palette.info.contrastText,
+
+    "&:hover": {
+      backgroundColor: darken("#007aff", 0.2),
+    },
+  },
+}));
+
+const Close: FC<CloseProps> = ({ disabled, onClick }) => {
+  const classes = useCloseStyles();
+
+  return (
+    <IconButton
+      disabled={disabled}
+      onClick={onClick}
+      size="small"
+      className={classes.button}
+    >
+      <CloseIcon fontSize="small" />
+    </IconButton>
+  );
+};
+
 const Arrow: FC<ArrowProps> = ({ disabled, inverted }) => {
   return (
-    <IconButton disabled={disabled?.valueOf() ?? false}>
+    <IconButton disabled={disabled?.valueOf()}>
       {inverted ? <ArrowForward /> : <ArrowBack />}
     </IconButton>
   );
