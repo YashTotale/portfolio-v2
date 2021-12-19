@@ -2,6 +2,8 @@
 import React, { FC, useCallback, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { StepType, TourProvider, useTour } from "@reactour/tour";
+import { ArrowProps } from "@reactour/tour/dist/components/Navigation";
+import { ContentProps } from "@reactour/tour/dist/components/Content";
 import { disableBodyScroll, enableBodyScroll } from "body-scroll-lock";
 import { Paths } from "./NavController";
 import { SIDEBAR_WIDTH } from "../../Utils/constants";
@@ -13,7 +15,15 @@ import { DATA_TOUR, TourStep } from "../../Redux/tour.slice";
 import { useAppDispatch } from "../../Store";
 
 // Material UI Imports
-import { Alert, Button, Snackbar, useTheme } from "@mui/material";
+import {
+  Alert,
+  Button,
+  IconButton,
+  Snackbar,
+  Typography,
+  useTheme,
+} from "@mui/material";
+import { ArrowBack, ArrowForward, InfoOutlined } from "@mui/icons-material";
 import makeStyles from "@mui/styles/makeStyles";
 
 const createSelector = (step: TourStep) => `[${DATA_TOUR}="${step}"]`;
@@ -40,11 +50,15 @@ const Tour: FC = ({ children }) => {
     },
     {
       selector: createSelector(TourStep.TOGGLE_DARK_MODE),
-      content: "Toggle Dark Mode",
+      content: "Toggle Theme Type (Dark/Light)",
     },
     {
       selector: createSelector(TourStep.SETTINGS),
       content: "Settings (Account & Display)",
+    },
+    {
+      selector: createSelector(TourStep.TOUR_BTN),
+      content: "Restart Tour",
     },
   ];
 
@@ -55,16 +69,36 @@ const Tour: FC = ({ children }) => {
       showCloseButton={false}
       afterOpen={disableBody}
       beforeClose={enableBody}
+      components={{
+        Content,
+        Arrow,
+      }}
       styles={{
         popover: (base) => ({
           ...base,
           backgroundColor: theme.palette.background.paper,
+        }),
+        navigation: (base) => ({
+          ...base,
+          margin: theme.spacing(0, 1),
         }),
       }}
     >
       {children}
       <TourSnackbar />
     </TourProvider>
+  );
+};
+
+const Content: FC<ContentProps> = ({ content }) => {
+  return <Typography align="center">{content}</Typography>;
+};
+
+const Arrow: FC<ArrowProps> = ({ disabled, inverted }) => {
+  return (
+    <IconButton disabled={disabled?.valueOf() ?? false}>
+      {inverted ? <ArrowForward /> : <ArrowBack />}
+    </IconButton>
   );
 };
 
@@ -76,6 +110,10 @@ const useSnackbarStyles = makeStyles((theme) => ({
     [theme.breakpoints.up("lg")]: {
       marginLeft: SIDEBAR_WIDTH,
     },
+    border: "1px solid",
+  },
+  alertIcon: {
+    cursor: "pointer",
   },
   alertMessage: {
     padding: 0,
@@ -131,6 +169,13 @@ const TourSnackbar: FC = () => {
       <Alert
         severity="info"
         onClose={closeSnackbar}
+        icon={
+          <InfoOutlined
+            onClick={startTour}
+            className={classes.alertIcon}
+            fontSize="inherit"
+          />
+        }
         classes={{ message: classes.alertMessage, action: classes.alertAction }}
         className={classes.alert}
       >

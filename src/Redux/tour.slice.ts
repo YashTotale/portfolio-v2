@@ -9,6 +9,7 @@ export enum TourStep {
   COLORS,
   TOGGLE_DARK_MODE,
   SETTINGS,
+  TOUR_BTN,
 }
 
 export interface TourState {
