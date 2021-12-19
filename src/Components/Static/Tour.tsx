@@ -108,7 +108,7 @@ const useCloseStyles = makeStyles((theme) => ({
     top: "-0.8125em",
     right: "-0.8125em",
     backgroundColor: "#007aff",
-    color: theme.palette.info.contrastText,
+    color: "white",
 
     "&:hover": {
       backgroundColor: darken("#007aff", 0.2),
