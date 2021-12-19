@@ -1,6 +1,7 @@
 // React Imports
 import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
+import { useTour } from "@reactour/tour";
 import { Paths } from "../NavController";
 import { useClosableSnackbar } from "../../../Hooks";
 import { useDisplay } from "../../../Context/DisplayContext";
@@ -9,6 +10,7 @@ import { SIDEBAR_WIDTH } from "../../../Utils/constants";
 // Redux Imports
 import { useSelector } from "react-redux";
 import { getTourSnackbarOpen, toggleSidebar } from "../../../Redux";
+import { DATA_TOUR, TourStep } from "../../../Redux/tour.slice";
 import { useAppDispatch } from "../../../Store";
 
 // Material UI Imports
@@ -31,7 +33,6 @@ import {
   Home,
   Tour,
 } from "@mui/icons-material";
-import { useTour } from "@reactour/tour";
 
 const useStyles = makeStyles((theme) => ({
   toolbar: {
@@ -136,6 +137,9 @@ const OtherIcons: FC = () => {
           component={Link}
           to={Paths.Colors}
           size={isSizeXS ? "medium" : "large"}
+          {...{
+            [DATA_TOUR]: TourStep.COLORS,
+          }}
         >
           <Palette />
         </IconButton>
@@ -152,6 +156,9 @@ const OtherIcons: FC = () => {
             });
           }}
           size={isSizeXS ? "medium" : "large"}
+          {...{
+            [DATA_TOUR]: TourStep.TOGGLE_DARK_MODE,
+          }}
         >
           {isDarkMode ? <Brightness7 /> : <Brightness4 />}
         </IconButton>
@@ -161,6 +168,9 @@ const OtherIcons: FC = () => {
           component={Link}
           to={Paths.Settings}
           size={isSizeXS ? "medium" : "large"}
+          {...{
+            [DATA_TOUR]: TourStep.SETTINGS,
+          }}
         >
           <Settings />
         </IconButton>

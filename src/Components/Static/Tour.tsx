@@ -34,6 +34,18 @@ const Tour: FC = ({ children }) => {
       selector: createSelector(TourStep.SIDEBAR),
       content: "Sidebar Navigation",
     },
+    {
+      selector: createSelector(TourStep.COLORS),
+      content: "Customize Colors",
+    },
+    {
+      selector: createSelector(TourStep.TOGGLE_DARK_MODE),
+      content: "Toggle Dark Mode",
+    },
+    {
+      selector: createSelector(TourStep.SETTINGS),
+      content: "Settings (Account & Display)",
+    },
   ];
 
   return (

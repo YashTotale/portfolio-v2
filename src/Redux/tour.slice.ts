@@ -6,6 +6,9 @@ export const DATA_TOUR = "data-tour" as const;
 export enum TourStep {
   TYPER,
   SIDEBAR,
+  COLORS,
+  TOGGLE_DARK_MODE,
+  SETTINGS,
 }
 
 export interface TourState {
