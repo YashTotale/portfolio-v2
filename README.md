@@ -122,9 +122,9 @@ Static components are rendered only once. These include elements like the Navbar
 
 ### [Pages]
 
-Each page of the website is a folder in the [Pages] directory (except the [NotFound](src/Pages/NotFound.tsx) and [Error](src/Pages/Error.tsx) pages which are just files). Each folder contains an `index.tsx` file which for the UI of that page.
+Each page of the website is a folder in the [Pages] directory (except the [NotFound](src/Pages/NotFound.tsx) and [Error](src/Pages/Error.tsx) pages which are just files). Each folder contains an `index.tsx` file for the UI of that page.
 
-- Every page calls a [`useAnalytics`](src/Hooks/useAnalytics.tsx) hook, which logs a `page_view` event to [Google Analytics](http://analytics.google.com/) if the environment is a production environment.
+- Every page calls a [`useAnalytics`](src/Hooks/useAnalytics.tsx) hook, which logs a `page_view` event to [Google Analytics](http://analytics.google.com/).
 - Every page updates the `<head>` of the HTML using [React Helmet](https://github.com/nfl/react-helmet).
 
 ### [Utils]
@@ -143,7 +143,7 @@ Sounds pretty simple, but there are a few caveats with pre-rendering that took a
 
 [react-snap](https://github.com/stereobooster/react-snap) and other pre-rendering libraries use [puppeteer](https://github.com/puppeteer/puppeteer) to launch a headless Chrome browser to crawl your site's web pages and generate HTML files.
 
-This works great locally, however if you're pre-rendering in a CI/CD step, you have to include some extra configuration for puppeteer to work properly. Here is what you need to include in your project's `package.json`:
+This works great locally, but if you're pre-rendering in a CI/CD step, you have to include some extra configuration for puppeteer to work properly. Here is what you need to include in your project's `package.json`:
 
 ```json
 "reactSnap": {
