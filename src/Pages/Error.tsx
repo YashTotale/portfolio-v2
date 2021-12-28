@@ -14,7 +14,7 @@ const ClearButton: FC<FallbackProps> = (props) => {
     localStorage.clear();
     auth.signOut();
     props.resetErrorBoundary();
-    alert("Data Cleared. Please reload the page for changes to take effect.");
+    window.location.reload();
   };
 
   return (
