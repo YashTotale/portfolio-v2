@@ -10,7 +10,7 @@ const uploadProfilePicture = async (uid: string, data: UserDoc) => {
   if (data.picture) {
     try {
       const url = await uploadFileFromURL(data.picture, {
-        path: `/users/${uid}/profile_pictures`,
+        path: `users/${uid}/profile_pictures`,
       });
       await userDoc(uid).update({
         picture: url,
