@@ -10,6 +10,7 @@ import {
   getBookAuthors,
   getBookGenres,
   getBookYearsRead,
+  getBookCenturies,
   useFilteredBooks,
 } from "../../Utils/Content/books";
 import { Book } from "../../Utils/types";
@@ -25,6 +26,8 @@ import {
   setBooksGenreFilter,
   getBooksYearFilter,
   setBooksYearFilter,
+  getBooksCenturyFilter,
+  setBooksCenturyFilter,
   setBooksSearch,
   setBooksSort,
 } from "../../Redux";
@@ -98,12 +101,14 @@ const Books: FC = () => {
   const books = useFilteredBooks();
   const genres = getBookGenres();
   const authors = getBookAuthors();
+  const centuries = getBookCenturies();
   const yearsRead = getBookYearsRead();
 
   const search = useSelector(getBooksSearch);
   const sort = useSelector(getBooksSort);
   const genreFilter = useSelector(getBooksGenreFilter);
   const authorFilter = useSelector(getBooksAuthorFilter);
+  const centuryFilter = useSelector(getBooksCenturyFilter);
   const yearFilter = useSelector(getBooksYearFilter);
 
   useAnalytics("Books");
@@ -139,6 +144,14 @@ const Books: FC = () => {
               value: genreFilter,
               onChange: (value: Parameters<typeof setBooksGenreFilter>[0]) =>
                 dispatch(setBooksGenreFilter(value)),
+            },
+            {
+              label: "Century Published",
+              values: centuries,
+              value: centuryFilter,
+              overrideDefaultLabel: true,
+              onChange: (value: Parameters<typeof setBooksCenturyFilter>[0]) =>
+                dispatch(setBooksCenturyFilter(value)),
             },
             {
               label: "Year Read",

@@ -17,6 +17,7 @@ export interface BooksState {
   sort: BookSort;
   authorFilter: string | null;
   genreFilter: string[];
+  centuryFilter: string | null;
   yearFilter: string | null;
 }
 
@@ -25,6 +26,7 @@ export const initialBooksState: BooksState = {
   sort: "Recently Read",
   authorFilter: null,
   genreFilter: [],
+  centuryFilter: null,
   yearFilter: null,
 };
 
@@ -54,6 +56,13 @@ const booksSlice = createSlice({
       ...state,
       authorFilter: action.payload,
     }),
+    setBooksCenturyFilter: (
+      state,
+      action: PayloadAction<BooksState["centuryFilter"]>
+    ) => ({
+      ...state,
+      centuryFilter: action.payload,
+    }),
     setBooksYearFilter: (
       state,
       action: PayloadAction<BooksState["yearFilter"]>
@@ -70,6 +79,7 @@ export const {
   setBooksSort,
   setBooksGenreFilter,
   setBooksAuthorFilter,
+  setBooksCenturyFilter,
   setBooksYearFilter,
 } = booksSlice.actions;
 
@@ -87,6 +97,10 @@ export const getBooksGenreFilter = (
 export const getBooksAuthorFilter = (
   state: RootState
 ): BooksState["authorFilter"] => state.books.authorFilter;
+
+export const getBooksCenturyFilter = (
+  state: RootState
+): BooksState["centuryFilter"] => state.books.centuryFilter;
 
 export const getBooksYearFilter = (
   state: RootState

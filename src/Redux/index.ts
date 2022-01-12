@@ -251,12 +251,14 @@ export {
   getBooksSort,
   getBooksGenreFilter,
   getBooksAuthorFilter,
+  getBooksCenturyFilter,
   getBooksYearFilter,
   // -> Actions
   setBooksSearch,
   setBooksSort,
   setBooksGenreFilter,
   setBooksAuthorFilter,
+  setBooksCenturyFilter,
   setBooksYearFilter,
   // -> Reducer
   booksReducer,

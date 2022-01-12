@@ -12,6 +12,7 @@ import {
   getBooksAuthorFilter,
   getBooksGenreFilter,
   getBooksYearFilter,
+  getBooksCenturyFilter,
   getBooksSearch,
   getBooksSort,
 } from "../../Redux";
@@ -103,6 +104,50 @@ export const getBookAuthors = (): Author[] => {
   return sorted;
 };
 
+interface Century {
+  label: string;
+  amount: number;
+}
+
+let centuryCache: Century[] | null = null;
+
+const getCentury = (yearPublished: string) => {
+  const year = moment(yearPublished, BOOK_DATE_FORMATS).year();
+  const century = `${Math.floor(year / 100) * 100}s`;
+  return century;
+};
+
+export const getBookCenturies = (): Century[] => {
+  if (centuryCache) return centuryCache;
+
+  const books = getBooks();
+  const centuries: Century[] = [];
+
+  books.forEach((book) => {
+    if (!book.yearPublished) return;
+
+    const century = getCentury(book.yearPublished);
+    const exists = centuries.find((c) => c.label === century);
+
+    if (exists) {
+      exists.amount++;
+    } else {
+      centuries.push({
+        label: century,
+        amount: 1,
+      });
+    }
+  });
+
+  const sorted = centuries.sort((a, b) => {
+    const aNum = parseInt(a.label.substring(0, a.label.length - 1));
+    const bNum = parseInt(b.label.substring(0, b.label.length - 1));
+    return bNum > aNum ? 1 : -1;
+  });
+  centuryCache = sorted;
+  return sorted;
+};
+
 interface Year {
   label: string;
   amount: number;
@@ -153,6 +198,17 @@ export const checkAuthor = (
   return author === b.author;
 };
 
+export const checkCentury = (
+  b: Book,
+  century: BooksState["centuryFilter"]
+): boolean => {
+  if (century === null) return true;
+  if (!b.yearPublished) return false;
+
+  const cent = getCentury(b.yearPublished);
+  return cent === century;
+};
+
 export const checkYear = (b: Book, year: BooksState["yearFilter"]): boolean => {
   if (year === null) return true;
   return !!b.datesRead?.some(
@@ -193,6 +249,7 @@ export const useFilteredBooks = (): Book[] => {
   const genreFilter = useSelector(getBooksGenreFilter);
   const authorFilter = useSelector(getBooksAuthorFilter);
   const yearFilter = useSelector(getBooksYearFilter);
+  const centuryFilter = useSelector(getBooksCenturyFilter);
 
   const search = useSelector(getBooksSearch);
   const normalizedSearch = search.toLowerCase();
@@ -201,6 +258,7 @@ export const useFilteredBooks = (): Book[] => {
     if (!checkGenres(b, genreFilter)) return false;
     if (!checkAuthor(b, authorFilter)) return false;
     if (!checkSearch(b, normalizedSearch)) return false;
+    if (!checkCentury(b, centuryFilter)) return false;
     if (!checkYear(b, yearFilter)) return false;
 
     return true;
