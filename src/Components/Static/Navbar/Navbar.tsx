@@ -2,6 +2,7 @@
 import React, { FC } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useTour } from "@reactour/tour";
+import ScrollProgress from "./ScrollProgress";
 import { Paths } from "../NavController";
 import { useClosableSnackbar } from "../../../Hooks";
 import { useDisplay } from "../../../Context/DisplayContext";
@@ -74,6 +75,7 @@ const Navbar: FC = () => {
     <>
       <AppBar elevation={trigger ? 4 : 1} color="default">
         <Toolbar className={classes.toolbar}>
+          <ScrollProgress />
           {isSizeMedium && isLTR && toggleSidebarButton}
           <OtherIcons />
           {isSizeMedium && !isLTR && toggleSidebarButton}
