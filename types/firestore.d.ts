@@ -48,6 +48,7 @@ export interface UserDisplay {
   spacing: Spacing;
   direction: Direction;
   theme: UserTheme;
+  enableScrollProgressBar: boolean;
 }
 
 export interface UserDoc {

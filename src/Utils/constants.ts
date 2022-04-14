@@ -74,6 +74,7 @@ export const DEFAULT_USER_DISPLAY: UserDisplay = {
   darkMode: null,
   spacing: "8",
   direction: "ltr",
+  enableScrollProgressBar: true,
   theme: {
     primary: {
       color: "lightBlue",

@@ -49,6 +49,13 @@ const Display: FC = () => {
           values={DIRECTIONS}
           onChange={(value) => changeDisplay({ direction: value })}
         />
+        <SwitchItem
+          label="Enable Scroll Progress Bar"
+          checked={display.enableScrollProgressBar}
+          onChange={(value) =>
+            changeDisplay({ enableScrollProgressBar: value })
+          }
+        />
       </Subsection>
     </Section>
   );
