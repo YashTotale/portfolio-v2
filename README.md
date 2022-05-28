@@ -25,7 +25,7 @@
 1. Prerequisites
 
    - [Git](https://git-scm.com/), version `>=2.x`
-   - [Node.JS](https://nodejs.org/en/), version `>=15.x`
+   - [Node.JS](https://nodejs.org/en/), version `>=16.x`
    - [NPM](https://www.npmjs.com/), version `>=6.x`
 
 2. Clone the repository
