@@ -35,9 +35,9 @@ jobs:
       - name: Test Project
         run: npm test
 
-#       Not working currently
-#       - name: Get Books
-#         run: npm run books
+      # Not working currently
+      # - name: Get Books
+      #   run: npm run books
 
       - name: Build Project
         run: npm run make
