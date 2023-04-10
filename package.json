@@ -118,7 +118,7 @@
     "react-snap": "^1.23.0",
     "rimraf": "^3.0.2",
     "serve": "^12.0.0",
-    "source-map-explorer": "^2.5.2",
+    "source-map-explorer": "^2.5.3",
     "ts-node": "^10.0.0",
     "tslib": "^2.3.1",
     "typescript": "^4.2.3",
