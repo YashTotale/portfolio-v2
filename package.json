@@ -75,7 +75,7 @@
     "react-transition-group": "^4.4.2",
     "react-waypoint": "^10.1.0",
     "redux-persist": "^6.0.0",
-    "yaml": "^1.10.2"
+    "yaml": "^2.2.2"
   },
   "devDependencies": {
     "@alex-drocks/react-snap-sitemap": "^0.3.0",
