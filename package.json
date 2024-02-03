@@ -48,7 +48,7 @@
     "@mui/icons-material": "^5.8.3",
     "@mui/material": "^5.8.3",
     "@mui/styles": "^5.8.3",
-    "@reactour/tour": "^2.10.0",
+    "@reactour/tour": "^3.6.1",
     "@reduxjs/toolkit": "^1.5.0",
     "body-scroll-lock": "^4.0.0-beta.0",
     "clsx": "^1.1.1",
