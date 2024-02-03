@@ -73,7 +73,7 @@
     "react-redux": "^7.2.1",
     "react-router-dom": "^5.2.0",
     "react-transition-group": "^4.4.2",
-    "react-waypoint": "^10.1.0",
+    "react-waypoint": "^10.3.0",
     "redux-persist": "^6.0.0",
     "yaml": "^1.10.2"
   },
