@@ -53,5 +53,6 @@ jobs:
           channelId: live
           target: public
           projectId: yash-totale
+          firebaseToolsVersion: 12.9.1
         env:
           FIREBASE_CLI_PREVIEWS: hostingchannels
