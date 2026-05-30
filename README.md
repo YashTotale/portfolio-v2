@@ -1,26 +1,11 @@
-<p align="center"><a href="https://yashtotale.dev/"><img alt="Icon" width="150" src="https://yashtotale.dev/logo512.png"/></a></p>
+## Contents <!-- omit in toc -->
 
-<h1 align="center">Welcome to Yash's Portfolio Website 👋</h1>
-<p align="center"><strong><a href="https://yashtotale.dev/">View the Live Website!</a></strong></p>
+- [Running Locally](#running-locally)
+- [Goals](#goals)
+- [Architecture](#architecture)
+- [Pre-rendering](#pre-rendering)
 
-<p align="center">
-<a href="https://github.com/YashTotale/portfolio-v2/actions/workflows/integrate.yml"><img src="https://img.shields.io/github/workflow/status/YashTotale/portfolio-v2/Node%20CI?logo=github&logoColor=FFFFFF&labelColor=000000&label=Build&style=flat-square" alt="Build" /></a>
-<a href="https://yashtotale.dev/"><img src="https://img.shields.io/website?url=https%3A%2F%2Fyashtotale.dev%2F&labelColor=000000&label=Website&style=flat-square" alt="Website"/></a>
-<a href="https://github.com/YashTotale/portfolio-v2/actions/workflows/deploy.yml"><img src="https://img.shields.io/github/workflow/status/YashTotale/portfolio-v2/Deploy%20Website?logo=firebase&logoColor=FFFFFF&labelColor=000000&label=Deploy&style=flat-square" alt="Deploy" /></a>
-<a href="https://lgtm.com/projects/g/YashTotale/portfolio-v2/context:javascript"><img src="https://img.shields.io/lgtm/grade/javascript/github/YashTotale/portfolio-v2?logo=lgtm&logoColor=FFFFFF&labelColor=000000&label=Code%20Quality&style=flat-square" alt="Code Quality" /></a>
-<a href="https://yasht-portfolio-bundle-analyzer.onrender.com/"><img src="https://img.shields.io/website?url=https%3A%2F%2Fyasht-portfolio-bundle-analyzer.onrender.com%2F&labelColor=000000&label=Bundle%20Reports&style=flat-square" alt="Bundle Reports"/></a>
-</p>
-
-## 📖 Contents <!-- omit in toc -->
-
-- [🏃 Running Locally](#-running-locally)
-- [🏆 Goals](#-goals)
-- [🧱 Architecture](#-architecture)
-- [🛠 Pre-rendering](#-pre-rendering)
-- [🤝 Show your support](#-show-your-support)
-- [✍ Author](#-author)
-
-## 🏃 Running Locally
+## Running Locally
 
 1. Prerequisites
 
@@ -43,7 +28,7 @@
 
 4. Set up environment variables
 
-   Please reach out to me at totaleyash@gmail.com for these 🙂. Paste them into `.env`. Use [`.env.example`](.env.example) as an example:
+   Paste them into `.env`. Use [`.env.example`](.env.example) as an example:
 
    ```text
    CONTENTFUL_ACCESS_TOKEN=
@@ -78,13 +63,13 @@
 
    - To edit Cloud Functions, refer to the [functions](functions) directory for steps.
 
-## 🏆 Goals
+## Goals
 
-As you may have noticed, this is my second attempt at a portfolio website. The [first one](https://github.com/YashTotale/portfolio-v1) was ... a total failure. **600+ commits** in, I realized that I had overcomplicated and under-planned the project. Instead of focusing on a clean and intuitive UI, I had gotten bogged down in adding relatively useless features that I thought were cool (like dynamic [Wikipedia](https://github.com/YashTotale/portfolio-v1/blob/master/src/Scripts/getTerms.ts) & [LinkedIn](https://github.com/YashTotale/portfolio-v1/blob/master/src/Scripts/getLinkedin.ts) integration). So, to avoid another failure, I set a few goals ahead of time:
+This is my second attempt at a portfolio website. The [first one](https://github.com/YashTotale/portfolio-v1) was ... a failure. **600+ commits** in, I realized that I had overcomplicated the project. Instead of focusing on a clean and intuitive UI, I had gotten bogged down in adding relatively useless features that I thought were cool (like dynamic [Wikipedia](https://github.com/YashTotale/portfolio-v1/blob/master/src/Scripts/getTerms.ts) & [LinkedIn](https://github.com/YashTotale/portfolio-v1/blob/master/src/Scripts/getLinkedin.ts) integration). So, to avoid another failure, I set a few goals ahead of time:
 
 ### Start with a design
 
-I used [Figma](https://figma.com/) to design almost all of the website's pages before I even created the GitHub repo. This helped me quickly build an MVP of the entire website. From there, I was able to optimize and improve specific areas without losing sight of the overall picture.
+I used [Figma](https://figma.com/) to design most of the website's pages before I even created the GitHub repo. This helped me quickly build an MVP of the entire website. From there, I was able to optimize and improve specific areas without losing sight of the overall picture.
 
 ### Use an efficient CMS
 
@@ -92,9 +77,9 @@ I used [Contentful](https://www.contentful.com/) as my headless CMS. This allowe
 
 ### Build sustainable infrastructure
 
-If you browse through the [Components], [Pages], or [Utils] folders, you'll see quite a few patterns in each. This is on purpose: by "_patternizing_" my code, I was able to quickly add new features/pages or make edits to existing UI.
+If you browse through the [Components], [Pages], or [Utils] folders, you'll see quite a few patterns in each. By patternizing my code, I was able to quickly add new features/pages or make edits to existing UI.
 
-## 🧱 Architecture
+## Architecture
 
 ### [Components]
 
@@ -133,9 +118,9 @@ Any utilities such as [functions](src/Utils/funcs.ts), [types](src/Utils/types.t
 
 Additionally, content utilities are located in the [Content subdirectory](src/Utils/Content). Each file in this folder contains utilities to get, resolve, filter, and sort a specific content type.
 
-## 🛠 Pre-rendering
+## Pre-rendering
 
-Pre-rendering is a way to generate static HTML files for a SPA. I used pre-rendering largely to boost page-load times and SEO. Learn more about its benefits on the [react-snap GitHub page](https://github.com/stereobooster/react-snap).
+Pre-rendering is a way to generate static HTML files for a SPA. I used pre-rendering to boost page-load times and SEO. Learn more about its benefits on the [react-snap GitHub page](https://github.com/stereobooster/react-snap).
 
 Sounds pretty simple, but there are a few caveats with pre-rendering that took a _little_ while for me to debug.
 
@@ -164,20 +149,6 @@ if (navigator.userAgent !== "ReactSnap") {
   // Do your requests here
 }
 ```
-
-## 🤝 Show your support
-
-Give a ⭐️ if this project helped you! Since this project is licensed under the [MIT License](LICENSE.md), you can use my code in your own projects or portfolio websites 🙂
-
-Feel free to reach out to me via [email](mailto:totalyash@gmail.com) or through the [contact form](https://yashtotale.dev/contact) of this site!
-
-## ✍ Author
-
-**Yash Totale**
-
-- Github: [@YashTotale](https://github.com/YashTotale)
-- LinkedIn: [@yash-totale](https://linkedin.com/in/yash-totale/)
-- Email: totaleyash@gmail.com
 
 <!-- Reference Links -->
 
